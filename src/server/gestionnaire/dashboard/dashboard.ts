@@ -1,9 +1,8 @@
-import "server-only";
+
 
 import {
   ManagerStatus,
   OrderStatus,
-  PaymentStatus,
   Prisma,
   StoreStatus,
 } from "@prisma/client";
@@ -13,8 +12,8 @@ import {
 } from "@/prisma/db";
 
 import {
-  requireGestionnairePrivateAccess,
-} from "@/lib/gestionnaire/espace-prive/private-access";
+  requireGestionnaireSession,
+} from "@/server/gestionnaire/session";
 
 
 /* ============================================================
@@ -74,27 +73,40 @@ const TOP_PRODUCTS_LIMIT =
 
 
 /* ============================================================
-   VALID SALES ORDER STATUSES
+   DASHBOARD ACTIVE ORDER STATUSES
    ------------------------------------------------------------
-   Ces statuts sont utilisés pour :
+   Le Dashboard Gestionnaire est une vue opérationnelle de toutes
+   les commandes réellement enregistrées sur la plateforme.
 
-   - unités vendues ;
-   - top produits.
+   Sont donc incluses :
 
-   PENDING :
-   pas encore considéré comme une vente effective.
+   - PENDING ;
+   - CONFIRMED ;
+   - PROCESSING ;
+   - READY ;
+   - SHIPPED ;
+   - DELIVERED.
 
-   CANCELLED :
-   ne doit jamais augmenter les ventes.
+   Sont volontairement exclues :
 
-   REFUNDED :
-   ne doit pas augmenter les ventes.
+   - CANCELLED ;
+   - REFUNDED.
 
-   Le CA est calculé séparément à partir de Payment.PAID.
+   Cette convention permet notamment aux commandes en paiement à
+   la livraison d'apparaître immédiatement dans :
+
+   - la valeur des commandes ;
+   - le graphique ;
+   - les unités commandées ;
+   - les produits les plus commandés.
+
+   Une commande annulée ou remboursée cesse automatiquement de
+   contribuer aux indicateurs opérationnels.
    ============================================================ */
 
 const SALES_ORDER_STATUSES:
   readonly OrderStatus[] = [
+  OrderStatus.PENDING,
   OrderStatus.CONFIRMED,
   OrderStatus.PROCESSING,
   OrderStatus.READY,
@@ -1344,17 +1356,20 @@ async function resolveDashboardCurrency(
       boolean;
   }>
 > {
-  const paymentCurrencies =
+  const orderCurrencies =
     await transaction
-      .payment
+      .order
       .findMany({
         where: {
           storeId,
 
-          status:
-            PaymentStatus.PAID,
+          status: {
+            in: [
+              ...SALES_ORDER_STATUSES,
+            ],
+          },
 
-          paidAt: {
+          createdAt: {
             gte:
               period.previousStart,
 
@@ -1378,7 +1393,7 @@ async function resolveDashboardCurrency(
 
 
   if (
-    paymentCurrencies.length >
+    orderCurrencies.length >
     1
   ) {
     return {
@@ -1392,12 +1407,12 @@ async function resolveDashboardCurrency(
 
 
   if (
-    paymentCurrencies.length ===
+    orderCurrencies.length ===
     1
   ) {
     return {
       currency:
-        paymentCurrencies[0]
+        orderCurrencies[0]
           ?.currency ??
         null,
 
@@ -1456,32 +1471,25 @@ async function resolveDashboardCurrency(
 
 
 /* ============================================================
-   REVENUE
+   REVENUE / ORDER VALUE
    ------------------------------------------------------------
-   Convention actuelle :
+   Convention opérationnelle du Dashboard Gestionnaire :
 
-   CA confirmé =
-   somme des Payment.amount dont :
+   le montant affiché correspond à la somme de Order.totalAmount
+   des commandes réellement enregistrées pendant la période et
+   dont le statut appartient à SALES_ORDER_STATUSES.
 
-   status = PAID
+   Cela inclut notamment les commandes PENDING en paiement à la
+   livraison, puisqu'elles existent réellement et doivent être
+   visibles immédiatement par le Gestionnaire.
 
-   et :
+   CANCELLED et REFUNDED sont exclus.
 
-   paidAt appartient à la période.
+   IMPORTANT :
 
-   Les paiements :
-
-   PENDING
-   PROCESSING
-   FAILED
-   CANCELLED
-   REFUNDED
-   PARTIALLY_REFUNDED
-
-   ne sont pas ajoutés au CA PAID.
-
-   Le schéma actuel ne contient pas de refundedAmount permettant
-   de calculer précisément un remboursement partiel net.
+   ceci représente la valeur commerciale des commandes actives.
+   Un indicateur financier strict des encaissements pourra rester
+   basé séparément sur Payment.status = PAID.
    ============================================================ */
 
 async function getRevenue(
@@ -1507,17 +1515,20 @@ async function getRevenue(
 
   const aggregate =
     await transaction
-      .payment
+      .order
       .aggregate({
         where: {
           storeId,
 
-          status:
-            PaymentStatus.PAID,
+          status: {
+            in: [
+              ...SALES_ORDER_STATUSES,
+            ],
+          },
 
           currency,
 
-          paidAt: {
+          createdAt: {
             gte:
               start,
 
@@ -1527,7 +1538,7 @@ async function getRevenue(
         },
 
         _sum: {
-          amount:
+          totalAmount:
             true,
         },
       });
@@ -1536,7 +1547,7 @@ async function getRevenue(
   return toNumber(
     aggregate
       ._sum
-      .amount,
+      .totalAmount,
   );
 }
 
@@ -2000,28 +2011,6 @@ async function getSalesChart(
     );
 
 
-  const paymentBucket =
-    granularity ===
-    "month"
-      ? Prisma.sql`
-          to_char(
-            date_trunc(
-              'month',
-              p."paidAt"
-            ),
-            'YYYY-MM-01'
-          )
-        `
-      : Prisma.sql`
-          to_char(
-            date_trunc(
-              'day',
-              p."paidAt"
-            ),
-            'YYYY-MM-DD'
-          )
-        `;
-
 
   const orderBucket =
     granularity ===
@@ -2064,33 +2053,35 @@ async function getSalesChart(
           .$queryRaw<RawChartRow[]>(
             Prisma.sql`
               SELECT
-                ${paymentBucket}
+                ${orderBucket}
                   AS "bucket",
 
                 COALESCE(
                   SUM(
-                    p."amount"
+                    o."totalAmount"
                   ),
                   0
                 )
                   AS "value"
 
-              FROM "payments" p
+              FROM "orders" o
 
               WHERE
-                p."storeId" =
+                o."storeId" =
                   ${storeId}
 
-                AND p."status"::text =
-                  ${PaymentStatus.PAID}
+                AND o."status"::text
+                  IN (
+                    ${soldStatusSql}
+                  )
 
-                AND p."currency" =
+                AND o."currency" =
                   ${currency}
 
-                AND p."paidAt" >=
+                AND o."createdAt" >=
                   ${period.start}
 
-                AND p."paidAt" <
+                AND o."createdAt" <
                   ${period.endExclusive}
 
               GROUP BY 1
@@ -3014,22 +3005,11 @@ export async function getGestionnaireDashboardData(
     DashboardPeriodInput = {},
 ): Promise<GestionnaireDashboardData> {
   /* ----------------------------------------------------------
-   1. PRIVATE AUTHENTICATED ACCESS
-   ----------------------------------------------------------
-   Le contrôle d'accès privé central vérifie notamment :
+     1. AUTHENTICATED SESSION
+     ---------------------------------------------------------- */
 
-   - session signée valide ;
-   - Manager existant ;
-   - e-mail vérifié ;
-   - Manager ACTIVE ;
-   - Store correspondant ;
-   - Store ACTIVE.
-
-   managerId et storeId ne proviennent jamais du navigateur.
-   ---------------------------------------------------------- */
-
-const access =
-  await requireGestionnairePrivateAccess();
+  const session =
+    await requireGestionnaireSession();
 
 
   /* ----------------------------------------------------------
@@ -3052,36 +3032,36 @@ const access =
      ---------------------------------------------------------- */
 
   const manager =
-  await db.manager.findUnique({
-    where: {
-      id:
-        access.manager.id,
-    },
+    await db.manager.findUnique({
+      where: {
+        id:
+          session.gestionnaireId,
+      },
 
-    select: {
-      status:
-        true,
+      select: {
+        status:
+          true,
 
-      store: {
-        select: {
-          id:
-            true,
+        store: {
+          select: {
+            id:
+              true,
 
-          name:
-            true,
+            name:
+              true,
 
-          city:
-            true,
+            city:
+              true,
 
-          country:
-            true,
+            country:
+              true,
 
-          status:
-            true,
+            status:
+              true,
+          },
         },
       },
-    },
-  });
+    });
 
 
   /* ----------------------------------------------------------

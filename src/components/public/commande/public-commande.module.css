@@ -1,0 +1,2450 @@
+/* ==========================================================================
+   L&E COSMETICS EMPIRE
+   COMMANDE PUBLIQUE — STYLES COMPLETS
+   ==========================================================================
+
+   Fichier :
+
+   src/components/public/commande/public-commande.module.css
+
+   Pages / composants :
+
+   - PublicCommandePage.tsx
+   - PublicCommandeCustomerSection.tsx
+   - PublicCommandeDeliverySection.tsx
+   - PublicCommandeSummary.tsx
+
+   Design :
+
+   - blanc ;
+   - noir / anthracite ;
+   - rose / magenta ;
+   - responsive ;
+   - desktop premium ;
+   - mobile application-like.
+
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. PAGE
+   ========================================================================== */
+
+.commandePage {
+  --commande-background: #f7f7f8;
+  --commande-surface: #ffffff;
+  --commande-surface-soft: #fafafa;
+
+  --commande-text: #18181b;
+  --commande-text-strong: #09090b;
+  --commande-text-muted: #71717a;
+  --commande-text-soft: #a1a1aa;
+
+  --commande-border: #e4e4e7;
+  --commande-border-strong: #d4d4d8;
+
+  --commande-accent: #d61f69;
+  --commande-accent-dark: #b71555;
+  --commande-accent-soft: #fff0f6;
+  --commande-accent-border: #f7b8d2;
+
+  --commande-success: #16864a;
+  --commande-success-soft: #eefbf4;
+  --commande-success-border: #b8e9cc;
+
+  --commande-warning: #9a5b00;
+  --commande-warning-soft: #fff8e8;
+  --commande-warning-border: #f3d49a;
+
+  --commande-danger: #c62d38;
+  --commande-danger-soft: #fff2f3;
+  --commande-danger-border: #f2b8bc;
+
+  --commande-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.06);
+
+  --commande-shadow-soft:
+    0 8px 30px rgba(15, 23, 42, 0.05);
+
+  width: 100%;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(214, 31, 105, 0.055),
+      transparent 28%
+    ),
+    var(--commande-background);
+  color: var(--commande-text);
+  padding:
+    28px
+    24px
+    72px;
+}
+
+
+.commandePage,
+.commandePage * {
+  box-sizing: border-box;
+}
+
+
+.commandeContainer {
+  width: min(100%, 1380px);
+  margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   2. RETOUR
+   ========================================================================== */
+
+.commandeBackRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+.commandeBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 40px;
+
+  color: var(--commande-text-muted);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+
+.commandeBackLink:hover {
+  color: var(--commande-accent);
+}
+
+
+.commandeBackLink:hover svg {
+  transform: translateX(-2px);
+}
+
+
+.commandeBackLink svg {
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+
+
+/* ==========================================================================
+   3. HEADER PAGE
+   ========================================================================== */
+
+.commandePageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+
+  padding:
+    30px
+    32px;
+
+  margin-bottom: 28px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 64%,
+      #fff5f9 100%
+    );
+
+  box-shadow: var(--commande-shadow-soft);
+}
+
+
+.commandePageHeaderContent {
+  min-width: 0;
+  max-width: 760px;
+}
+
+
+.commandePageEyebrow {
+  margin: 0 0 8px;
+
+  color: var(--commande-accent);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+
+.commandePageTitle {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+
+.commandePageDescription {
+  max-width: 680px;
+
+  margin:
+    14px
+    0
+    0;
+
+  color: var(--commande-text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+.commandePageSecurity {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  flex: 0 0 auto;
+
+  max-width: 330px;
+
+  padding:
+    14px
+    16px;
+
+  border: 1px solid var(--commande-success-border);
+  border-radius: 16px;
+
+  background: var(--commande-success-soft);
+  color: var(--commande-success);
+}
+
+
+.commandePageSecurity > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+.commandePageSecurity div {
+  display: grid;
+  gap: 3px;
+}
+
+
+.commandePageSecurity strong {
+  color: #126c3f;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+
+.commandePageSecurity span {
+  color: #39775a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   4. LAYOUT PRINCIPAL
+   ========================================================================== */
+
+.commandeForm {
+  width: 100%;
+}
+
+
+.commandeLayout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.34fr)
+    minmax(340px, 0.76fr);
+
+  align-items: start;
+  gap: 28px;
+}
+
+
+.commandeMainColumn {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+
+.commandeSummaryColumn {
+  display: grid;
+  gap: 14px;
+
+  min-width: 0;
+
+  position: sticky;
+  top: 20px;
+}
+
+
+/* ==========================================================================
+   5. SECTIONS
+   ========================================================================== */
+
+.commandeSection {
+  width: 100%;
+
+  padding:
+    26px
+    28px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 22px;
+
+  background: var(--commande-surface);
+
+  box-shadow: var(--commande-shadow-soft);
+}
+
+
+.commandeSectionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  margin-bottom: 24px;
+}
+
+
+.commandeSectionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 44px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--commande-accent),
+      #ed4b8a
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 8px 20px rgba(214, 31, 105, 0.2);
+}
+
+
+.commandeSectionHeading {
+  min-width: 0;
+}
+
+
+.commandeSectionStep {
+  margin: 0 0 4px;
+
+  color: var(--commande-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.commandeSectionTitle {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 20px;
+  font-weight: 780;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+}
+
+
+.commandeSectionDescription {
+  margin:
+    7px
+    0
+    0;
+
+  color: var(--commande-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+/* ==========================================================================
+   6. FORMULAIRES
+   ========================================================================== */
+
+.commandeFields {
+  display: grid;
+  gap: 19px;
+}
+
+
+.commandeFieldsGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+
+.commandeField {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+
+.commandeLabel {
+  display: block;
+
+  color: #29292f;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+.commandeOptionalLabel {
+  color: var(--commande-text-soft);
+  font-size: 11px;
+  font-weight: 550;
+}
+
+
+.commandeInputWrapper {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-height: 50px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--commande-border-strong);
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+
+.commandeInputWrapper:hover {
+  border-color: #b9b9c1;
+}
+
+
+.commandeInputWrapper:focus-within {
+  border-color: var(--commande-accent);
+
+  box-shadow:
+    0 0 0 3px rgba(214, 31, 105, 0.1);
+}
+
+
+.commandeInputWrapperError {
+  border-color: var(--commande-danger);
+  background: #fffafa;
+}
+
+
+.commandeInputWrapperError:focus-within {
+  border-color: var(--commande-danger);
+
+  box-shadow:
+    0 0 0 3px rgba(198, 45, 56, 0.1);
+}
+
+
+.commandeInputIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 48px;
+
+  flex: 0 0 46px;
+
+  color: #8b8b95;
+}
+
+
+.commandeInput {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+
+  padding:
+    0
+    14px
+    0
+    0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--commande-text-strong);
+
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+
+.commandeInput::placeholder {
+  color: #aaaab2;
+  opacity: 1;
+}
+
+
+.commandeInput:disabled {
+  cursor: not-allowed;
+  color: #8a8a93;
+}
+
+
+.commandeInputWrapper:has(.commandeInput:disabled) {
+  background: #f5f5f6;
+  opacity: 0.78;
+}
+
+
+.commandeSelect {
+  cursor: pointer;
+  padding-right: 12px;
+}
+
+
+.commandeSelect:disabled {
+  cursor: not-allowed;
+}
+
+
+.commandeFieldHint {
+  margin: 0;
+
+  color: var(--commande-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.commandeFieldError {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+
+  margin: 0;
+
+  color: var(--commande-danger);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+
+.commandeFieldError svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+/* ==========================================================================
+   7. NOTICE INFORMATIONS CLIENTE
+   ========================================================================== */
+
+.commandeSectionNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin-top: 21px;
+
+  padding:
+    13px
+    14px;
+
+  border: 1px solid #e5dce1;
+  border-radius: 13px;
+
+  background: #fcf9fb;
+  color: var(--commande-text-muted);
+}
+
+
+.commandeSectionNotice svg {
+  flex: 0 0 auto;
+
+  margin-top: 2px;
+
+  color: var(--commande-accent);
+}
+
+
+.commandeSectionNotice p {
+  margin: 0;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+
+/* ==========================================================================
+   8. BLOC LIVRAISON
+   ========================================================================== */
+
+.commandeDeliveryBlock {
+  margin-top: 25px;
+
+  padding-top: 23px;
+
+  border-top: 1px solid var(--commande-border);
+}
+
+
+.commandeDeliveryHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  margin-bottom: 13px;
+}
+
+
+.commandeDeliveryHeadingIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  border-radius: 12px;
+
+  background: var(--commande-accent-soft);
+  color: var(--commande-accent);
+}
+
+
+.commandeDeliveryTitle {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+
+.commandeDeliveryDescription {
+  margin:
+    3px
+    0
+    0;
+
+  color: var(--commande-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   9. ÉTAT LIVRAISON
+   ========================================================================== */
+
+.commandeDeliveryStatus {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  width: 100%;
+
+  padding:
+    14px
+    15px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 14px;
+
+  background: var(--commande-surface-soft);
+
+  color: var(--commande-text-muted);
+}
+
+
+.commandeDeliveryStatus > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+.commandeDeliveryStatus div {
+  min-width: 0;
+}
+
+
+.commandeDeliveryStatus strong {
+  display: block;
+
+  color: var(--commande-text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+
+.commandeDeliveryStatus p {
+  margin:
+    3px
+    0
+    0;
+
+  color: var(--commande-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.commandeDeliveryStatusReady {
+  border-color: var(--commande-success-border);
+  background: var(--commande-success-soft);
+  color: var(--commande-success);
+}
+
+
+.commandeDeliveryStatusReady strong {
+  color: #116f40;
+}
+
+
+.commandeDeliveryStatusError {
+  border-color: var(--commande-danger-border);
+  background: var(--commande-danger-soft);
+  color: var(--commande-danger);
+}
+
+
+.commandeDeliveryStatusError strong {
+  color: var(--commande-danger);
+}
+
+
+.commandeDeliveryStatusContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  gap: 18px;
+}
+
+
+.commandeDeliveryPrice {
+  flex: 0 0 auto;
+
+  color: var(--commande-text-strong) !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   10. RÉSUMÉ
+   ========================================================================== */
+
+.commandeSummary {
+  width: 100%;
+
+  overflow: hidden;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 22px;
+
+  background: var(--commande-surface);
+
+  box-shadow: var(--commande-shadow);
+}
+
+
+.commandeSummaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding:
+    22px
+    22px
+    17px;
+
+  border-bottom: 1px solid var(--commande-border);
+}
+
+
+.commandeSummaryHeaderIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 41px;
+  height: 41px;
+
+  flex: 0 0 41px;
+
+  border-radius: 13px;
+
+  background: var(--commande-accent-soft);
+  color: var(--commande-accent);
+}
+
+
+.commandeSummaryEyebrow {
+  margin: 0 0 2px;
+
+  color: var(--commande-accent);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+
+.commandeSummaryTitle {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 17px;
+  font-weight: 780;
+  line-height: 1.25;
+}
+
+
+.commandeSummaryCount {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding:
+    11px
+    22px;
+
+  border-bottom: 1px solid var(--commande-border);
+
+  color: var(--commande-text-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+
+.commandeSummaryProducts {
+  display: grid;
+}
+
+
+/* ==========================================================================
+   11. PRODUIT RÉSUMÉ
+   ========================================================================== */
+
+.commandeSummaryProduct {
+  display: grid;
+  grid-template-columns:
+    82px
+    minmax(0, 1fr);
+
+  gap: 14px;
+
+  padding:
+    17px
+    22px;
+
+  border-bottom: 1px solid var(--commande-border);
+}
+
+
+.commandeSummaryImage,
+.commandeSummaryImageFallback {
+  position: relative;
+
+  width: 82px;
+  height: 94px;
+
+  overflow: hidden;
+
+  border: 1px solid #eeeeef;
+  border-radius: 13px;
+
+  background: #f5f5f6;
+}
+
+
+.commandeSummaryImageElement {
+  object-fit: contain;
+  padding: 5px;
+}
+
+
+.commandeSummaryImageFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--commande-text-soft);
+}
+
+
+.commandeSummaryProductContent {
+  min-width: 0;
+}
+
+
+.commandeSummaryProductTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+
+.commandeSummaryProductIdentity {
+  min-width: 0;
+}
+
+
+.commandeSummaryProductName {
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+.commandeSummaryProductSku {
+  margin:
+    4px
+    0
+    0;
+
+  color: var(--commande-text-soft);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+
+.commandeSummaryProductSubtotal {
+  flex: 0 0 auto;
+
+  color: var(--commande-text-strong);
+  font-size: 12px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+.commandeSummaryProductStore,
+.commandeSummaryProductLocation {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 7px;
+
+  color: var(--commande-text-muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+
+.commandeSummaryProductStore svg,
+.commandeSummaryProductLocation svg {
+  flex: 0 0 auto;
+}
+
+
+.commandeSummaryProductMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  margin-top: 8px;
+
+  color: #595961;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+.commandeSummaryProductAvailability {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 8px;
+
+  color: var(--commande-success);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+.commandeSummaryProductAvailabilityError {
+  color: var(--commande-danger);
+}
+
+
+/* ==========================================================================
+   12. PANIER VIDE / ISSUES RÉSUMÉ
+   ========================================================================== */
+
+.commandeSummaryEmpty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+
+  padding:
+    34px
+    22px;
+
+  color: var(--commande-text-muted);
+  text-align: center;
+}
+
+
+.commandeSummaryEmpty p {
+  margin: 0;
+  font-size: 12px;
+}
+
+
+.commandeSummaryIssues {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin:
+    15px
+    18px
+    0;
+
+  padding:
+    12px
+    13px;
+
+  border: 1px solid var(--commande-danger-border);
+  border-radius: 13px;
+
+  background: var(--commande-danger-soft);
+  color: var(--commande-danger);
+}
+
+
+.commandeSummaryIssues > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+.commandeSummaryIssues strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+
+.commandeSummaryIssues p {
+  margin:
+    4px
+    0
+    0;
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+
+/* ==========================================================================
+   13. NOTICE LIVRAISON RÉSUMÉ
+   ========================================================================== */
+
+.commandeSummaryDeliveryNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+
+  margin:
+    15px
+    18px
+    0;
+
+  padding:
+    11px
+    12px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 12px;
+
+  background: #fafafa;
+  color: var(--commande-text-muted);
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+
+.commandeSummaryDeliveryNotice svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+.commandeSummaryDeliveryNoticeReady {
+  border-color: var(--commande-success-border);
+  background: var(--commande-success-soft);
+  color: #287150;
+}
+
+
+.commandeSummaryDeliveryNoticeError {
+  border-color: var(--commande-danger-border);
+  background: var(--commande-danger-soft);
+  color: var(--commande-danger);
+}
+
+
+/* ==========================================================================
+   14. TOTALS
+   ========================================================================== */
+
+.commandeSummaryFinancial {
+  display: grid;
+  gap: 11px;
+
+  padding:
+    19px
+    22px
+    22px;
+}
+
+
+.commandeSummaryFinancialRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  min-width: 0;
+}
+
+
+.commandeSummaryFinancialRow[data-muted="true"] {
+  opacity: 0.62;
+}
+
+
+.commandeSummaryFinancialLabel {
+  color: var(--commande-text-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+.commandeSummaryFinancialValue {
+  color: var(--commande-text);
+  font-size: 12px;
+  font-weight: 750;
+
+  text-align: right;
+  white-space: nowrap;
+}
+
+
+.commandeSummaryFinancialDivider {
+  height: 1px;
+  background: var(--commande-border);
+}
+
+
+.commandeSummaryFinancialRowTotal {
+  padding-top: 2px;
+}
+
+
+.commandeSummaryFinancialRowTotal .commandeSummaryFinancialLabel {
+  color: var(--commande-text-strong);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+
+.commandeSummaryFinancialRowTotal .commandeSummaryFinancialValue {
+  color: var(--commande-accent);
+  font-size: 18px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+
+
+.commandeSummaryTotalNotice {
+  margin:
+    -7px
+    22px
+    20px;
+
+  color: var(--commande-text-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   15. ALERTES GLOBALES
+   ========================================================================== */
+
+.commandeGlobalAlert,
+.commandeBlockingAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding:
+    15px
+    17px;
+
+  border: 1px solid var(--commande-danger-border);
+  border-radius: 15px;
+
+  background: var(--commande-danger-soft);
+  color: var(--commande-danger);
+}
+
+
+.commandeGlobalAlert {
+  margin-bottom: 20px;
+}
+
+
+.commandeGlobalAlert > svg,
+.commandeBlockingAlert > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+
+.commandeGlobalAlert strong,
+.commandeBlockingAlert strong {
+  display: block;
+
+  color: #a51f2b;
+  font-size: 12px;
+  font-weight: 780;
+}
+
+
+.commandeGlobalAlert p,
+.commandeBlockingAlert p {
+  margin:
+    4px
+    0
+    0;
+
+  color: #9d3b43;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.commandeInlineLink {
+  display: inline-flex;
+
+  margin-top: 8px;
+
+  color: var(--commande-danger);
+  font-size: 11px;
+  font-weight: 750;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   16. CHARGEMENTS / ERREUR DE CHARGEMENT
+   ========================================================================== */
+
+.commandePanierLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  margin-bottom: 20px;
+
+  padding:
+    12px
+    16px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 13px;
+
+  background: var(--commande-surface);
+
+  color: var(--commande-text-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+
+.commandeLoadError {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding:
+    24px;
+
+  border: 1px solid var(--commande-danger-border);
+  border-radius: 20px;
+
+  background: var(--commande-surface);
+
+  box-shadow: var(--commande-shadow-soft);
+}
+
+
+.commandeLoadError > svg {
+  flex: 0 0 auto;
+  color: var(--commande-danger);
+}
+
+
+.commandeLoadError > div {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+
+.commandeLoadError h2 {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 15px;
+  font-weight: 780;
+}
+
+
+.commandeLoadError p {
+  margin:
+    5px
+    0
+    0;
+
+  color: var(--commande-text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   17. ACTIONS
+   ========================================================================== */
+
+.commandeActions {
+  display: grid;
+  gap: 10px;
+
+  padding:
+    5px
+    0
+    2px;
+}
+
+
+.commandeContinueButton,
+.commandePrimaryButton,
+.commandeSecondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 0;
+  outline: 0;
+
+  font: inherit;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.commandeContinueButton {
+  width: 100%;
+  min-height: 54px;
+
+  padding:
+    0
+    22px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--commande-accent),
+      #eb3980
+    );
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 780;
+
+  box-shadow:
+    0 12px 28px rgba(214, 31, 105, 0.22);
+}
+
+
+.commandeContinueButton:not(:disabled):hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 16px 32px rgba(214, 31, 105, 0.27);
+}
+
+
+.commandeContinueButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+
+  box-shadow: none;
+}
+
+
+.commandePrimaryButton {
+  min-height: 48px;
+
+  padding:
+    0
+    20px;
+
+  border-radius: 13px;
+
+  background: var(--commande-accent);
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+
+.commandePrimaryButton:hover {
+  background: var(--commande-accent-dark);
+  transform: translateY(-1px);
+}
+
+
+.commandeSecondaryButton {
+  min-height: 42px;
+
+  padding:
+    0
+    16px;
+
+  border: 1px solid var(--commande-border-strong);
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: var(--commande-text);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.commandeSecondaryButton:hover {
+  border-color: var(--commande-accent);
+  color: var(--commande-accent);
+}
+
+
+.commandeActionSecurity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  color: var(--commande-text-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+/* ==========================================================================
+   18. ÉTAT DE PRÉPARATION
+   ========================================================================== */
+
+.commandePreparationStatus,
+.commandePreparationReady {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 38px;
+
+  padding:
+    9px
+    12px;
+
+  border-radius: 11px;
+
+  font-size: 10px;
+  font-weight: 650;
+}
+
+
+.commandePreparationStatus {
+  border: 1px solid var(--commande-border);
+  background: var(--commande-surface);
+  color: var(--commande-text-muted);
+}
+
+
+.commandePreparationReady {
+  border: 1px solid var(--commande-success-border);
+  background: var(--commande-success-soft);
+  color: var(--commande-success);
+}
+
+
+/* ==========================================================================
+   19. SPINNER
+   ========================================================================== */
+
+.commandeSpinner {
+  flex: 0 0 auto;
+  animation: commandeSpin 0.8s linear infinite;
+}
+
+
+@keyframes commandeSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ==========================================================================
+   20. PAGE LOADING
+   ========================================================================== */
+
+.commandePageLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: min(100%, 560px);
+  min-height: 280px;
+
+  margin:
+    70px
+    auto;
+
+  padding:
+    30px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 22px;
+
+  background: var(--commande-surface);
+
+  box-shadow: var(--commande-shadow-soft);
+
+  color: var(--commande-text-muted);
+  text-align: center;
+}
+
+
+.commandePageLoading strong {
+  color: var(--commande-text);
+  font-size: 13px;
+}
+
+
+/* ==========================================================================
+   21. PANIER VIDE
+   ========================================================================== */
+
+.commandeEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: min(100%, 600px);
+
+  margin:
+    60px
+    auto;
+
+  padding:
+    44px
+    34px;
+
+  border: 1px solid var(--commande-border);
+  border-radius: 24px;
+
+  background: var(--commande-surface);
+
+  box-shadow: var(--commande-shadow);
+
+  text-align: center;
+}
+
+
+.commandeEmptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 70px;
+  height: 70px;
+
+  margin-bottom: 18px;
+
+  border-radius: 22px;
+
+  background: var(--commande-accent-soft);
+  color: var(--commande-accent);
+}
+
+
+.commandeEmpty h1 {
+  margin: 0;
+
+  color: var(--commande-text-strong);
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+
+.commandeEmpty p {
+  max-width: 420px;
+
+  margin:
+    10px
+    0
+    22px;
+
+  color: var(--commande-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   22. FOCUS ACCESSIBLE
+   ========================================================================== */
+
+.commandeBackLink:focus-visible,
+.commandeInlineLink:focus-visible,
+.commandePrimaryButton:focus-visible,
+.commandeSecondaryButton:focus-visible,
+.commandeContinueButton:focus-visible {
+  outline:
+    3px
+    solid
+    rgba(214, 31, 105, 0.22);
+
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   23. TABLETTE
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .commandeLayout {
+    grid-template-columns:
+      minmax(0, 1.18fr)
+      minmax(320px, 0.82fr);
+
+    gap: 20px;
+  }
+
+
+  .commandePageHeader {
+    align-items: flex-start;
+  }
+
+
+  .commandeSection {
+    padding:
+      23px
+      22px;
+  }
+
+
+  .commandeSummaryProduct {
+    grid-template-columns:
+      72px
+      minmax(0, 1fr);
+
+    padding:
+      15px
+      18px;
+  }
+
+
+  .commandeSummaryImage,
+  .commandeSummaryImageFallback {
+    width: 72px;
+    height: 84px;
+  }
+
+
+  .commandeSummaryProductTop {
+    display: grid;
+    gap: 5px;
+  }
+
+
+  .commandeSummaryProductSubtotal {
+    white-space: normal;
+  }
+}
+
+
+/* ==========================================================================
+   24. MOBILE / TABLETTE
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  .commandePage {
+    padding:
+      18px
+      16px
+      calc(105px + env(safe-area-inset-bottom));
+  }
+
+
+  .commandeContainer {
+    width: 100%;
+  }
+
+
+  .commandeBackRow {
+    margin-bottom: 13px;
+  }
+
+
+  .commandePageHeader {
+    display: grid;
+    gap: 20px;
+
+    padding:
+      24px
+      22px;
+
+    border-radius: 20px;
+  }
+
+
+  .commandePageSecurity {
+    max-width: none;
+    width: 100%;
+  }
+
+
+  .commandeLayout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+
+  .commandeSummaryColumn {
+    position: static;
+    top: auto;
+  }
+
+
+  .commandeSection {
+    padding:
+      22px
+      20px;
+
+    border-radius: 19px;
+  }
+
+
+  .commandeSummary {
+    border-radius: 19px;
+  }
+}
+
+
+/* ==========================================================================
+   25. MOBILE
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  .commandePage {
+    padding:
+      12px
+      12px
+      calc(100px + env(safe-area-inset-bottom));
+  }
+
+
+  .commandeBackRow {
+    margin:
+      2px
+      3px
+      10px;
+  }
+
+
+  .commandeBackLink {
+    min-height: 36px;
+    font-size: 12px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HEADER
+     ------------------------------------------------------------------------ */
+
+  .commandePageHeader {
+    gap: 16px;
+
+    margin-bottom: 15px;
+
+    padding:
+      21px
+      18px;
+
+    border-radius: 18px;
+  }
+
+
+  .commandePageEyebrow {
+    margin-bottom: 5px;
+    font-size: 10px;
+  }
+
+
+  .commandePageTitle {
+    font-size: 27px;
+    line-height: 1.08;
+  }
+
+
+  .commandePageDescription {
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+
+  .commandePageSecurity {
+    gap: 9px;
+
+    padding:
+      11px
+      12px;
+
+    border-radius: 13px;
+  }
+
+
+  .commandePageSecurity strong {
+    font-size: 11px;
+  }
+
+
+  .commandePageSecurity span {
+    font-size: 10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ALERTES
+     ------------------------------------------------------------------------ */
+
+  .commandeGlobalAlert {
+    margin-bottom: 14px;
+  }
+
+
+  .commandeGlobalAlert,
+  .commandeBlockingAlert {
+    gap: 9px;
+
+    padding:
+      12px
+      13px;
+
+    border-radius: 13px;
+  }
+
+
+  .commandeGlobalAlert strong,
+  .commandeBlockingAlert strong {
+    font-size: 11px;
+  }
+
+
+  .commandeGlobalAlert p,
+  .commandeBlockingAlert p {
+    font-size: 10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SECTIONS
+     ------------------------------------------------------------------------ */
+
+  .commandeMainColumn {
+    gap: 15px;
+  }
+
+
+  .commandeSection {
+    padding:
+      18px
+      15px;
+
+    border-radius: 17px;
+  }
+
+
+  .commandeSectionHeader {
+    gap: 11px;
+    margin-bottom: 19px;
+  }
+
+
+  .commandeSectionIcon {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+
+    border-radius: 12px;
+  }
+
+
+  .commandeSectionStep {
+    font-size: 9px;
+  }
+
+
+  .commandeSectionTitle {
+    font-size: 17px;
+  }
+
+
+  .commandeSectionDescription {
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FORM
+     ------------------------------------------------------------------------ */
+
+  .commandeFields {
+    gap: 15px;
+  }
+
+
+  .commandeFieldsGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+
+  .commandeLabel {
+    font-size: 12px;
+  }
+
+
+  .commandeOptionalLabel {
+    font-size: 10px;
+  }
+
+
+  .commandeInputWrapper {
+    min-height: 49px;
+    border-radius: 12px;
+  }
+
+
+  .commandeInputIcon {
+    width: 43px;
+    height: 47px;
+    flex-basis: 43px;
+  }
+
+
+  .commandeInput {
+    min-height: 47px;
+    font-size: 16px;
+  }
+
+
+  .commandeFieldHint,
+  .commandeFieldError {
+    font-size: 10px;
+  }
+
+
+  .commandeSectionNotice {
+    margin-top: 17px;
+
+    padding:
+      11px
+      12px;
+
+    border-radius: 12px;
+  }
+
+
+  .commandeSectionNotice p {
+    font-size: 10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LIVRAISON
+     ------------------------------------------------------------------------ */
+
+  .commandeDeliveryBlock {
+    margin-top: 20px;
+    padding-top: 18px;
+  }
+
+
+  .commandeDeliveryHeading {
+    gap: 9px;
+  }
+
+
+  .commandeDeliveryHeadingIcon {
+    width: 35px;
+    height: 35px;
+    flex-basis: 35px;
+  }
+
+
+  .commandeDeliveryTitle {
+    font-size: 12px;
+  }
+
+
+  .commandeDeliveryDescription {
+    font-size: 10px;
+  }
+
+
+  .commandeDeliveryStatus {
+    gap: 8px;
+
+    padding:
+      12px;
+
+    border-radius: 12px;
+  }
+
+
+  .commandeDeliveryStatusContent {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+
+  .commandeDeliveryStatus strong {
+    font-size: 11px;
+  }
+
+
+  .commandeDeliveryStatus p {
+    font-size: 10px;
+  }
+
+
+  .commandeDeliveryPrice {
+    font-size: 13px !important;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SUMMARY
+     ------------------------------------------------------------------------ */
+
+  .commandeSummaryHeader {
+    gap: 10px;
+
+    padding:
+      17px
+      15px
+      14px;
+  }
+
+
+  .commandeSummaryHeaderIcon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+
+    border-radius: 12px;
+  }
+
+
+  .commandeSummaryEyebrow {
+    font-size: 9px;
+  }
+
+
+  .commandeSummaryTitle {
+    font-size: 15px;
+  }
+
+
+  .commandeSummaryCount {
+    padding:
+      9px
+      15px;
+
+    font-size: 10px;
+  }
+
+
+  .commandeSummaryProduct {
+    grid-template-columns:
+      70px
+      minmax(0, 1fr);
+
+    gap: 11px;
+
+    padding:
+      14px
+      15px;
+  }
+
+
+  .commandeSummaryImage,
+  .commandeSummaryImageFallback {
+    width: 70px;
+    height: 82px;
+
+    border-radius: 11px;
+  }
+
+
+  .commandeSummaryProductName {
+    font-size: 12px;
+  }
+
+
+  .commandeSummaryProductSubtotal {
+    font-size: 11px;
+  }
+
+
+  .commandeSummaryProductStore,
+  .commandeSummaryProductLocation,
+  .commandeSummaryProductMeta,
+  .commandeSummaryProductAvailability {
+    font-size: 9px;
+  }
+
+
+  .commandeSummaryIssues,
+  .commandeSummaryDeliveryNotice {
+    margin:
+      12px
+      13px
+      0;
+  }
+
+
+  .commandeSummaryFinancial {
+    gap: 10px;
+
+    padding:
+      16px
+      15px
+      18px;
+  }
+
+
+  .commandeSummaryFinancialLabel {
+    font-size: 10px;
+  }
+
+
+  .commandeSummaryFinancialValue {
+    font-size: 11px;
+  }
+
+
+  .commandeSummaryFinancialRowTotal .commandeSummaryFinancialLabel {
+    font-size: 13px;
+  }
+
+
+  .commandeSummaryFinancialRowTotal .commandeSummaryFinancialValue {
+    font-size: 17px;
+  }
+
+
+  .commandeSummaryTotalNotice {
+    margin:
+      -5px
+      15px
+      17px;
+
+    font-size: 9px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ACTION
+     ------------------------------------------------------------------------ */
+
+  .commandeContinueButton {
+    min-height: 52px;
+
+    padding:
+      0
+      16px;
+
+    border-radius: 14px;
+
+    font-size: 13px;
+  }
+
+
+  .commandeActionSecurity {
+    font-size: 9px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LOADING / EMPTY
+     ------------------------------------------------------------------------ */
+
+  .commandePageLoading {
+    min-height: 230px;
+
+    margin:
+      30px
+      auto;
+
+    padding:
+      25px
+      18px;
+
+    border-radius: 18px;
+  }
+
+
+  .commandeEmpty {
+    margin:
+      30px
+      auto;
+
+    padding:
+      34px
+      20px;
+
+    border-radius: 20px;
+  }
+
+
+  .commandeEmptyIcon {
+    width: 62px;
+    height: 62px;
+
+    border-radius: 18px;
+  }
+
+
+  .commandeEmpty h1 {
+    font-size: 21px;
+  }
+
+
+  .commandeEmpty p {
+    font-size: 12px;
+  }
+
+
+  .commandeLoadError {
+    display: grid;
+
+    padding:
+      19px
+      16px;
+
+    border-radius: 17px;
+  }
+
+
+  .commandeLoadError h2 {
+    font-size: 14px;
+  }
+
+
+  .commandeLoadError p {
+    font-size: 11px;
+  }
+
+
+  .commandeSecondaryButton {
+    width: 100%;
+  }
+}
+
+
+/* ==========================================================================
+   26. TRÈS PETITS MOBILES
+   ========================================================================== */
+
+@media (max-width: 390px) {
+  .commandePage {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+
+  .commandeSection {
+    padding:
+      17px
+      13px;
+  }
+
+
+  .commandePageHeader {
+    padding:
+      19px
+      15px;
+  }
+
+
+  .commandeSummaryProduct {
+    grid-template-columns:
+      64px
+      minmax(0, 1fr);
+
+    gap: 9px;
+
+    padding:
+      13px;
+  }
+
+
+  .commandeSummaryImage,
+  .commandeSummaryImageFallback {
+    width: 64px;
+    height: 76px;
+  }
+
+
+  .commandeSummaryProductTop {
+    gap: 4px;
+  }
+
+
+  .commandeSummaryFinancial {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+
+  .commandeContinueButton {
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================================================
+   27. RÉDUCTION DES ANIMATIONS
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .commandePage *,
+  .commandePage *::before,
+  .commandePage *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

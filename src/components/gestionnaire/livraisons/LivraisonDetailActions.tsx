@@ -6,6 +6,10 @@ import {
   useRef,
 } from "react";
 
+import type {
+  SyntheticEvent,
+} from "react";
+
 import {
   CheckCircle2,
   Info,
@@ -48,11 +52,40 @@ import styles from "@/app/gestionnaire/(espace-prive)/livraisons/livraisons.modu
  *
  * - afficher uniquement les actions autorisées ;
  * - demander confirmation avant toute mutation ;
- * - appeler les Server Actions officielles ;
+ * - appeler uniquement les Server Actions officielles ;
  * - empêcher les doubles soumissions côté interface ;
  * - afficher les erreurs métier retournées par le serveur ;
  * - afficher la réussite d'une action ;
  * - rafraîchir les données serveur après une mutation réussie.
+ *
+ *
+ * FRONTIÈRE CLIENT / SERVEUR :
+ *
+ * Ce fichier est un Client Component.
+ *
+ * Il peut importer :
+ *
+ * - confirmDeliveryAction ;
+ * - cancelDeliveryAction ;
+ *
+ * uniquement parce que leur fichier :
+ *
+ * src/app/gestionnaire/(espace-prive)/livraisons/[deliveryId]/actions.ts
+ *
+ * commence obligatoirement par :
+ *
+ * "use server";
+ *
+ * Ce composant ne doit jamais importer directement :
+ *
+ * - Prisma ;
+ * - src/prisma/db.ts ;
+ * - shipment-mutation.ts ;
+ * - shipment-notifications.ts ;
+ * - Resend ;
+ * - Meta WhatsApp ;
+ * - private-access.ts ;
+ * - session.ts.
  *
  *
  * ACTIONS AUTORISÉES :
@@ -217,6 +250,17 @@ export default function LivraisonDetailActions({
         ?.close();
 
 
+      /**
+       * Les Server Actions revalident déjà les routes concernées.
+       *
+       * router.refresh() demande ensuite au Client Component de relire
+       * immédiatement l'arbre serveur courant afin d'afficher :
+       *
+       * - le nouveau statut Shipment ;
+       * - le nouveau statut Order ;
+       * - les nouvelles actions autorisées ;
+       * - les données de détail actualisées.
+       */
       router.refresh();
     },
     [
@@ -358,7 +402,7 @@ export default function LivraisonDetailActions({
 
   function preventConfirmDialogCancellation(
     event:
-      React.SyntheticEvent<HTMLDialogElement>,
+      SyntheticEvent<HTMLDialogElement>,
   ): void {
     if (
       confirmPending
@@ -370,7 +414,7 @@ export default function LivraisonDetailActions({
 
   function preventCancelDialogCancellation(
     event:
-      React.SyntheticEvent<HTMLDialogElement>,
+      SyntheticEvent<HTMLDialogElement>,
   ): void {
     if (
       cancelPending
@@ -546,10 +590,6 @@ export default function LivraisonDetailActions({
           </div>
         </div>
       ) : (
-        /* ==================================================================
-           NO ACTION AVAILABLE
-           ================================================================== */
-
         <div className={styles.livraisonDetailNoActions}>
           <Info
             size={18}
@@ -580,10 +620,6 @@ export default function LivraisonDetailActions({
         onCancel={preventConfirmDialogCancellation}
       >
         <div className={styles.livraisonDetailDialogContent}>
-          {/* ==============================================================
-              ICON
-              ============================================================== */}
-
           <div
             className={[
               styles.livraisonDetailDialogIcon,
@@ -597,10 +633,6 @@ export default function LivraisonDetailActions({
             />
           </div>
 
-
-          {/* ==============================================================
-              COPY
-              ============================================================== */}
 
           <div className={styles.livraisonDetailDialogCopy}>
             <h2 className={styles.livraisonDetailDialogTitle}>
@@ -625,10 +657,6 @@ export default function LivraisonDetailActions({
             </div>
           </div>
 
-
-          {/* ==============================================================
-              SERVER ERROR
-              ============================================================== */}
 
           <div
             className={styles.livraisonDetailDialogMessages}
@@ -655,10 +683,6 @@ export default function LivraisonDetailActions({
             ) : null}
           </div>
 
-
-          {/* ==============================================================
-              FORM
-              ============================================================== */}
 
           <form
             action={confirmFormAction}
@@ -728,10 +752,6 @@ export default function LivraisonDetailActions({
         onCancel={preventCancelDialogCancellation}
       >
         <div className={styles.livraisonDetailDialogContent}>
-          {/* ==============================================================
-              ICON
-              ============================================================== */}
-
           <div
             className={[
               styles.livraisonDetailDialogIcon,
@@ -745,10 +765,6 @@ export default function LivraisonDetailActions({
             />
           </div>
 
-
-          {/* ==============================================================
-              COPY
-              ============================================================== */}
 
           <div className={styles.livraisonDetailDialogCopy}>
             <h2 className={styles.livraisonDetailDialogTitle}>
@@ -773,10 +789,6 @@ export default function LivraisonDetailActions({
             </div>
           </div>
 
-
-          {/* ==============================================================
-              SERVER ERROR
-              ============================================================== */}
 
           <div
             className={styles.livraisonDetailDialogMessages}
@@ -803,10 +815,6 @@ export default function LivraisonDetailActions({
             ) : null}
           </div>
 
-
-          {/* ==============================================================
-              FORM
-              ============================================================== */}
 
           <form
             action={cancelFormAction}

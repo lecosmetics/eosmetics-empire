@@ -1,4 +1,4 @@
-import "server-only";
+
 
 import {
   EmailStatus,
@@ -15,6 +15,7 @@ import {
 } from "@/server/email/delivery-emails";
 
 import {
+  isMetaWhatsAppError,
   sendDeliveryConfirmedWhatsApp,
 } from "@/server/whatsapp/meta-whatsapp";
 
@@ -50,23 +51,25 @@ import type {
  *
  * IMPORTANT :
  *
+ * Ce fichier est strictement serveur.
+ *
+ * Il ne doit jamais être importé directement depuis un Client Component.
+ *
  * CONFIRMATION :
  *
  * Shipment -> DELIVERED
- *       ↓
+ *      ↓
  * commit DB
- *       ↓
- * e-mail
- * +
- * WhatsApp
+ *      ↓
+ * e-mail + WhatsApp
  *
  *
  * ANNULATION :
  *
  * Shipment -> CANCELLED
- *       ↓
+ *      ↓
  * commit DB
- *       ↓
+ *      ↓
  * e-mail uniquement
  *
  *
@@ -114,18 +117,6 @@ export type ManagerShipmentNotificationAttemptStatus =
 /* ==========================================================================
    RAISONS SÛRES
    ========================================================================== */
-
-/**
- * Ces raisons peuvent être retournées à la couche appelante.
- *
- * Elles ne contiennent :
- *
- * - ni e-mail ;
- * - ni numéro ;
- * - ni réponse brute Meta ;
- * - ni réponse brute Resend ;
- * - ni stack.
- */
 
 export type ManagerShipmentNotificationReason =
   | "SENT"
@@ -176,12 +167,6 @@ export interface ManagerShipmentNotificationReport {
 /* ==========================================================================
    RÉSULTAT PROVIDER E-MAIL
    ========================================================================== */
-
-/**
- * delivery-emails.ts respectera ce contrat.
- *
- * Le provider peut retourner l'identifiant Resend lorsqu'il est disponible.
- */
 
 interface DeliveryEmailProviderResult {
   readonly providerMessageId:
@@ -236,13 +221,6 @@ function normalizeOptionalText(
    EMAIL — VALIDATION SIMPLE
    ========================================================================== */
 
-/**
- * Cette fonction n'essaie pas de remplacer une validation complète
- * de délivrabilité.
- *
- * Elle empêche simplement l'envoi de valeurs manifestement invalides.
- */
-
 function isUsableEmail(
   value:
     string | null,
@@ -275,13 +253,6 @@ function isUsableEmail(
    PHONE — PRÉSENCE
    ========================================================================== */
 
-/**
- * La normalisation internationale définitive est volontairement laissée
- * au provider Meta WhatsApp.
- *
- * Ici, on vérifie uniquement qu'un numéro exploitable existe.
- */
-
 function hasUsablePhoneCandidate(
   value:
     string | null,
@@ -312,12 +283,6 @@ function hasUsablePhoneCandidate(
 /* ==========================================================================
    FAILURE REASON
    ========================================================================== */
-
-/**
- * EmailLog possède failureReason.
- *
- * On y conserve uniquement une description serveur contrôlée et limitée.
- */
 
 function createFailureReason(
   error:
@@ -362,15 +327,6 @@ function createFailureReason(
    LOG SERVEUR SÛR
    ========================================================================== */
 
-/**
- * On n'affiche jamais :
- *
- * - e-mail ;
- * - téléphone ;
- * - contenu du message ;
- * - secret fournisseur.
- */
-
 function logNotificationFailure({
   channel,
   shipmentId,
@@ -389,16 +345,44 @@ function logNotificationFailure({
   readonly error:
     unknown;
 }): void {
+  const metaError =
+    channel ===
+      "whatsapp" &&
+    isMetaWhatsAppError(
+      error,
+    )
+      ? error
+      : null;
+
+
   console.error(
     `[Cosmetics Empire] Échec notification livraison (${channel}).`,
     {
       shipmentId,
+
       orderId,
+
       errorName:
         error instanceof
           Error
           ? error.name
           : "UnknownError",
+
+      errorCode:
+        metaError?.code ??
+        null,
+
+      statusCode:
+        metaError?.statusCode ??
+        null,
+
+      providerCode:
+        metaError?.providerCode ??
+        null,
+
+      retryable:
+        metaError?.retryable ??
+        null,
     },
   );
 }
@@ -407,17 +391,6 @@ function logNotificationFailure({
 /* ==========================================================================
    STORE ID
    ========================================================================== */
-
-/**
- * La mutation a déjà vérifié l'ownership.
- *
- * Le résultat actuel de shipment-mutation.ts ne transporte volontairement
- * pas storeId.
- *
- * Pour EmailLog, nous relisons uniquement le storeId du Shipment.
- *
- * Cette donnée n'est jamais envoyée au navigateur.
- */
 
 async function getShipmentStoreId(
   shipmentId:
@@ -524,10 +497,6 @@ async function createPendingEmailLog({
   } catch (
     error
   ) {
-    /**
-     * Une panne du journal EmailLog ne doit pas empêcher l'envoi réel.
-     */
-
     console.error(
       "[Cosmetics Empire] Impossible de créer EmailLog pour une livraison.",
       {
@@ -742,10 +711,6 @@ async function sendConfirmedEmailSafely({
     );
 
 
-  /* ------------------------------------------------------------------------
-     ABSENT
-     ------------------------------------------------------------------------ */
-
   if (
     !recipient
   ) {
@@ -754,10 +719,6 @@ async function sendConfirmedEmailSafely({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     INVALIDE
-     ------------------------------------------------------------------------ */
 
   if (
     !isUsableEmail(
@@ -769,10 +730,6 @@ async function sendConfirmedEmailSafely({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     EMAIL LOG
-     ------------------------------------------------------------------------ */
 
   const emailLogId =
     await createPendingEmailLog({
@@ -790,10 +747,6 @@ async function sendConfirmedEmailSafely({
         mutation.shipmentId,
     });
 
-
-  /* ------------------------------------------------------------------------
-     ENVOI
-     ------------------------------------------------------------------------ */
 
   try {
     const result:
@@ -881,10 +834,6 @@ async function sendCancelledEmailSafely({
     );
 
 
-  /* ------------------------------------------------------------------------
-     ABSENT
-     ------------------------------------------------------------------------ */
-
   if (
     !recipient
   ) {
@@ -893,10 +842,6 @@ async function sendCancelledEmailSafely({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     INVALIDE
-     ------------------------------------------------------------------------ */
 
   if (
     !isUsableEmail(
@@ -909,20 +854,10 @@ async function sendCancelledEmailSafely({
   }
 
 
-  /* ------------------------------------------------------------------------
-     EMAIL LOG
-     ------------------------------------------------------------------------ */
-
   const emailLogId =
     await createPendingEmailLog({
       storeId,
 
-      /**
-       * Le schema actuel possède SHIPPING_UPDATE mais pas
-       * DELIVERY_CANCELLATION.
-       *
-       * On utilise donc l'enum existant sans en inventer un nouveau.
-       */
       type:
         EmailType.SHIPPING_UPDATE,
 
@@ -935,10 +870,6 @@ async function sendCancelledEmailSafely({
         mutation.shipmentId,
     });
 
-
-  /* ------------------------------------------------------------------------
-     ENVOI
-     ------------------------------------------------------------------------ */
 
   try {
     const result:
@@ -1020,10 +951,6 @@ async function sendConfirmedWhatsAppSafely(
     );
 
 
-  /* ------------------------------------------------------------------------
-     ABSENT / NON EXPLOITABLE
-     ------------------------------------------------------------------------ */
-
   if (
     !phone ||
     !hasUsablePhoneCandidate(
@@ -1035,10 +962,6 @@ async function sendConfirmedWhatsAppSafely(
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     ENVOI
-     ------------------------------------------------------------------------ */
 
   try {
     const result:
@@ -1064,12 +987,6 @@ async function sendConfirmedWhatsAppSafely(
         });
 
 
-    /**
-     * providerMessageId est volontairement récupéré même si aucune table
-     * dédiée WhatsApp n'existe encore.
-     *
-     * On ne crée pas une fausse valeur WHATSAPP dans NotificationChannel.
-     */
     void result.providerMessageId;
 
 
@@ -1101,22 +1018,6 @@ async function sendConfirmedWhatsAppSafely(
 /* ==========================================================================
    MUTATION DÉJÀ APPLIQUÉE
    ========================================================================== */
-
-/**
- * C'est la seconde protection contre les doubles notifications.
- *
- * shipment-mutation.ts renvoie :
- *
- * outcome = ALREADY_APPLIED
- * changed = false
- *
- * lorsque la même action a déjà été effectuée.
- *
- * Dans ce cas :
- *
- * AUCUN e-mail
- * AUCUN WhatsApp
- */
 
 function createAlreadyAppliedReport(
   mutation:
@@ -1159,14 +1060,6 @@ async function notifyShipmentConfirmed(
     );
 
 
-  /**
-   * E-mail et WhatsApp sont indépendants.
-   *
-   * Une panne sur un canal ne bloque pas l'autre.
-   *
-   * Les deux fonctions absorbent déjà leurs propres erreurs.
-   */
-
   const [
     email,
     whatsapp,
@@ -1174,6 +1067,7 @@ async function notifyShipmentConfirmed(
     await Promise.all([
       sendConfirmedEmailSafely({
         mutation,
+
         storeId,
       }),
 
@@ -1217,13 +1111,10 @@ async function notifyShipmentCancelled(
   const email =
     await sendCancelledEmailSafely({
       mutation,
+
       storeId,
     });
 
-
-  /**
-   * WhatsApp n'est PAS demandé pour l'annulation.
-   */
 
   const whatsapp =
     createSkippedAttempt(
@@ -1252,42 +1143,10 @@ async function notifyShipmentCancelled(
    ORCHESTRATEUR PUBLIC
    ========================================================================== */
 
-/**
- * Fonction principale appelée APRÈS :
- *
- * confirmManagerShipment()
- *
- * ou :
- *
- * cancelManagerShipment()
- *
- *
- * Exemple :
- *
- * const mutation =
- *   await confirmManagerShipment(
- *     shipmentId,
- *   );
- *
- * const notifications =
- *   await notifyManagerShipmentMutation(
- *     mutation,
- *   );
- *
- *
- * IMPORTANT :
- *
- * Cette fonction ne doit jamais être exécutée AVANT la mutation métier.
- */
-
 export async function notifyManagerShipmentMutation(
   mutation:
     ManagerShipmentMutationResult,
 ): Promise<ManagerShipmentNotificationReport> {
-  /* ------------------------------------------------------------------------
-     IDEMPOTENCE
-     ------------------------------------------------------------------------ */
-
   if (
     mutation.outcome ===
       "ALREADY_APPLIED" ||
@@ -1299,10 +1158,6 @@ export async function notifyManagerShipmentMutation(
   }
 
 
-  /* ------------------------------------------------------------------------
-     CONFIRMATION
-     ------------------------------------------------------------------------ */
-
   if (
     mutation.action ===
       "confirm"
@@ -1312,10 +1167,6 @@ export async function notifyManagerShipmentMutation(
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     ANNULATION
-     ------------------------------------------------------------------------ */
 
   return notifyShipmentCancelled(
     mutation,

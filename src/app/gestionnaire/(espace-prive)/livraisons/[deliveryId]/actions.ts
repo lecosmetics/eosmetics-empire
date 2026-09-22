@@ -34,6 +34,25 @@ import {
  *
  * src/app/gestionnaire/(espace-prive)/livraisons/[deliveryId]/actions.ts
  *
+ * IMPORTANT — FRONTIÈRE SERVER / CLIENT :
+ *
+ * La directive :
+ *
+ * "use server";
+ *
+ * DOIT rester à la toute première ligne de ce fichier.
+ *
+ * Elle permet à un Client Component d'importer les actions exportées sans
+ * entraîner dans le bundle navigateur :
+ *
+ * - Prisma ;
+ * - pg ;
+ * - @prisma/adapter-pg ;
+ * - les contrôles d'accès serveur ;
+ * - Resend ;
+ * - Meta WhatsApp ;
+ * - les secrets d'environnement.
+ *
  * ACTIONS PUBLIQUES :
  *
  * - confirmDeliveryAction()
@@ -52,6 +71,8 @@ import {
  *      ↓
  * Shipment.status = DELIVERED
  * Shipment.deliveredAt = maintenant
+ *      ↓
+ * synchronisation Order depuis l'ensemble réel des Shipment
  *      ↓
  * commit DB
  *      ↓
@@ -74,6 +95,8 @@ import {
  *      ↓
  * Shipment.status = CANCELLED
  *      ↓
+ * synchronisation Order depuis l'ensemble réel des Shipment
+ *      ↓
  * commit DB
  *      ↓
  * notifyManagerShipmentMutation()
@@ -90,11 +113,13 @@ import {
  * - aucun statut cible ne vient du formulaire ;
  * - le navigateur ne décide jamais de la transition ;
  * - la mutation serveur revérifie l'ownership ;
+ * - Shipment + Order sont synchronisés dans shipment-mutation.ts ;
  * - une panne de notification ne rollback jamais la mutation ;
  * - aucune donnée Payment n'est modifiée ici ;
- * - aucune donnée Order n'est modifiée ici ;
+ * - aucune donnée Order n'est modifiée directement dans ce fichier ;
  * - aucune notification n'est envoyée deux fois lorsqu'une mutation
- *   retourne ALREADY_APPLIED.
+ *   retourne ALREADY_APPLIED ;
+ * - toutes les pages Gestionnaire dépendantes sont revalidées après mutation.
  *
  * ============================================================================
  */
@@ -106,6 +131,18 @@ import {
 
 const LIVRAISONS_ROUTE =
   "/gestionnaire/livraisons";
+
+
+const COMMANDES_ROUTE =
+  "/gestionnaire/commandes";
+
+
+const DASHBOARD_ROUTE =
+  "/gestionnaire/dashboard";
+
+
+const STATISTIQUES_ROUTE =
+  "/gestionnaire/statistiques";
 
 
 /* ==========================================================================
@@ -352,29 +389,52 @@ function mapMutationError({
    REVALIDATION
    ========================================================================== */
 
+/**
+ * Une mutation Shipment peut désormais modifier transactionnellement la
+ * Order liée dans shipment-mutation.ts.
+ *
+ * Il faut donc invalider toutes les vues Gestionnaire qui peuvent dépendre :
+ *
+ * - du statut Shipment ;
+ * - du statut Order ;
+ * - de deliveredAt / cancelledAt ;
+ * - des KPI commandes ;
+ * - des KPI dashboard ;
+ * - des statistiques.
+ *
+ * On utilise uniquement les identifiants retournés par la mutation serveur.
+ */
 function revalidateDeliveryRoutes(
-  shipmentId:
-    string,
+  mutation:
+    ManagerShipmentMutationResult,
 ): void {
-  /**
-   * Liste :
-   *
-   * - KPI ;
-   * - filtres ;
-   * - tableau ;
-   * - statut ;
-   * - dates.
-   */
   revalidatePath(
     LIVRAISONS_ROUTE,
   );
 
 
-  /**
-   * Fiche détail.
-   */
   revalidatePath(
-    `${LIVRAISONS_ROUTE}/${shipmentId}`,
+    `${LIVRAISONS_ROUTE}/${mutation.shipmentId}`,
+  );
+
+
+  revalidatePath(
+    COMMANDES_ROUTE,
+  );
+
+
+  revalidatePath(
+    `${COMMANDES_ROUTE}/${mutation.orderId}`,
+  );
+
+
+  revalidatePath(
+    DASHBOARD_ROUTE,
+  );
+
+
+  revalidatePath(
+    STATISTIQUES_ROUTE,
   );
 }
 
@@ -387,6 +447,7 @@ function revalidateDeliveryRoutes(
  * Une erreur inattendue de la couche notifications ne doit jamais :
  *
  * - remettre le Shipment dans son ancien état ;
+ * - remettre la Order dans son ancien état ;
  * - transformer une mutation réussie en échec métier.
  *
  * On journalise uniquement des identifiants internes.
@@ -443,10 +504,6 @@ function createConfirmSuccessMessage({
   readonly notifications:
     ManagerShipmentNotificationReport | null;
 }): string {
-  /* ------------------------------------------------------------------------
-     IDEMPOTENCE
-     ------------------------------------------------------------------------ */
-
   if (
     mutation.outcome ===
       "ALREADY_APPLIED" ||
@@ -455,10 +512,6 @@ function createConfirmSuccessMessage({
     return "Cette livraison était déjà confirmée.";
   }
 
-
-  /* ------------------------------------------------------------------------
-     NOTIFICATION ORCHESTRATOR FAILED
-     ------------------------------------------------------------------------ */
 
   if (
     !notifications
@@ -480,10 +533,6 @@ function createConfirmSuccessMessage({
       "SENT";
 
 
-  /* ------------------------------------------------------------------------
-     BOTH SENT
-     ------------------------------------------------------------------------ */
-
   if (
     emailSent &&
     whatsappSent
@@ -494,10 +543,6 @@ function createConfirmSuccessMessage({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     EMAIL ONLY
-     ------------------------------------------------------------------------ */
 
   if (
     emailSent &&
@@ -510,10 +555,6 @@ function createConfirmSuccessMessage({
   }
 
 
-  /* ------------------------------------------------------------------------
-     WHATSAPP ONLY
-     ------------------------------------------------------------------------ */
-
   if (
     !emailSent &&
     whatsappSent
@@ -524,10 +565,6 @@ function createConfirmSuccessMessage({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     NONE
-     ------------------------------------------------------------------------ */
 
   return (
     "La livraison a bien été confirmée. " +
@@ -550,10 +587,6 @@ function createCancellationSuccessMessage({
   readonly notifications:
     ManagerShipmentNotificationReport | null;
 }): string {
-  /* ------------------------------------------------------------------------
-     IDEMPOTENCE
-     ------------------------------------------------------------------------ */
-
   if (
     mutation.outcome ===
       "ALREADY_APPLIED" ||
@@ -562,10 +595,6 @@ function createCancellationSuccessMessage({
     return "Cette livraison était déjà annulée.";
   }
 
-
-  /* ------------------------------------------------------------------------
-     NOTIFICATION ORCHESTRATOR FAILED
-     ------------------------------------------------------------------------ */
 
   if (
     !notifications
@@ -577,10 +606,6 @@ function createCancellationSuccessMessage({
   }
 
 
-  /* ------------------------------------------------------------------------
-     EMAIL SENT
-     ------------------------------------------------------------------------ */
-
   if (
     notifications.email.status ===
       "SENT"
@@ -591,10 +616,6 @@ function createCancellationSuccessMessage({
     );
   }
 
-
-  /* ------------------------------------------------------------------------
-     EMAIL NOT SENT
-     ------------------------------------------------------------------------ */
 
   return (
     "La livraison a bien été annulée. " +
@@ -625,18 +646,10 @@ async function notifyMutationSafely({
     error
   ) {
     /**
-     * IMPORTANT :
+     * La mutation Shipment + la synchronisation Order sont déjà commitées.
      *
-     * La mutation Shipment est déjà commitée à ce stade.
-     *
-     * Une erreur externe :
-     *
-     * - Resend ;
-     * - Meta ;
-     * - réseau ;
-     * - journalisation notification ;
-     *
-     * ne doit jamais transformer la mutation métier en rollback.
+     * Une erreur externe ne doit jamais transformer la mutation métier
+     * réussie en rollback.
      */
 
     logUnexpectedNotificationError({
@@ -665,11 +678,7 @@ async function notifyMutationSafely({
  *   initialState,
  * )
  *
- *
- * IMPORTANT :
- *
  * Le previousState n'est jamais utilisé comme autorité métier.
- *
  * Toute la décision est recalculée côté serveur.
  */
 
@@ -684,10 +693,6 @@ export async function confirmDeliveryAction(
     ManagerShipmentAction =
       "confirm";
 
-
-  /* ------------------------------------------------------------------------
-     1. SHIPMENT ID
-     ------------------------------------------------------------------------ */
 
   const shipmentId =
     normalizeShipmentId(
@@ -710,10 +715,6 @@ export async function confirmDeliveryAction(
   }
 
 
-  /* ------------------------------------------------------------------------
-     2. BUSINESS MUTATION
-     ------------------------------------------------------------------------ */
-
   let mutation:
     ManagerShipmentMutationResult;
 
@@ -726,14 +727,6 @@ export async function confirmDeliveryAction(
   } catch (
     error
   ) {
-    /**
-     * Nous interceptons UNIQUEMENT les erreurs métier contrôlées provenant
-     * de shipment-mutation.ts.
-     *
-     * Les erreurs Next.js de redirection ne doivent pas être transformées
-     * en faux message métier.
-     */
-
     const mappedError =
       mapMutationError({
         error,
@@ -755,15 +748,6 @@ export async function confirmDeliveryAction(
   }
 
 
-  /* ------------------------------------------------------------------------
-     3. NOTIFICATIONS
-     ------------------------------------------------------------------------
-     
-     Si changed === false :
-     
-     shipment-notifications.ts détecte ALREADY_APPLIED et n'envoie rien.
-     ------------------------------------------------------------------------ */
-
   const notifications =
     await notifyMutationSafely({
       mutation,
@@ -772,18 +756,10 @@ export async function confirmDeliveryAction(
     });
 
 
-  /* ------------------------------------------------------------------------
-     4. REVALIDATION
-     ------------------------------------------------------------------------ */
-
   revalidateDeliveryRoutes(
-    mutation.shipmentId,
+    mutation,
   );
 
-
-  /* ------------------------------------------------------------------------
-     5. SUCCESS
-     ------------------------------------------------------------------------ */
 
   return createSuccessState({
     action,
@@ -805,20 +781,11 @@ export async function confirmDeliveryAction(
    ========================================================================== */
 
 /**
- * Signature compatible avec :
- *
- * useActionState(
- *   cancelDeliveryAction,
- *   initialState,
- * )
- *
- *
  * L'annulation :
  *
  * - met Shipment.status à CANCELLED ;
- * - ne crée aucun cancelledAt inexistant ;
+ * - synchronise la Order si toutes ses livraisons sont CANCELLED ;
  * - ne modifie aucun Payment ;
- * - ne modifie pas automatiquement Order ;
  * - déclenche uniquement l'e-mail prévu.
  */
 
@@ -833,10 +800,6 @@ export async function cancelDeliveryAction(
     ManagerShipmentAction =
       "cancel";
 
-
-  /* ------------------------------------------------------------------------
-     1. SHIPMENT ID
-     ------------------------------------------------------------------------ */
 
   const shipmentId =
     normalizeShipmentId(
@@ -858,10 +821,6 @@ export async function cancelDeliveryAction(
     });
   }
 
-
-  /* ------------------------------------------------------------------------
-     2. BUSINESS MUTATION
-     ------------------------------------------------------------------------ */
 
   let mutation:
     ManagerShipmentMutationResult;
@@ -892,17 +851,9 @@ export async function cancelDeliveryAction(
     }
 
 
-    /**
-     * Les erreurs inattendues, y compris les interruptions internes Next.js
-     * utilisées par redirect(), ne sont pas absorbées ici.
-     */
     throw error;
   }
 
-
-  /* ------------------------------------------------------------------------
-     3. NOTIFICATION EMAIL
-     ------------------------------------------------------------------------ */
 
   const notifications =
     await notifyMutationSafely({
@@ -912,18 +863,10 @@ export async function cancelDeliveryAction(
     });
 
 
-  /* ------------------------------------------------------------------------
-     4. REVALIDATION
-     ------------------------------------------------------------------------ */
-
   revalidateDeliveryRoutes(
-    mutation.shipmentId,
+    mutation,
   );
 
-
-  /* ------------------------------------------------------------------------
-     5. SUCCESS
-     ------------------------------------------------------------------------ */
 
   return createSuccessState({
     action,

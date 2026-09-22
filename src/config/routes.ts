@@ -14,58 +14,15 @@
  *
  * ============================================================================
  *
- * RÈGLE :
+ * RESPONSABILITÉS :
  *
- * Lorsqu'une route existe ici, elle ne doit pas être écrite manuellement
- * dans les composants, Server Actions, services ou requêtes serveur.
- *
- * ============================================================================
- *
- * EXEMPLES :
- *
- * routes.home
- *
- * routes.products
- *
- * routes.categories
- *
- * routes.panier
- *
- * routes.search
- *
- * routes.gestionnaire.login
- *
- * gestionnaireRouteBuilders.productDetails(productId)
- *
- * gestionnaireRouteBuilders.productEdit(productId)
- *
- * gestionnaireRouteBuilders.productQr(productId)
- *
- * publicRouteBuilders.categoryBySlug(categorySlug)
- *
- * publicRouteBuilders.productByQr(qrToken)
- *
- * ============================================================================
- *
- * OBJECTIFS :
- *
- * - éviter les URLs dupliquées ;
- * - éviter les fautes de frappe ;
- * - centraliser les modifications ;
- * - garder l'espace public cohérent ;
- * - garder l'espace Gestionnaire cohérent ;
- * - fournir les routes nécessaires à l'authentification ;
- * - fournir les routes nécessaires au Dashboard ;
- * - fournir les routes publiques des produits ;
- * - fournir les routes publiques des catégories ;
- * - fournir les routes publiques du Panier ;
- * - fournir les routes publiques du compte ;
- * - fournir les routes publiques de suivi ;
- * - fournir les routes publiques d'aide ;
- * - fournir les routes de création produit ;
- * - fournir les routes détail / modification / QR ;
- * - fournir la destination publique stable des QR Codes ;
- * - encoder tous les paramètres dynamiques ;
+ * - centraliser toutes les routes statiques de l'application ;
+ * - centraliser les builders des routes dynamiques ;
+ * - conserver les routes publiques existantes ;
+ * - conserver les routes Gestionnaire existantes ;
+ * - officialiser le parcours Panier → Commande → Paiement → Succès ;
+ * - éviter les URLs écrites manuellement dans les composants ;
+ * - encoder systématiquement les paramètres dynamiques ;
  * - ne jamais utiliser une route comme mécanisme d'autorisation.
  *
  * ============================================================================
@@ -73,7 +30,37 @@
 
 
 /* ==========================================================================
-   1. GENERAL / PUBLIC ROUTES
+   1. CONSTANTES PUBLIQUES PARTAGÉES
+   ========================================================================== */
+
+/**
+ * Route métier du Panier.
+ *
+ * IMPORTANT :
+ *
+ * L'identifiant technique historique "cart" existe déjà dans plusieurs
+ * composants du shell public.
+ *
+ * Le projet utilise désormais le terme métier français "Panier".
+ *
+ * Pour éviter toute cassure pendant la migration :
+ *
+ * generalAppRoutes.cart
+ *
+ * ET
+ *
+ * generalAppRoutes.panier
+ *
+ * pointent volontairement vers LA MÊME constante.
+ *
+ * Aucun pathname n'est donc dupliqué.
+ */
+const PUBLIC_PANIER_ROUTE =
+  "/panier" as const;
+
+
+/* ==========================================================================
+   2. GENERAL / PUBLIC ROUTES
    ========================================================================== */
 
 const generalRoutes = {
@@ -86,80 +73,65 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC PRODUCTS
-     ------------------------------------------------------------------------
-     
-     Page publique affichant le catalogue des produits :
-     
-     /produits
-     
-     IMPORTANT :
-     
-     Cette route représente la page catalogue / liste.
-     
-     Elle ne représente PAS la route de détail d'une offre produit.
+     PRODUCTS
      ------------------------------------------------------------------------ */
 
+  /**
+   * Catalogue public principal.
+   *
+   * /produits
+   */
   products:
     "/produits",
 
+
   /**
-   * Alias historique / sémantique conservé.
+   * Alias historique / sémantique.
    *
-   * La boutique publique utilise actuellement la même destination
-   * que la liste générale des produits.
-   *
-   * IMPORTANT :
-   *
-   * On le conserve pour ne casser aucun import existant.
+   * La boutique publique utilise actuellement le même catalogue.
    */
   shop:
     "/produits",
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC SEARCH
-     ------------------------------------------------------------------------
-     
-     Recherche publique :
-     
-     /recherche
-     
-     Exemple :
-     
-     /recherche?q=serum
-     
-     Le paramètre de recherche lui-même reste géré par la couche
-     responsable de la recherche.
+     SEARCH
      ------------------------------------------------------------------------ */
 
+  /**
+   * Recherche publique.
+   *
+   * Exemple :
+   *
+   * /recherche?q=serum
+   */
   search:
     "/recherche",
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC CATEGORIES
-     ------------------------------------------------------------------------
-     
-     Page publique affichant toutes les ProductCategory :
-     
-     /categories
-     
-     Les pages dynamiques :
-     
-     /categories/[slug]
-     
-     doivent être construites uniquement avec :
-     
-     publicRouteBuilders.categoryBySlug(slug)
+     CATEGORIES
      ------------------------------------------------------------------------ */
 
+  /**
+   * Liste des catégories.
+   *
+   * /categories
+   *
+   * Pour :
+   *
+   * /categories/[slug]
+   *
+   * utiliser :
+   *
+   * publicRouteBuilders.categoryBySlug(slug)
+   */
   categories:
     "/categories",
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC NEW PRODUCTS
+     NEW PRODUCTS
      ------------------------------------------------------------------------ */
 
   newProducts:
@@ -167,7 +139,7 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC PROMOTIONS
+     PROMOTIONS
      ------------------------------------------------------------------------ */
 
   promotions:
@@ -175,37 +147,111 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC PANIER
-     ------------------------------------------------------------------------
-     
-     Route canonique du Panier public :
-     
-     /panier
-     
-     IMPORTANT :
-     
-     Le terme officiel utilisé dans les nouvelles couches du projet est :
-     
-     Panier
-     
-     Le stockage navigateur et la validation serveur sont gérés
-     indépendamment de cette route.
+     PUBLIC PRODUCT DETAIL ROOT
      ------------------------------------------------------------------------ */
 
-  panier:
-    "/panier",
+  /**
+   * Racine statique des fiches publiques StoreProduct.
+   *
+   * /p
+   *
+   * La route complète :
+   *
+   * /p/[qrToken]
+   *
+   * doit être construite avec :
+   *
+   * publicRouteBuilders.productByQr(qrToken)
+   */
+  publicProductQrRoot:
+    "/p",
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC ORDER TRACKING
-     ------------------------------------------------------------------------
-     
-     Route publique de consultation / suivi :
-     
-     /suivi
-     
-     Cette route ne constitue aucune autorisation d'accès à une commande.
-     Les données affichées devront toujours être protégées côté serveur.
+     PANIER
+     ------------------------------------------------------------------------ */
+
+  /**
+   * Identifiant technique historique conservé.
+   *
+   * /panier
+   */
+  cart:
+    PUBLIC_PANIER_ROUTE,
+
+
+  /**
+   * Alias métier français.
+   *
+   * Même route, même source.
+   *
+   * Cela permet une migration progressive sans casser les fichiers
+   * utilisant déjà `cart`.
+   */
+  panier:
+    PUBLIC_PANIER_ROUTE,
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — CUSTOMER + DELIVERY
+     ------------------------------------------------------------------------ */
+
+  /**
+   * Première étape de commande.
+   *
+   * /commande
+   *
+   * Cette page devra :
+   *
+   * - revalider le Panier côté serveur ;
+   * - afficher les vrais StoreProduct ;
+   * - collecter les coordonnées cliente ;
+   * - collecter l'adresse de livraison ;
+   * - calculer les frais de livraison côté serveur ;
+   * - préparer l'étape Paiement.
+   */
+  checkout:
+    "/commande",
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — PAYMENT
+     ------------------------------------------------------------------------ */
+
+  /**
+   * Étape Paiement.
+   *
+   * /commande/paiement
+   *
+   * Cette page ne doit jamais considérer comme autoritaires :
+   *
+   * - prix navigateur ;
+   * - stock navigateur ;
+   * - total navigateur ;
+   * - frais de livraison navigateur.
+   */
+  checkoutPayment:
+    "/commande/paiement",
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — SUCCESS
+     ------------------------------------------------------------------------ */
+
+  /**
+   * Confirmation après validation réelle côté serveur.
+   *
+   * /commande/succes
+   *
+   * La présence sur cette URL ne constitue jamais, à elle seule,
+   * une preuve de paiement.
+   */
+  checkoutSuccess:
+    "/commande/succes",
+
+
+  /* ------------------------------------------------------------------------
+     ORDER TRACKING
      ------------------------------------------------------------------------ */
 
   orderTracking:
@@ -213,7 +259,7 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC ACCOUNT
+     CUSTOMER ACCOUNT
      ------------------------------------------------------------------------ */
 
   account:
@@ -221,64 +267,11 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC FAVORITES
-     ------------------------------------------------------------------------
-     
-     Route appartenant à l'espace Compte :
-     
-     /compte/favoris
+     FAVORITES
      ------------------------------------------------------------------------ */
 
   favorites:
     "/compte/favoris",
-
-
-  /* ------------------------------------------------------------------------
-     PUBLIC PRODUCT DETAIL ROOT
-     ------------------------------------------------------------------------
-     
-     Route canonique publique d'une OFFRE StoreProduct :
-     
-     /p/[qrToken]
-     
-     IMPORTANT :
-     
-     La route de détail public repose sur qrToken.
-     
-     Pourquoi ?
-     
-     Un Product peut être commercialisé par plusieurs boutiques :
-     
-     Product
-        ↓
-     StoreProduct A
-     StoreProduct B
-     
-     Le qrToken appartient à StoreProduct et permet donc d'identifier
-     précisément l'offre commerciale publique.
-     
-     Cette valeur représente uniquement la racine statique :
-     
-     /p
-     
-     Pour obtenir :
-     
-     /p/[qrToken]
-     
-     utiliser :
-     
-     publicRouteBuilders.productByQr(qrToken)
-     
-     Ne pas créer en parallèle :
-     
-     /produits/[slug]
-     
-     tant que l'architecture métier officielle reste basée sur
-     StoreProduct + qrToken.
-     ------------------------------------------------------------------------ */
-
-  publicProductQrRoot:
-    "/p",
 
 
   /* ------------------------------------------------------------------------
@@ -314,7 +307,7 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     DELIVERY
+     DELIVERY INFORMATION
      ------------------------------------------------------------------------ */
 
   delivery:
@@ -339,51 +332,12 @@ const generalRoutes = {
 
 
 /* ==========================================================================
-   2. GESTIONNAIRE STATIC ROUTES
-   ==========================================================================
-   
-   Routes publiques Gestionnaire :
-   
-   /gestionnaire
-   /gestionnaire/connexion
-   /gestionnaire/inscription
-   /gestionnaire/verification
-   /gestionnaire/mot-de-passe-oublie
-   /gestionnaire/reinitialiser-mot-de-passe
-   
-   Routes privées Gestionnaire :
-   
-   /gestionnaire/dashboard
-   
-   /gestionnaire/produits
-   /gestionnaire/produits/ajouter
-   /gestionnaire/produits/catalogue
-   
-   /gestionnaire/stock
-   /gestionnaire/commandes
-   /gestionnaire/clients
-   /gestionnaire/livraisons
-   /gestionnaire/statistiques
-   /gestionnaire/promotions
-   /gestionnaire/profil
-   /gestionnaire/parametres
-   
-   Routes dynamiques :
-   
-   /gestionnaire/commandes/[orderId]
-   
-   /gestionnaire/produits/[productId]
-   /gestionnaire/produits/[productId]/modifier
-   /gestionnaire/produits/[productId]/qr
-   
-   Ces routes dynamiques sont construites plus bas avec :
-   
-   gestionnaireRouteBuilders
+   3. GESTIONNAIRE STATIC ROUTES
    ========================================================================== */
 
 const gestionnaireRoutes = {
   /* ------------------------------------------------------------------------
-     PUBLIC ENTRY
+     ROOT
      ------------------------------------------------------------------------ */
 
   root:
@@ -498,44 +452,33 @@ const gestionnaireRoutes = {
 
 
 /* ==========================================================================
-   3. DYNAMIC GESTIONNAIRE ROUTES
-   ==========================================================================
-   
-   IMPORTANT :
-   
-   Les valeurs dynamiques sont toujours encodées avec :
-   
-   encodeURIComponent()
-   
-   Ces builders construisent uniquement des URLs.
-   
-   Ils ne constituent JAMAIS une autorisation.
-   
-   Exemple :
-   
-   un navigateur peut tenter :
-   
-   /gestionnaire/produits/ID_AUTRE_BOUTIQUE
-   
-   mais le serveur doit toujours vérifier :
-   
-   - session Gestionnaire valide ;
-   - Manager ACTIVE ;
-   - Store ACTIVE ;
-   - produit appartenant à la boutique autorisée ;
-   - permission suffisante.
-   
-   La connaissance d'une URL ne donne aucun accès.
+   4. DYNAMIC GESTIONNAIRE ROUTES
    ========================================================================== */
+
+/**
+ * IMPORTANT :
+ *
+ * Ces fonctions construisent uniquement des URLs.
+ *
+ * Elles ne constituent jamais une autorisation.
+ *
+ * Le serveur doit toujours vérifier :
+ *
+ * - la session ;
+ * - Manager.status ;
+ * - Store.status ;
+ * - l'appartenance de la ressource ;
+ * - les permissions nécessaires.
+ */
 
 export const gestionnaireRouteBuilders = {
   /* ------------------------------------------------------------------------
      ORDER DETAILS
-     ------------------------------------------------------------------------
-     
-     /gestionnaire/commandes/[orderId]
      ------------------------------------------------------------------------ */
 
+  /**
+   * /gestionnaire/commandes/[orderId]
+   */
   orderDetails(
     orderId:
       string,
@@ -548,17 +491,11 @@ export const gestionnaireRouteBuilders = {
 
   /* ------------------------------------------------------------------------
      PRODUCT DETAILS
-     ------------------------------------------------------------------------
-     
-     /gestionnaire/produits/[productId]
-     
-     Cette route correspond au détail PRIVÉ Gestionnaire d'un Product.
-     
-     Elle est différente du détail produit public :
-     
-     /p/[qrToken]
      ------------------------------------------------------------------------ */
 
+  /**
+   * /gestionnaire/produits/[productId]
+   */
   productDetails(
     productId:
       string,
@@ -571,11 +508,11 @@ export const gestionnaireRouteBuilders = {
 
   /* ------------------------------------------------------------------------
      PRODUCT EDIT
-     ------------------------------------------------------------------------
-     
-     /gestionnaire/produits/[productId]/modifier
      ------------------------------------------------------------------------ */
 
+  /**
+   * /gestionnaire/produits/[productId]/modifier
+   */
   productEdit(
     productId:
       string,
@@ -588,30 +525,15 @@ export const gestionnaireRouteBuilders = {
 
   /* ------------------------------------------------------------------------
      PRODUCT QR
-     ------------------------------------------------------------------------
-     
-     /gestionnaire/produits/[productId]/qr
-     
-     Cette route reste PRIVÉE.
-     
-     Elle peut servir notamment à :
-     
-     - afficher le QR officiel ;
-     - générer le QR ;
-     - télécharger le QR ;
-     - retourner un SVG imprimable ;
-     - vérifier que le Product appartient à la boutique actuelle.
-     
-     IMPORTANT :
-     
-     Elle ne doit jamais être utilisée comme destination publique
-     lorsqu'une cliente scanne le QR.
-     
-     La destination publique est :
-     
-     publicRouteBuilders.productByQr(qrToken)
      ------------------------------------------------------------------------ */
 
+  /**
+   * /gestionnaire/produits/[productId]/qr
+   *
+   * Route Gestionnaire privée.
+   *
+   * Elle ne doit jamais être utilisée comme destination publique du QR.
+   */
   productQr(
     productId:
       string,
@@ -624,74 +546,35 @@ export const gestionnaireRouteBuilders = {
 
 
 /* ==========================================================================
-   4. PUBLIC DYNAMIC ROUTES
-   ==========================================================================
-   
-   Routes dynamiques accessibles depuis l'espace public.
-   
-   ==========================================================================
-   
-   CATÉGORIES :
-   
-   /categories/[slug]
-   
-   ==========================================================================
-   
-   PRODUIT / OFFRE :
-   
-   /p/[qrToken]
-   
-   ==========================================================================
-   
-   IMPORTANT :
-   
-   Les identifiants dynamiques sont toujours encodés avec :
-   
-   encodeURIComponent()
-   
-   ==========================================================================
-   
-   SÉCURITÉ :
-   
-   Une route publique ne doit jamais transporter :
-   
-   - managerId ;
-   - identifiant privé inutile ;
-   - prix ;
-   - stock ;
-   - session ;
-   - token d'authentification ;
-   - secret.
-   
-   ==========================================================================
+   5. PUBLIC DYNAMIC ROUTES
+   ========================================================================== */
+
+/**
+ * Routes dynamiques accessibles depuis l'espace public.
+ *
+ * IMPORTANT :
+ *
+ * Une route publique ne doit jamais transporter inutilement :
+ *
+ * - managerId ;
+ * - prix ;
+ * - stock ;
+ * - total ;
+ * - frais de livraison ;
+ * - token d'authentification ;
+ * - secret.
  */
 
 export const publicRouteBuilders = {
   /* ------------------------------------------------------------------------
      CATEGORY BY SLUG
-     ------------------------------------------------------------------------
-     
-     /categories/[slug]
-     
-     Exemple :
-     
-     category.slug :
-     
-     soins-du-visage
-     
-     résultat :
-     
-     /categories/soins-du-visage
-     
-     IMPORTANT :
-     
-     Le slug doit provenir de :
-     
-     ProductCategory.slug
-     
-     Il ne doit pas être recréé à partir de ProductCategory.name.
      ------------------------------------------------------------------------ */
 
+  /**
+   * /categories/[slug]
+   *
+   * Le slug doit provenir de ProductCategory.slug.
+   */
   categoryBySlug(
     categorySlug:
       string,
@@ -704,38 +587,15 @@ export const publicRouteBuilders = {
 
   /* ------------------------------------------------------------------------
      PRODUCT BY QR
-     ------------------------------------------------------------------------
-     
-     /p/[qrToken]
-     
-     Cette route représente le détail public stable d'une offre
-     StoreProduct.
-     
-     Le qrToken est stable.
-     
-     Une modification de :
-     
-     - prix ;
-     - stock ;
-     - image ;
-     - description ;
-     - nom ;
-     
-     ne change pas cette route.
-     
-     ==========================================================================
-     
-     PAGE PRODUITS :
-     
-     /produits
-     
-     PAGE DÉTAIL PRODUIT / OFFRE :
-     
-     /p/[qrToken]
-     
-     ==========================================================================
      ------------------------------------------------------------------------ */
 
+  /**
+   * /p/[qrToken]
+   *
+   * Une fiche publique représente une offre StoreProduct précise.
+   *
+   * Le qrToken doit provenir de StoreProduct.qrToken.
+   */
   productByQr(
     qrToken:
       string,
@@ -748,8 +608,13 @@ export const publicRouteBuilders = {
 
 
 /* ==========================================================================
-   5. APPLICATION ROUTES
+   6. APPLICATION ROUTES
    ========================================================================== */
+
+/**
+ * Objet principal lorsqu'un composant a besoin d'une route publique
+ * ou de l'espace Gestionnaire.
+ */
 
 export const routes = {
   /* ------------------------------------------------------------------------
@@ -777,8 +642,23 @@ export const routes = {
   promotions:
     generalRoutes.promotions,
 
+  publicProductQrRoot:
+    generalRoutes.publicProductQrRoot,
+
+  cart:
+    generalRoutes.cart,
+
   panier:
     generalRoutes.panier,
+
+  checkout:
+    generalRoutes.checkout,
+
+  checkoutPayment:
+    generalRoutes.checkoutPayment,
+
+  checkoutSuccess:
+    generalRoutes.checkoutSuccess,
 
   orderTracking:
     generalRoutes.orderTracking,
@@ -788,9 +668,6 @@ export const routes = {
 
   favorites:
     generalRoutes.favorites,
-
-  publicProductQrRoot:
-    generalRoutes.publicProductQrRoot,
 
   about:
     generalRoutes.about,
@@ -824,121 +701,79 @@ export const routes = {
 
 
 /* ==========================================================================
-   6. ROUTE GROUP EXPORTS
-   ==========================================================================
-   
-   Utiles lorsqu'un fichier travaille uniquement avec une zone.
-   
-   Exemple :
-   
-   import {
-     generalAppRoutes,
-   } from "@/config/routes";
-   
-   generalAppRoutes.categories
-   
-   generalAppRoutes.products
-   
-   generalAppRoutes.panier
-   
-   Ou :
-   
-   import {
-     gestionnaireAppRoutes,
-   } from "@/config/routes";
-   
-   gestionnaireAppRoutes.dashboard
+   7. GROUP EXPORTS
    ========================================================================== */
 
+/**
+ * Toutes les routes générales.
+ *
+ * Exemples :
+ *
+ * generalAppRoutes.home
+ * generalAppRoutes.products
+ * generalAppRoutes.search
+ * generalAppRoutes.categories
+ * generalAppRoutes.cart
+ * generalAppRoutes.panier
+ * generalAppRoutes.checkout
+ * generalAppRoutes.checkoutPayment
+ * generalAppRoutes.checkoutSuccess
+ */
 export const generalAppRoutes =
   generalRoutes;
 
 
+/**
+ * Routes Gestionnaire uniquement.
+ */
 export const gestionnaireAppRoutes =
   gestionnaireRoutes;
 
 
 /* ==========================================================================
-   7. ROUTE TYPES
-   ==========================================================================
-   
-   Ces types concernent les routes STATIQUES.
-   
-   Routes dynamiques Gestionnaire :
-   
-   gestionnaireRouteBuilders.orderDetails(id)
-   
-   gestionnaireRouteBuilders.productDetails(id)
-   
-   gestionnaireRouteBuilders.productEdit(id)
-   
-   gestionnaireRouteBuilders.productQr(id)
-   
-   Routes dynamiques publiques :
-   
-   publicRouteBuilders.categoryBySlug(slug)
-   
-   publicRouteBuilders.productByQr(qrToken)
-   
-   ==========================================================================
-   
-   L'ajout d'une nouvelle propriété dans :
-   
-   generalRoutes
-   
-   ou :
-   
-   gestionnaireRoutes
-   
-   met automatiquement les types statiques à jour.
+   8. TYPES
    ========================================================================== */
 
+/**
+ * Union automatique de toutes les routes publiques statiques.
+ */
 export type GeneralRoute =
   (typeof generalRoutes)[keyof typeof generalRoutes];
 
 
+/**
+ * Union automatique de toutes les routes Gestionnaire statiques.
+ */
 export type GestionnaireRoute =
   (typeof gestionnaireRoutes)[keyof typeof gestionnaireRoutes];
 
 
+/**
+ * Union des pathnames statiques connus.
+ */
 export type AppRoute =
   | GeneralRoute
   | GestionnaireRoute;
 
 
+/* ==========================================================================
+   9. DOCUMENTATION DU FLUX PUBLIC
+   ========================================================================== */
+
 /**
- * ============================================================================
- * FIN
- * ============================================================================
- *
- * ARCHITECTURE PUBLIQUE VALIDÉE
- *
  * ============================================================================
  *
  * ACCUEIL
  *
  * /
  *
- * Utiliser :
- *
- * routes.home
- *
- * ou :
- *
- * generalAppRoutes.home
- *
  * ============================================================================
  *
- * PRODUITS — LISTE
+ * PRODUITS
  *
  * /produits
  *
- * Utiliser :
- *
  * routes.products
- *
- * ou :
- *
  * generalAppRoutes.products
  *
  * ============================================================================
@@ -947,65 +782,33 @@ export type AppRoute =
  *
  * /recherche
  *
- * Utiliser :
- *
  * routes.search
- *
- * ou :
- *
  * generalAppRoutes.search
  *
  * ============================================================================
  *
- * CATÉGORIES — LISTE
+ * CATÉGORIES
  *
  * /categories
  *
- * Utiliser :
- *
  * routes.categories
- *
- * ou :
- *
  * generalAppRoutes.categories
  *
  * ============================================================================
  *
- * CATÉGORIE — PRODUITS
+ * CATÉGORIE
  *
  * /categories/[slug]
  *
- * Utiliser :
- *
- * publicRouteBuilders.categoryBySlug(categorySlug)
+ * publicRouteBuilders.categoryBySlug(slug)
  *
  * ============================================================================
  *
- * NOUVEAUTÉS
+ * PRODUIT / OFFRE STOREPRODUCT
  *
- * /nouveautes
+ * /p/[qrToken]
  *
- * Utiliser :
- *
- * routes.newProducts
- *
- * ou :
- *
- * generalAppRoutes.newProducts
- *
- * ============================================================================
- *
- * PROMOTIONS
- *
- * /promotions
- *
- * Utiliser :
- *
- * routes.promotions
- *
- * ou :
- *
- * generalAppRoutes.promotions
+ * publicRouteBuilders.productByQr(qrToken)
  *
  * ============================================================================
  *
@@ -1013,26 +816,46 @@ export type AppRoute =
  *
  * /panier
  *
- * Utiliser :
- *
+ * routes.cart
  * routes.panier
  *
- * ou :
- *
+ * generalAppRoutes.cart
  * generalAppRoutes.panier
  *
  * ============================================================================
  *
- * SUIVI DE COMMANDE
+ * COMMANDE — INFORMATIONS CLIENTE / LIVRAISON
+ *
+ * /commande
+ *
+ * routes.checkout
+ * generalAppRoutes.checkout
+ *
+ * ============================================================================
+ *
+ * COMMANDE — PAIEMENT
+ *
+ * /commande/paiement
+ *
+ * routes.checkoutPayment
+ * generalAppRoutes.checkoutPayment
+ *
+ * ============================================================================
+ *
+ * COMMANDE — CONFIRMATION
+ *
+ * /commande/succes
+ *
+ * routes.checkoutSuccess
+ * generalAppRoutes.checkoutSuccess
+ *
+ * ============================================================================
+ *
+ * SUIVI COMMANDE
  *
  * /suivi
  *
- * Utiliser :
- *
  * routes.orderTracking
- *
- * ou :
- *
  * generalAppRoutes.orderTracking
  *
  * ============================================================================
@@ -1041,12 +864,7 @@ export type AppRoute =
  *
  * /compte
  *
- * Utiliser :
- *
  * routes.account
- *
- * ou :
- *
  * generalAppRoutes.account
  *
  * ============================================================================
@@ -1055,120 +873,84 @@ export type AppRoute =
  *
  * /compte/favoris
  *
- * Utiliser :
- *
  * routes.favorites
- *
- * ou :
- *
  * generalAppRoutes.favorites
  *
  * ============================================================================
  *
- * PRODUIT — DÉTAIL PUBLIC
+ * FLUX COMMERCIAL :
+ *
+ * /produits
+ *
+ *      ↓
  *
  * /p/[qrToken]
  *
- * Utiliser :
+ *      ↓
  *
- * publicRouteBuilders.productByQr(qrToken)
+ * /panier
+ *
+ *      ↓
+ *
+ * /commande
+ *
+ *      ↓
+ *
+ * informations cliente
+ * adresse de livraison
+ * mode de livraison
+ * calcul serveur des frais
+ *
+ *      ↓
+ *
+ * /commande/paiement
+ *
+ *      ↓
+ *
+ * validation serveur du paiement
+ *
+ *      ↓
+ *
+ * /commande/succes
  *
  * ============================================================================
  *
  * IMPORTANT :
  *
- * La fiche publique représente une OFFRE StoreProduct.
+ * Le navigateur ne constitue jamais la source de vérité pour :
  *
- * Product
- *    ↓
- * StoreProduct
- *    ↓
- * qrToken
- *
- * ============================================================================
- *
- * À PROPOS
- *
- * /a-propos
- *
- * Utiliser :
- *
- * routes.about
+ * - prix ;
+ * - devise ;
+ * - stock ;
+ * - disponibilité ;
+ * - frais de livraison ;
+ * - sous-total ;
+ * - total ;
+ * - état du paiement.
  *
  * ============================================================================
  *
- * POINTS DE VENTE
+ * L'accès à :
  *
- * /points-de-vente
+ * /commande/paiement
  *
- * Utiliser :
+ * ou :
  *
- * routes.pointsOfSale
+ * /commande/succes
  *
- * ============================================================================
+ * ne constitue jamais une preuve :
  *
- * CONTACT
+ * - qu'une commande existe ;
+ * - que le stock est réservé ;
+ * - qu'un paiement a été effectué ;
+ * - qu'un paiement est confirmé.
  *
- * /contact
- *
- * Utiliser :
- *
- * routes.contact
- *
- * ============================================================================
- *
- * FAQ
- *
- * /faq
- *
- * Utiliser :
- *
- * routes.faq
- *
- * ============================================================================
- *
- * LIVRAISON
- *
- * /livraison
- *
- * Utiliser :
- *
- * routes.delivery
- *
- * ============================================================================
- *
- * CONDITIONS
- *
- * /conditions
- *
- * Utiliser :
- *
- * routes.terms
- *
- * ============================================================================
- *
- * CONFIDENTIALITÉ
- *
- * /confidentialite
- *
- * Utiliser :
- *
- * routes.privacy
- *
- * ============================================================================
- *
- * GESTIONNAIRE — PRODUIT
- *
- * /gestionnaire/produits/[productId]
- *
- * Utiliser :
- *
- * gestionnaireRouteBuilders.productDetails(productId)
+ * Ces informations doivent toujours provenir de l'état serveur.
  *
  * ============================================================================
  *
  * AUCUNE ROUTE DYNAMIQUE NE DOIT ÊTRE FABRIQUÉE MANUELLEMENT
- * DANS LES COMPOSANTS OU SERVICES.
+ * DANS LES COMPOSANTS, SERVICES OU SERVER ACTIONS.
  *
  * ============================================================================
  */

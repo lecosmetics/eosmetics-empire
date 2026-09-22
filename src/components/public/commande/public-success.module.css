@@ -1,0 +1,3563 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * COMMANDE PUBLIQUE — PAGE SUCCÈS
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/commande/public-success.module.css
+ *
+ * ============================================================================
+ *
+ * OBJECTIFS :
+ *
+ * - page plein écran ;
+ * - design premium L&E ;
+ * - blanc / noir / anthracite / rose-magenta ;
+ * - excellente lisibilité desktop ;
+ * - excellente lisibilité mobile ;
+ * - aucune largeur globale enfermée dans une petite boîte ;
+ * - cartes propres et professionnelles ;
+ * - états commande / paiement clairement différenciés ;
+ * - responsive 320 px → grands écrans ;
+ * - aucune dépendance CSS externe ;
+ * - compatible avec le shell public existant.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. VARIABLES LOCALES
+   ========================================================================== */
+
+:global(.le-success-page) {
+  --success-white:
+    #ffffff;
+
+  --success-black:
+    #171217;
+
+  --success-black-soft:
+    #252025;
+
+  --success-text:
+    #302a2f;
+
+  --success-text-secondary:
+    #746b72;
+
+  --success-text-muted:
+    #938991;
+
+  --success-border:
+    #eee5ea;
+
+  --success-border-strong:
+    #e3d5dc;
+
+  --success-background:
+    #ffffff;
+
+  --success-background-soft:
+    #fbf9fa;
+
+  --success-background-muted:
+    #f7f4f6;
+
+  --success-magenta:
+    #e6007e;
+
+  --success-magenta-dark:
+    #bd0068;
+
+  --success-magenta-darker:
+    #970053;
+
+  --success-magenta-soft:
+    #fff1f8;
+
+  --success-magenta-soft-strong:
+    #ffe5f2;
+
+  --success-green:
+    #137a4a;
+
+  --success-green-dark:
+    #0e633b;
+
+  --success-green-soft:
+    #edf9f2;
+
+  --success-green-border:
+    #c6ead5;
+
+  --success-amber:
+    #966200;
+
+  --success-amber-dark:
+    #704900;
+
+  --success-amber-soft:
+    #fff8e6;
+
+  --success-amber-border:
+    #f0db9e;
+
+  --success-red:
+    #b42318;
+
+  --success-red-dark:
+    #8c1c14;
+
+  --success-red-soft:
+    #fff1f0;
+
+  --success-red-border:
+    #f2cbc7;
+
+  --success-neutral:
+    #685e65;
+
+  --success-neutral-soft:
+    #f5f2f4;
+
+  --success-shadow-small:
+    0
+    7px
+    24px
+    rgb(35 20 29 / 5%);
+
+  --success-shadow-medium:
+    0
+    16px
+    45px
+    rgb(35 20 29 / 7%);
+
+  --success-shadow-large:
+    0
+    24px
+    70px
+    rgb(35 20 29 / 10%);
+
+  --success-radius-small:
+    12px;
+
+  --success-radius-medium:
+    18px;
+
+  --success-radius-large:
+    24px;
+
+  --success-radius-xl:
+    30px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    100vh;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow-x:
+    hidden;
+
+  background:
+    var(--success-background);
+
+  color:
+    var(--success-text);
+}
+
+
+/* ==========================================================================
+   2. HERO
+   ========================================================================== */
+
+:global(.le-success-hero) {
+  position:
+    relative;
+
+  isolation:
+    isolate;
+
+  width:
+    100%;
+
+  min-height:
+    clamp(
+      430px,
+      58vh,
+      670px
+    );
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  overflow:
+    hidden;
+
+  padding:
+    clamp(
+      54px,
+      7vw,
+      104px
+    )
+    clamp(
+      18px,
+      5vw,
+      80px
+    );
+
+  border-bottom:
+    1px solid
+    var(--success-border);
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #fffafd 35%,
+      #fff3f9 72%,
+      #ffeaf4 100%
+    );
+}
+
+
+:global(.le-success-hero)::before {
+  position:
+    absolute;
+
+  top:
+    -210px;
+
+  right:
+    -110px;
+
+  z-index:
+    -1;
+
+  width:
+    min(
+      620px,
+      48vw
+    );
+
+  aspect-ratio:
+    1;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgb(230 0 126 / 14%)
+      0%,
+      rgb(230 0 126 / 5%)
+      46%,
+      transparent
+      72%
+    );
+
+  content:
+    "";
+
+  pointer-events:
+    none;
+}
+
+
+:global(.le-success-hero)::after {
+  position:
+    absolute;
+
+  bottom:
+    -250px;
+
+  left:
+    -180px;
+
+  z-index:
+    -1;
+
+  width:
+    min(
+      600px,
+      50vw
+    );
+
+  aspect-ratio:
+    1;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgb(20 15 19 / 5%)
+      0%,
+      transparent
+      70%
+    );
+
+  content:
+    "";
+
+  pointer-events:
+    none;
+}
+
+
+:global(.le-success-hero-inner) {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    100%;
+
+  max-width:
+    1480px;
+
+  margin:
+    0 auto;
+
+  text-align:
+    center;
+}
+
+
+/* ==========================================================================
+   3. HERO ICON
+   ========================================================================== */
+
+:global(.le-success-hero-icon) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    clamp(
+      74px,
+      7vw,
+      96px
+    );
+
+  height:
+    clamp(
+      74px,
+      7vw,
+      96px
+    );
+
+  margin-bottom:
+    22px;
+
+  border:
+    1px solid
+    currentColor;
+
+  border-radius:
+    50%;
+
+  background:
+    rgb(255 255 255 / 96%);
+
+  box-shadow:
+    0
+    18px
+    55px
+    rgb(37 19 29 / 11%);
+
+  backdrop-filter:
+    blur(12px);
+}
+
+
+/* ==========================================================================
+   4. TONES
+   ========================================================================== */
+
+:global(.le-success-tone-success) {
+  color:
+    var(--success-green);
+}
+
+
+:global(.le-success-tone-pending) {
+  color:
+    var(--success-amber);
+}
+
+
+:global(.le-success-tone-danger) {
+  color:
+    var(--success-red);
+}
+
+
+:global(.le-success-tone-neutral) {
+  color:
+    var(--success-neutral);
+}
+
+
+/* ==========================================================================
+   5. TYPO HERO
+   ========================================================================== */
+
+:global(.le-success-eyebrow) {
+  margin:
+    0
+    0
+    10px;
+
+  color:
+    var(--success-magenta);
+
+  font-size:
+    clamp(
+      0.72rem,
+      1vw,
+      0.8rem
+    );
+
+  font-weight:
+    850;
+
+  line-height:
+    1.4;
+
+  letter-spacing:
+    0.1em;
+
+  text-transform:
+    uppercase;
+}
+
+
+:global(.le-success-title) {
+  width:
+    100%;
+
+  max-width:
+    980px;
+
+  margin:
+    0;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    clamp(
+      2.15rem,
+      5.2vw,
+      4.8rem
+    );
+
+  font-weight:
+    900;
+
+  line-height:
+    0.98;
+
+  letter-spacing:
+    -0.055em;
+
+  text-wrap:
+    balance;
+}
+
+
+:global(.le-success-description) {
+  width:
+    100%;
+
+  max-width:
+    740px;
+
+  margin:
+    20px
+    0
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    clamp(
+      0.96rem,
+      1.4vw,
+      1.14rem
+    );
+
+  font-weight:
+    450;
+
+  line-height:
+    1.65;
+
+  text-wrap:
+    balance;
+}
+
+
+/* ==========================================================================
+   6. RÉFÉRENCE HERO
+   ========================================================================== */
+
+:global(.le-success-reference-card) {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    1px
+    minmax(0, 1.15fr)
+    1px
+    minmax(0, 1fr)
+    1px
+    minmax(0, 1fr);
+
+  align-items:
+    stretch;
+
+  width:
+    min(
+      100%,
+      1220px
+    );
+
+  margin-top:
+    clamp(
+      32px,
+      5vw,
+      52px
+    );
+
+  padding:
+    19px
+    22px;
+
+  border:
+    1px solid
+    rgb(230 215 223 / 88%);
+
+  border-radius:
+    25px;
+
+  background:
+    rgb(255 255 255 / 94%);
+
+  box-shadow:
+    var(--success-shadow-large);
+
+  backdrop-filter:
+    blur(18px);
+}
+
+
+:global(.le-success-reference-block) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  min-width:
+    0;
+
+  padding:
+    6px
+    clamp(
+      12px,
+      2vw,
+      24px
+    );
+}
+
+
+:global(.le-success-reference-separator) {
+  width:
+    1px;
+
+  height:
+    100%;
+
+  min-height:
+    52px;
+
+  background:
+    var(--success-border);
+}
+
+
+:global(.le-success-reference-label) {
+  color:
+    var(--success-text-muted);
+
+  font-size:
+    0.73rem;
+
+  font-weight:
+    650;
+
+  line-height:
+    1.4;
+}
+
+
+:global(.le-success-reference-number),
+:global(.le-success-reference-value),
+:global(.le-success-reference-total) {
+  max-width:
+    100%;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    clamp(
+      0.88rem,
+      1.2vw,
+      1rem
+    );
+
+  font-weight:
+    800;
+
+  line-height:
+    1.42;
+}
+
+
+:global(.le-success-reference-number) {
+  letter-spacing:
+    0.015em;
+}
+
+
+:global(.le-success-reference-total) {
+  color:
+    var(--success-magenta);
+
+  font-size:
+    clamp(
+      1rem,
+      1.5vw,
+      1.18rem
+    );
+
+  font-weight:
+    900;
+}
+
+
+/* ==========================================================================
+   7. CONTENU PRINCIPAL PLEINE LARGEUR
+   ========================================================================== */
+
+:global(.le-success-content) {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  padding:
+    clamp(
+      38px,
+      5.5vw,
+      78px
+    )
+    clamp(
+      18px,
+      4.5vw,
+      74px
+    )
+    clamp(
+      96px,
+      9vw,
+      150px
+    );
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff
+      0%,
+      #ffffff
+      55%,
+      #fdfbfd
+      100%
+    );
+}
+
+
+:global(.le-success-layout) {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(
+      330px,
+      0.72fr
+    );
+
+  align-items:
+    start;
+
+  gap:
+    clamp(
+      22px,
+      3vw,
+      38px
+    );
+
+  width:
+    100%;
+
+  max-width:
+    1560px;
+
+  margin:
+    0 auto;
+}
+
+
+:global(.le-success-main-column),
+:global(.le-success-side-column) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  min-width:
+    0;
+
+  gap:
+    clamp(
+      18px,
+      2vw,
+      26px
+    );
+}
+
+
+/* ==========================================================================
+   8. CARTES
+   ========================================================================== */
+
+:global(.le-success-card) {
+  position:
+    relative;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  padding:
+    clamp(
+      21px,
+      2.7vw,
+      34px
+    );
+
+  border:
+    1px solid
+    var(--success-border);
+
+  border-radius:
+    var(--success-radius-large);
+
+  background:
+    var(--success-white);
+
+  box-shadow:
+    var(--success-shadow-small);
+}
+
+
+:global(.le-success-card)::before {
+  position:
+    absolute;
+
+  top:
+    0;
+
+  left:
+    0;
+
+  width:
+    100%;
+
+  height:
+    2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgb(230 0 126 / 44%),
+      transparent
+    );
+
+  content:
+    "";
+
+  pointer-events:
+    none;
+}
+
+
+:global(.le-success-card-heading) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+
+  width:
+    100%;
+
+  margin-bottom:
+    23px;
+
+  color:
+    var(--success-text-muted);
+}
+
+
+:global(.le-success-card-kicker) {
+  display:
+    block;
+
+  margin:
+    0
+    0
+    6px;
+
+  color:
+    var(--success-magenta);
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    850;
+
+  letter-spacing:
+    0.09em;
+
+  line-height:
+    1.3;
+
+  text-transform:
+    uppercase;
+}
+
+
+:global(.le-success-card-title) {
+  margin:
+    0;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    clamp(
+      1.16rem,
+      1.8vw,
+      1.52rem
+    );
+
+  font-weight:
+    850;
+
+  line-height:
+    1.18;
+
+  letter-spacing:
+    -0.025em;
+}
+
+
+/* ==========================================================================
+   9. BADGES
+   ========================================================================== */
+
+:global(.le-success-status-badge),
+:global(.le-success-payment-state) {
+  flex:
+    0
+    0
+    auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-height:
+    31px;
+
+  padding:
+    7px
+    12px;
+
+  border:
+    1px solid
+    currentColor;
+
+  border-radius:
+    999px;
+
+  background:
+    var(--success-white);
+
+  font-size:
+    0.69rem;
+
+  font-weight:
+    850;
+
+  line-height:
+    1;
+
+  white-space:
+    nowrap;
+}
+
+
+:global(.le-success-status-badge.le-success-tone-success),
+:global(.le-success-payment-state.le-success-tone-success) {
+  border-color:
+    var(--success-green-border);
+
+  background:
+    var(--success-green-soft);
+
+  color:
+    var(--success-green);
+}
+
+
+:global(.le-success-status-badge.le-success-tone-pending),
+:global(.le-success-payment-state.le-success-tone-pending) {
+  border-color:
+    var(--success-amber-border);
+
+  background:
+    var(--success-amber-soft);
+
+  color:
+    var(--success-amber);
+}
+
+
+:global(.le-success-status-badge.le-success-tone-danger),
+:global(.le-success-payment-state.le-success-tone-danger) {
+  border-color:
+    var(--success-red-border);
+
+  background:
+    var(--success-red-soft);
+
+  color:
+    var(--success-red);
+}
+
+
+:global(.le-success-status-badge.le-success-tone-neutral),
+:global(.le-success-payment-state.le-success-tone-neutral) {
+  border-color:
+    #ddd5da;
+
+  background:
+    var(--success-neutral-soft);
+
+  color:
+    var(--success-neutral);
+}
+
+
+/* ==========================================================================
+   10. LISTES D'INFORMATIONS
+   ========================================================================== */
+
+:global(.le-success-info-list) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+}
+
+
+:global(.le-success-info-row) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    24px;
+
+  width:
+    100%;
+
+  padding:
+    12px
+    0;
+
+  border-bottom:
+    1px solid
+    #f2edf0;
+}
+
+
+:global(.le-success-info-row:last-child) {
+  border-bottom:
+    0;
+}
+
+
+:global(.le-success-info-row dt) {
+  margin:
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.5;
+}
+
+
+:global(.le-success-info-row dd) {
+  margin:
+    0;
+
+  text-align:
+    right;
+}
+
+
+:global(.le-success-info-value) {
+  max-width:
+    64%;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--success-text);
+
+  font-size:
+    0.84rem;
+
+  font-weight:
+    680;
+
+  line-height:
+    1.5;
+}
+
+
+:global(.le-success-info-value-strong) {
+  color:
+    var(--success-black);
+
+  font-weight:
+    850;
+}
+
+
+/* ==========================================================================
+   11. PAIEMENT
+   ========================================================================== */
+
+:global(.le-success-payment-panel) {
+  position:
+    relative;
+
+  margin-top:
+    22px;
+
+  padding:
+    18px;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid
+    #f0d4e3;
+
+  border-radius:
+    var(--success-radius-medium);
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8fc,
+      var(--success-magenta-soft)
+    );
+}
+
+
+:global(.le-success-payment-heading) {
+  display:
+    grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+
+  width:
+    100%;
+}
+
+
+:global(.le-success-payment-icon) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border:
+    1px solid
+    #f0dce7;
+
+  border-radius:
+    13px;
+
+  background:
+    var(--success-white);
+
+  color:
+    var(--success-magenta);
+
+  box-shadow:
+    0
+    5px
+    15px
+    rgb(230 0 126 / 7%);
+}
+
+
+:global(.le-success-payment-caption) {
+  display:
+    block;
+
+  margin-bottom:
+    3px;
+
+  color:
+    var(--success-text-muted);
+
+  font-size:
+    0.69rem;
+
+  font-weight:
+    600;
+}
+
+
+:global(.le-success-payment-method) {
+  display:
+    block;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    0.91rem;
+
+  font-weight:
+    820;
+
+  line-height:
+    1.4;
+}
+
+
+:global(.le-success-payment-reference) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+
+  margin-top:
+    13px;
+
+  padding-top:
+    13px;
+
+  border-top:
+    1px solid
+    #edd9e4;
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.5;
+}
+
+
+:global(.le-success-payment-reference span) {
+  color:
+    var(--success-text-secondary);
+}
+
+
+:global(.le-success-payment-reference strong) {
+  max-width:
+    65%;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--success-black);
+
+  font-weight:
+    760;
+
+  text-align:
+    right;
+}
+
+
+/* ==========================================================================
+   12. PROGRESSION
+   ========================================================================== */
+
+:global(.le-success-progress-list) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+
+:global(.le-success-progress-item) {
+  display:
+    grid;
+
+  grid-template-columns:
+    38px
+    minmax(0, 1fr);
+
+  gap:
+    16px;
+
+  width:
+    100%;
+}
+
+
+:global(.le-success-progress-marker-column) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  min-height:
+    100%;
+}
+
+
+:global(.le-success-progress-marker) {
+  flex:
+    0
+    0
+    auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    32px;
+
+  height:
+    32px;
+
+  border:
+    1px solid
+    #ded4da;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--success-white);
+
+  color:
+    #958991;
+
+  font-size:
+    0.73rem;
+
+  font-weight:
+    850;
+
+  box-shadow:
+    0
+    4px
+    12px
+    rgb(26 17 23 / 5%);
+}
+
+
+:global(.le-success-progress-line) {
+  flex:
+    1
+    1
+    auto;
+
+  width:
+    2px;
+
+  min-height:
+    48px;
+
+  background:
+    #e9e1e5;
+}
+
+
+:global(.le-success-progress-DONE .le-success-progress-marker) {
+  border-color:
+    var(--success-green);
+
+  background:
+    var(--success-green);
+
+  color:
+    var(--success-white);
+}
+
+
+:global(.le-success-progress-DONE .le-success-progress-line) {
+  background:
+    #a9ddc1;
+}
+
+
+:global(.le-success-progress-CURRENT .le-success-progress-marker) {
+  border-color:
+    var(--success-magenta);
+
+  background:
+    var(--success-magenta-soft);
+
+  color:
+    var(--success-magenta);
+
+  box-shadow:
+    0
+    0
+    0
+    5px
+    rgb(230 0 126 / 6%);
+}
+
+
+:global(.le-success-progress-UPCOMING .le-success-progress-marker) {
+  border-color:
+    #ddd5da;
+
+  background:
+    #faf8f9;
+
+  color:
+    #a69ca2;
+}
+
+
+:global(.le-success-progress-content) {
+  min-width:
+    0;
+
+  padding:
+    3px
+    0
+    27px;
+}
+
+
+:global(.le-success-progress-content strong) {
+  display:
+    block;
+
+  margin-bottom:
+    6px;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    0.93rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.4;
+}
+
+
+:global(.le-success-progress-content p) {
+  max-width:
+    720px;
+
+  margin:
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.79rem;
+
+  line-height:
+    1.6;
+}
+
+
+/* ==========================================================================
+   13. PRODUITS
+   ========================================================================== */
+
+:global(.le-success-products-list) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+}
+
+
+:global(.le-success-product-row) {
+  display:
+    grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items:
+    center;
+
+  gap:
+    16px;
+
+  width:
+    100%;
+
+  padding:
+    18px
+    0;
+
+  border-bottom:
+    1px solid
+    #f1ebee;
+}
+
+
+:global(.le-success-product-row:first-child) {
+  padding-top:
+    0;
+}
+
+
+:global(.le-success-product-row:last-child) {
+  padding-bottom:
+    0;
+
+  border-bottom:
+    0;
+}
+
+
+:global(.le-success-product-icon) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    52px;
+
+  height:
+    52px;
+
+  border:
+    1px solid
+    #f1dce7;
+
+  border-radius:
+    15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffafd,
+      #fff0f7
+    );
+
+  color:
+    var(--success-magenta);
+}
+
+
+:global(.le-success-product-info) {
+  min-width:
+    0;
+}
+
+
+:global(.le-success-product-name) {
+  display:
+    block;
+
+  max-width:
+    100%;
+
+  overflow-wrap:
+    anywhere;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    0.92rem;
+
+  font-weight:
+    820;
+
+  line-height:
+    1.4;
+}
+
+
+:global(.le-success-product-meta) {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    5px
+    13px;
+
+  margin-top:
+    6px;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.72rem;
+
+  line-height:
+    1.45;
+}
+
+
+:global(.le-success-product-meta span) {
+  position:
+    relative;
+}
+
+
+:global(.le-success-product-total) {
+  white-space:
+    nowrap;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    0.92rem;
+
+  font-weight:
+    850;
+
+  text-align:
+    right;
+}
+
+
+:global(.le-success-count) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-width:
+    34px;
+
+  height:
+    34px;
+
+  padding:
+    0
+    10px;
+
+  border:
+    1px solid
+    #f0d6e4;
+
+  border-radius:
+    999px;
+
+  background:
+    var(--success-magenta-soft);
+
+  color:
+    var(--success-magenta);
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    900;
+}
+
+
+/* ==========================================================================
+   14. TOTAUX
+   ========================================================================== */
+
+:global(.le-success-summary-card) {
+  background:
+    linear-gradient(
+      150deg,
+      #ffffff
+      0%,
+      #fffafd
+      100%
+    );
+}
+
+
+:global(.le-success-totals) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+
+  margin:
+    0;
+}
+
+
+:global(.le-success-totals > div) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    22px;
+
+  width:
+    100%;
+
+  padding:
+    10px
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.82rem;
+}
+
+
+:global(.le-success-totals dt) {
+  line-height:
+    1.45;
+}
+
+
+:global(.le-success-totals dd) {
+  margin:
+    0;
+
+  color:
+    var(--success-black);
+
+  font-weight:
+    750;
+
+  line-height:
+    1.45;
+
+  text-align:
+    right;
+
+  white-space:
+    nowrap;
+}
+
+
+:global(.le-success-totals .le-success-grand-total) {
+  margin-top:
+    9px;
+
+  padding-top:
+    17px;
+
+  border-top:
+    1px solid
+    var(--success-border-strong);
+
+  color:
+    var(--success-black);
+
+  font-size:
+    1rem;
+
+  font-weight:
+    900;
+}
+
+
+:global(.le-success-grand-total dd) {
+  color:
+    var(--success-magenta);
+
+  font-size:
+    clamp(
+      1.1rem,
+      1.8vw,
+      1.32rem
+    );
+
+  font-weight:
+    900;
+}
+
+
+/* ==========================================================================
+   15. LIVRAISON
+   ========================================================================== */
+
+:global(.le-success-delivery-content) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    5px;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.82rem;
+
+  line-height:
+    1.55;
+}
+
+
+:global(.le-success-delivery-recipient) {
+  color:
+    var(--success-black);
+
+  font-size:
+    0.91rem;
+
+  font-weight:
+    820;
+}
+
+
+:global(.le-success-shipment) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    13px;
+
+  width:
+    100%;
+
+  margin-top:
+    19px;
+
+  padding-top:
+    19px;
+
+  border-top:
+    1px solid
+    #f0e9ed;
+}
+
+
+:global(.le-success-shipment-icon) {
+  flex:
+    0
+    0
+    auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border:
+    1px solid
+    #f0d9e5;
+
+  border-radius:
+    13px;
+
+  background:
+    var(--success-magenta-soft);
+
+  color:
+    var(--success-magenta);
+}
+
+
+:global(.le-success-shipment-content) {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    4px;
+
+  min-width:
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.75rem;
+
+  line-height:
+    1.5;
+}
+
+
+:global(.le-success-shipment-content strong) {
+  color:
+    var(--success-black);
+
+  font-size:
+    0.87rem;
+
+  font-weight:
+    820;
+}
+
+
+:global(.le-success-shipment-content span) {
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ==========================================================================
+   16. REÇU / EMAIL
+   ========================================================================== */
+
+:global(.le-success-receipt-state),
+:global(.le-success-email-state) {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    10px;
+
+  width:
+    100%;
+
+  margin-top:
+    14px;
+
+  padding:
+    13px
+    14px;
+
+  border:
+    1px solid
+    #eee7eb;
+
+  border-radius:
+    14px;
+
+  background:
+    var(--success-background-soft);
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.76rem;
+
+  line-height:
+    1.5;
+}
+
+
+:global(.le-success-receipt-state svg),
+:global(.le-success-email-state svg) {
+  flex:
+    0
+    0
+    auto;
+
+  margin-top:
+    1px;
+
+  color:
+    var(--success-magenta);
+}
+
+
+/* ==========================================================================
+   17. ACTIONS
+   ========================================================================== */
+
+:global(.le-success-actions) {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    13px;
+
+  width:
+    100%;
+
+  max-width:
+    1560px;
+
+  margin:
+    clamp(
+      28px,
+      4vw,
+      46px
+    )
+    auto
+    0;
+}
+
+
+:global(.le-success-primary-button),
+:global(.le-success-secondary-button) {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    9px;
+
+  min-height:
+    50px;
+
+  padding:
+    0
+    23px;
+
+  border-radius:
+    14px;
+
+  font-size:
+    0.84rem;
+
+  font-weight:
+    820;
+
+  line-height:
+    1;
+
+  text-align:
+    center;
+
+  text-decoration:
+    none;
+
+  transition:
+    transform
+      180ms
+      ease,
+    box-shadow
+      180ms
+      ease,
+    border-color
+      180ms
+      ease,
+    background-color
+      180ms
+      ease,
+    color
+      180ms
+      ease;
+}
+
+
+:global(.le-success-primary-button) {
+  border:
+    1px solid
+    var(--success-magenta);
+
+  background:
+    linear-gradient(
+      135deg,
+      #ee007f,
+      #d50074
+    );
+
+  color:
+    var(--success-white);
+
+  box-shadow:
+    0
+    12px
+    28px
+    rgb(230 0 126 / 21%);
+}
+
+
+:global(.le-success-primary-button:hover) {
+  border-color:
+    var(--success-magenta-dark);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--success-magenta),
+      var(--success-magenta-dark)
+    );
+
+  box-shadow:
+    0
+    15px
+    34px
+    rgb(230 0 126 / 27%);
+
+  transform:
+    translateY(-2px);
+}
+
+
+:global(.le-success-secondary-button) {
+  border:
+    1px solid
+    #dcd2d7;
+
+  background:
+    var(--success-white);
+
+  color:
+    var(--success-black);
+
+  box-shadow:
+    0
+    5px
+    16px
+    rgb(30 20 26 / 4%);
+}
+
+
+:global(.le-success-secondary-button:hover) {
+  border-color:
+    var(--success-magenta);
+
+  background:
+    var(--success-magenta-soft);
+
+  color:
+    var(--success-magenta);
+
+  transform:
+    translateY(-2px);
+}
+
+
+:global(.le-success-primary-button:active),
+:global(.le-success-secondary-button:active) {
+  transform:
+    translateY(0)
+    scale(0.99);
+}
+
+
+:global(.le-success-primary-button:focus-visible),
+:global(.le-success-secondary-button:focus-visible) {
+  outline:
+    3px solid
+    rgb(230 0 126 / 18%);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   18. PAGE ERREUR
+   ========================================================================== */
+
+:global(.le-success-error-page) {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    100%;
+
+  min-height:
+    72vh;
+
+  padding:
+    clamp(
+      42px,
+      7vw,
+      90px
+    )
+    clamp(
+      15px,
+      4vw,
+      60px
+    )
+    clamp(
+      100px,
+      9vw,
+      140px
+    );
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #fff7fb
+    );
+}
+
+
+:global(.le-success-error-card) {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  width:
+    min(
+      100%,
+      720px
+    );
+
+  padding:
+    clamp(
+      30px,
+      5vw,
+      58px
+    );
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid
+    var(--success-border);
+
+  border-radius:
+    var(--success-radius-xl);
+
+  background:
+    var(--success-white);
+
+  text-align:
+    center;
+
+  box-shadow:
+    var(--success-shadow-large);
+}
+
+
+:global(.le-success-error-card)::before {
+  position:
+    absolute;
+
+  top:
+    -130px;
+
+  right:
+    -130px;
+
+  width:
+    320px;
+
+  height:
+    320px;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgb(230 0 126 / 8%),
+      transparent 70%
+    );
+
+  content:
+    "";
+
+  pointer-events:
+    none;
+}
+
+
+:global(.le-success-error-icon) {
+  position:
+    relative;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    78px;
+
+  height:
+    78px;
+
+  margin-bottom:
+    20px;
+
+  border:
+    1px solid
+    var(--success-red-border);
+
+  border-radius:
+    50%;
+
+  background:
+    var(--success-red-soft);
+
+  color:
+    var(--success-red);
+}
+
+
+:global(.le-success-error-title) {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  max-width:
+    600px;
+
+  margin:
+    0;
+
+  color:
+    var(--success-black);
+
+  font-size:
+    clamp(
+      1.7rem,
+      4vw,
+      2.8rem
+    );
+
+  font-weight:
+    900;
+
+  line-height:
+    1.05;
+
+  letter-spacing:
+    -0.045em;
+
+  text-wrap:
+    balance;
+}
+
+
+:global(.le-success-error-description) {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  max-width:
+    540px;
+
+  margin:
+    16px
+    0
+    0;
+
+  color:
+    var(--success-text-secondary);
+
+  font-size:
+    0.92rem;
+
+  line-height:
+    1.65;
+}
+
+
+:global(.le-success-error-actions) {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  justify-content:
+    center;
+
+  gap:
+    11px;
+
+  margin-top:
+    27px;
+}
+
+
+/* ==========================================================================
+   19. TABLETTE
+   ========================================================================== */
+
+@media
+  (max-width: 1100px) {
+
+  :global(.le-success-layout) {
+    grid-template-columns:
+      minmax(0, 1.35fr)
+      minmax(
+        290px,
+        0.75fr
+      );
+
+    gap:
+      22px;
+  }
+
+
+  :global(.le-success-content) {
+    padding-inline:
+      24px;
+  }
+}
+
+
+/* ==========================================================================
+   20. TABLETTE PORTRAIT
+   ========================================================================== */
+
+@media
+  (max-width: 900px) {
+
+  :global(.le-success-hero) {
+    min-height:
+      auto;
+
+    padding:
+      54px
+      22px
+      48px;
+  }
+
+
+  :global(.le-success-reference-card) {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+
+    gap:
+      0;
+
+    padding:
+      8px;
+  }
+
+
+  :global(.le-success-reference-separator) {
+    display:
+      none;
+  }
+
+
+  :global(.le-success-reference-block) {
+    align-items:
+      flex-start;
+
+    padding:
+      15px
+      16px;
+
+    text-align:
+      left;
+
+    border-bottom:
+      1px solid
+      var(--success-border);
+  }
+
+
+  :global(.le-success-reference-block:nth-of-type(1)),
+  :global(.le-success-reference-block:nth-of-type(3)) {
+    border-right:
+      1px solid
+      var(--success-border);
+  }
+
+
+  :global(.le-success-layout) {
+    grid-template-columns:
+      minmax(
+        0,
+        1fr
+      );
+  }
+
+
+  :global(.le-success-side-column) {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+  }
+
+
+  :global(.le-success-summary-card) {
+    grid-column:
+      1 / -1;
+  }
+}
+
+
+/* ==========================================================================
+   21. MOBILE
+   ========================================================================== */
+
+@media
+  (max-width: 680px) {
+
+  :global(.le-success-page) {
+    min-height:
+      100svh;
+  }
+
+
+  :global(.le-success-hero) {
+    min-height:
+      auto;
+
+    padding:
+      34px
+      15px
+      27px;
+
+    background:
+      linear-gradient(
+        160deg,
+        #ffffff
+        0%,
+        #fff9fc
+        45%,
+        #fff0f7
+        100%
+      );
+  }
+
+
+  :global(.le-success-hero)::before {
+    top:
+      -110px;
+
+    right:
+      -120px;
+
+    width:
+      300px;
+  }
+
+
+  :global(.le-success-hero)::after {
+    display:
+      none;
+  }
+
+
+  :global(.le-success-hero-icon) {
+    width:
+      68px;
+
+    height:
+      68px;
+
+    margin-bottom:
+      16px;
+
+    box-shadow:
+      0
+      12px
+      34px
+      rgb(37 19 29 / 10%);
+  }
+
+
+  :global(.le-success-hero-icon svg) {
+    width:
+      34px;
+
+    height:
+      34px;
+  }
+
+
+  :global(.le-success-eyebrow) {
+    margin-bottom:
+      7px;
+
+    font-size:
+      0.65rem;
+  }
+
+
+  :global(.le-success-title) {
+    max-width:
+      100%;
+
+    font-size:
+      clamp(
+        1.9rem,
+        9.7vw,
+        2.75rem
+      );
+
+    line-height:
+      1;
+
+    letter-spacing:
+      -0.045em;
+  }
+
+
+  :global(.le-success-description) {
+    max-width:
+      94%;
+
+    margin-top:
+      13px;
+
+    font-size:
+      0.86rem;
+
+    line-height:
+      1.55;
+  }
+
+
+  :global(.le-success-reference-card) {
+    grid-template-columns:
+      minmax(
+        0,
+        1fr
+      );
+
+    width:
+      100%;
+
+    margin-top:
+      24px;
+
+    padding:
+      5px;
+
+    border-radius:
+      18px;
+
+    box-shadow:
+      0
+      12px
+      35px
+      rgb(37 19 29 / 8%);
+  }
+
+
+  :global(.le-success-reference-block) {
+    align-items:
+      flex-start;
+
+    padding:
+      13px
+      14px;
+
+    border-right:
+      0 !important;
+
+    border-bottom:
+      1px solid
+      var(--success-border);
+
+    text-align:
+      left;
+  }
+
+
+  :global(.le-success-reference-block:last-child) {
+    border-bottom:
+      0;
+  }
+
+
+  :global(.le-success-reference-label) {
+    font-size:
+      0.67rem;
+  }
+
+
+  :global(.le-success-reference-number),
+  :global(.le-success-reference-value),
+  :global(.le-success-reference-total) {
+    font-size:
+      0.9rem;
+  }
+
+
+  :global(.le-success-reference-total) {
+    font-size:
+      1rem;
+  }
+
+
+  :global(.le-success-content) {
+    padding:
+      18px
+      10px
+      112px;
+  }
+
+
+  :global(.le-success-layout) {
+    gap:
+      13px;
+  }
+
+
+  :global(.le-success-main-column),
+  :global(.le-success-side-column) {
+    gap:
+      13px;
+  }
+
+
+  :global(.le-success-side-column) {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+  }
+
+
+  :global(.le-success-card) {
+    padding:
+      18px
+      15px;
+
+    border-radius:
+      17px;
+
+    box-shadow:
+      0
+      5px
+      18px
+      rgb(35 20 29 / 4%);
+  }
+
+
+  :global(.le-success-card-heading) {
+    gap:
+      12px;
+
+    margin-bottom:
+      18px;
+  }
+
+
+  :global(.le-success-card-title) {
+    font-size:
+      1.09rem;
+
+    line-height:
+      1.22;
+  }
+
+
+  :global(.le-success-card-kicker) {
+    font-size:
+      0.62rem;
+  }
+
+
+  :global(.le-success-status-badge),
+  :global(.le-success-payment-state) {
+    min-height:
+      28px;
+
+    padding:
+      6px
+      9px;
+
+    font-size:
+      0.63rem;
+  }
+
+
+  :global(.le-success-info-row) {
+    gap:
+      13px;
+
+    padding:
+      10px
+      0;
+  }
+
+
+  :global(.le-success-info-row dt) {
+    font-size:
+      0.76rem;
+  }
+
+
+  :global(.le-success-info-value) {
+    max-width:
+      58%;
+
+    font-size:
+      0.77rem;
+  }
+
+
+  :global(.le-success-payment-panel) {
+    margin-top:
+      17px;
+
+    padding:
+      14px;
+
+    border-radius:
+      15px;
+  }
+
+
+  :global(.le-success-payment-heading) {
+    grid-template-columns:
+      auto
+      minmax(
+        0,
+        1fr
+      );
+
+    gap:
+      10px;
+  }
+
+
+  :global(.le-success-payment-state) {
+    grid-column:
+      1 / -1;
+
+    justify-self:
+      flex-start;
+
+    margin-top:
+      3px;
+  }
+
+
+  :global(.le-success-payment-reference) {
+    flex-direction:
+      column;
+
+    gap:
+      4px;
+
+    margin-top:
+      10px;
+
+    padding-top:
+      10px;
+
+    font-size:
+      0.73rem;
+  }
+
+
+  :global(.le-success-payment-reference strong) {
+    max-width:
+      100%;
+
+    text-align:
+      left;
+  }
+
+
+  :global(.le-success-progress-item) {
+    grid-template-columns:
+      34px
+      minmax(
+        0,
+        1fr
+      );
+
+    gap:
+      11px;
+  }
+
+
+  :global(.le-success-progress-marker) {
+    width:
+      29px;
+
+    height:
+      29px;
+  }
+
+
+  :global(.le-success-progress-content) {
+    padding-bottom:
+      23px;
+  }
+
+
+  :global(.le-success-progress-content strong) {
+    font-size:
+      0.85rem;
+  }
+
+
+  :global(.le-success-progress-content p) {
+    font-size:
+      0.73rem;
+
+    line-height:
+      1.55;
+  }
+
+
+  :global(.le-success-product-row) {
+    grid-template-columns:
+      auto
+      minmax(
+        0,
+        1fr
+      );
+
+    align-items:
+      flex-start;
+
+    gap:
+      11px;
+
+    padding:
+      15px
+      0;
+  }
+
+
+  :global(.le-success-product-icon) {
+    width:
+      45px;
+
+    height:
+      45px;
+
+    border-radius:
+      13px;
+  }
+
+
+  :global(.le-success-product-name) {
+    font-size:
+      0.83rem;
+  }
+
+
+  :global(.le-success-product-meta) {
+    gap:
+      4px
+      9px;
+
+    font-size:
+      0.66rem;
+  }
+
+
+  :global(.le-success-product-total) {
+    grid-column:
+      2;
+
+    white-space:
+      normal;
+
+    color:
+      var(--success-magenta);
+
+    font-size:
+      0.83rem;
+
+    text-align:
+      left;
+  }
+
+
+  :global(.le-success-totals > div) {
+    gap:
+      16px;
+
+    padding:
+      9px
+      0;
+
+    font-size:
+      0.77rem;
+  }
+
+
+  :global(.le-success-grand-total dd) {
+    font-size:
+      1.07rem;
+  }
+
+
+  :global(.le-success-delivery-content) {
+    font-size:
+      0.76rem;
+  }
+
+
+  :global(.le-success-shipment) {
+    gap:
+      10px;
+
+    margin-top:
+      15px;
+
+    padding-top:
+      15px;
+  }
+
+
+  :global(.le-success-shipment-icon) {
+    width:
+      38px;
+
+    height:
+      38px;
+  }
+
+
+  :global(.le-success-receipt-state),
+  :global(.le-success-email-state) {
+    padding:
+      11px
+      12px;
+
+    font-size:
+      0.71rem;
+  }
+
+
+  :global(.le-success-actions) {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(
+        0,
+        1fr
+      );
+
+    gap:
+      9px;
+
+    margin-top:
+      19px;
+  }
+
+
+  :global(.le-success-primary-button),
+  :global(.le-success-secondary-button) {
+    width:
+      100%;
+
+    min-height:
+      49px;
+
+    padding:
+      0
+      16px;
+
+    border-radius:
+      13px;
+
+    font-size:
+      0.8rem;
+  }
+
+
+  :global(.le-success-error-page) {
+    min-height:
+      65svh;
+
+    padding:
+      30px
+      10px
+      112px;
+  }
+
+
+  :global(.le-success-error-card) {
+    padding:
+      29px
+      17px;
+
+    border-radius:
+      19px;
+  }
+
+
+  :global(.le-success-error-icon) {
+    width:
+      66px;
+
+    height:
+      66px;
+
+    margin-bottom:
+      16px;
+  }
+
+
+  :global(.le-success-error-title) {
+    font-size:
+      clamp(
+        1.55rem,
+        8vw,
+        2.15rem
+      );
+  }
+
+
+  :global(.le-success-error-description) {
+    margin-top:
+      12px;
+
+    font-size:
+      0.82rem;
+  }
+
+
+  :global(.le-success-error-actions) {
+    display:
+      grid;
+
+    grid-template-columns:
+      1fr;
+
+    width:
+      100%;
+
+    margin-top:
+      22px;
+  }
+
+
+  :global(
+    .le-success-error-actions
+    .le-success-primary-button
+  ),
+  :global(
+    .le-success-error-actions
+    .le-success-secondary-button
+  ) {
+    width:
+      100%;
+  }
+}
+
+
+/* ==========================================================================
+   22. PETITS MOBILES
+   ========================================================================== */
+
+@media
+  (max-width: 390px) {
+
+  :global(.le-success-hero) {
+    padding-inline:
+      12px;
+  }
+
+
+  :global(.le-success-content) {
+    padding-inline:
+      8px;
+  }
+
+
+  :global(.le-success-card) {
+    padding-inline:
+      13px;
+  }
+
+
+  :global(.le-success-title) {
+    font-size:
+      1.9rem;
+  }
+
+
+  :global(.le-success-product-icon) {
+    width:
+      42px;
+
+    height:
+      42px;
+  }
+
+
+  :global(.le-success-reference-card) {
+    border-radius:
+      16px;
+  }
+}
+
+
+/* ==========================================================================
+   23. GRANDS ÉCRANS
+   ========================================================================== */
+
+@media
+  (min-width: 1600px) {
+
+  :global(.le-success-hero) {
+    min-height:
+      640px;
+  }
+
+
+  :global(.le-success-content) {
+    padding-inline:
+      78px;
+  }
+
+
+  :global(.le-success-layout),
+  :global(.le-success-actions) {
+    max-width:
+      1680px;
+  }
+
+
+  :global(.le-success-card) {
+    padding:
+      34px;
+  }
+}
+
+
+/* ==========================================================================
+   24. TRÈS GRANDS ÉCRANS
+   ========================================================================== */
+
+@media
+  (min-width: 2000px) {
+
+  :global(.le-success-layout),
+  :global(.le-success-actions) {
+    max-width:
+      1840px;
+  }
+
+
+  :global(.le-success-hero-inner) {
+    max-width:
+      1680px;
+  }
+}
+
+
+/* ==========================================================================
+   25. ACCESSIBILITÉ — REDUCED MOTION
+   ========================================================================== */
+
+@media
+  (prefers-reduced-motion: reduce) {
+
+  :global(.le-success-primary-button),
+  :global(.le-success-secondary-button) {
+    transition:
+      none;
+  }
+
+
+  :global(.le-success-primary-button:hover),
+  :global(.le-success-secondary-button:hover) {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   26. IMPRESSION
+   ========================================================================== */
+
+@media print {
+
+  :global(.le-success-page) {
+    min-height:
+      auto;
+
+    background:
+      #ffffff;
+
+    color:
+      #000000;
+  }
+
+
+  :global(.le-success-hero) {
+    min-height:
+      auto;
+
+    padding:
+      24px;
+
+    background:
+      #ffffff;
+
+    border-bottom:
+      1px solid
+      #cccccc;
+  }
+
+
+  :global(.le-success-hero)::before,
+  :global(.le-success-hero)::after {
+    display:
+      none;
+  }
+
+
+  :global(.le-success-content) {
+    padding:
+      24px;
+  }
+
+
+  :global(.le-success-layout) {
+    display:
+      block;
+
+    max-width:
+      none;
+  }
+
+
+  :global(.le-success-main-column),
+  :global(.le-success-side-column) {
+    display:
+      block;
+  }
+
+
+  :global(.le-success-card) {
+    margin-bottom:
+      16px;
+
+    break-inside:
+      avoid;
+
+    box-shadow:
+      none;
+  }
+
+
+  :global(.le-success-actions) {
+    display:
+      none;
+  }
+}
+
+
+/**
+ * ============================================================================
+ * FIN
+ * ============================================================================
+ *
+ * PC :
+ *
+ * - pleine largeur ;
+ * - hero premium ;
+ * - contenu en deux colonnes ;
+ * - récapitulatif commande ;
+ * - paiement ;
+ * - progression ;
+ * - produits ;
+ * - livraison ;
+ * - reçu ;
+ * - actions.
+ *
+ * ============================================================================
+ *
+ * MOBILE :
+ *
+ * - pleine largeur ;
+ * - une colonne ;
+ * - aucun débordement horizontal ;
+ * - espacement inférieur prévu pour PublicMobileBottomNav ;
+ * - boutons pleine largeur ;
+ * - cartes compactes ;
+ * - navigation mobile globale laissée au shell public.
+ *
+ * ============================================================================
+ */

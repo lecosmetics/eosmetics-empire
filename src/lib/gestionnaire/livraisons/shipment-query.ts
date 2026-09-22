@@ -1255,6 +1255,50 @@ export async function getManagerShipmentsPageData(
     access.store.id;
 
 
+  /**
+   * Diagnostic serveur DEV uniquement.
+   *
+   * Objectif :
+   * vérifier ce que le runtime Next.js voit réellement pour la boutique
+   * du Gestionnaire connecté, sans modifier les données ni la logique métier.
+   *
+   * Ce bloc n'est jamais exécuté en production.
+   */
+  if (
+    process.env.NODE_ENV !==
+      "production"
+  ) {
+    const [
+      shipmentCountByStore,
+      shipmentCountByOwnership,
+    ] =
+      await Promise.all([
+        db.shipment.count({
+          where: {
+            storeId,
+          },
+        }),
+
+        db.shipment.count({
+          where:
+            createShipmentOwnershipWhere(
+              storeId,
+            ),
+        }),
+      ]);
+
+
+    console.info(
+      "[Cosmetics Empire][Livraisons] Diagnostic lecture serveur",
+      {
+        storeId,
+        shipmentCountByStore,
+        shipmentCountByOwnership,
+      },
+    );
+  }
+
+
   /* ------------------------------------------------------------------------
      FILTERS
      ------------------------------------------------------------------------ */
@@ -1348,6 +1392,22 @@ export async function getManagerShipmentsPageData(
         ],
       }),
     ]);
+
+
+  if (
+    process.env.NODE_ENV !==
+      "production"
+  ) {
+    console.info(
+      "[Cosmetics Empire][Livraisons] Diagnostic filtres",
+      {
+        storeId,
+        normalizedFilters,
+        totalItems,
+        statusGroups,
+      },
+    );
+  }
 
 
   /* ------------------------------------------------------------------------

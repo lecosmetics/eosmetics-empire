@@ -2,6 +2,7 @@ import "server-only";
 
 import {
   AuditAction,
+  OrderStatus,
   type Prisma,
   type ShipmentStatus,
 } from "@prisma/client";
@@ -45,7 +46,8 @@ import {
  * - empêcher les doubles annulations ;
  * - mettre DELIVERED + deliveredAt lors d'une confirmation ;
  * - mettre CANCELLED lors d'une annulation ;
- * - conserver la modification et l'audit dans la même transaction ;
+ * - synchroniser la Order liée depuis l'ensemble réel de ses Shipment ;
+ * - conserver Shipment + Order + audits dans la même transaction ;
  * - retourner uniquement les données nécessaires aux notifications ;
  * - ne jamais dépendre du navigateur pour une autorisation métier.
  *
@@ -60,8 +62,9 @@ import {
  * - ne modifie aucun paiement ;
  * - ne crée aucun tracking ;
  * - ne crée aucun transporteur ;
- * - ne crée aucun cancelledAt inexistant ;
- * - ne modifie pas automatiquement Order.status sans règle officielle.
+ * - ne transforme jamais automatiquement un paiement en PAID ;
+ * - ne marque une Order DELIVERED que lorsque toutes ses livraisons sont DELIVERED ;
+ * - ne marque une Order CANCELLED que lorsque toutes ses livraisons sont CANCELLED.
  *
  * Les notifications seront déclenchées APRÈS le commit réussi par :
  *
@@ -96,12 +99,20 @@ const AUDIT_EVENT_DELIVERY_CANCELLED =
   "DELIVERY_CANCELLED";
 
 
+const AUDIT_EVENT_ORDER_SYNCHRONIZED =
+  "ORDER_STATUS_SYNCHRONIZED_FROM_SHIPMENTS";
+
+
 /* ==========================================================================
    ENTITY TYPE AUDIT
    ========================================================================== */
 
 const AUDIT_ENTITY_TYPE =
   "Shipment";
+
+
+const AUDIT_ORDER_ENTITY_TYPE =
+  "Order";
 
 
 /* ==========================================================================
@@ -317,6 +328,18 @@ interface ShipmentMutationResource {
 
     readonly orderNumber:
       string;
+
+    readonly status:
+      OrderStatus;
+
+    readonly confirmedAt:
+      Date | null;
+
+    readonly cancelledAt:
+      Date | null;
+
+    readonly deliveredAt:
+      Date | null;
 
     readonly customerFirstName:
       string;
@@ -646,6 +669,18 @@ async function findShipmentForMutation(
           orderNumber:
             true,
 
+          status:
+            true,
+
+          confirmedAt:
+            true,
+
+          cancelledAt:
+            true,
+
+          deliveredAt:
+            true,
+
           customerFirstName:
             true,
 
@@ -731,6 +766,503 @@ function throwTransitionNotAllowed(
     "TRANSITION_NOT_ALLOWED",
     `Cette action n’est pas autorisée lorsque la livraison est au statut ${currentStatus}.`,
   );
+}
+
+
+/* ==========================================================================
+   SYNCHRONISATION ORDER ← SHIPMENTS
+   ========================================================================== */
+
+/**
+ * Order.status et Shipment.status restent deux états distincts.
+ *
+ * La synchronisation se fait uniquement lorsqu'un état de commande peut être
+ * déduit sans ambiguïté de l'ensemble des livraisons réelles.
+ *
+ * Règles :
+ *
+ * - toutes les livraisons DELIVERED
+ *     -> Order DELIVERED ;
+ *
+ * - toutes les livraisons CANCELLED
+ *     -> Order CANCELLED ;
+ *
+ * - au moins une livraison SHIPPED / IN_TRANSIT / DELIVERED
+ *     -> Order SHIPPED ;
+ *
+ * - au moins une livraison PREPARING
+ *     -> Order PROCESSING ;
+ *
+ * - sinon
+ *     -> aucun statut artificiel n'est créé.
+ *
+ * Les statuts terminaux DELIVERED / CANCELLED / REFUNDED ne sont jamais
+ * régressés automatiquement.
+ */
+
+interface OrderSynchronizationResult {
+  readonly changed:
+    boolean;
+
+  readonly previousStatus:
+    OrderStatus;
+
+  readonly status:
+    OrderStatus;
+}
+
+
+function getLatestDeliveredAt(
+  shipments:
+    readonly {
+      readonly deliveredAt:
+        Date | null;
+    }[],
+
+  fallback:
+    Date,
+): Date {
+  let latest:
+    Date | null =
+      null;
+
+
+  for (
+    const shipment of
+    shipments
+  ) {
+    if (
+      !shipment.deliveredAt
+    ) {
+      continue;
+    }
+
+
+    if (
+      latest ===
+        null ||
+      shipment.deliveredAt.getTime() >
+        latest.getTime()
+    ) {
+      latest =
+        shipment.deliveredAt;
+    }
+  }
+
+
+  return latest ??
+    fallback;
+}
+
+
+async function createOrderSynchronizationAudit({
+  tx,
+  storeId,
+  managerId,
+  orderId,
+  orderNumber,
+  triggerShipmentId,
+  previousStatus,
+  nextStatus,
+}: {
+  readonly tx:
+    Prisma.TransactionClient;
+
+  readonly storeId:
+    string;
+
+  readonly managerId:
+    string;
+
+  readonly orderId:
+    string;
+
+  readonly orderNumber:
+    string;
+
+  readonly triggerShipmentId:
+    string;
+
+  readonly previousStatus:
+    OrderStatus;
+
+  readonly nextStatus:
+    OrderStatus;
+}): Promise<void> {
+  await tx.auditLog.create({
+    data: {
+      storeId,
+
+      managerId,
+
+      action:
+        AuditAction.ORDER_STATUS_CHANGE,
+
+      entityType:
+        AUDIT_ORDER_ENTITY_TYPE,
+
+      entityId:
+        orderId,
+
+      metadata: {
+        event:
+          AUDIT_EVENT_ORDER_SYNCHRONIZED,
+
+        orderId,
+
+        orderNumber,
+
+        triggerShipmentId,
+
+        previousStatus,
+
+        nextStatus,
+      },
+    },
+  });
+}
+
+
+async function synchronizeOrderFromShipments({
+  tx,
+  storeId,
+  managerId,
+  orderId,
+  orderNumber,
+  triggerShipmentId,
+  now,
+}: {
+  readonly tx:
+    Prisma.TransactionClient;
+
+  readonly storeId:
+    string;
+
+  readonly managerId:
+    string;
+
+  readonly orderId:
+    string;
+
+  readonly orderNumber:
+    string;
+
+  readonly triggerShipmentId:
+    string;
+
+  readonly now:
+    Date;
+}): Promise<OrderSynchronizationResult> {
+  const order =
+    await tx.order.findFirst({
+      where: {
+        id:
+          orderId,
+
+        storeId,
+      },
+
+      select: {
+        id:
+          true,
+
+        status:
+          true,
+
+        confirmedAt:
+          true,
+
+        cancelledAt:
+          true,
+
+        deliveredAt:
+          true,
+      },
+    });
+
+
+  if (
+    !order
+  ) {
+    throw new ManagerShipmentMutationError(
+      "MUTATION_FAILED",
+      "Impossible de retrouver la commande liée à cette livraison.",
+    );
+  }
+
+
+  const previousStatus =
+    order.status;
+
+
+  if (
+    previousStatus ===
+      OrderStatus.REFUNDED ||
+    previousStatus ===
+      OrderStatus.DELIVERED ||
+    previousStatus ===
+      OrderStatus.CANCELLED
+  ) {
+    return {
+      changed:
+        false,
+
+      previousStatus,
+
+      status:
+        previousStatus,
+    };
+  }
+
+
+  const shipments =
+    await tx.shipment.findMany({
+      where: {
+        orderId,
+
+        storeId,
+      },
+
+      select: {
+        status:
+          true,
+
+        deliveredAt:
+          true,
+      },
+    });
+
+
+  if (
+    shipments.length ===
+      0
+  ) {
+    return {
+      changed:
+        false,
+
+      previousStatus,
+
+      status:
+        previousStatus,
+    };
+  }
+
+
+  const allDelivered =
+    shipments.every(
+      (
+        shipment,
+      ) =>
+        shipment.status ===
+        "DELIVERED",
+    );
+
+
+  const allCancelled =
+    shipments.every(
+      (
+        shipment,
+      ) =>
+        shipment.status ===
+        "CANCELLED",
+    );
+
+
+  const hasStartedShipping =
+    shipments.some(
+      (
+        shipment,
+      ) =>
+        shipment.status ===
+          "SHIPPED" ||
+        shipment.status ===
+          "IN_TRANSIT" ||
+        shipment.status ===
+          "DELIVERED",
+    );
+
+
+  const hasPreparing =
+    shipments.some(
+      (
+        shipment,
+      ) =>
+        shipment.status ===
+        "PREPARING",
+    );
+
+
+  let nextStatus:
+    OrderStatus | null =
+      null;
+
+
+  let data:
+    Prisma.OrderUpdateManyMutationInput =
+      {};
+
+
+  if (
+    allDelivered
+  ) {
+    nextStatus =
+      OrderStatus.DELIVERED;
+
+    data = {
+      status:
+        nextStatus,
+
+      confirmedAt:
+        order.confirmedAt ??
+        now,
+
+      cancelledAt:
+        null,
+
+      deliveredAt:
+        getLatestDeliveredAt(
+          shipments,
+          now,
+        ),
+    };
+  } else if (
+    allCancelled
+  ) {
+    nextStatus =
+      OrderStatus.CANCELLED;
+
+    data = {
+      status:
+        nextStatus,
+
+      cancelledAt:
+        order.cancelledAt ??
+        now,
+
+      deliveredAt:
+        null,
+    };
+  } else if (
+    hasStartedShipping
+  ) {
+    nextStatus =
+      OrderStatus.SHIPPED;
+
+    data = {
+      status:
+        nextStatus,
+
+      confirmedAt:
+        order.confirmedAt ??
+        now,
+
+      cancelledAt:
+        null,
+
+      deliveredAt:
+        null,
+    };
+  } else if (
+    hasPreparing
+  ) {
+    nextStatus =
+      OrderStatus.PROCESSING;
+
+    data = {
+      status:
+        nextStatus,
+
+      confirmedAt:
+        order.confirmedAt ??
+        now,
+
+      cancelledAt:
+        null,
+
+      deliveredAt:
+        null,
+    };
+  }
+
+
+  if (
+    nextStatus ===
+      null
+  ) {
+    return {
+      changed:
+        false,
+
+      previousStatus,
+
+      status:
+        previousStatus,
+    };
+  }
+
+
+  const updateResult =
+    await tx.order.updateMany({
+      where: {
+        id:
+          orderId,
+
+        storeId,
+
+        status:
+          previousStatus,
+      },
+
+      data,
+    });
+
+
+  if (
+    updateResult.count !==
+      1
+  ) {
+    throw new ManagerShipmentMutationError(
+      "MUTATION_FAILED",
+      "La commande liée a changé pendant la synchronisation de la livraison.",
+    );
+  }
+
+
+  if (
+    previousStatus !==
+      nextStatus
+  ) {
+    await createOrderSynchronizationAudit({
+      tx,
+
+      storeId,
+
+      managerId,
+
+      orderId,
+
+      orderNumber,
+
+      triggerShipmentId,
+
+      previousStatus,
+
+      nextStatus,
+    });
+  }
+
+
+  return {
+    changed:
+      previousStatus !==
+      nextStatus,
+
+    previousStatus,
+
+    status:
+      nextStatus,
+  };
 }
 
 
@@ -1262,31 +1794,42 @@ async function executeManagerShipmentMutation({
 
 
       /* --------------------------------------------------------------------
-         IMPORTANT — ORDER STATUS
+         SYNCHRONISATION ORDER
          --------------------------------------------------------------------
-         
-         Cette première version NE modifie volontairement PAS :
-         
-         Order.status
-         Order.deliveredAt
-         Order.cancelledAt
-         
-         Pourquoi ?
-         
-         Une Order possède une relation :
-         
-         shipments Shipment[]
-         
-         donc une même commande peut potentiellement avoir plusieurs
-         livraisons.
-         
-         Sans règle métier officielle déjà vérifiée indiquant qu'une seule
-         livraison DELIVERED suffit pour faire passer toute la commande à
-         DELIVERED, nous ne créons pas cette règle artificiellement.
-         
-         Cette synchronisation pourra être ajoutée uniquement lorsque la règle
-         officielle du projet sera fixée.
+
+         La synchronisation lit toutes les livraisons de la commande.
+
+         Elle reste dans la même transaction que :
+
+         - la mutation Shipment ;
+         - l'audit Shipment ;
+         - l'audit éventuel Order.
+
+         Aucun Payment n'est modifié ici.
          -------------------------------------------------------------------- */
+
+      await synchronizeOrderFromShipments({
+        tx,
+
+        storeId,
+
+        managerId,
+
+        orderId:
+          updatedResource
+            .order
+            .id,
+
+        orderNumber:
+          updatedResource
+            .order
+            .orderNumber,
+
+        triggerShipmentId:
+          updatedResource.id,
+
+        now,
+      });
 
 
       /* --------------------------------------------------------------------
@@ -1356,8 +1899,12 @@ async function executeManagerShipmentMutation({
  * Shipment.deliveredAt
  *   -> date serveur
  *
+ * Order
+ *   -> synchronisée depuis l'ensemble de ses Shipment
+ *
  * AuditLog
  *   -> DELIVERY_CONFIRMED dans metadata.event
+ *   -> ORDER_STATUS_SYNCHRONIZED_FROM_SHIPMENTS si Order change
  *
  * Les notifications ne sont PAS envoyées ici.
  */
@@ -1387,8 +1934,12 @@ export async function confirmManagerShipment(
  * Shipment.status
  *   -> CANCELLED
  *
+ * Order
+ *   -> CANCELLED uniquement si toutes ses livraisons sont CANCELLED
+ *
  * AuditLog
  *   -> DELIVERY_CANCELLED dans metadata.event
+ *   -> ORDER_STATUS_SYNCHRONIZED_FROM_SHIPMENTS si Order change
  *
  * Shipment ne possède actuellement aucun cancelledAt.
  *

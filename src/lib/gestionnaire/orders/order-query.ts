@@ -1,8 +1,7 @@
-import "server-only";
+
 
 import {
   OrderStatus,
-  PaymentStatus,
   Prisma,
 } from "@prisma/client";
 
@@ -106,6 +105,27 @@ const MAX_IDENTIFIER_LENGTH =
 
 const PRODUCT_PREVIEW_LIMIT =
   3;
+
+
+/**
+ * Statuts réellement actifs pour la valeur commerciale affichée
+ * dans la page Gestionnaire / Commandes.
+ *
+ * Une commande publique en paiement à la livraison existe réellement dès
+ * son enregistrement avec le statut PENDING : elle doit donc être visible
+ * immédiatement dans le montant de la période.
+ *
+ * CANCELLED et REFUNDED sont volontairement exclus.
+ */
+const MANAGER_ORDER_REVENUE_STATUSES:
+  readonly OrderStatus[] = [
+  OrderStatus.PENDING,
+  OrderStatus.CONFIRMED,
+  OrderStatus.PROCESSING,
+  OrderStatus.READY,
+  OrderStatus.SHIPPED,
+  OrderStatus.DELIVERED,
+];
 
 
 /* ==========================================================================
@@ -1441,23 +1461,37 @@ async function querySummaryStatusCounts(
    ========================================================================== */
 
 /**
- * Convention actuelle :
+ * Convention Gestionnaire :
  *
- * Le chiffre d'affaires affiché ici correspond aux paiements dont le statut
- * courant est réellement PAID.
+ * Le KPI "Chiffre d'affaires" de cette page représente la valeur commerciale
+ * des commandes actives enregistrées sur la période.
  *
- * Les paiements :
+ * Source de vérité :
  *
- * - REFUNDED
- * - PARTIALLY_REFUNDED
+ * Order.totalAmount
  *
- * ne sont pas additionnés automatiquement.
+ * Une commande PENDING en paiement à la livraison est donc comptée dès sa
+ * création réelle, sans fabriquer un Payment PAID.
  *
- * Le modèle actuel ne contient pas un montant séparé de remboursement,
- * donc on ne fabrique pas un faux calcul de CA net.
+ * Sont incluses :
  *
- * Lorsque le projet possédera une vraie entité Refund / refundedAmount,
- * ce calcul pourra évoluer proprement.
+ * - PENDING ;
+ * - CONFIRMED ;
+ * - PROCESSING ;
+ * - READY ;
+ * - SHIPPED ;
+ * - DELIVERED.
+ *
+ * Sont exclues :
+ *
+ * - CANCELLED ;
+ * - REFUNDED.
+ *
+ * Les montants restent groupés par devise afin de ne jamais additionner
+ * silencieusement XAF, XOF, EUR, USD, etc.
+ *
+ * Un indicateur financier strict des encaissements doit, lui, continuer
+ * d'utiliser Payment.status = PAID dans la couche financière dédiée.
  */
 
 async function queryRevenueByCurrency(
@@ -1473,7 +1507,7 @@ async function queryRevenueByCurrency(
     );
 
 
-  return db.payment.groupBy({
+  return db.order.groupBy({
     by: [
       "currency",
     ],
@@ -1481,25 +1515,22 @@ async function queryRevenueByCurrency(
     where: {
       storeId,
 
-      status:
-        PaymentStatus.PAID,
-
-      order: {
-        is: {
-          storeId,
-
-          ...(dateRange
-            ? {
-                createdAt:
-                  dateRange,
-              }
-            : {}),
-        },
+      status: {
+        in: [
+          ...MANAGER_ORDER_REVENUE_STATUSES,
+        ],
       },
+
+      ...(dateRange
+        ? {
+            createdAt:
+              dateRange,
+          }
+        : {}),
     },
 
     _sum: {
-      amount:
+      totalAmount:
         true,
     },
   });
@@ -1529,9 +1560,9 @@ function buildRevenue(
           ),
 
         amount:
-          row._sum.amount
+          row._sum.totalAmount
             ? decimalToString(
-                row._sum.amount,
+                row._sum.totalAmount,
               )
             : "0.00",
       }),

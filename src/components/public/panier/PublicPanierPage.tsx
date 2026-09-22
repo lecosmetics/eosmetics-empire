@@ -112,14 +112,25 @@ import styles from "./public-panier.module.css";
  *
  * continueOrderHref
  *
- * Cette valeur doit provenir de la route officielle de finalisation
- * de commande lorsqu'elle sera définie dans l'architecture centrale.
+ * La route officielle de finalisation existe désormais dans
+ * l'architecture centrale :
  *
- * Tant qu'aucune route officielle n'est fournie :
+ * generalAppRoutes.checkout
  *
- * - le bouton reste visible ;
- * - aucune fausse URL n'est inventée ;
- * - le bouton reste désactivé.
+ * soit :
+ *
+ * /commande
+ *
+ * Cette route est utilisée par défaut.
+ *
+ * Une valeur continueOrderHref explicite peut toujours être fournie
+ * lorsqu'un flux appelant doit surcharger cette destination.
+ *
+ * Si une valeur explicite est absente ou invalide :
+ *
+ * - aucune URL externe n'est acceptée ;
+ * - aucune route artificielle n'est construite ;
+ * - la route centrale /commande reste la référence par défaut.
  *
  * ============================================================================
  *
@@ -170,10 +181,18 @@ type PublicPanierValidationRecord =
 
 interface PublicPanierPageProps {
   /**
-   * Route officielle permettant de poursuivre vers la création
+   * Route interne permettant de poursuivre vers la création
    * de la commande.
    *
-   * Aucune valeur par défaut fictive n'est fournie.
+   * Par défaut :
+   *
+   * generalAppRoutes.checkout
+   *
+   * soit :
+   *
+   * /commande
+   *
+   * Une valeur explicite reste possible pour un flux interne spécialisé.
    */
   readonly continueOrderHref?:
     string |
@@ -502,12 +521,14 @@ function getIssueMessage(
  * - le bouton desktop ;
  * - le bouton mobile fixe.
  *
- * Lorsque la route officielle est absente :
+ * La route officielle /commande est fournie par défaut depuis
+ * generalAppRoutes.checkout.
  *
- * - aucun href artificiel ;
- * - aucun /checkout inventé ;
- * - aucun /commande inventé ;
- * - bouton désactivé proprement.
+ * Si un appelant fournit explicitement une destination invalide :
+ *
+ * - aucun href artificiel n'est construit ;
+ * - aucune URL externe n'est acceptée ;
+ * - le bouton reste désactivé proprement.
  */
 function PublicPanierContinueOrderAction({
   href,
@@ -1422,7 +1443,7 @@ function PublicPanierDetachedIssue({
    ========================================================================== */
 
 export default function PublicPanierPage({
-  continueOrderHref = null,
+  continueOrderHref = generalAppRoutes.checkout,
 }: PublicPanierPageProps) {
   const {
     state,
@@ -1898,7 +1919,12 @@ export default function PublicPanierPage({
 
 
   /**
-   * La poursuite réelle exige EN PLUS une vraie route officielle.
+   * La poursuite réelle exige :
+   *
+   * - un Panier commercialement prêt ;
+   * - une route interne valide.
+   *
+   * Par défaut, cette route est generalAppRoutes.checkout (/commande).
    */
   const canContinueOrder =
     isOrderReady &&
@@ -2581,13 +2607,16 @@ export default function PublicPanierPage({
  *
  * CONTINUER LA COMMANDE :
  *
- * aucun /checkout fictif ;
- * aucun /commande fictif ;
  * aucune redirection inventée.
  *
- * La route officielle sera transmise avec :
+ * Route officielle par défaut :
  *
- * continueOrderHref
+ * generalAppRoutes.checkout
+ *
+ * /commande
+ *
+ * Le prop continueOrderHref reste disponible pour une surcharge
+ * interne explicite et validée.
  *
  * ============================================================================
  *

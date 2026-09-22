@@ -9,7 +9,6 @@ import {
   MapPinned,
   PieChart,
   Shapes,
-  type LucideIcon,
 } from "lucide-react";
 
 import {
@@ -38,63 +37,80 @@ import styles from "@/app/gestionnaire/(espace-prive)/statistiques/statistiques.
  *
  * RESPONSABILITÉS :
  *
- * - afficher l'évolution réelle du chiffre d'affaires ;
- * - afficher la répartition réelle des commandes ;
- * - afficher les ventes réelles par catégorie ;
- * - afficher la répartition réelle des paiements ;
- * - afficher la performance réelle par ville ;
- * - rester indépendant de Prisma et de la session ;
- * - rester compatible avec les données sérialisées côté serveur.
+ * Ce fichier contient uniquement les graphiques nécessaires à la page :
+ *
+ * - RevenueChartCard ;
+ * - OrdersDistributionCard ;
+ * - CategorySalesCard ;
+ * - PaymentDistributionCard ;
+ * - CityPerformanceCard.
  *
  *
- * CE FICHIER NE DOIT PAS :
+ * IMPORTANT :
  *
- * - effectuer de requête Prisma ;
- * - lire la session ;
- * - recevoir un storeId ;
- * - inventer des données ;
- * - inventer des catégories ;
- * - inventer des modes de paiement ;
- * - mélanger plusieurs devises ;
- * - modifier une variable pendant le rendu React ;
- * - ajouter de dépendance graphique.
+ * - aucune requête Prisma ;
+ * - aucune lecture de session ;
+ * - aucun storeId reçu ;
+ * - aucun calcul métier sensible ;
+ * - aucune donnée fictive ;
+ * - aucune bibliothèque graphique supplémentaire ;
+ * - aucune catégorie inventée ;
+ * - aucun statut inventé ;
+ * - aucune devise mélangée.
+ *
+ *
+ * Les données reçues ici sont déjà :
+ *
+ * - autorisées ;
+ * - filtrées ;
+ * - agrégées ;
+ * - sérialisées ;
+ *
+ * par statistics-query.ts.
  *
  * ============================================================================
  */
 
 
 /* ==========================================================================
-   CONSTANTES — REVENUE CHART
+   CONSTANTES GRAPHIQUE CA
    ========================================================================== */
 
 const REVENUE_CHART_WIDTH =
   760;
 
+
 const REVENUE_CHART_HEIGHT =
   260;
+
 
 const REVENUE_CHART_PADDING_LEFT =
   56;
 
+
 const REVENUE_CHART_PADDING_RIGHT =
   20;
+
 
 const REVENUE_CHART_PADDING_TOP =
   22;
 
+
 const REVENUE_CHART_PADDING_BOTTOM =
   42;
+
 
 const REVENUE_GRID_LINES =
   4;
 
 
 /* ==========================================================================
-   CONSTANTES — DONUT
+   CONSTANTES DONUT
    ========================================================================== */
 
 const DONUT_RADIUS =
   44;
+
 
 const DONUT_CIRCUMFERENCE =
   2 *
@@ -105,6 +121,21 @@ const DONUT_CIRCUMFERENCE =
 /* ==========================================================================
    TONS GRAPHIQUES
    ========================================================================== */
+
+/**
+ * Les couleurs réelles seront centralisées dans statistiques.module.css.
+ *
+ * Chaque classe définit :
+ *
+ * --statistics-chart-tone
+ *
+ * afin que le même ton puisse servir :
+ *
+ * - au donut ;
+ * - à la légende ;
+ * - aux barres ;
+ * - aux indicateurs.
+ */
 
 const CHART_TONE_CLASSES = [
   styles.statisticsChartTone1,
@@ -119,7 +150,7 @@ const CHART_TONE_CLASSES = [
 
 
 /* ==========================================================================
-   FORMATTERS
+   HELPERS — NUMBER
    ========================================================================== */
 
 const INTEGER_FORMATTER =
@@ -145,10 +176,6 @@ const COMPACT_NUMBER_FORMATTER =
   );
 
 
-/* ==========================================================================
-   NUMBER HELPERS
-   ========================================================================== */
-
 function formatInteger(
   value:
     number,
@@ -160,6 +187,7 @@ function formatInteger(
   ) {
     return "0";
   }
+
 
   return INTEGER_FORMATTER.format(
     value,
@@ -179,6 +207,7 @@ function formatCompactNumber(
     return "0";
   }
 
+
   return COMPACT_NUMBER_FORMATTER.format(
     value,
   );
@@ -186,7 +215,7 @@ function formatCompactNumber(
 
 
 /* ==========================================================================
-   MONEY HELPERS
+   HELPERS — MONEY
    ========================================================================== */
 
 function parseMoneyAmount(
@@ -197,6 +226,7 @@ function parseMoneyAmount(
     Number(
       amount,
     );
+
 
   return Number.isFinite(
     value,
@@ -211,17 +241,10 @@ function formatMoney({
   currency,
 }: ManagerStatisticsMoney): string {
   const numericAmount =
-    Number(
+    parseMoneyAmount(
       amount,
     );
 
-  if (
-    !Number.isFinite(
-      numericAmount,
-    )
-  ) {
-    return `${amount} ${currency}`;
-  }
 
   try {
     return new Intl.NumberFormat(
@@ -249,24 +272,13 @@ function formatMoney({
       numericAmount,
     );
   } catch {
-    return [
-      numericAmount.toLocaleString(
-        "fr-FR",
-        {
-          maximumFractionDigits:
-            2,
-        },
-      ),
-      currency,
-    ].join(
-      " ",
-    );
+    return `${numericAmount.toLocaleString("fr-FR")} ${currency}`;
   }
 }
 
 
 /* ==========================================================================
-   PERCENTAGE HELPERS
+   HELPERS — PERCENTAGE
    ========================================================================== */
 
 function clampPercentage(
@@ -280,6 +292,7 @@ function clampPercentage(
   ) {
     return 0;
   }
+
 
   return Math.min(
     100,
@@ -295,13 +308,6 @@ function formatPercentage(
   percentage:
     number,
 ): string {
-  const normalized =
-    Number.isFinite(
-      percentage,
-    )
-      ? percentage
-      : 0;
-
   return `${new Intl.NumberFormat(
     "fr-FR",
     {
@@ -309,13 +315,13 @@ function formatPercentage(
         1,
     },
   ).format(
-    normalized,
+    percentage,
   )}%`;
 }
 
 
 /* ==========================================================================
-   TONE HELPERS
+   HELPERS — TONE
    ========================================================================== */
 
 function getChartToneClass(
@@ -330,7 +336,7 @@ function getChartToneClass(
 
 
 /* ==========================================================================
-   MAXIMUM VALUE
+   HELPERS — MAX
    ========================================================================== */
 
 function getMaximumValue(
@@ -339,6 +345,7 @@ function getMaximumValue(
 ): number {
   let maximum =
     0;
+
 
   for (
     const value of
@@ -355,6 +362,7 @@ function getMaximumValue(
         value;
     }
   }
+
 
   return maximum;
 }
@@ -403,7 +411,7 @@ function StatisticsChartCardHeader({
     string;
 
   readonly icon:
-    LucideIcon;
+    typeof ChartNoAxesCombined;
 
   readonly trailing?:
     ReactNode;
@@ -421,10 +429,12 @@ function StatisticsChartCardHeader({
           />
         </span>
 
+
         <div className={styles.statisticsChartCardTitleGroup}>
           <h2 className={styles.statisticsChartCardTitle}>
             {title}
           </h2>
+
 
           {subtitle ? (
             <p className={styles.statisticsChartCardSubtitle}>
@@ -433,6 +443,7 @@ function StatisticsChartCardHeader({
           ) : null}
         </div>
       </div>
+
 
       {trailing ? (
         <div className={styles.statisticsChartCardTrailing}>
@@ -445,7 +456,7 @@ function StatisticsChartCardHeader({
 
 
 /* ==========================================================================
-   REVENUE — POSITION X
+   REVENUE — X
    ========================================================================== */
 
 function getRevenuePointX(
@@ -459,6 +470,7 @@ function getRevenuePointX(
     REVENUE_CHART_PADDING_LEFT -
     REVENUE_CHART_PADDING_RIGHT;
 
+
   if (
     total <=
     1
@@ -469,6 +481,7 @@ function getRevenuePointX(
         2
     );
   }
+
 
   return (
     REVENUE_CHART_PADDING_LEFT +
@@ -485,7 +498,7 @@ function getRevenuePointX(
 
 
 /* ==========================================================================
-   REVENUE — POSITION Y
+   REVENUE — Y
    ========================================================================== */
 
 function getRevenuePointY(
@@ -499,6 +512,7 @@ function getRevenuePointY(
     REVENUE_CHART_PADDING_TOP -
     REVENUE_CHART_PADDING_BOTTOM;
 
+
   if (
     maximum <=
     0
@@ -508,6 +522,7 @@ function getRevenuePointY(
       availableHeight
     );
   }
+
 
   return (
     REVENUE_CHART_PADDING_TOP +
@@ -522,7 +537,7 @@ function getRevenuePointY(
 
 
 /* ==========================================================================
-   REVENUE — LINE PATH
+   REVENUE — PATH
    ========================================================================== */
 
 function buildRevenueLinePath(
@@ -543,11 +558,13 @@ function buildRevenueLinePath(
             values.length,
           );
 
+
         const y =
           getRevenuePointY(
             value,
             maximum,
           );
+
 
         return `${
           index ===
@@ -564,7 +581,7 @@ function buildRevenueLinePath(
 
 
 /* ==========================================================================
-   REVENUE — AREA PATH
+   REVENUE — AREA
    ========================================================================== */
 
 function buildRevenueAreaPath(
@@ -580,15 +597,18 @@ function buildRevenueAreaPath(
     return "";
   }
 
+
   const baselineY =
     REVENUE_CHART_HEIGHT -
     REVENUE_CHART_PADDING_BOTTOM;
+
 
   const firstX =
     getRevenuePointX(
       0,
       values.length,
     );
+
 
   const lastX =
     getRevenuePointX(
@@ -597,11 +617,13 @@ function buildRevenueAreaPath(
       values.length,
     );
 
+
   const linePath =
     buildRevenueLinePath(
       values,
       maximum,
     );
+
 
   return [
     `M ${firstX.toFixed(2)} ${baselineY.toFixed(2)}`,
@@ -621,7 +643,7 @@ function buildRevenueAreaPath(
 
 
 /* ==========================================================================
-   REVENUE — LABEL VISIBILITY
+   REVENUE — X LABEL VISIBILITY
    ========================================================================== */
 
 function shouldDisplayRevenueLabel(
@@ -637,6 +659,7 @@ function shouldDisplayRevenueLabel(
     return true;
   }
 
+
   const interval =
     Math.max(
       1,
@@ -645,6 +668,7 @@ function shouldDisplayRevenueLabel(
           6,
       ),
     );
+
 
   return (
     index ===
@@ -660,7 +684,7 @@ function shouldDisplayRevenueLabel(
 
 
 /* ==========================================================================
-   REVENUE SERIES
+   REVENUE — SERIES CHART
    ========================================================================== */
 
 function RevenueSeriesChart({
@@ -679,37 +703,33 @@ function RevenueSeriesChart({
         ),
     );
 
+
   const maximum =
     getMaximumValue(
       values,
     );
 
-  /**
-   * Si tous les montants sont à zéro,
-   * on conserve un maximum à zéro.
-   *
-   * getRevenuePointY() sait gérer ce cas.
-   *
-   * Cela évite d'afficher artificiellement une échelle 1 / 0,75 / 0,5...
-   * alors que le chiffre d'affaires réel est nul.
-   */
-  const chartMaximum =
+
+  const safeMaximum =
     maximum >
     0
       ? maximum
-      : 0;
+      : 1;
+
 
   const linePath =
     buildRevenueLinePath(
       values,
-      chartMaximum,
+      safeMaximum,
     );
+
 
   const areaPath =
     buildRevenueAreaPath(
       values,
-      chartMaximum,
+      safeMaximum,
     );
+
 
   return (
     <div className={styles.statisticsRevenueSeries}>
@@ -718,6 +738,7 @@ function RevenueSeriesChart({
           <span className={styles.statisticsRevenueCurrency}>
             {series.currency}
           </span>
+
 
           <span className={styles.statisticsRevenueGranularity}>
             {series.granularity ===
@@ -731,6 +752,7 @@ function RevenueSeriesChart({
         </div>
       </div>
 
+
       <div className={styles.statisticsRevenueChartViewport}>
         <svg
           className={styles.statisticsRevenueChart}
@@ -743,9 +765,6 @@ function RevenueSeriesChart({
             Évolution du chiffre d’affaires en {series.currency}
           </title>
 
-          {/* ==============================================================
-              GRID + Y AXIS
-              ============================================================== */}
 
           {Array.from(
             {
@@ -761,6 +780,7 @@ function RevenueSeriesChart({
                 index /
                 REVENUE_GRID_LINES;
 
+
               const y =
                 REVENUE_CHART_PADDING_TOP +
                 ratio *
@@ -770,12 +790,14 @@ function RevenueSeriesChart({
                     REVENUE_CHART_PADDING_BOTTOM
                   );
 
+
               const value =
-                chartMaximum *
+                safeMaximum *
                 (
                   1 -
                   ratio
                 );
+
 
               return (
                 <g key={index}>
@@ -789,6 +811,7 @@ function RevenueSeriesChart({
                     y2={y}
                     className={styles.statisticsRevenueGridLine}
                   />
+
 
                   <text
                     x={
@@ -811,9 +834,6 @@ function RevenueSeriesChart({
             },
           )}
 
-          {/* ==============================================================
-              AREA
-              ============================================================== */}
 
           {areaPath ? (
             <path
@@ -822,9 +842,6 @@ function RevenueSeriesChart({
             />
           ) : null}
 
-          {/* ==============================================================
-              LINE
-              ============================================================== */}
 
           {linePath ? (
             <path
@@ -834,9 +851,6 @@ function RevenueSeriesChart({
             />
           ) : null}
 
-          {/* ==============================================================
-              POINTS + X LABELS
-              ============================================================== */}
 
           {series.points.map(
             (
@@ -846,17 +860,20 @@ function RevenueSeriesChart({
               const value =
                 values[index];
 
+
               const x =
                 getRevenuePointX(
                   index,
                   values.length,
                 );
 
+
               const y =
                 getRevenuePointY(
                   value,
-                  chartMaximum,
+                  safeMaximum,
                 );
+
 
               return (
                 <g key={point.key}>
@@ -865,19 +882,8 @@ function RevenueSeriesChart({
                     cy={y}
                     r={4}
                     className={styles.statisticsRevenuePoint}
-                  >
-                    <title>
-                      {point.label}
-                      {" : "}
-                      {formatMoney({
-                        amount:
-                          point.amount,
+                  />
 
-                        currency:
-                          series.currency,
-                      })}
-                    </title>
-                  </circle>
 
                   {shouldDisplayRevenueLabel(
                     index,
@@ -933,6 +939,7 @@ export function RevenueChartCard({
         icon={ChartNoAxesCombined}
       />
 
+
       <div className={styles.statisticsChartCardBody}>
         {series.length ===
         0 ? (
@@ -960,7 +967,7 @@ export function RevenueChartCard({
 
 
 /* ==========================================================================
-   DONUT TYPES
+   DONUT — SEGMENT
    ========================================================================== */
 
 interface DonutSegment {
@@ -978,110 +985,51 @@ interface DonutSegment {
 }
 
 
-interface RenderedDonutSegment {
-  readonly segment:
-    DonutSegment;
-
-  readonly index:
-    number;
-
-  readonly percentage:
-    number;
-
-  readonly segmentLength:
-    number;
-
-  readonly remainingLength:
-    number;
-
-  readonly offset:
-    number;
-}
-
-
 /* ==========================================================================
-   DONUT — PREPARATION
+   DONUT — CUMULATIVE OFFSET
    ========================================================================== */
 
 /**
- * Construit tous les paramètres SVG AVANT le JSX.
+ * Calcule de manière pure le pourcentage déjà consommé par les segments
+ * précédents.
  *
- * Aucun compteur mutable n'est modifié pendant le rendu React.
+ * IMPORTANT :
  *
- * Cela évite notamment :
+ * On n'utilise volontairement aucune variable mutable déclarée dans le
+ * composant React. Cela évite :
  *
  * react-hooks/immutability
  *
- * "Cannot reassign variable after render completes"
+ * et garantit qu'un nouveau rendu repart toujours uniquement des props.
  */
 
-function buildRenderedDonutSegments(
+function getConsumedPercentageBeforeIndex(
   segments:
     readonly DonutSegment[],
-): readonly RenderedDonutSegment[] {
-  return segments.map(
-    (
-      segment,
-      index,
-    ) => {
-      const percentage =
-        clampPercentage(
-          segment.percentage,
-        );
-
-      const consumedPercentage =
-        segments
-          .slice(
-            0,
-            index,
-          )
-          .reduce(
-            (
-              total,
-              previousSegment,
-            ) =>
-              total +
-              clampPercentage(
-                previousSegment.percentage,
-              ),
-            0,
-          );
-
-      const segmentLength =
-        DONUT_CIRCUMFERENCE *
-        (
-          percentage /
-          100
-        );
-
-      const remainingLength =
-        Math.max(
-          0,
-          DONUT_CIRCUMFERENCE -
-            segmentLength,
-        );
-
-      const offset =
-        -DONUT_CIRCUMFERENCE *
-        (
-          consumedPercentage /
-          100
-        );
-
-      return {
-        segment,
-
+  index:
+    number,
+): number {
+  const consumed =
+    segments
+      .slice(
+        0,
         index,
+      )
+      .reduce(
+        (
+          total,
+          segment,
+        ) =>
+          total +
+          clampPercentage(
+            segment.percentage,
+          ),
+        0,
+      );
 
-        percentage,
 
-        segmentLength,
-
-        remainingLength,
-
-        offset,
-      };
-    },
+  return clampPercentage(
+    consumed,
   );
 }
 
@@ -1108,17 +1056,8 @@ function StatisticsDonut({
   readonly ariaLabel:
     string;
 }) {
-  const renderedSegments =
-    buildRenderedDonutSegments(
-      segments,
-    );
-
   return (
     <div className={styles.statisticsDonutLayout}>
-      {/* ==================================================================
-          SVG
-          ================================================================== */}
-
       <div className={styles.statisticsDonutChartWrapper}>
         <svg
           viewBox="0 0 120 120"
@@ -1130,6 +1069,7 @@ function StatisticsDonut({
             {ariaLabel}
           </title>
 
+
           <circle
             cx="60"
             cy="60"
@@ -1137,45 +1077,62 @@ function StatisticsDonut({
             className={styles.statisticsDonutTrack}
           />
 
-          {renderedSegments.map(
-            ({
+
+          {segments.map(
+            (
               segment,
               index,
-              percentage,
-              segmentLength,
-              remainingLength,
-              offset,
-            }) => (
-              <circle
-                key={segment.key}
-                cx="60"
-                cy="60"
-                r={DONUT_RADIUS}
-                className={[
-                  styles.statisticsDonutSegment,
-                  getChartToneClass(
-                    index,
-                  ),
-                ].join(" ")}
-                strokeDasharray={`${segmentLength} ${remainingLength}`}
-                strokeDashoffset={offset}
-                transform="rotate(-90 60 60)"
-              >
-                <title>
-                  {segment.label}
-                  {" : "}
-                  {formatInteger(
-                    segment.value,
-                  )}
-                  {" ("}
-                  {formatPercentage(
-                    percentage,
-                  )}
-                  {")"}
-                </title>
-              </circle>
-            ),
+            ) => {
+              const percentage =
+                clampPercentage(
+                  segment.percentage,
+                );
+
+
+              const segmentLength =
+                DONUT_CIRCUMFERENCE *
+                (
+                  percentage /
+                  100
+                );
+
+
+              const consumedPercentage =
+                getConsumedPercentageBeforeIndex(
+                  segments,
+                  index,
+                );
+
+
+              const offset =
+                -DONUT_CIRCUMFERENCE *
+                (
+                  consumedPercentage /
+                  100
+                );
+
+
+              return (
+                <circle
+                  key={segment.key}
+                  cx="60"
+                  cy="60"
+                  r={DONUT_RADIUS}
+                  className={[
+                    styles.statisticsDonutSegment,
+                    getChartToneClass(
+                      index,
+                    ),
+                  ].join(" ")}
+                  strokeDasharray={`${segmentLength} ${DONUT_CIRCUMFERENCE - segmentLength}`}
+                  strokeDashoffset={offset}
+                  transform="rotate(-90 60 60)"
+                  aria-hidden="true"
+                />
+              );
+            },
           )}
+
 
           <text
             x="60"
@@ -1185,6 +1142,7 @@ function StatisticsDonut({
           >
             {centerValue}
           </text>
+
 
           <text
             x="60"
@@ -1197,9 +1155,6 @@ function StatisticsDonut({
         </svg>
       </div>
 
-      {/* ==================================================================
-          LEGEND
-          ================================================================== */}
 
       <div className={styles.statisticsChartLegend}>
         {segments.map(
@@ -1221,9 +1176,11 @@ function StatisticsDonut({
                 aria-hidden="true"
               />
 
+
               <span className={styles.statisticsChartLegendLabel}>
                 {segment.label}
               </span>
+
 
               <strong className={styles.statisticsChartLegendValue}>
                 {formatInteger(
@@ -1266,6 +1223,7 @@ export function OrdersDistributionCard({
       0,
     );
 
+
   const segments:
     DonutSegment[] =
       distribution.map(
@@ -1288,6 +1246,7 @@ export function OrdersDistributionCard({
         }),
       );
 
+
   return (
     <section className={styles.statisticsChartCard}>
       <StatisticsChartCardHeader
@@ -1295,6 +1254,7 @@ export function OrdersDistributionCard({
         subtitle="Commandes par statut réel"
         icon={PieChart}
       />
+
 
       <div className={styles.statisticsChartCardBody}>
         {segments.length ===
@@ -1343,6 +1303,7 @@ export function CategorySalesCard({
         icon={Shapes}
       />
 
+
       <div className={styles.statisticsChartCardBody}>
         {categories.length ===
         0 ? (
@@ -1360,10 +1321,12 @@ export function CategorySalesCard({
                   category.categoryName ??
                   "Sans catégorie";
 
+
                 const percentage =
                   clampPercentage(
                     category.quantitySharePercentage,
                   );
+
 
                 return (
                   <div
@@ -1378,6 +1341,7 @@ export function CategorySalesCard({
                         {label}
                       </span>
 
+
                       <span className={styles.statisticsBarValue}>
                         {formatInteger(
                           category.quantitySold,
@@ -1390,6 +1354,7 @@ export function CategorySalesCard({
                         )}
                       </span>
                     </div>
+
 
                     <div
                       className={styles.statisticsBarTrack}
@@ -1449,6 +1414,7 @@ export function PaymentDistributionCard({
       0,
     );
 
+
   const segments:
     DonutSegment[] =
       distribution.map(
@@ -1471,6 +1437,7 @@ export function PaymentDistributionCard({
         }),
       );
 
+
   return (
     <section className={styles.statisticsChartCard}>
       <StatisticsChartCardHeader
@@ -1478,6 +1445,7 @@ export function PaymentDistributionCard({
         subtitle="Paiements encaissés par mode"
         icon={CircleDollarSign}
       />
+
 
       <div className={styles.statisticsChartCardBody}>
         {segments.length ===
@@ -1503,6 +1471,7 @@ export function PaymentDistributionCard({
               ariaLabel="Répartition des paiements encaissés par mode"
             />
 
+
             <div className={styles.statisticsPaymentTotals}>
               {distribution.map(
                 (
@@ -1517,6 +1486,7 @@ export function PaymentDistributionCard({
                         item.method,
                       )}
                     </span>
+
 
                     <div className={styles.statisticsPaymentTotalValues}>
                       {item.totals.length ===
@@ -1551,7 +1521,7 @@ export function PaymentDistributionCard({
 
 
 /* ==========================================================================
-   CITY — SINGLE REVENUE CURRENCY
+   CITY — SINGLE CURRENCY
    ========================================================================== */
 
 function getSingleCityRevenueCurrency(
@@ -1560,6 +1530,7 @@ function getSingleCityRevenueCurrency(
 ): string | null {
   const currencies =
     new Set<string>();
+
 
   for (
     const city of
@@ -1573,6 +1544,7 @@ function getSingleCityRevenueCurrency(
         money.currency,
       );
 
+
       if (
         currencies.size >
         1
@@ -1582,6 +1554,7 @@ function getSingleCityRevenueCurrency(
     }
   }
 
+
   if (
     currencies.size !==
     1
@@ -1589,32 +1562,10 @@ function getSingleCityRevenueCurrency(
     return null;
   }
 
+
   return Array.from(
     currencies,
   )[0];
-}
-
-
-/* ==========================================================================
-   CITY — REVENUE MONEY
-   ========================================================================== */
-
-function getCityRevenueMoney(
-  city:
-    ManagerStatisticsCityPerformanceItem,
-  currency:
-    string,
-): ManagerStatisticsMoney | null {
-  return (
-    city.revenue.find(
-      (
-        entry,
-      ) =>
-        entry.currency ===
-        currency,
-    ) ??
-    null
-  );
 }
 
 
@@ -1629,10 +1580,14 @@ function getCityRevenueValue(
     string,
 ): number {
   const money =
-    getCityRevenueMoney(
-      city,
-      currency,
+    city.revenue.find(
+      (
+        entry,
+      ) =>
+        entry.currency ===
+        currency,
     );
+
 
   return money
     ? parseMoneyAmount(
@@ -1657,18 +1612,6 @@ export function CityPerformanceCard({
       cities,
     );
 
-  /**
-   * Une seule devise présente :
-   *
-   * → barres basées sur le chiffre d'affaires.
-   *
-   * Plusieurs devises ou aucune devise :
-   *
-   * → barres basées sur le nombre réel de commandes.
-   *
-   * Ainsi aucune conversion ou addition monétaire artificielle
-   * n'est effectuée.
-   */
 
   const metric:
     "revenue" |
@@ -1677,30 +1620,27 @@ export function CityPerformanceCard({
         ? "revenue"
         : "orders";
 
+
   const values =
     cities.map(
       (
         city,
-      ) => {
-        if (
-          metric ===
-            "revenue" &&
-          revenueCurrency
-        ) {
-          return getCityRevenueValue(
-            city,
-            revenueCurrency,
-          );
-        }
-
-        return city.ordersCount;
-      },
+      ) =>
+        metric ===
+        "revenue"
+          ? getCityRevenueValue(
+              city,
+              revenueCurrency as string,
+            )
+          : city.ordersCount,
     );
+
 
   const maximum =
     getMaximumValue(
       values,
     );
+
 
   return (
     <section className={styles.statisticsChartCard}>
@@ -1708,8 +1648,7 @@ export function CityPerformanceCard({
         title="Performance par ville"
         subtitle={
           metric ===
-            "revenue" &&
-          revenueCurrency
+          "revenue"
             ? `Chiffre d’affaires en ${revenueCurrency}`
             : "Nombre réel de commandes"
         }
@@ -1723,6 +1662,7 @@ export function CityPerformanceCard({
           </span>
         }
       />
+
 
       <div className={styles.statisticsChartCardBody}>
         {cities.length ===
@@ -1738,8 +1678,8 @@ export function CityPerformanceCard({
                 index,
               ) => {
                 const value =
-                  values[index] ??
-                  0;
+                  values[index];
+
 
                 const percentage =
                   maximum >
@@ -1753,43 +1693,29 @@ export function CityPerformanceCard({
                       )
                     : 0;
 
-                let valueLabel:
-                  string;
 
-                if (
+                const valueLabel =
                   metric ===
-                    "revenue" &&
+                  "revenue" &&
                   revenueCurrency
-                ) {
-                  const revenue =
-                    getCityRevenueMoney(
-                      city,
-                      revenueCurrency,
-                    );
+                    ? formatMoney({
+                        amount:
+                          String(
+                            value,
+                          ),
 
-                  valueLabel =
-                    revenue
-                      ? formatMoney(
-                          revenue,
-                        )
-                      : formatMoney({
-                          amount:
-                            "0",
+                        currency:
+                          revenueCurrency,
+                      })
+                    : `${formatInteger(
+                        city.ordersCount,
+                      )} ${
+                        city.ordersCount >
+                        1
+                          ? "commandes"
+                          : "commande"
+                      }`;
 
-                          currency:
-                            revenueCurrency,
-                        });
-                } else {
-                  valueLabel =
-                    `${formatInteger(
-                      city.ordersCount,
-                    )} ${
-                      city.ordersCount >
-                      1
-                        ? "commandes"
-                        : "commande"
-                    }`;
-                }
 
                 return (
                   <div
@@ -1802,6 +1728,7 @@ export function CityPerformanceCard({
                           {city.city}
                         </span>
 
+
                         <small>
                           {formatInteger(
                             city.productsSold,
@@ -1810,8 +1737,7 @@ export function CityPerformanceCard({
                           {city.productsSold >
                           1
                             ? "s"
-                            : ""}{" "}
-                          vendue
+                            : ""} vendue
                           {city.productsSold >
                           1
                             ? "s"
@@ -1819,10 +1745,12 @@ export function CityPerformanceCard({
                         </small>
                       </div>
 
+
                       <strong className={styles.statisticsCityValue}>
                         {valueLabel}
                       </strong>
                     </div>
+
 
                     <div
                       className={styles.statisticsCityBarTrack}

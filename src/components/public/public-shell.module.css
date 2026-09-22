@@ -26,6 +26,17 @@
    mobile / tablette : < 1024px
    desktop           : >= 1024px
 
+   RÈGLE DE NAVIGATION / FOOTER :
+
+   desktop >= 1024px :
+   - footer public visible ;
+   - navigation mobile basse masquée.
+
+   mobile / tablette < 1024px :
+   - footer public classique masqué sur TOUTES les pages publiques ;
+   - navigation mobile basse visible avec les 5 entrées officielles ;
+   - espace bas réservé globalement pour éviter que le contenu passe dessous.
+
    IMPORTANT :
 
    Aucun max-width global n'enferme le site dans une petite colonne.
@@ -3377,6 +3388,7 @@
 
 
   .publicFooter {
+    display: block;
     padding-bottom: 0;
   }
 }
@@ -3457,12 +3469,14 @@
    ========================================================================== */
 
 @media (max-width: 1023px) {
+  /**
+   * Le shell lui-même ne reçoit pas de second padding bas.
+   *
+   * L'espace nécessaire à la navigation fixe est centralisé sur
+   * .publicShellMain afin d'éviter un double espace vide en bas des pages.
+   */
   .publicShell {
-    padding-bottom:
-      calc(
-        74px +
-        env(safe-area-inset-bottom)
-      );
+    padding-bottom: 0;
   }
 
 
@@ -3475,12 +3489,25 @@
   }
 
 
+  /**
+   * Navigation mobile officielle :
+   *
+   * Accueil | Produits | Panier | Commandes | Compte
+   */
+  .publicMobileBottomNav {
+    display: block;
+  }
+
+
+  /**
+   * Règle globale :
+   *
+   * sur mobile et tablette, le footer desktop classique est masqué sur
+   * toutes les pages publiques, sans exception locale et sans :has().
+   */
   .publicFooter {
-    padding-bottom:
-      calc(
-        66px +
-        env(safe-area-inset-bottom)
-      );
+    display: none;
+    padding-bottom: 0;
   }
 
 
@@ -3562,27 +3589,13 @@
 
 @media (max-width: 767px) {
   /* ------------------------------------------------------------------------
-     FOOTER MASQUÉ SUR LES PAGES OÙ LA NAVIGATION MOBILE SUFFIT
+     FOOTER
      ------------------------------------------------------------------------
-     
-     Fiche produit :
-     
-     [data-public-product-detail="true"]
-     
-     Panier :
-     
-     [data-public-panier-page="true"]
-     
-     Le Footer reste disponible sur les autres pages publiques mobiles.
-     Cela respecte la demande sans modifier le comportement global du site.
-     ------------------------------------------------------------------------ */
 
-  body:has([data-public-product-detail="true"])
-  .publicFooter,
-  body:has([data-public-panier-page="true"])
-  .publicFooter {
-    display: none;
-  }
+     Le footer classique est déjà masqué globalement sous 1024px.
+     La navigation mobile fixe devient l'unique navigation basse.
+     Aucun sélecteur page par page n'est nécessaire.
+     ------------------------------------------------------------------------ */
 
 
   .publicFooterServiceStripContent {

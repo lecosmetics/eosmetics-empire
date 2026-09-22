@@ -35,6 +35,10 @@ import {
 } from "@/config/public-navigation";
 
 import {
+  generalAppRoutes,
+} from "@/config/routes";
+
+import {
   PUBLIC_SITE,
 } from "@/config/public-site";
 
@@ -1373,7 +1377,7 @@ export default function PublicProductDetail({
 
               <Link
                 href={
-                  PUBLIC_NAVIGATION_ROUTES.PRODUCTS
+                  generalAppRoutes.checkout
                 }
                 className={
                   styles.productDetailContinueLink
@@ -1386,7 +1390,7 @@ export default function PublicProductDetail({
                 />
 
                 <span>
-                  Continuer mes achats
+                  Passer la commande
                 </span>
               </Link>
             </div>
@@ -2238,7 +2242,7 @@ export default function PublicProductDetail({
  *        ↓
  *
  * VOIR MON PANIER
- * CONTINUER MES ACHATS
+ * Passer la commande
  *
  *        ↓
  *

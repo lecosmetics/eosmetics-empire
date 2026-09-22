@@ -26,15 +26,16 @@ import type {
  * RESPONSABILITÉS :
  *
  * - centraliser la configuration du shell public ;
- * - utiliser src/config/routes.ts comme source unique des routes ;
+ * - utiliser src/config/routes.ts comme source unique des pathnames ;
  * - centraliser les liens fixes du menu desktop ;
- * - centraliser les actions du header ;
+ * - centraliser les actions du Header ;
  * - centraliser le drawer mobile ;
  * - centraliser les 5 boutons de navigation mobile ;
  * - fournir l'accès à la page générale des catégories ;
  * - construire les routes dynamiques de catégories ;
- * - construire les routes publiques des offres StoreProduct ;
+ * - construire les routes publiques StoreProduct ;
  * - construire la route de recherche avec son query parameter ;
+ * - exposer les routes du parcours de commande ;
  * - fournir une configuration strictement typée ;
  * - éviter toute duplication inutile d'URL.
  *
@@ -46,82 +47,66 @@ import type {
  *
  * ============================================================================
  *
- * ARCHITECTURE PRODUITS PUBLIQUE
- *
- * Catalogue :
+ * PARCOURS PRODUIT / COMMANDE :
  *
  * /produits
  *
- * Détail d'une offre StoreProduct :
+ *      ↓
  *
  * /p/[qrToken]
  *
- * construit exclusivement avec :
- *
- * publicRouteBuilders.productByQr(qrToken)
- *
- * ============================================================================
- *
- * ARCHITECTURE CATÉGORIES
- *
- * Toutes les catégories :
- *
- * /categories
- *
- * Produits d'une catégorie :
- *
- * /categories/[slug]
- *
- * construit exclusivement avec :
- *
- * publicRouteBuilders.categoryBySlug(slug)
- *
- * ============================================================================
- *
- * PANIER :
- *
- * Route publique :
+ *      ↓
  *
  * /panier
  *
- * IMPORTANT :
+ *      ↓
  *
- * Certains identifiants techniques historiques du shell restent :
+ * /commande
  *
- * CART
+ *      ↓
  *
- * id: "cart"
+ * /commande/paiement
  *
- * icon: "shopping-cart"
+ *      ↓
  *
- * Ils sont conservés volontairement afin de ne pas casser :
- *
- * - les types existants ;
- * - les composants existants ;
- * - les mappings d'icônes existants ;
- * - les conditions existantes.
- *
- * La route métier reste néanmoins :
- *
- * /panier
+ * /commande/succes
  *
  * ============================================================================
  *
  * IMPORTANT :
  *
- * Ce fichier ne contient :
+ * Les routes du checkout existent dans cette configuration afin d'être
+ * réutilisables proprement.
+ *
+ * Elles ne deviennent PAS de nouveaux boutons dans :
+ *
+ * PUBLIC_MOBILE_BOTTOM_NAVIGATION
+ *
+ * La barre mobile reste exactement :
+ *
+ * Accueil
+ * Produits
+ * Panier
+ * Commandes
+ * Compte
+ *
+ * ============================================================================
+ *
+ * CE FICHIER NE CONTIENT :
  *
  * - aucun composant React ;
  * - aucune icône React ;
  * - aucun accès Prisma ;
  * - aucune lecture de session ;
  * - aucun compteur fictif ;
- * - aucune catégorie ProductCategory codée en dur ;
+ * - aucune ProductCategory métier codée en dur ;
  * - aucune donnée Product ;
  * - aucune donnée StoreProduct ;
  * - aucune donnée Store ;
  * - aucun prix ;
  * - aucun stock ;
+ * - aucun frais de livraison ;
+ * - aucun moyen de paiement ;
  * - aucune construction manuelle de route dynamique produit ;
  * - aucune construction manuelle de route dynamique catégorie.
  *
@@ -130,27 +115,21 @@ import type {
 
 
 /* ==========================================================================
-   1. ROUTES PUBLIQUES UTILISÉES PAR LE SHELL
+   1. ROUTES PUBLIQUES
    ========================================================================== */
 
 /**
- * IMPORTANT :
- *
- * Cette configuration ne possède plus ses propres URLs statiques.
- *
- * Chaque route ci-dessous est directement reliée à :
+ * Tous les pathnames statiques proviennent exclusivement de :
  *
  * src/config/routes.ts
  *
- * Cela évite d'avoir :
+ * IMPORTANT :
  *
- * routes.ts
+ * CART reste conservé comme identifiant technique historique du shell.
  *
- * ET
+ * La terminologie visible côté cliente reste :
  *
- * public-navigation.ts
- *
- * contenant deux valeurs différentes pour une même route.
+ * Panier
  */
 export const PUBLIC_NAVIGATION_ROUTES = {
   /* ------------------------------------------------------------------------
@@ -205,16 +184,41 @@ export const PUBLIC_NAVIGATION_ROUTES = {
      PANIER
      ------------------------------------------------------------------------
      
-     Le nom CART est conservé comme identifiant technique historique
-     du shell public.
+     Identifiant technique conservé :
      
-     La vraie route métier provient désormais de :
+     CART
      
-     generalAppRoutes.panier
+     Route métier :
+     
+     /panier
      ------------------------------------------------------------------------ */
 
   CART:
     generalAppRoutes.panier,
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — INFORMATIONS / LIVRAISON
+     ------------------------------------------------------------------------ */
+
+  CHECKOUT:
+    generalAppRoutes.checkout,
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — PAYMENT
+     ------------------------------------------------------------------------ */
+
+  CHECKOUT_PAYMENT:
+    generalAppRoutes.checkoutPayment,
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT — SUCCESS
+     ------------------------------------------------------------------------ */
+
+  CHECKOUT_SUCCESS:
+    generalAppRoutes.checkoutSuccess,
 
 
   /* ------------------------------------------------------------------------
@@ -258,7 +262,7 @@ export const PUBLIC_NAVIGATION_ROUTES = {
 
 
   /* ------------------------------------------------------------------------
-     DELIVERY
+     DELIVERY INFORMATION
      ------------------------------------------------------------------------ */
 
   DELIVERY:
@@ -297,24 +301,15 @@ export type PublicNavigationRoute =
    ========================================================================== */
 
 /**
- * Navigation fixe principale du desktop.
- *
- * ============================================================================
+ * Navigation fixe principale desktop.
  *
  * IMPORTANT :
  *
- * "Catégories" représente ici la page générale :
- *
- * /categories
- *
- * Les vraies ProductCategory provenant de PostgreSQL restent ajoutées
- * dynamiquement par :
+ * Les ProductCategory réelles restent chargées dynamiquement depuis :
  *
  * src/lib/public/navigation/public-navigation-query.ts
  *
- * Il n'y a donc aucune catégorie métier codée en dur ici.
- *
- * ============================================================================
+ * Aucune catégorie métier réelle n'est codée en dur ici.
  */
 export const PUBLIC_DESKTOP_NAVIGATION =
   [
@@ -389,13 +384,6 @@ export const PUBLIC_DESKTOP_NAVIGATION =
       href:
         PUBLIC_NAVIGATION_ROUTES.CATEGORIES,
 
-      /**
-       * L'icône "grid" existe déjà dans le système d'icônes
-       * de la navigation publique.
-       *
-       * On évite volontairement d'introduire ici un nouvel identifiant
-       * d'icône non confirmé.
-       */
       icon:
         "grid",
 
@@ -477,18 +465,12 @@ export const PUBLIC_DESKTOP_NAVIGATION =
    ========================================================================== */
 
 /**
- * Actions affichées à droite dans le Header desktop.
+ * Actions du Header desktop.
  *
- * ============================================================================
+ * supportsBadge signifie uniquement que l'action peut recevoir une vraie
+ * valeur métier.
  *
- * IMPORTANT :
- *
- * supportsBadge signifie uniquement que le composant PEUT afficher
- * un badge lorsqu'une vraie donnée est fournie.
- *
- * Aucun compteur fictif n'est défini ici.
- *
- * ============================================================================
+ * Aucun compteur n'est inventé ici.
  */
 export const PUBLIC_HEADER_ACTIONS =
   [
@@ -590,11 +572,10 @@ export const PUBLIC_HEADER_ACTIONS =
 
     {
       /**
-       * Identifiant technique existant conservé pour compatibilité.
+       * Identifiant technique historique conservé.
        *
-       * La route réelle reste :
-       *
-       * /panier
+       * Ne pas renommer brutalement "cart" tant que les types,
+       * composants et mappings existants l'utilisent.
        */
       id:
         "cart",
@@ -634,14 +615,18 @@ export const PUBLIC_HEADER_ACTIONS =
    ========================================================================== */
 
 /**
- * Navigation du menu hamburger mobile.
+ * Le drawer mobile peut contenir davantage de destinations que la barre
+ * fixe située au bas de l'écran.
  *
- * ============================================================================
+ * Les étapes checkout :
  *
- * Le drawer peut contenir davantage de liens que la barre fixe située
- * en bas de l'écran.
+ * /commande
+ * /commande/paiement
+ * /commande/succes
  *
- * ============================================================================
+ * ne sont volontairement PAS ajoutées ici.
+ *
+ * Elles appartiennent au parcours transactionnel initié depuis le Panier.
  */
 export const PUBLIC_MOBILE_DRAWER_NAVIGATION =
   [
@@ -972,10 +957,10 @@ export const PUBLIC_MOBILE_DRAWER_NAVIGATION =
 
 /**
  * ============================================================================
- * ARCHITECTURE FIXÉE
+ * ARCHITECTURE MOBILE FIXÉE
  * ============================================================================
  *
- * La navigation mobile basse reste EXACTEMENT :
+ * EXACTEMENT 5 éléments :
  *
  * 1. Accueil
  * 2. Produits
@@ -985,17 +970,15 @@ export const PUBLIC_MOBILE_DRAWER_NAVIGATION =
  *
  * ============================================================================
  *
- * Aucune :
+ * Les pages :
  *
- * - catégorie ;
- * - promotion ;
- * - nouveauté ;
- * - favoris ;
- * - autre page
+ * /commande
+ * /commande/paiement
+ * /commande/succes
  *
- * ne doit ajouter un sixième bouton ici.
+ * n'ajoutent aucun nouvel onglet.
  *
- * ============================================================================
+ * Le bouton Panier reste l'entrée transactionnelle du parcours checkout.
  */
 export const PUBLIC_MOBILE_BOTTOM_NAVIGATION =
   [
@@ -1052,17 +1035,6 @@ export const PUBLIC_MOBILE_BOTTOM_NAVIGATION =
     },
 
     {
-      /**
-       * "cart" reste l'identifiant technique existant.
-       *
-       * Le libellé utilisateur est bien :
-       *
-       * Panier
-       *
-       * et la route est :
-       *
-       * /panier
-       */
       id:
         "cart",
 
@@ -1147,11 +1119,7 @@ export const PUBLIC_MOBILE_BOTTOM_NAVIGATION =
    ========================================================================== */
 
 /**
- * Route publique utilisée par PublicSearchForm.
- *
- * Source :
- *
- * src/config/routes.ts
+ * Pathname de recherche.
  *
  * Exemple final :
  *
@@ -1162,9 +1130,7 @@ export const PUBLIC_SEARCH_ROUTE =
 
 
 /**
- * Nom du paramètre URL de recherche.
- *
- * Il ne s'agit pas d'une route.
+ * Paramètre officiel de recherche.
  */
 export const PUBLIC_SEARCH_QUERY_PARAMETER =
   "q" as const;
@@ -1175,21 +1141,9 @@ export const PUBLIC_SEARCH_QUERY_PARAMETER =
    ========================================================================== */
 
 /**
- * Construit une route de catégorie à partir du vrai slug ProductCategory.
+ * Construit la route d'une vraie ProductCategory.
  *
- * ============================================================================
- *
- * IMPORTANT :
- *
- * La construction du pathname est exclusivement déléguée à :
- *
- * src/config/routes.ts
- *
- * On ne fait donc jamais manuellement :
- *
- * /categories/${slug}
- *
- * ============================================================================
+ * Aucun pathname dynamique n'est fabriqué manuellement ici.
  */
 export function buildPublicCategoryNavigationHref(
   slug:
@@ -1199,12 +1153,6 @@ export function buildPublicCategoryNavigationHref(
     slug.trim();
 
 
-  /**
-   * Aucun slug exploitable.
-   *
-   * On redirige vers la liste générale des catégories plutôt que
-   * d'inventer une catégorie.
-   */
   if (
     !normalizedSlug
   ) {
@@ -1223,36 +1171,11 @@ export function buildPublicCategoryNavigationHref(
    ========================================================================== */
 
 /**
- * Helper explicite pour construire la route canonique d'une OFFRE
- * StoreProduct.
- *
- * ============================================================================
- *
- * Catalogue :
- *
- * /produits
- *
- * ============================================================================
- *
- * Détail :
+ * Construit la route canonique d'une offre StoreProduct.
  *
  * /p/[qrToken]
  *
- * ============================================================================
- *
- * qrToken appartient à StoreProduct.
- *
- * ============================================================================
- *
- * IMPORTANT :
- *
- * On ne construit jamais :
- *
- * /produits/[slug]
- *
- * ici.
- *
- * ============================================================================
+ * qrToken doit provenir de StoreProduct.
  */
 export function buildPublicProductDetailHref(
   qrToken:
@@ -1262,11 +1185,6 @@ export function buildPublicProductDetailHref(
     qrToken.trim();
 
 
-  /**
-   * Sans qrToken exploitable, aucune offre précise ne peut être ouverte.
-   *
-   * Le fallback reste donc le catalogue public.
-   */
   if (
     !normalizedQrToken
   ) {
@@ -1289,13 +1207,9 @@ export function buildPublicProductDetailHref(
  *
  * /recherche?q=...
  *
- * ============================================================================
+ * Le pathname provient toujours de routes.ts.
  *
- * La valeur de recherche est encodée par URLSearchParams.
- *
- * Le pathname lui-même vient toujours de src/config/routes.ts.
- *
- * ============================================================================
+ * Seule la query string est construite ici.
  */
 export function buildPublicSearchHref(
   query:
@@ -1330,14 +1244,9 @@ export function buildPublicSearchHref(
    ========================================================================== */
 
 /**
- * ============================================================================
+ * Chaque helper retourne une nouvelle collection.
  *
- * Ces helpers retournent de nouvelles collections.
- *
- * Cela évite qu'un consommateur puisse modifier accidentellement
- * les tableaux de configuration exportés plus haut.
- *
- * ============================================================================
+ * La configuration source reste immuable.
  */
 
 export function getEnabledPublicDesktopNavigation():
@@ -1421,16 +1330,11 @@ export function getEnabledPublicMobileBottomNavigation():
    ========================================================================== */
 
 /**
- * ============================================================================
- *
- * Les vraies ProductCategory et leurs données dynamiques ne sont PAS
- * inscrites dans cette configuration statique.
- *
- * Elles restent assemblées côté serveur dans :
+ * Les ProductCategory réelles restent assemblées côté serveur dans :
  *
  * src/lib/public/navigation/public-navigation-query.ts
  *
- * ============================================================================
+ * Aucune donnée métier dynamique n'est ajoutée ici.
  */
 export const PUBLIC_NAVIGATION_CONFIG = {
   /* ------------------------------------------------------------------------
@@ -1442,7 +1346,7 @@ export const PUBLIC_NAVIGATION_CONFIG = {
 
 
   /* ------------------------------------------------------------------------
-     DESKTOP
+     DESKTOP NAVIGATION
      ------------------------------------------------------------------------ */
 
   desktopNavigation:
@@ -1450,7 +1354,7 @@ export const PUBLIC_NAVIGATION_CONFIG = {
 
 
   /* ------------------------------------------------------------------------
-     HEADER
+     HEADER ACTIONS
      ------------------------------------------------------------------------ */
 
   headerActions:
@@ -1522,6 +1426,27 @@ export const PUBLIC_NAVIGATION_CONFIG = {
   panier: {
     route:
       PUBLIC_NAVIGATION_ROUTES.CART,
+  },
+
+
+  /* ------------------------------------------------------------------------
+     CHECKOUT
+     ------------------------------------------------------------------------
+     
+     Ces routes appartiennent au parcours transactionnel.
+     
+     Elles ne sont pas ajoutées automatiquement aux menus.
+     ------------------------------------------------------------------------ */
+
+  checkout: {
+    informationRoute:
+      PUBLIC_NAVIGATION_ROUTES.CHECKOUT,
+
+    paymentRoute:
+      PUBLIC_NAVIGATION_ROUTES.CHECKOUT_PAYMENT,
+
+    successRoute:
+      PUBLIC_NAVIGATION_ROUTES.CHECKOUT_SUCCESS,
   },
 
 
@@ -1600,11 +1525,9 @@ export const PUBLIC_NAVIGATION_CONFIG = {
  *
  * PRODUITS :
  *
- * Catalogue :
- *
  * /produits
  *
- * Détail StoreProduct :
+ * Détail :
  *
  * /p/[qrToken]
  *
@@ -1612,11 +1535,9 @@ export const PUBLIC_NAVIGATION_CONFIG = {
  *
  * CATÉGORIES :
  *
- * Catalogue catégories :
- *
  * /categories
  *
- * Produits de catégorie :
+ * Détail :
  *
  * /categories/[slug]
  *
@@ -1628,15 +1549,52 @@ export const PUBLIC_NAVIGATION_CONFIG = {
  *
  * ============================================================================
  *
+ * COMMANDE :
+ *
+ * /commande
+ *
+ * ============================================================================
+ *
+ * PAIEMENT :
+ *
+ * /commande/paiement
+ *
+ * ============================================================================
+ *
+ * CONFIRMATION :
+ *
+ * /commande/succes
+ *
+ * ============================================================================
+ *
  * RECHERCHE :
  *
  * /recherche?q=...
  *
  * ============================================================================
  *
- * AUCUN PATHNAME PUBLIC N'EST DUPLIQUÉ MANUELLEMENT DANS CE FICHIER.
+ * IMPORTANT :
  *
- * AUCUNE ROUTE DYNAMIQUE N'EST FABRIQUÉE MANUELLEMENT.
+ * /commande
+ * /commande/paiement
+ * /commande/succes
+ *
+ * sont exposées dans la configuration afin d'être réutilisées par le
+ * parcours checkout.
+ *
+ * Elles ne créent :
+ *
+ * - aucun sixième bouton mobile ;
+ * - aucun item supplémentaire dans le Header ;
+ * - aucun item supplémentaire dans le drawer ;
+ * - aucun moyen de paiement fictif ;
+ * - aucun frais de livraison fictif.
+ *
+ * ============================================================================
+ *
+ * AUCUN PATHNAME PUBLIC STATIQUE N'EST DUPLIQUÉ MANUELLEMENT ICI.
+ *
+ * AUCUNE ROUTE DYNAMIQUE PRODUIT OU CATÉGORIE N'EST FABRIQUÉE MANUELLEMENT.
  *
  * ============================================================================
  */
