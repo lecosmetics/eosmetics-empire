@@ -5,6 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prisma:generate": "prisma generate --schema=src/prisma/contract.prisma",
+    "postinstall": "npm run prisma:generate",
+    "prebuild": "npm run prisma:generate",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
