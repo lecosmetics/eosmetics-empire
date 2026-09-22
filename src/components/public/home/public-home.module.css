@@ -1,0 +1,3327 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * HOME PUBLIQUE OFFICIELLE — STYLES COMPLETS
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/home/public-home.module.css
+ *
+ * ============================================================================
+ *
+ * ARCHITECTURE
+ *
+ * 1. Hero
+ * 2. Avantages
+ * 3. Catégories
+ * 4. Bannière résultats
+ * 5. Produits
+ * 6. Instagram
+ *
+ * ============================================================================
+ *
+ * OBJECTIF PRINCIPAL
+ *
+ * - utiliser réellement toute la largeur disponible ;
+ * - ne pas créer de grands espaces latéraux inutiles ;
+ * - ne pas bloquer la Home dans un max-width artificiel ;
+ * - conserver seulement de petits gutters pour la lisibilité ;
+ * - 5 produits par ligne sur desktop ;
+ * - 2 produits par ligne sur mobile ;
+ * - aucun carousel horizontal produit ;
+ * - aucun espace réservé aux filtres supprimés ;
+ * - responsive propre de 320px jusqu’aux grands écrans.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. VARIABLES COMMUNES
+   ========================================================================== */
+
+.heroSection,
+.benefitsSection,
+.categoriesSection,
+.promotionSection,
+.featuredProductsSection,
+.instagramSection {
+  --home-primary:
+    var(--ce-primary, #ed006d);
+
+  --home-primary-hover:
+    #d60063;
+
+  --home-primary-dark:
+    #b80056;
+
+  --home-primary-soft:
+    #fff0f6;
+
+  --home-primary-soft-strong:
+    #ffd9e9;
+
+  --home-pink-light:
+    #fff7fa;
+
+  --home-pink-medium:
+    #ffc9df;
+
+  --home-black:
+    #111014;
+
+  --home-anthracite:
+    #27232a;
+
+  --home-text:
+    #1b171c;
+
+  --home-text-secondary:
+    #625c63;
+
+  --home-text-muted:
+    #8b858c;
+
+  --home-white:
+    #ffffff;
+
+  --home-border:
+    #ece7eb;
+
+  --home-border-soft:
+    #f3eef1;
+
+  --home-surface:
+    #ffffff;
+
+  --home-surface-soft:
+    #faf7f9;
+
+  --home-shadow-small:
+    0 4px 14px
+    rgb(35 21 30 / 5%);
+
+  --home-shadow-medium:
+    0 10px 28px
+    rgb(35 21 30 / 8%);
+
+  --home-shadow-pink:
+    0 9px 24px
+    rgb(237 0 109 / 20%);
+
+  /**
+   * IMPORTANT :
+   *
+   * Plus aucun max-width 1440px.
+   *
+   * La Home utilise toute la largeur du viewport.
+   */
+  --home-content-width:
+    100%;
+
+  /**
+   * Petit espace de sécurité uniquement.
+   *
+   * Pas de gros blanc sur les côtés.
+   */
+  --home-page-gutter:
+    clamp(
+      12px,
+      2vw,
+      30px
+    );
+
+  position:
+    relative;
+
+  box-sizing:
+    border-box;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+}
+
+
+/* ==========================================================================
+   2. BOX SIZING
+   ========================================================================== */
+
+.heroSection *,
+.benefitsSection *,
+.categoriesSection *,
+.promotionSection *,
+.featuredProductsSection *,
+.instagramSection * {
+  box-sizing:
+    border-box;
+}
+
+
+/* ==========================================================================
+   3. UTILITAIRES
+   ========================================================================== */
+
+.homeInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--home-page-gutter);
+}
+
+
+.srOnly {
+  position:
+    absolute !important;
+
+  width:
+    1px !important;
+
+  height:
+    1px !important;
+
+  padding:
+    0 !important;
+
+  margin:
+    -1px !important;
+
+  overflow:
+    hidden !important;
+
+  clip:
+    rect(0, 0, 0, 0) !important;
+
+  white-space:
+    nowrap !important;
+
+  border:
+    0 !important;
+}
+
+
+/* ==========================================================================
+   4. TITRES DE SECTION
+   ========================================================================== */
+
+.sectionHeader {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  gap:
+    16px;
+
+  margin:
+    0 0 14px;
+}
+
+
+.sectionHeading {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+}
+
+
+.sectionTitle {
+  position:
+    relative;
+
+  margin:
+    0;
+
+  color:
+    var(--home-text);
+
+  font-size:
+    clamp(
+      1.35rem,
+      2vw,
+      2rem
+    );
+
+  font-weight:
+    850;
+
+  line-height:
+    1.05;
+
+  letter-spacing:
+    -0.04em;
+}
+
+
+.sectionTitle::after {
+  content:
+    "";
+
+  display:
+    block;
+
+  width:
+    42px;
+
+  height:
+    4px;
+
+  margin-top:
+    6px;
+
+  background:
+    var(--home-primary);
+
+  border-radius:
+    999px;
+}
+
+
+.sectionViewAll {
+  display:
+    inline-flex;
+
+  flex:
+    0 0 auto;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+
+  min-height:
+    30px;
+
+  padding:
+    0;
+
+  color:
+    var(--home-primary);
+
+  background:
+    transparent;
+
+  border:
+    0;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    750;
+
+  line-height:
+    1.15;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+}
+
+
+.sectionViewAll:hover {
+  color:
+    var(--home-primary-hover);
+}
+
+
+.sectionViewAll:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 22%);
+
+  outline-offset:
+    3px;
+
+  border-radius:
+    6px;
+}
+
+
+/* ==========================================================================
+   5. HERO — SECTION
+   ========================================================================== */
+
+.heroSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    var(--home-white);
+
+  overflow:
+    hidden;
+}
+
+
+/* ==========================================================================
+   6. HERO — CONTENEUR PLEIN ÉCRAN
+   ========================================================================== */
+
+.heroInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+}
+
+
+/* ==========================================================================
+   7. HERO — BANNIÈRE
+   ========================================================================== */
+
+.heroBanner {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    clamp(
+      350px,
+      31vw,
+      470px
+    );
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  background:
+    #f3bfd2;
+
+  border:
+    0;
+
+  border-radius:
+    0;
+
+  isolation:
+    isolate;
+}
+
+
+/* ==========================================================================
+   8. HERO — IMAGE
+   ========================================================================== */
+
+.heroImageLayer {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+.heroImage {
+  object-fit:
+    cover;
+
+  object-position:
+    center center;
+
+  user-select:
+    none;
+
+  pointer-events:
+    none;
+}
+
+
+.heroImageOverlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    1;
+
+  pointer-events:
+    none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(255 241 246 / 20%) 0%,
+      rgb(255 241 246 / 10%) 29%,
+      rgb(255 241 246 / 2%) 52%,
+      transparent 72%
+    );
+}
+
+
+/* ==========================================================================
+   9. HERO — CONTENU
+   ========================================================================== */
+
+.heroContent {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    flex;
+
+  width:
+    min(
+      46%,
+      650px
+    );
+
+  min-height:
+    clamp(
+      350px,
+      31vw,
+      470px
+    );
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  margin:
+    0;
+
+  padding:
+    32px 0 32px
+    clamp(
+      24px,
+      5vw,
+      80px
+    );
+}
+
+
+/* ==========================================================================
+   10. HERO — TITRE
+   ========================================================================== */
+
+.heroTitle {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  margin:
+    0;
+
+  color:
+    var(--home-black);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    clamp(
+      2.8rem,
+      5vw,
+      5.4rem
+    );
+
+  font-style:
+    italic;
+
+  font-weight:
+    950;
+
+  line-height:
+    0.82;
+
+  letter-spacing:
+    -0.075em;
+
+  text-transform:
+    uppercase;
+
+  text-align:
+    left;
+}
+
+
+.heroTitleLine {
+  display:
+    block;
+
+  width:
+    max-content;
+
+  max-width:
+    100%;
+
+  white-space:
+    nowrap;
+}
+
+
+.heroTitleDark {
+  color:
+    var(--home-black);
+}
+
+
+.heroTitlePrimary {
+  color:
+    var(--home-primary);
+}
+
+
+/* ==========================================================================
+   11. HERO — DESCRIPTION
+   ========================================================================== */
+
+.heroDescription {
+  width:
+    min(
+      100%,
+      430px
+    );
+
+  margin:
+    18px 0 0;
+
+  color:
+    var(--home-text);
+
+  font-size:
+    clamp(
+      0.92rem,
+      1.15vw,
+      1.1rem
+    );
+
+  font-weight:
+    500;
+
+  line-height:
+    1.38;
+}
+
+
+/* ==========================================================================
+   12. HERO — CTA
+   ========================================================================== */
+
+.heroAction {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  min-height:
+    43px;
+
+  margin-top:
+    18px;
+
+  padding:
+    0 17px;
+
+  color:
+    var(--home-white);
+
+  background:
+    var(--home-primary);
+
+  border:
+    1px solid
+    var(--home-primary);
+
+  border-radius:
+    8px;
+
+  box-shadow:
+    var(--home-shadow-pink);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    750;
+
+  line-height:
+    1;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.heroAction:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--home-primary-hover);
+
+  border-color:
+    var(--home-primary-hover);
+
+  box-shadow:
+    0 11px 26px
+    rgb(237 0 109 / 25%);
+}
+
+
+.heroAction:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 27%);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   13. HERO — INDICATEURS
+   ========================================================================== */
+
+.heroIndicators {
+  display:
+    none;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    5px;
+}
+
+
+.heroIndicator {
+  display:
+    block;
+
+  width:
+    7px;
+
+  height:
+    7px;
+
+  background:
+    rgb(255 255 255 / 86%);
+
+  border:
+    1px solid
+    rgb(237 0 109 / 20%);
+
+  border-radius:
+    50%;
+}
+
+
+.heroIndicatorActive {
+  background:
+    var(--home-primary);
+
+  border-color:
+    var(--home-primary);
+}
+
+
+/* ==========================================================================
+   14. AVANTAGES
+   ========================================================================== */
+
+.benefitsSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    var(--home-white);
+
+  border-bottom:
+    1px solid
+    var(--home-border-soft);
+}
+
+
+.benefitsInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--home-page-gutter);
+}
+
+
+.benefitsList {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    13px 0;
+
+  list-style:
+    none;
+}
+
+
+.benefitItem {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    9px;
+
+  padding:
+    3px 12px;
+}
+
+
+.benefitItem:not(:last-child)::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  top:
+    5px;
+
+  right:
+    0;
+
+  bottom:
+    5px;
+
+  width:
+    1px;
+
+  background:
+    var(--home-border);
+}
+
+
+.benefitIcon {
+  display:
+    inline-flex;
+
+  width:
+    36px;
+
+  height:
+    36px;
+
+  flex:
+    0 0 36px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--home-primary);
+}
+
+
+.benefitText {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  gap:
+    1px;
+}
+
+
+.benefitTitle {
+  color:
+    var(--home-text);
+
+  font-size:
+    0.71rem;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.18;
+}
+
+
+.benefitDescription {
+  color:
+    var(--home-text-secondary);
+
+  font-size:
+    0.67rem;
+
+  font-weight:
+    540;
+
+  line-height:
+    1.18;
+}
+
+
+/* ==========================================================================
+   15. CATÉGORIES
+   ========================================================================== */
+
+.categoriesSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    20px 0;
+
+  background:
+    var(--home-white);
+}
+
+
+.categoriesInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--home-page-gutter);
+}
+
+
+.categoriesGrid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      6,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      7px,
+      1vw,
+      13px
+    );
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+
+.categoryGridItem {
+  min-width:
+    0;
+}
+
+
+.categoryCard {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+
+  flex-direction:
+    column;
+
+  overflow:
+    hidden;
+
+  color:
+    var(--home-text);
+
+  background:
+    var(--home-white);
+
+  border:
+    1px solid
+    var(--home-border);
+
+  border-radius:
+    9px;
+
+  box-shadow:
+    var(--home-shadow-small);
+
+  text-decoration:
+    none;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.categoryCard:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgb(237 0 109 / 25%);
+
+  box-shadow:
+    var(--home-shadow-medium);
+}
+
+
+.categoryCard:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 20%);
+
+  outline-offset:
+    2px;
+}
+
+
+.categoryImageFrame {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  aspect-ratio:
+    1.32 / 1;
+
+  overflow:
+    hidden;
+
+  background:
+    #fbd4e3;
+}
+
+
+.categoryImage {
+  object-fit:
+    cover;
+
+  object-position:
+    center;
+
+  transition:
+    transform 280ms ease;
+}
+
+
+.categoryCard:hover
+.categoryImage {
+  transform:
+    scale(1.025);
+}
+
+
+.categoryLabel {
+  display:
+    flex;
+
+  min-height:
+    31px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    5px 5px;
+
+  color:
+    var(--home-text);
+
+  background:
+    var(--home-white);
+
+  font-size:
+    0.64rem;
+
+  font-weight:
+    730;
+
+  line-height:
+    1.16;
+
+  text-align:
+    center;
+}
+
+
+.categoryDesktopLabel {
+  display:
+    inline;
+}
+
+
+.categoryMobileLabel {
+  display:
+    none;
+}
+
+
+/* ==========================================================================
+   16. PROMOTION — SECTION
+   ========================================================================== */
+
+.promotionSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0 0 18px;
+
+  background:
+    var(--home-white);
+}
+
+
+.promotionInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--home-page-gutter);
+}
+
+
+/* ==========================================================================
+   17. PROMOTION — BANNIÈRE
+   ========================================================================== */
+
+.promotionBanner {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    clamp(
+      165px,
+      15vw,
+      225px
+    );
+
+  overflow:
+    hidden;
+
+  background:
+    #ffd1e2;
+
+  border-radius:
+    12px;
+
+  isolation:
+    isolate;
+}
+
+
+/* ==========================================================================
+   18. PROMOTION — IMAGE
+   ========================================================================== */
+
+.promotionImageLayer {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    0;
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  overflow:
+    hidden;
+}
+
+
+.promotionImage {
+  z-index:
+    0;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center center;
+
+  user-select:
+    none;
+
+  pointer-events:
+    none;
+}
+
+
+/* ==========================================================================
+   19. PROMOTION — CONTENU
+   ========================================================================== */
+
+.promotionContent {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    flex;
+
+  width:
+    min(
+      43%,
+      570px
+    );
+
+  min-height:
+    clamp(
+      165px,
+      15vw,
+      225px
+    );
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  margin:
+    0;
+
+  padding:
+    18px 0 18px
+    clamp(
+      20px,
+      3.5vw,
+      50px
+    );
+}
+
+
+.promotionTitle {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  margin:
+    0;
+
+  color:
+    var(--home-text);
+
+  font-size:
+    clamp(
+      1.45rem,
+      2.65vw,
+      2.8rem
+    );
+
+  font-style:
+    italic;
+
+  font-weight:
+    920;
+
+  line-height:
+    0.88;
+
+  letter-spacing:
+    -0.055em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.promotionTitleLine {
+  display:
+    block;
+
+  width:
+    max-content;
+
+  max-width:
+    100%;
+}
+
+
+.promotionTitleLine:nth-child(n + 2) {
+  color:
+    var(--home-primary);
+}
+
+
+/* ==========================================================================
+   20. PROMOTION — CTA
+   ========================================================================== */
+
+.promotionAction {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  min-height:
+    36px;
+
+  margin-top:
+    12px;
+
+  padding:
+    0 14px;
+
+  color:
+    var(--home-white);
+
+  background:
+    var(--home-primary);
+
+  border:
+    1px solid
+    var(--home-primary);
+
+  border-radius:
+    7px;
+
+  box-shadow:
+    0 6px 17px
+    rgb(237 0 109 / 18%);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    740;
+
+  line-height:
+    1;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+
+.promotionAction:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--home-primary-hover);
+
+  border-color:
+    var(--home-primary-hover);
+}
+
+
+.promotionAction:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 23%);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   21. PROMOTION — HIGHLIGHTS
+   ========================================================================== */
+
+.promotionHighlights {
+  position:
+    absolute;
+
+  z-index:
+    3;
+
+  top:
+    50%;
+
+  right:
+    clamp(
+      18px,
+      3vw,
+      46px
+    );
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    11px;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+
+  transform:
+    translateY(-50%);
+}
+
+
+.promotionHighlight {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  color:
+    var(--home-text);
+}
+
+
+.promotionHighlightIcon {
+  display:
+    inline-flex;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  flex:
+    0 0 30px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--home-white);
+
+  background:
+    var(--home-primary);
+
+  border-radius:
+    50%;
+}
+
+
+.promotionHighlightLabel {
+  font-size:
+    0.68rem;
+
+  font-weight:
+    740;
+
+  line-height:
+    1.15;
+}
+
+
+/* ==========================================================================
+   22. PRODUITS — SECTION
+   ========================================================================== */
+
+.featuredProductsSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    2px 0 18px;
+
+  background:
+    var(--home-white);
+}
+
+
+.featuredProductsInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--home-page-gutter);
+}
+
+
+/* ==========================================================================
+   23. PRODUITS — HEADER
+   ========================================================================== */
+
+.featuredProductsHeader {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+
+  margin:
+    0 0 12px;
+}
+
+
+/* ==========================================================================
+   24. FILTRES — CONSERVÉS MAIS DÉSACTIVÉS
+   ========================================================================== */
+
+/**
+ * filtersEnabled = false.
+ *
+ * Même si un ancien composant les rend accidentellement pendant la migration,
+ * ils ne réservent aucun espace.
+ */
+
+.productFilters {
+  display:
+    none;
+
+  width:
+    0;
+
+  height:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  list-style:
+    none;
+}
+
+
+.productFilterItem {
+  display:
+    none;
+}
+
+
+.productFilterButton,
+.productFilterButtonActive {
+  display:
+    none;
+}
+
+
+/* ==========================================================================
+   25. PRODUITS — VIEWPORT
+   ========================================================================== */
+
+/**
+ * IMPORTANT :
+ *
+ * Plus aucun scroll horizontal.
+ *
+ * Plus aucun :
+ *
+ * width: max-content;
+ * overflow-x: auto;
+ * scroll-snap-type;
+ */
+
+.featuredProductsViewport {
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow:
+    visible;
+}
+
+
+/* ==========================================================================
+   26. PRODUITS — GRILLE DESKTOP
+   ========================================================================== */
+
+.featuredProductsGrid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  align-items:
+    stretch;
+
+  gap:
+    clamp(
+      8px,
+      1vw,
+      14px
+    );
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+
+.featuredProductItem {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+}
+
+
+/* ==========================================================================
+   27. INSTAGRAM — SECTION
+   ========================================================================== */
+
+.instagramSection {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    var(--home-white);
+}
+
+
+.instagramInner {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(
+      200px,
+      23%
+    )
+    minmax(
+      0,
+      77%
+    );
+
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    9px
+    var(--home-page-gutter)
+    10px;
+
+  border-top:
+    1px solid
+    var(--home-border-soft);
+}
+
+
+/* ==========================================================================
+   28. INSTAGRAM — META
+   ========================================================================== */
+
+.instagramMeta {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    9px;
+
+  padding:
+    6px 18px 6px 0;
+}
+
+
+.instagramIcon {
+  display:
+    inline-flex;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  flex:
+    0 0 30px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--home-primary);
+
+  border:
+    2px solid
+    var(--home-primary);
+
+  border-radius:
+    8px;
+}
+
+
+.instagramCopy {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  flex-direction:
+    column;
+
+  gap:
+    1px;
+}
+
+
+.instagramTitle {
+  margin:
+    0;
+
+  color:
+    var(--home-text);
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    740;
+
+  line-height:
+    1.15;
+}
+
+
+.instagramHandle {
+  overflow:
+    hidden;
+
+  color:
+    var(--home-primary);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    760;
+
+  line-height:
+    1.15;
+
+  text-overflow:
+    ellipsis;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+}
+
+
+.instagramHandle:hover {
+  text-decoration:
+    underline;
+}
+
+
+/* ==========================================================================
+   29. INSTAGRAM — IMAGE
+   ========================================================================== */
+
+.instagramImageFrame {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    86px;
+
+  overflow:
+    hidden;
+
+  background:
+    var(--home-primary-soft);
+
+  border-radius:
+    6px;
+}
+
+
+.instagramImage {
+  object-fit:
+    cover;
+
+  object-position:
+    center;
+}
+
+
+/* ==========================================================================
+   30. TRÈS GRANDS ÉCRANS
+   ========================================================================== */
+
+@media (
+  min-width:
+    1600px
+) {
+  .heroBanner,
+  .heroContent {
+    min-height:
+      500px;
+  }
+
+
+  .heroTitle {
+    font-size:
+      5.7rem;
+  }
+
+
+  .benefitsList {
+    padding:
+      15px 0;
+  }
+
+
+  .categoriesSection {
+    padding-block:
+      22px;
+  }
+
+
+  .featuredProductsGrid {
+    gap:
+      15px;
+  }
+}
+
+
+/* ==========================================================================
+   31. DESKTOP
+   ========================================================================== */
+
+@media (
+  min-width:
+    1024px
+)
+and (
+  max-width:
+    1599px
+) {
+  .heroContent {
+    width:
+      47%;
+  }
+
+
+  .benefitItem {
+    padding-inline:
+      8px;
+  }
+
+
+  .categoriesGrid {
+    gap:
+      9px;
+  }
+
+
+  .featuredProductsGrid {
+    gap:
+      10px;
+  }
+}
+
+
+/* ==========================================================================
+   32. TABLETTE
+   ========================================================================== */
+
+@media (
+  min-width:
+    768px
+)
+and (
+  max-width:
+    1023px
+) {
+  .heroSection,
+  .benefitsSection,
+  .categoriesSection,
+  .promotionSection,
+  .featuredProductsSection,
+  .instagramSection {
+    --home-page-gutter:
+      14px;
+  }
+
+
+  .heroBanner,
+  .heroContent {
+    min-height:
+      330px;
+  }
+
+
+  .heroContent {
+    width:
+      51%;
+
+    padding-left:
+      28px;
+  }
+
+
+  .heroTitle {
+    font-size:
+      clamp(
+        2.4rem,
+        5.2vw,
+        3.5rem
+      );
+  }
+
+
+  .heroDescription {
+    width:
+      min(
+        100%,
+        320px
+      );
+
+    font-size:
+      0.88rem;
+  }
+
+
+  .benefitItem {
+    gap:
+      5px;
+
+    padding-inline:
+      5px;
+  }
+
+
+  .benefitIcon {
+    width:
+      30px;
+
+    height:
+      30px;
+
+    flex-basis:
+      30px;
+  }
+
+
+  .benefitTitle {
+    font-size:
+      0.59rem;
+  }
+
+
+  .benefitDescription {
+    font-size:
+      0.55rem;
+  }
+
+
+  .categoriesGrid {
+    gap:
+      7px;
+  }
+
+
+  .categoryLabel {
+    font-size:
+      0.53rem;
+  }
+
+
+  .promotionBanner,
+  .promotionContent {
+    min-height:
+      160px;
+  }
+
+
+  .promotionContent {
+    width:
+      46%;
+  }
+
+
+  .promotionHighlights {
+    right:
+      14px;
+
+    gap:
+      8px;
+  }
+
+
+  .promotionHighlightLabel {
+    font-size:
+      0.57rem;
+  }
+
+
+  /**
+   * Sur tablette paysage on conserve 5 colonnes
+   * tant que la largeur est suffisante.
+   */
+  .featuredProductsGrid {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      7px;
+  }
+}
+
+
+/* ==========================================================================
+   33. MOBILE
+   ========================================================================== */
+
+@media (
+  max-width:
+    767px
+) {
+  .heroSection,
+  .benefitsSection,
+  .categoriesSection,
+  .promotionSection,
+  .featuredProductsSection,
+  .instagramSection {
+    --home-page-gutter:
+      8px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     TITRES
+     ------------------------------------------------------------------------ */
+
+  .sectionHeader {
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    margin-bottom:
+      8px;
+  }
+
+
+  .sectionTitle {
+    font-size:
+      1.15rem;
+
+    letter-spacing:
+      -0.035em;
+  }
+
+
+  .sectionTitle::after {
+    width:
+      30px;
+
+    height:
+      3px;
+
+    margin-top:
+      4px;
+  }
+
+
+  .sectionViewAll {
+    min-height:
+      25px;
+
+    font-size:
+      0.61rem;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LABEL RESPONSIVE
+     ------------------------------------------------------------------------ */
+
+  .categoryDesktopLabel {
+    display:
+      none;
+  }
+
+
+  .categoryMobileLabel {
+    display:
+      inline;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------------------ */
+
+  .heroInner {
+    width:
+      100%;
+
+    padding:
+      0;
+  }
+
+
+  .heroBanner {
+    min-height:
+      250px;
+  }
+
+
+  .heroImage {
+    object-position:
+      center center;
+  }
+
+
+  .heroImageOverlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgb(255 240 246 / 17%) 0%,
+        rgb(255 240 246 / 5%) 48%,
+        transparent 78%
+      );
+  }
+
+
+  .heroContent {
+    width:
+      56%;
+
+    min-height:
+      250px;
+
+    padding:
+      18px 0 31px 13px;
+  }
+
+
+  .heroTitle {
+    font-size:
+      clamp(
+        1.8rem,
+        8.8vw,
+        2.55rem
+      );
+
+    line-height:
+      0.84;
+
+    letter-spacing:
+      -0.07em;
+  }
+
+
+  .heroDescription {
+    width:
+      min(
+        100%,
+        185px
+      );
+
+    margin-top:
+      10px;
+
+    font-size:
+      0.69rem;
+
+    line-height:
+      1.22;
+  }
+
+
+  .heroAction {
+    min-height:
+      34px;
+
+    margin-top:
+      10px;
+
+    padding:
+      0 11px;
+
+    gap:
+      5px;
+
+    border-radius:
+      7px;
+
+    font-size:
+      0.59rem;
+  }
+
+
+  .heroIndicators {
+    position:
+      absolute;
+
+    z-index:
+      5;
+
+    right:
+      0;
+
+    bottom:
+      7px;
+
+    left:
+      0;
+
+    display:
+      flex;
+  }
+
+
+  .heroIndicator {
+    width:
+      6px;
+
+    height:
+      6px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     AVANTAGES
+     ------------------------------------------------------------------------ */
+
+  .benefitsInner {
+    padding-inline:
+      4px;
+  }
+
+
+  .benefitsList {
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      );
+
+    padding:
+      7px 0;
+  }
+
+
+  .benefitItem {
+    flex-direction:
+      column;
+
+    justify-content:
+      flex-start;
+
+    gap:
+      2px;
+
+    padding:
+      2px 1px;
+
+    text-align:
+      center;
+  }
+
+
+  .benefitItem:not(:last-child)::after {
+    display:
+      none;
+  }
+
+
+  .benefitIcon {
+    width:
+      25px;
+
+    height:
+      25px;
+
+    flex:
+      0 0 25px;
+  }
+
+
+  .benefitText {
+    align-items:
+      center;
+
+    gap:
+      0;
+
+    text-align:
+      center;
+  }
+
+
+  .benefitTitle {
+    font-size:
+      0.49rem;
+
+    line-height:
+      1.05;
+  }
+
+
+  .benefitDescription {
+    margin-top:
+      1px;
+
+    font-size:
+      0.45rem;
+
+    line-height:
+      1.05;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CATÉGORIES
+     ------------------------------------------------------------------------ */
+
+  .categoriesSection {
+    padding:
+      11px 0;
+  }
+
+
+  .categoriesInner {
+    padding-inline:
+      var(--home-page-gutter);
+  }
+
+
+  .categoriesGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      6px;
+  }
+
+
+  .categoryCard {
+    border:
+      0;
+
+    border-radius:
+      7px;
+
+    box-shadow:
+      none;
+
+    background:
+      var(--home-primary-soft);
+  }
+
+
+  .categoryCard:hover {
+    transform:
+      none;
+
+    box-shadow:
+      none;
+  }
+
+
+  .categoryImageFrame {
+    aspect-ratio:
+      1.3 / 1;
+
+    background:
+      #ffd4e4;
+
+    border-radius:
+      7px 7px 0 0;
+  }
+
+
+  .categoryLabel {
+    min-height:
+      22px;
+
+    padding:
+      3px;
+
+    background:
+      #ffe7f0;
+
+    border-radius:
+      0 0 7px 7px;
+
+    font-size:
+      0.51rem;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PROMOTION
+     ------------------------------------------------------------------------ */
+
+  .promotionSection {
+    padding-bottom:
+      10px;
+  }
+
+
+  .promotionInner {
+    padding-inline:
+      var(--home-page-gutter);
+  }
+
+
+  .promotionBanner {
+    min-height:
+      137px;
+
+    border-radius:
+      7px;
+  }
+
+
+  .promotionImage {
+    object-fit:
+      cover;
+
+    /**
+     * Légèrement vers la droite pour conserver les produits de la création
+     * visibles tout en laissant la zone texte à gauche.
+     */
+    object-position:
+      56% center;
+  }
+
+
+  .promotionContent {
+    width:
+      54%;
+
+    min-height:
+      137px;
+
+    padding:
+      11px 0 11px 10px;
+  }
+
+
+  .promotionTitle {
+    font-size:
+      clamp(
+        1rem,
+        5.2vw,
+        1.34rem
+      );
+
+    line-height:
+      0.88;
+  }
+
+
+  .promotionAction {
+    min-height:
+      29px;
+
+    margin-top:
+      7px;
+
+    padding:
+      0 9px;
+
+    gap:
+      4px;
+
+    border-radius:
+      6px;
+
+    font-size:
+      0.53rem;
+  }
+
+
+  .promotionHighlights {
+    display:
+      none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PRODUITS — SECTION
+     ------------------------------------------------------------------------ */
+
+  .featuredProductsSection {
+    padding:
+      2px 0 10px;
+  }
+
+
+  .featuredProductsInner {
+    padding-inline:
+      var(--home-page-gutter);
+  }
+
+
+  .featuredProductsHeader {
+    align-items:
+      center;
+
+    gap:
+      7px;
+
+    margin-bottom:
+      8px;
+  }
+
+
+  /**
+   * AUCUN espace filtres.
+   */
+  .productFilters {
+    display:
+      none;
+  }
+
+
+  /**
+   * AUCUN scroll horizontal.
+   */
+  .featuredProductsViewport {
+    width:
+      100%;
+
+    margin:
+      0;
+
+    padding:
+      0;
+
+    overflow:
+      visible;
+  }
+
+
+  /**
+   * EXACTEMENT DEUX PRODUITS PAR LIGNE.
+   */
+  .featuredProductsGrid {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      7px;
+
+    width:
+      100%;
+
+    margin:
+      0;
+
+    padding:
+      0;
+  }
+
+
+  .featuredProductItem {
+    display:
+      flex;
+
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    max-width:
+      none;
+
+    height:
+      100%;
+
+    flex:
+      none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     INSTAGRAM
+     ------------------------------------------------------------------------ */
+
+  .instagramInner {
+    display:
+      flex;
+
+    width:
+      100%;
+
+    flex-direction:
+      column;
+
+    padding:
+      6px
+      var(--home-page-gutter)
+      7px;
+
+    border-top:
+      1px solid
+      var(--home-border-soft);
+  }
+
+
+  .instagramMeta {
+    justify-content:
+      center;
+
+    gap:
+      6px;
+
+    padding:
+      0 0 5px;
+  }
+
+
+  .instagramIcon {
+    width:
+      24px;
+
+    height:
+      24px;
+
+    flex-basis:
+      24px;
+
+    border-radius:
+      6px;
+  }
+
+
+  .instagramTitle {
+    font-size:
+      0.57rem;
+  }
+
+
+  .instagramHandle {
+    font-size:
+      0.56rem;
+  }
+
+
+  .instagramImageFrame {
+    min-height:
+      65px;
+
+    border-radius:
+      4px;
+  }
+}
+
+
+/* ==========================================================================
+   34. MOBILE RÉFÉRENCE 375 / 430 PX
+   ========================================================================== */
+
+@media (
+  max-width:
+    430px
+) {
+  .heroBanner,
+  .heroContent {
+    min-height:
+      238px;
+  }
+
+
+  .heroContent {
+    width:
+      57%;
+
+    padding-left:
+      11px;
+
+    padding-bottom:
+      28px;
+  }
+
+
+  .heroTitle {
+    font-size:
+      clamp(
+        1.65rem,
+        8.3vw,
+        2.08rem
+      );
+  }
+
+
+  .heroDescription {
+    width:
+      min(
+        100%,
+        160px
+      );
+
+    font-size:
+      0.63rem;
+  }
+
+
+  .heroAction {
+    min-height:
+      31px;
+
+    font-size:
+      0.54rem;
+  }
+
+
+  .promotionBanner,
+  .promotionContent {
+    min-height:
+      128px;
+  }
+
+
+  .promotionContent {
+    width:
+      55%;
+  }
+
+
+  .promotionTitle {
+    font-size:
+      1rem;
+  }
+
+
+  .promotionAction {
+    min-height:
+      28px;
+
+    padding-inline:
+      8px;
+
+    font-size:
+      0.5rem;
+  }
+
+
+  .featuredProductsGrid {
+    gap:
+      6px;
+  }
+}
+
+
+/* ==========================================================================
+   35. PETITS MOBILES
+   ========================================================================== */
+
+@media (
+  max-width:
+    359px
+) {
+  .heroSection,
+  .benefitsSection,
+  .categoriesSection,
+  .promotionSection,
+  .featuredProductsSection,
+  .instagramSection {
+    --home-page-gutter:
+      6px;
+  }
+
+
+  .heroBanner,
+  .heroContent {
+    min-height:
+      220px;
+  }
+
+
+  .heroContent {
+    width:
+      58%;
+
+    padding-left:
+      9px;
+  }
+
+
+  .heroTitle {
+    font-size:
+      1.52rem;
+  }
+
+
+  .heroDescription {
+    width:
+      140px;
+
+    font-size:
+      0.57rem;
+  }
+
+
+  .heroAction {
+    min-height:
+      29px;
+
+    padding-inline:
+      8px;
+
+    font-size:
+      0.49rem;
+  }
+
+
+  .benefitIcon {
+    width:
+      22px;
+
+    height:
+      22px;
+
+    flex-basis:
+      22px;
+  }
+
+
+  .benefitTitle {
+    font-size:
+      0.44rem;
+  }
+
+
+  .benefitDescription {
+    font-size:
+      0.41rem;
+  }
+
+
+  .categoryLabel {
+    font-size:
+      0.46rem;
+  }
+
+
+  .promotionBanner,
+  .promotionContent {
+    min-height:
+      116px;
+  }
+
+
+  .promotionContent {
+    padding-left:
+      8px;
+  }
+
+
+  .promotionTitle {
+    font-size:
+      0.91rem;
+  }
+
+
+  .promotionAction {
+    min-height:
+      26px;
+
+    padding-inline:
+      7px;
+
+    font-size:
+      0.47rem;
+  }
+
+
+  .featuredProductsGrid {
+    gap:
+      5px;
+  }
+}
+
+
+/* ==========================================================================
+   36. FOCUS GLOBAL
+   ========================================================================== */
+
+.categoryCard:focus-visible,
+.heroAction:focus-visible,
+.promotionAction:focus-visible,
+.sectionViewAll:focus-visible,
+.instagramHandle:focus-visible {
+  outline-color:
+    var(--home-primary);
+}
+
+
+/* ==========================================================================
+   37. ÉCRANS TACTILES
+   ========================================================================== */
+
+@media (
+  hover:
+    none
+) {
+  .categoryCard:hover,
+  .heroAction:hover,
+  .promotionAction:hover,
+  .sectionViewAll:hover {
+    transform:
+      none;
+  }
+
+
+  .categoryCard:hover
+  .categoryImage {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   38. REDUCED MOTION
+   ========================================================================== */
+
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
+  .categoryCard,
+  .categoryImage,
+  .heroAction,
+  .promotionAction,
+  .sectionViewAll {
+    transition-duration:
+      0.01ms !important;
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+  }
+
+
+  .categoryCard:hover,
+  .heroAction:hover,
+  .promotionAction:hover,
+  .sectionViewAll:hover {
+    transform:
+      none;
+  }
+
+
+  .categoryCard:hover
+  .categoryImage {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   39. IMPRESSION
+   ========================================================================== */
+
+@media print {
+  .heroSection,
+  .benefitsSection,
+  .categoriesSection,
+  .promotionSection,
+  .featuredProductsSection,
+  .instagramSection {
+    print-color-adjust:
+      exact;
+
+    -webkit-print-color-adjust:
+      exact;
+  }
+
+
+  .heroAction,
+  .promotionAction,
+  .sectionViewAll {
+    box-shadow:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   FIN
+   ========================================================================== */
+
+/**
+ * RÉSULTAT FINAL
+ *
+ * ============================================================================
+ *
+ * ÉCRAN PC
+ *
+ * HERO :
+ *
+ * pleine largeur.
+ *
+ * Aucune grosse marge gauche / droite.
+ *
+ * --------------------------------------------------------------------------
+ *
+ * PRODUITS :
+ *
+ * [ 1 ][ 2 ][ 3 ][ 4 ][ 5 ]
+ * [ 6 ][ 7 ][ 8 ][ 9 ][10 ]
+ * [11 ][12 ][13 ][14 ][15 ]
+ *
+ * autant de lignes que nécessaire.
+ *
+ * --------------------------------------------------------------------------
+ *
+ * MOBILE
+ *
+ * [ 1 ][ 2 ]
+ * [ 3 ][ 4 ]
+ * [ 5 ][ 6 ]
+ * [ 7 ][ 8 ]
+ *
+ * aucun carousel.
+ *
+ * --------------------------------------------------------------------------
+ *
+ * PROMOTION
+ *
+ * /images/couverturea.png
+ *
+ * visible comme vraie couche de fond.
+ *
+ * --------------------------------------------------------------------------
+ *
+ * HERO
+ *
+ * RÉVÈLE
+ * TA BEAUTÉ
+ * NATURELLE
+ *
+ * rendu compact, massif et incliné.
+ *
+ * ============================================================================
+ */

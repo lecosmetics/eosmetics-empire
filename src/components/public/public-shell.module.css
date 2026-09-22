@@ -1,0 +1,4205 @@
+/* ==========================================================================
+   L&E COSMETICS EMPIRE
+   PUBLIC SHELL — DESIGN SYSTEM
+   ==========================================================================
+
+   Fichier :
+   src/components/public/public-shell.module.css
+
+   RESPONSABILITÉS :
+
+   - shell public pleine largeur ;
+   - header desktop premium ;
+   - header mobile premium ;
+   - recherche ;
+   - drawer mobile ;
+   - navigation mobile fixe ;
+   - footer ;
+   - responsive complet ;
+   - safe-area mobile ;
+   - focus clavier ;
+   - transitions maîtrisées ;
+   - aucune dépendance CSS externe.
+
+   BREAKPOINT PRINCIPAL :
+
+   mobile / tablette : < 1024px
+   desktop           : >= 1024px
+
+   IMPORTANT :
+
+   Aucun max-width global n'enferme le site dans une petite colonne.
+   Le shell utilise toute la largeur disponible.
+
+   ========================================================================== */
+
+
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+
+.publicHeaderRoot,
+.publicMobileDrawerRoot,
+.publicMobileBottomNav,
+.publicFooter {
+  --le-magenta: #e6007e;
+  --le-magenta-dark: #bc0067;
+  --le-magenta-deep: #960052;
+  --le-magenta-soft: #fff1f8;
+  --le-magenta-soft-2: #fff7fb;
+
+  --le-black: #171318;
+  --le-black-soft: #262128;
+  --le-text: #231d24;
+  --le-text-soft: #6e636c;
+  --le-text-muted: #948890;
+
+  --le-white: #ffffff;
+  --le-surface: #ffffff;
+  --le-surface-soft: #faf8fa;
+  --le-border: #eadfe5;
+  --le-border-strong: #dccbd4;
+
+  --le-success: #16834f;
+
+  --le-shadow-soft:
+    0 8px 30px rgba(35, 17, 29, 0.07);
+
+  --le-shadow-medium:
+    0 14px 40px rgba(35, 17, 29, 0.12);
+
+  --le-shadow-strong:
+    0 22px 70px rgba(25, 10, 20, 0.22);
+
+  --le-radius-small: 10px;
+  --le-radius-medium: 16px;
+  --le-radius-large: 22px;
+
+  --le-transition:
+    180ms ease;
+}
+
+
+/* ==========================================================================
+   BOX SIZING
+   ========================================================================== */
+
+.publicHeaderRoot,
+.publicHeaderRoot *,
+.publicMobileDrawerRoot,
+.publicMobileDrawerRoot *,
+.publicMobileBottomNav,
+.publicMobileBottomNav *,
+.publicFooter,
+.publicFooter * {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   PUBLIC SHELL — FUTUR LAYOUT
+   ========================================================================== */
+
+.publicShell {
+  width: 100%;
+  min-width: 0;
+  min-height: 100dvh;
+
+  margin: 0;
+  padding: 0;
+
+  background: #ffffff;
+  color: #231d24;
+
+  overflow-x: clip;
+}
+
+
+.publicShellMain {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+.publicShellContent {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ==========================================================================
+   HEADER ROOT
+   ========================================================================== */
+
+.publicHeaderRoot {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  min-width: 0;
+
+  background: var(--le-white);
+
+  isolation: isolate;
+}
+
+
+.publicHeaderSticky {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  background: var(--le-white);
+}
+
+
+.publicHeaderDesktopOnly {
+  display: none;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+.publicHeaderMobileOnly {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ==========================================================================
+   SEARCH — BASE
+   ========================================================================== */
+
+.publicSearchForm {
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+}
+
+
+.publicSearchFormDesktop {
+  width: 100%;
+}
+
+
+.publicSearchFormMobile {
+  width: 100%;
+}
+
+
+.publicSearchLabel {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+.publicSearchField {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 52px;
+
+  border:
+    1px solid
+    var(--le-border, #eadfe5);
+
+  border-radius: 999px;
+
+  background:
+    var(--le-white, #ffffff);
+
+  transition:
+    border-color var(--le-transition, 180ms ease),
+    box-shadow var(--le-transition, 180ms ease),
+    background-color var(--le-transition, 180ms ease);
+}
+
+
+.publicSearchField:focus-within {
+  border-color:
+    var(--le-magenta, #e6007e);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(230, 0, 126, 0.1);
+}
+
+
+.publicSearchLeadingIcon {
+  flex: 0 0 auto;
+
+  margin-left: 18px;
+
+  color:
+    var(--le-text-muted, #948890);
+
+  pointer-events: none;
+}
+
+
+.publicSearchInput {
+  flex: 1 1 auto;
+
+  width: 100%;
+  min-width: 0;
+
+  height: 50px;
+
+  padding:
+    0
+    14px;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color:
+    var(--le-text, #231d24);
+
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  appearance: none;
+}
+
+
+.publicSearchInput::placeholder {
+  color: #9c9198;
+
+  opacity: 1;
+}
+
+
+.publicSearchInput::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+
+.publicSearchSubmit {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 42px;
+
+  margin-right: 5px;
+  padding:
+    0
+    20px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--le-magenta, #e6007e),
+      var(--le-magenta-dark, #bc0067)
+    );
+
+  color:
+    var(--le-white, #ffffff);
+
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 750;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px
+    rgba(230, 0, 126, 0.2);
+
+  transition:
+    transform var(--le-transition, 180ms ease),
+    box-shadow var(--le-transition, 180ms ease),
+    background-color var(--le-transition, 180ms ease);
+}
+
+
+.publicSearchSubmit:hover {
+  box-shadow:
+    0 9px 23px
+    rgba(230, 0, 126, 0.28);
+
+  transform: translateY(-1px);
+}
+
+
+.publicSearchSubmit:active {
+  transform: translateY(0);
+}
+
+
+.publicSearchSubmit:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.22);
+
+  outline-offset: 3px;
+}
+
+
+.publicSearchSubmitText {
+  display: inline;
+}
+
+
+/* ==========================================================================
+   DESKTOP HEADER
+   ========================================================================== */
+
+.publicDesktopHeader {
+  width: 100%;
+  min-width: 0;
+
+  background: var(--le-white);
+
+  border-bottom:
+    1px solid
+    var(--le-border);
+
+  box-shadow:
+    0 3px 18px
+    rgba(30, 14, 24, 0.05);
+}
+
+
+/* ==========================================================================
+   DESKTOP — TOP BAR
+   ========================================================================== */
+
+.publicDesktopTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 36px;
+
+  padding:
+    6px
+    clamp(24px, 3vw, 64px);
+
+  background:
+    linear-gradient(
+      90deg,
+      #171318,
+      #241820
+    );
+
+  color: #ffffff;
+}
+
+
+.publicDesktopTopBarContacts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  min-width: 0;
+}
+
+
+.publicDesktopTopBarLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  min-width: 0;
+
+  padding:
+    4px
+    8px;
+
+  border-radius: 7px;
+
+  color:
+    rgba(255, 255, 255, 0.87);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicDesktopTopBarLink:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.publicDesktopTopBarContactValue {
+  color:
+    rgba(255, 255, 255, 0.72);
+}
+
+
+.publicDesktopTopBarLocations {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+
+  min-width: 0;
+
+  color:
+    rgba(255, 255, 255, 0.88);
+
+  font-size: 0.75rem;
+
+  white-space: nowrap;
+}
+
+
+.publicDesktopTopBarLocationsLabel {
+  color: #ffffff;
+
+  font-weight: 750;
+}
+
+
+.publicDesktopTopBarLocationsValue {
+  max-width: 44vw;
+
+  overflow: hidden;
+
+  color:
+    rgba(255, 255, 255, 0.69);
+
+  text-overflow: ellipsis;
+}
+
+
+/* ==========================================================================
+   DESKTOP — MAIN ROW
+   ========================================================================== */
+
+.publicDesktopMainRow {
+  display: grid;
+
+  grid-template-columns:
+    minmax(155px, 210px)
+    minmax(280px, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap:
+    clamp(20px, 2.6vw, 48px);
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    12px
+    clamp(24px, 3vw, 64px);
+
+  background: var(--le-white);
+}
+
+
+.publicDesktopBrand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: fit-content;
+  max-width: 100%;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+.publicDesktopBrand:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.19);
+
+  outline-offset: 5px;
+
+  border-radius: 10px;
+}
+
+
+.publicDesktopLogo {
+  display: block;
+
+  width: clamp(150px, 12vw, 198px);
+  height: 74px;
+
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+.publicDesktopSearchArea {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.publicDesktopActions {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+
+.publicDesktopAction {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 66px;
+
+  padding:
+    7px
+    9px;
+
+  border-radius: 12px;
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition),
+    transform var(--le-transition);
+}
+
+
+.publicDesktopAction:hover {
+  color:
+    var(--le-magenta);
+
+  background:
+    var(--le-magenta-soft);
+
+  transform: translateY(-1px);
+}
+
+
+.publicDesktopAction:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.17);
+
+  outline-offset: 2px;
+}
+
+
+.publicDesktopActionIcon {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 28px;
+}
+
+
+.publicDesktopActionLabel {
+  max-width: 86px;
+
+  overflow: hidden;
+
+  font-size: 0.73rem;
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   GENERIC NAVIGATION BADGE
+   ========================================================================== */
+
+.publicNavigationBadge {
+  position: absolute;
+
+  top: -5px;
+  right: -10px;
+
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 19px;
+  height: 19px;
+
+  padding:
+    0
+    5px;
+
+  border:
+    2px solid
+    var(--le-white);
+
+  border-radius: 999px;
+
+  background:
+    var(--le-magenta);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 12px
+    rgba(230, 0, 126, 0.24);
+
+  font-size: 0.63rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   DESKTOP — NAVIGATION BAR
+   ========================================================================== */
+
+.publicDesktopNavigationBar {
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    0
+    clamp(24px, 3vw, 64px);
+
+  border-top:
+    1px solid
+    #f0e7ec;
+
+  background:
+    #ffffff;
+}
+
+
+.publicDesktopNavigation {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+
+  overscroll-behavior-x: contain;
+}
+
+
+.publicDesktopNavigation::-webkit-scrollbar {
+  display: none;
+}
+
+
+.publicDesktopNavigationLink,
+.publicDesktopCategoryLink {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 46px;
+
+  padding:
+    0
+    13px;
+
+  border-bottom:
+    2px solid
+    transparent;
+
+  color:
+    #4d424a;
+
+  font-size: 0.82rem;
+  font-weight: 680;
+
+  line-height: 1;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color var(--le-transition),
+    border-color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicDesktopNavigationLink:hover,
+.publicDesktopCategoryLink:hover {
+  color:
+    var(--le-magenta);
+
+  border-bottom-color:
+    var(--le-magenta);
+
+  background:
+    var(--le-magenta-soft-2);
+}
+
+
+.publicDesktopNavigationLink:focus-visible,
+.publicDesktopCategoryLink:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.16);
+
+  outline-offset: -4px;
+}
+
+
+.publicDesktopNavigationDivider {
+  flex: 0 0 auto;
+
+  width: 1px;
+  height: 20px;
+
+  margin:
+    0
+    7px;
+
+  background:
+    var(--le-border);
+}
+
+
+.publicDesktopCategoryNavigation {
+  display: flex;
+  align-items: center;
+
+  min-width: max-content;
+}
+
+
+.publicDesktopCategoryLink {
+  color:
+    #655962;
+
+  font-weight: 620;
+}
+
+
+/* ==========================================================================
+   MOBILE HEADER
+   ========================================================================== */
+
+.publicMobileHeader {
+  width: 100%;
+  min-width: 0;
+
+  background: #ffffff;
+
+  border-bottom:
+    1px solid
+    var(--le-border);
+
+  box-shadow:
+    0 4px 20px
+    rgba(32, 14, 26, 0.06);
+}
+
+
+/* ==========================================================================
+   MOBILE — CONTACT BAR
+   ========================================================================== */
+
+.publicMobileContactBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  width: 100%;
+  min-height: 30px;
+
+  padding:
+    5px
+    12px;
+
+  background:
+    #171318;
+
+  color: #ffffff;
+}
+
+
+.publicMobileContactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  min-width: 0;
+
+  color:
+    rgba(255, 255, 255, 0.92);
+
+  font-size: 0.68rem;
+  font-weight: 650;
+
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+
+.publicMobileContactDivider {
+  flex: 0 0 auto;
+
+  width: 1px;
+  height: 14px;
+
+  background:
+    rgba(255, 255, 255, 0.28);
+}
+
+
+/* ==========================================================================
+   MOBILE — MAIN ROW
+   ========================================================================== */
+
+.publicMobileMainRow {
+  display: grid;
+
+  grid-template-columns:
+    minmax(50px, 1fr)
+    minmax(110px, 150px)
+    minmax(110px, 1fr);
+
+  align-items: center;
+
+  gap: 6px;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 66px;
+
+  padding:
+    7px
+    12px;
+
+  background: #ffffff;
+}
+
+
+.publicMobileMenuButton {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 2px;
+
+  width: fit-content;
+
+  padding: 7px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color:
+    var(--le-text);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicMobileMenuButton:active {
+  background:
+    var(--le-magenta-soft);
+}
+
+
+.publicMobileMenuButton:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.18);
+
+  outline-offset: 2px;
+}
+
+
+.publicMobileMenuButtonLabel {
+  font-size: 0.58rem;
+  font-weight: 720;
+}
+
+
+.publicMobileBrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+
+  text-decoration: none;
+}
+
+
+.publicMobileLogo {
+  display: block;
+
+  width: 128px;
+  max-width: 100%;
+  height: 53px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+
+.publicMobileHeaderActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 1px;
+
+  min-width: 0;
+}
+
+
+.publicMobileHeaderAction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 2px;
+
+  min-width: 48px;
+
+  padding:
+    5px
+    4px;
+
+  border-radius: 9px;
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+}
+
+
+.publicMobileHeaderAction:active {
+  background:
+    var(--le-magenta-soft);
+}
+
+
+.publicMobileHeaderAction:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.18);
+
+  outline-offset: 1px;
+}
+
+
+.publicMobileHeaderActionIcon {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 25px;
+}
+
+
+.publicMobileActionBadge {
+  position: absolute;
+
+  top: -5px;
+  right: -9px;
+
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding:
+    0
+    4px;
+
+  border:
+    2px solid
+    #ffffff;
+
+  border-radius: 999px;
+
+  background:
+    var(--le-magenta);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 12px
+    rgba(230, 0, 126, 0.24);
+
+  font-size: 0.58rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+.publicMobileHeaderActionLabel {
+  max-width: 62px;
+
+  overflow: hidden;
+
+  font-size: 0.57rem;
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   MOBILE — SEARCH
+   ========================================================================== */
+
+.publicMobileSearchArea {
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    0
+    12px
+    10px;
+}
+
+
+.publicMobileSearchArea .publicSearchField {
+  min-height: 46px;
+
+  background:
+    #faf8fa;
+}
+
+
+.publicMobileSearchArea .publicSearchInput {
+  height: 44px;
+
+  padding:
+    0
+    8px;
+
+  font-size: 0.85rem;
+}
+
+
+.publicMobileSearchArea .publicSearchLeadingIcon {
+  margin-left: 14px;
+}
+
+
+.publicMobileSearchArea .publicSearchSubmit {
+  width: 40px;
+  height: 40px;
+
+  margin-right: 3px;
+  padding: 0;
+}
+
+
+.publicMobileSearchArea .publicSearchSubmitText {
+  display: none;
+}
+
+
+/* ==========================================================================
+   MOBILE — LOCATION STRIP
+   ========================================================================== */
+
+.publicMobileLocationsBar {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    8px
+    13px;
+
+  border-top:
+    1px solid
+    #f1e7ec;
+
+  background:
+    var(--le-magenta-soft-2);
+}
+
+
+.publicMobileLocationsIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(230, 0, 126, 0.1);
+
+  color:
+    var(--le-magenta);
+}
+
+
+.publicMobileLocationsContent {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  min-width: 0;
+}
+
+
+.publicMobileLocationsTitle {
+  flex: 0 0 auto;
+
+  color:
+    var(--le-text);
+
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+.publicMobileLocationsText {
+  min-width: 0;
+
+  overflow: hidden;
+
+  color:
+    var(--le-text-soft);
+
+  font-size: 0.66rem;
+  font-weight: 560;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   MOBILE DRAWER ROOT
+   ========================================================================== */
+
+.publicMobileDrawerRoot {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  width: 100%;
+  height: 100dvh;
+
+  visibility: hidden;
+
+  pointer-events: none;
+}
+
+
+.publicMobileDrawerRootOpen {
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* ==========================================================================
+   DRAWER OVERLAY
+   ========================================================================== */
+
+.publicMobileDrawerOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+
+  border: 0;
+
+  background:
+    rgba(20, 12, 18, 0.57);
+
+  opacity: 0;
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  cursor: pointer;
+
+  transition:
+    opacity 220ms ease;
+}
+
+
+.publicMobileDrawerRootOpen
+.publicMobileDrawerOverlay {
+  opacity: 1;
+}
+
+
+/* ==========================================================================
+   DRAWER PANEL
+   ========================================================================== */
+
+.publicMobileDrawer {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  width: min(92vw, 410px);
+  height: 100dvh;
+
+  overflow: hidden;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--le-text);
+
+  box-shadow:
+    var(--le-shadow-strong);
+
+  transform:
+    translateX(-104%);
+
+  transition:
+    transform 260ms
+    cubic-bezier(
+      0.2,
+      0.75,
+      0.25,
+      1
+    );
+}
+
+
+.publicMobileDrawerRootOpen
+.publicMobileDrawer {
+  transform:
+    translateX(0);
+}
+
+
+/* ==========================================================================
+   DRAWER HEADER
+   ========================================================================== */
+
+.publicMobileDrawerHeader {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  min-height: 74px;
+
+  padding:
+    calc(8px + env(safe-area-inset-top))
+    16px
+    8px;
+
+  border-bottom:
+    1px solid
+    var(--le-border);
+
+  background:
+    #ffffff;
+}
+
+
+.publicMobileDrawerBrand {
+  display: inline-flex;
+  align-items: center;
+
+  min-width: 0;
+
+  text-decoration: none;
+}
+
+
+.publicMobileDrawerLogo {
+  display: block;
+
+  width: 138px;
+  height: 57px;
+
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+.publicMobileDrawerClose {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  border:
+    1px solid
+    var(--le-border);
+
+  border-radius: 50%;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--le-text);
+
+  cursor: pointer;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition),
+    border-color var(--le-transition),
+    transform var(--le-transition);
+}
+
+
+.publicMobileDrawerClose:hover {
+  color:
+    var(--le-magenta);
+
+  border-color:
+    rgba(230, 0, 126, 0.23);
+
+  background:
+    var(--le-magenta-soft);
+}
+
+
+.publicMobileDrawerClose:active {
+  transform:
+    scale(0.96);
+}
+
+
+.publicMobileDrawerClose:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.18);
+
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   DRAWER SCROLL
+   ========================================================================== */
+
+.publicMobileDrawerScroll {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  padding:
+    0
+    0
+    24px;
+
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    #dbcbd4
+    transparent;
+}
+
+
+.publicMobileDrawerScroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+
+.publicMobileDrawerScroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    #dbcbd4;
+}
+
+
+/* ==========================================================================
+   DRAWER INTRO
+   ========================================================================== */
+
+.publicMobileDrawerIntro {
+  padding:
+    18px
+    18px
+    16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7fb,
+      #fff0f7
+    );
+
+  border-bottom:
+    1px solid
+    #f0dce7;
+}
+
+
+.publicMobileDrawerEyebrow {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color:
+    var(--le-magenta);
+
+  font-size: 0.7rem;
+  font-weight: 850;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.publicMobileDrawerSlogan {
+  margin: 0;
+
+  color:
+    var(--le-text);
+
+  font-size: 1rem;
+  font-weight: 720;
+
+  line-height: 1.35;
+}
+
+
+/* ==========================================================================
+   DRAWER SECTIONS
+   ========================================================================== */
+
+.publicMobileDrawerSection {
+  width: 100%;
+
+  padding:
+    20px
+    17px;
+
+  border-bottom:
+    1px solid
+    #f0e6eb;
+}
+
+
+.publicMobileDrawerSectionTitle {
+  margin:
+    0
+    0
+    11px;
+
+  color:
+    #4f424a;
+
+  font-size: 0.7rem;
+  font-weight: 850;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.publicMobileDrawerSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 10px;
+}
+
+
+.publicMobileDrawerSectionHeader
+.publicMobileDrawerSectionTitle {
+  margin: 0;
+}
+
+
+.publicMobileDrawerSectionAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+
+  color:
+    var(--le-magenta);
+
+  font-size: 0.72rem;
+  font-weight: 750;
+
+  text-decoration: none;
+}
+
+
+/* ==========================================================================
+   DRAWER NAVIGATION
+   ========================================================================== */
+
+.publicMobileDrawerNavigation {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.publicMobileDrawerNavigationLink {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  width: 100%;
+
+  min-height: 49px;
+
+  padding:
+    7px
+    9px;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 12px;
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+
+  transition:
+    background-color var(--le-transition),
+    border-color var(--le-transition),
+    color var(--le-transition);
+}
+
+
+.publicMobileDrawerNavigationLink:hover {
+  background:
+    #faf7f9;
+}
+
+
+.publicMobileDrawerNavigationLinkActive {
+  border-color:
+    rgba(230, 0, 126, 0.16);
+
+  background:
+    var(--le-magenta-soft);
+
+  color:
+    var(--le-magenta-dark);
+}
+
+
+.publicMobileDrawerNavigationIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 10px;
+
+  background:
+    #f5f1f3;
+
+  color:
+    #5e525a;
+}
+
+
+.publicMobileDrawerNavigationLinkActive
+.publicMobileDrawerNavigationIcon {
+  background:
+    rgba(230, 0, 126, 0.1);
+
+  color:
+    var(--le-magenta);
+}
+
+
+.publicMobileDrawerNavigationContent {
+  flex: 1 1 auto;
+
+  min-width: 0;
+}
+
+
+.publicMobileDrawerNavigationLabel {
+  display: block;
+
+  overflow: hidden;
+
+  font-size: 0.86rem;
+  font-weight: 680;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.publicMobileDrawerNavigationTrailing {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color:
+    var(--le-text-muted);
+}
+
+
+.publicMobileDrawerBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 20px;
+  height: 20px;
+
+  padding:
+    0
+    5px;
+
+  border-radius: 999px;
+
+  background:
+    var(--le-magenta);
+
+  color: #ffffff;
+
+  font-size: 0.62rem;
+  font-weight: 850;
+}
+
+
+/* ==========================================================================
+   DRAWER CATEGORIES
+   ========================================================================== */
+
+.publicMobileDrawerCategories {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 7px;
+}
+
+
+.publicMobileDrawerCategory {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 42px;
+
+  padding:
+    8px
+    9px;
+
+  border:
+    1px solid
+    var(--le-border);
+
+  border-radius: 10px;
+
+  background:
+    #ffffff;
+
+  color:
+    #574b53;
+
+  font-size: 0.75rem;
+  font-weight: 650;
+
+  text-decoration: none;
+}
+
+
+.publicMobileDrawerCategory > span:nth-child(2) {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.publicMobileDrawerCategoryActive {
+  border-color:
+    rgba(230, 0, 126, 0.3);
+
+  background:
+    var(--le-magenta-soft);
+
+  color:
+    var(--le-magenta-dark);
+}
+
+
+.publicMobileDrawerCategoryDot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background:
+    var(--le-magenta);
+}
+
+
+/* ==========================================================================
+   DRAWER LOCATIONS
+   ========================================================================== */
+
+.publicMobileDrawerLocations {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 8px;
+}
+
+
+.publicMobileDrawerLocation {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  min-width: 0;
+
+  padding:
+    10px;
+
+  border:
+    1px solid
+    #eee3e9;
+
+  border-radius: 11px;
+
+  background:
+    #fcfafb;
+}
+
+
+.publicMobileDrawerLocationIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+
+  margin-top: 1px;
+
+  color:
+    var(--le-magenta);
+}
+
+
+.publicMobileDrawerLocationContent {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicMobileDrawerLocationContent strong {
+  overflow: hidden;
+
+  color:
+    var(--le-text);
+
+  font-size: 0.74rem;
+  font-weight: 780;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.publicMobileDrawerLocationContent span {
+  margin-top: 2px;
+
+  color:
+    var(--le-text-soft);
+
+  font-size: 0.65rem;
+  line-height: 1.25;
+}
+
+
+/* ==========================================================================
+   DRAWER CONTACTS
+   ========================================================================== */
+
+.publicMobileDrawerContactList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.publicMobileDrawerContact {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 54px;
+
+  padding:
+    8px
+    10px;
+
+  border:
+    1px solid
+    var(--le-border);
+
+  border-radius: 12px;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+
+  transition:
+    border-color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicMobileDrawerContact:hover {
+  border-color:
+    rgba(230, 0, 126, 0.22);
+
+  background:
+    var(--le-magenta-soft-2);
+}
+
+
+.publicMobileDrawerContactIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 35px;
+  height: 35px;
+
+  border-radius: 10px;
+
+  background:
+    var(--le-magenta-soft);
+
+  color:
+    var(--le-magenta);
+}
+
+
+.publicMobileDrawerContactContent {
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicMobileDrawerContactContent > span {
+  color:
+    var(--le-text-muted);
+
+  font-size: 0.63rem;
+  font-weight: 650;
+}
+
+
+.publicMobileDrawerContactContent strong {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  color:
+    var(--le-text);
+
+  font-size: 0.76rem;
+  font-weight: 740;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   DRAWER SOCIALS
+   ========================================================================== */
+
+.publicMobileDrawerSocials {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 7px;
+}
+
+
+.publicMobileDrawerSocial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 5px;
+
+  min-width: 0;
+
+  padding:
+    10px
+    8px;
+
+  border:
+    1px solid
+    var(--le-border);
+
+  border-radius: 11px;
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+}
+
+
+.publicMobileDrawerSocial:hover {
+  border-color:
+    rgba(230, 0, 126, 0.25);
+
+  background:
+    var(--le-magenta-soft-2);
+}
+
+
+.publicMobileDrawerSocialContent {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicMobileDrawerSocialContent strong {
+  font-size: 0.7rem;
+  font-weight: 760;
+}
+
+
+.publicMobileDrawerSocialContent span {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  color:
+    var(--le-text-muted);
+
+  font-size: 0.58rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   DRAWER FOOTER
+   ========================================================================== */
+
+.publicMobileDrawerFooter {
+  flex: 0 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 8px;
+
+  padding:
+    10px
+    14px
+    calc(10px + env(safe-area-inset-bottom));
+
+  border-top:
+    1px solid
+    var(--le-border);
+
+  background:
+    rgba(255, 255, 255, 0.98);
+
+  box-shadow:
+    0 -8px 25px
+    rgba(33, 17, 28, 0.05);
+}
+
+
+.publicMobileDrawerFooterButton,
+.publicMobileDrawerFooterButtonSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 43px;
+
+  padding:
+    0
+    12px;
+
+  border-radius: 11px;
+
+  font-size: 0.75rem;
+  font-weight: 760;
+
+  text-decoration: none;
+}
+
+
+.publicMobileDrawerFooterButton {
+  background:
+    linear-gradient(
+      135deg,
+      var(--le-magenta),
+      var(--le-magenta-dark)
+    );
+
+  color: #ffffff;
+}
+
+
+.publicMobileDrawerFooterButtonSecondary {
+  border:
+    1px solid
+    var(--le-border);
+
+  background:
+    #ffffff;
+
+  color:
+    var(--le-text);
+}
+
+
+/* ==========================================================================
+   MOBILE BOTTOM NAVIGATION
+   ========================================================================== */
+
+.publicMobileBottomNav {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1200;
+
+  display: block;
+
+  width: 100%;
+
+  padding-bottom:
+    env(safe-area-inset-bottom);
+
+  border-top:
+    1px solid
+    rgba(225, 210, 218, 0.9);
+
+  background:
+    rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 -10px 30px
+    rgba(30, 14, 24, 0.09);
+
+  backdrop-filter:
+    blur(16px);
+
+  -webkit-backdrop-filter:
+    blur(16px);
+
+  isolation: isolate;
+}
+
+
+.publicMobileBottomNavInner {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 66px;
+
+  margin: 0;
+  padding:
+    5px
+    6px
+    4px;
+}
+
+
+.publicMobileBottomNavItem {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  min-width: 0;
+
+  padding:
+    2px
+    3px;
+
+  border-radius: 12px;
+
+  color:
+    #786b74;
+
+  text-decoration: none;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicMobileBottomNavItem:active {
+  background:
+    var(--le-magenta-soft);
+}
+
+
+.publicMobileBottomNavItemActive {
+  color:
+    var(--le-magenta);
+}
+
+
+.publicMobileBottomNavIconArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 30px;
+}
+
+
+.publicMobileBottomNavIconShell {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 30px;
+
+  overflow: visible;
+
+  border-radius: 999px;
+
+  transition:
+    background-color var(--le-transition),
+    transform var(--le-transition);
+}
+
+
+.publicMobileBottomNavIconShellActive {
+  background:
+    rgba(230, 0, 126, 0.1);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.publicMobileBottomNavIcon {
+  display: block;
+}
+
+
+.publicMobileBottomNavBadge {
+  position: absolute;
+
+  top: -5px;
+  right: -5px;
+
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 19px;
+  height: 19px;
+
+  padding:
+    0
+    4px;
+
+  border:
+    2px solid
+    #ffffff;
+
+  border-radius: 999px;
+
+  background:
+    var(--le-magenta);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 12px
+    rgba(230, 0, 126, 0.26);
+
+  font-size: 0.56rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+.publicMobileBottomNavLabel {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  font-size:
+    clamp(
+      0.56rem,
+      2.35vw,
+      0.68rem
+    );
+
+  font-weight: 690;
+
+  line-height: 1.1;
+
+  text-align: center;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.publicMobileBottomNavItemActive
+.publicMobileBottomNavLabel {
+  font-weight: 820;
+}
+
+
+.publicMobileBottomNavActiveIndicator {
+  position: absolute;
+
+  bottom: 1px;
+  left: 50%;
+
+  width: 0;
+  height: 3px;
+
+  border-radius: 999px;
+
+  background:
+    var(--le-magenta);
+
+  transform:
+    translateX(-50%);
+
+  transition:
+    width var(--le-transition);
+}
+
+
+.publicMobileBottomNavItemActive
+.publicMobileBottomNavActiveIndicator {
+  width: 19px;
+}
+
+
+/* ==========================================================================
+   FOOTER ROOT
+   ========================================================================== */
+
+.publicFooter {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  background:
+    #181419;
+
+  color:
+    rgba(255, 255, 255, 0.84);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   FOOTER SERVICE STRIP
+   ========================================================================== */
+
+.publicFooterServiceStrip {
+  width: 100%;
+
+  border-top:
+    1px solid
+    #f0dae6;
+
+  border-bottom:
+    1px solid
+    #ead3df;
+
+  background:
+    linear-gradient(
+      90deg,
+      #fff8fb,
+      #fff1f8,
+      #fff8fb
+    );
+
+  color:
+    var(--le-text);
+}
+
+
+.publicFooterServiceStripContent {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    10px
+    clamp(18px, 2.4vw, 44px);
+}
+
+
+.publicFooterServiceItem {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  min-width: 0;
+  min-height: 48px;
+
+  padding:
+    4px
+    clamp(10px, 1.25vw, 20px);
+
+  border-right:
+    1px solid
+    rgba(177, 130, 155, 0.21);
+
+  color:
+    var(--le-text);
+
+  text-decoration: none;
+
+  transition:
+    color var(--le-transition),
+    background-color var(--le-transition);
+}
+
+
+.publicFooterServiceItem:first-child {
+  padding-left: 0;
+}
+
+
+.publicFooterServiceItem:last-child {
+  padding-right: 0;
+
+  border-right: 0;
+}
+
+
+.publicFooterServiceItem:hover {
+  color:
+    var(--le-magenta);
+}
+
+
+.publicFooterServiceIcon {
+  flex: 0 0 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(230, 0, 126, 0.09);
+
+  color:
+    var(--le-magenta);
+}
+
+
+.publicFooterServiceText {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicFooterServiceText strong {
+  color:
+    var(--le-text);
+
+  font-size: 0.79rem;
+  font-weight: 800;
+}
+
+
+.publicFooterServiceText span {
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color:
+    var(--le-text-soft);
+
+  font-size: 0.71rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   FOOTER MAIN
+   ========================================================================== */
+
+.publicFooterMain {
+  display: grid;
+
+  grid-template-columns:
+    minmax(210px, 1.28fr)
+    repeat(
+      4,
+      minmax(135px, 1fr)
+    );
+
+  align-items: start;
+
+  gap:
+    clamp(18px, 2vw, 34px);
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    32px
+    clamp(18px, 3vw, 52px)
+    28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #181419,
+      #22171e
+    );
+}
+
+
+/* ==========================================================================
+   FOOTER BRAND
+   ========================================================================== */
+
+.publicFooterBrandColumn {
+  min-width: 0;
+}
+
+
+.publicFooterBrand {
+  display: inline-flex;
+
+  text-decoration: none;
+}
+
+
+.publicFooterLogo {
+  display: block;
+
+  width: 170px;
+  height: 80px;
+
+  padding:
+    5px
+    8px;
+
+  border-radius: 12px;
+
+  background:
+    #ffffff;
+
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+.publicFooterBrandName {
+  margin:
+    12px
+    0
+    0;
+
+  color:
+    #ffffff;
+
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+
+.publicFooterSlogan {
+  margin:
+    5px
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.61);
+
+  font-size: 0.76rem;
+
+  line-height: 1.4;
+}
+
+
+/* ==========================================================================
+   FOOTER SOCIALS
+   ========================================================================== */
+
+.publicFooterSocialSection {
+  margin-top: 15px;
+}
+
+
+.publicFooterSocialTitle {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color:
+    rgba(255, 255, 255, 0.75);
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+
+.publicFooterSocialList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.publicFooterSocialLink {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    7px
+    8px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 10px;
+
+  color:
+    rgba(255, 255, 255, 0.8);
+
+  text-decoration: none;
+
+  transition:
+    border-color var(--le-transition),
+    background-color var(--le-transition),
+    color var(--le-transition);
+}
+
+
+.publicFooterSocialLink:hover {
+  border-color:
+    rgba(230, 0, 126, 0.32);
+
+  background:
+    rgba(230, 0, 126, 0.09);
+
+  color:
+    #ffffff;
+}
+
+
+.publicFooterSocialIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 8px;
+
+  background:
+    rgba(230, 0, 126, 0.13);
+
+  color:
+    #ff66b8;
+}
+
+
+.publicFooterSocialContent {
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicFooterSocialContent strong {
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+
+.publicFooterSocialContent span {
+  margin-top: 1px;
+
+  overflow: hidden;
+
+  color:
+    rgba(255, 255, 255, 0.49);
+
+  font-size: 0.63rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   FOOTER COLUMNS
+   ========================================================================== */
+
+.publicFooterColumn {
+  min-width: 0;
+}
+
+
+.publicFooterColumnHeading {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 28px;
+
+  margin-bottom: 9px;
+}
+
+
+.publicFooterColumnHeadingIcon {
+  display: inline-flex;
+
+  color:
+    #ff56ad;
+}
+
+
+.publicFooterColumnTitle {
+  margin: 0;
+
+  color:
+    #ffffff;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+
+.publicFooterLinkList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+.publicFooterLinkListItem {
+  margin: 0;
+  padding: 0;
+}
+
+
+.publicFooterLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  min-height: 34px;
+
+  padding:
+    4px
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  font-size: 0.75rem;
+  font-weight: 520;
+
+  text-decoration: none;
+
+  transition:
+    color var(--le-transition),
+    transform var(--le-transition);
+}
+
+
+.publicFooterLink:hover {
+  color:
+    #ffffff;
+
+  transform:
+    translateX(2px);
+}
+
+
+/* ==========================================================================
+   FOOTER LOCATIONS
+   ========================================================================== */
+
+.publicFooterLocations {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+.publicFooterLocation {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  min-width: 0;
+}
+
+
+.publicFooterLocationMarker {
+  flex: 0 0 auto;
+
+  width: 6px;
+  height: 6px;
+
+  margin-top: 6px;
+
+  border-radius: 50%;
+
+  background:
+    var(--le-magenta);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(230, 0, 126, 0.09);
+}
+
+
+.publicFooterLocationContent {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+.publicFooterLocationContent strong {
+  color:
+    rgba(255, 255, 255, 0.8);
+
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+
+.publicFooterLocationContent span {
+  margin-top: 1px;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+
+  font-size: 0.65rem;
+  line-height: 1.35;
+}
+
+
+/* ==========================================================================
+   FOOTER DIRECT CONTACT
+   ========================================================================== */
+
+.publicFooterDirectContact {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  margin-top: 14px;
+}
+
+
+.publicFooterDirectContactTitle {
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: 0.69rem;
+  font-weight: 750;
+}
+
+
+.publicFooterWhatsAppButton,
+.publicFooterContactButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 40px;
+
+  padding:
+    0
+    11px;
+
+  border-radius: 10px;
+
+  font-size: 0.69rem;
+  font-weight: 750;
+
+  line-height: 1.2;
+
+  text-decoration: none;
+}
+
+
+.publicFooterWhatsAppButton {
+  background:
+    var(--le-magenta);
+
+  color:
+    #ffffff;
+}
+
+
+.publicFooterWhatsAppButton:hover {
+  background:
+    var(--le-magenta-dark);
+}
+
+
+.publicFooterContactButton {
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  color:
+    rgba(255, 255, 255, 0.83);
+}
+
+
+.publicFooterContactButton:hover {
+  border-color:
+    rgba(230, 0, 126, 0.3);
+
+  background:
+    rgba(230, 0, 126, 0.08);
+
+  color:
+    #ffffff;
+}
+
+
+/* ==========================================================================
+   FOOTER SECONDARY BAR
+   ========================================================================== */
+
+.publicFooterSecondaryBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 39px;
+
+  padding:
+    7px
+    clamp(14px, 3vw, 52px);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  background:
+    rgba(0, 0, 0, 0.13);
+}
+
+
+.publicFooterSecondaryItem {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color:
+    rgba(255, 255, 255, 0.56);
+
+  font-size: 0.7rem;
+}
+
+
+.publicFooterSecondaryItem svg {
+  color:
+    #ff58af;
+}
+
+
+.publicFooterSecondarySeparator {
+  width: 1px;
+  height: 17px;
+
+  background:
+    rgba(255, 255, 255, 0.13);
+}
+
+
+/* ==========================================================================
+   FOOTER BOTTOM
+   ========================================================================== */
+
+.publicFooterBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    12px
+    clamp(18px, 3vw, 52px);
+
+  background:
+    #120f13;
+}
+
+
+.publicFooterCopyright {
+  margin: 0;
+
+  color:
+    rgba(255, 255, 255, 0.49);
+
+  font-size: 0.69rem;
+}
+
+
+.publicFooterBottomNavigation {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.publicFooterBottomLink {
+  color:
+    rgba(255, 255, 255, 0.56);
+
+  font-size: 0.68rem;
+
+  text-decoration: none;
+}
+
+
+.publicFooterBottomLink:hover {
+  color:
+    #ffffff;
+}
+
+
+.publicFooterBottomDivider {
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.25);
+}
+
+
+/* ==========================================================================
+   GENERIC FOCUS
+   ========================================================================== */
+
+.publicFooter a:focus-visible,
+.publicMobileDrawer a:focus-visible,
+.publicMobileBottomNav a:focus-visible {
+  outline:
+    3px solid
+    rgba(230, 0, 126, 0.28);
+
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   LARGE DESKTOP
+   ========================================================================== */
+
+@media (min-width: 1280px) {
+  .publicDesktopMainRow {
+    grid-template-columns:
+      minmax(175px, 225px)
+      minmax(360px, 1fr)
+      auto;
+  }
+
+
+  .publicDesktopAction {
+    min-width: 74px;
+  }
+
+
+  .publicDesktopActionLabel {
+    font-size: 0.76rem;
+  }
+
+
+  .publicDesktopNavigationLink,
+  .publicDesktopCategoryLink {
+    padding:
+      0
+      15px;
+  }
+}
+
+
+/* ==========================================================================
+   DESKTOP MODE
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  .publicHeaderDesktopOnly {
+    display: block;
+  }
+
+
+  .publicHeaderMobileOnly {
+    display: none;
+  }
+
+
+  .publicMobileBottomNav {
+    display: none;
+  }
+
+
+  .publicShellMain {
+    padding-bottom: 0;
+  }
+
+
+  .publicFooter {
+    padding-bottom: 0;
+  }
+}
+
+
+/* ==========================================================================
+   DESKTOP — INTERMEDIATE WIDTH
+   ========================================================================== */
+
+@media (
+  min-width: 1024px
+) and (
+  max-width: 1240px
+) {
+  .publicDesktopTopBar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+
+  .publicDesktopMainRow {
+    grid-template-columns:
+      155px
+      minmax(260px, 1fr)
+      auto;
+
+    gap: 16px;
+
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+
+  .publicDesktopNavigationBar {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+
+  .publicDesktopTopBarContactValue {
+    display: none;
+  }
+
+
+  .publicDesktopAction {
+    min-width: 58px;
+
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+
+  .publicDesktopActionLabel {
+    max-width: 66px;
+
+    font-size: 0.68rem;
+  }
+
+
+  .publicFooterMain {
+    grid-template-columns:
+      minmax(190px, 1.2fr)
+      repeat(
+        4,
+        minmax(125px, 1fr)
+      );
+
+    gap: 18px;
+
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+
+/* ==========================================================================
+   TABLET / MOBILE
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  .publicShell {
+    padding-bottom:
+      calc(
+        74px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .publicShellMain {
+    padding-bottom:
+      calc(
+        74px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .publicFooter {
+    padding-bottom:
+      calc(
+        66px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .publicFooterServiceStripContent {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    padding:
+      8px
+      12px;
+  }
+
+
+  .publicFooterServiceItem,
+  .publicFooterServiceItem:first-child,
+  .publicFooterServiceItem:last-child {
+    min-height: 50px;
+
+    padding:
+      7px
+      10px;
+
+    border-right: 0;
+    border-bottom:
+      1px solid
+      rgba(177, 130, 155, 0.16);
+  }
+
+
+  .publicFooterServiceItem:nth-child(odd) {
+    border-right:
+      1px solid
+      rgba(177, 130, 155, 0.16);
+  }
+
+
+  .publicFooterServiceItem:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+
+  .publicFooterMain {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      22px
+      22px;
+
+    padding:
+      28px
+      18px
+      24px;
+  }
+
+
+  .publicFooterBrandColumn {
+    grid-column:
+      1 / -1;
+  }
+
+
+  .publicFooterLogo {
+    width: 160px;
+    height: 76px;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* ------------------------------------------------------------------------
+     FOOTER MASQUÉ SUR LES PAGES OÙ LA NAVIGATION MOBILE SUFFIT
+     ------------------------------------------------------------------------
+     
+     Fiche produit :
+     
+     [data-public-product-detail="true"]
+     
+     Panier :
+     
+     [data-public-panier-page="true"]
+     
+     Le Footer reste disponible sur les autres pages publiques mobiles.
+     Cela respecte la demande sans modifier le comportement global du site.
+     ------------------------------------------------------------------------ */
+
+  body:has([data-public-product-detail="true"])
+  .publicFooter,
+  body:has([data-public-panier-page="true"])
+  .publicFooter {
+    display: none;
+  }
+
+
+  .publicFooterServiceStripContent {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    padding:
+      6px
+      8px;
+  }
+
+
+  .publicFooterServiceItem,
+  .publicFooterServiceItem:first-child,
+  .publicFooterServiceItem:last-child {
+    gap: 7px;
+
+    min-width: 0;
+    min-height: 47px;
+
+    padding:
+      6px
+      6px;
+
+    border-right: 0;
+    border-bottom:
+      1px solid
+      rgba(177, 130, 155, 0.16);
+  }
+
+
+  .publicFooterServiceItem:nth-child(odd) {
+    border-right:
+      1px solid
+      rgba(177, 130, 155, 0.16);
+  }
+
+
+  .publicFooterServiceItem:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+
+  .publicFooterServiceIcon {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+
+  .publicFooterServiceText strong {
+    overflow: hidden;
+
+    font-size: 0.68rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  .publicFooterServiceText span {
+    margin-top: 2px;
+
+    font-size: 0.59rem;
+  }
+
+
+  .publicFooterMain {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      0
+      16px;
+
+    padding:
+      21px
+      12px
+      17px;
+  }
+
+
+  .publicFooterBrandColumn {
+    grid-column:
+      1 / -1;
+
+    padding-bottom: 17px;
+  }
+
+
+  .publicFooterColumn {
+    min-width: 0;
+
+    padding:
+      13px
+      0;
+
+    border-top:
+      1px solid
+      rgba(255, 255, 255, 0.08);
+  }
+
+
+  .publicFooterLogo {
+    width: 148px;
+    height: 70px;
+  }
+
+
+  .publicFooterBrandName {
+    margin-top: 9px;
+
+    font-size: 0.88rem;
+  }
+
+
+  .publicFooterSlogan {
+    margin-top: 3px;
+
+    font-size: 0.7rem;
+  }
+
+
+  .publicFooterSocialSection {
+    margin-top: 12px;
+  }
+
+
+  .publicFooterSocialList {
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap: 5px;
+  }
+
+
+  .publicFooterSocialLink {
+    flex-direction: column;
+    align-items: flex-start;
+
+    min-height: 67px;
+
+    padding: 7px;
+  }
+
+
+  .publicFooterSocialIcon {
+    width: 26px;
+    height: 26px;
+  }
+
+
+  .publicFooterSocialContent strong {
+    font-size: 0.61rem;
+  }
+
+
+  .publicFooterSocialContent span {
+    width: 100%;
+
+    font-size: 0.53rem;
+  }
+
+
+  .publicFooterColumnHeading {
+    min-height: 24px;
+
+    margin-bottom: 7px;
+  }
+
+
+  .publicFooterColumnTitle {
+    font-size: 0.72rem;
+  }
+
+
+  .publicFooterLink {
+    min-height: 30px;
+
+    gap: 5px;
+
+    font-size: 0.67rem;
+  }
+
+
+  .publicFooterLocations {
+    gap: 7px;
+  }
+
+
+  .publicFooterLocationContent strong {
+    font-size: 0.67rem;
+  }
+
+
+  .publicFooterLocationContent span {
+    font-size: 0.59rem;
+  }
+
+
+  .publicFooterDirectContact {
+    gap: 6px;
+
+    margin-top: 10px;
+  }
+
+
+  .publicFooterDirectContactTitle {
+    font-size: 0.62rem;
+  }
+
+
+  .publicFooterWhatsAppButton,
+  .publicFooterContactButton {
+    min-height: 36px;
+
+    gap: 5px;
+
+    padding:
+      0
+      7px;
+
+    border-radius: 8px;
+
+    font-size: 0.6rem;
+  }
+
+
+  .publicFooterSecondaryBar {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    gap:
+      5px
+      9px;
+
+    min-height: 0;
+
+    padding:
+      8px
+      10px;
+
+    text-align: center;
+  }
+
+
+  .publicFooterSecondaryItem {
+    justify-content: center;
+
+    font-size: 0.61rem;
+  }
+
+
+  .publicFooterSecondarySeparator {
+    display: none;
+  }
+
+
+  .publicFooterBottom {
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+      10px
+      12px;
+
+    text-align: center;
+  }
+
+
+  .publicFooterBottomNavigation {
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+  }
+
+
+  .publicFooterCopyright,
+  .publicFooterBottomLink {
+    font-size: 0.62rem;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 430px) {
+  .publicFooterServiceStripContent {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+
+  .publicFooterServiceItem,
+  .publicFooterServiceItem:first-child,
+  .publicFooterServiceItem:last-child {
+    gap: 5px;
+
+    min-height: 44px;
+
+    padding:
+      5px
+      4px;
+  }
+
+
+  .publicFooterServiceIcon {
+    width: 29px;
+    height: 29px;
+    flex-basis: 29px;
+  }
+
+
+  .publicFooterServiceText strong {
+    font-size: 0.63rem;
+  }
+
+
+  .publicFooterServiceText span {
+    font-size: 0.54rem;
+  }
+
+
+  .publicFooterMain {
+    gap:
+      0
+      12px;
+
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .publicMobileMainRow {
+    grid-template-columns:
+      46px
+      minmax(105px, 1fr)
+      auto;
+
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+
+  .publicMobileLogo {
+    width: 116px;
+    height: 50px;
+  }
+
+
+  .publicMobileMenuButtonLabel {
+    display: none;
+  }
+
+
+  .publicMobileHeaderAction {
+    min-width: 42px;
+
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+
+  .publicMobileHeaderActionLabel {
+    max-width: 50px;
+
+    font-size: 0.52rem;
+  }
+
+
+  .publicMobileSearchArea {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+
+  .publicMobileLocationsBar {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+
+  .publicMobileLocationsContent {
+    display: block;
+
+    min-width: 0;
+  }
+
+
+  .publicMobileLocationsTitle {
+    display: block;
+
+    margin-bottom: 2px;
+  }
+
+
+  .publicMobileLocationsText {
+    display: block;
+
+    width: 100%;
+  }
+
+
+  .publicMobileDrawerCategories,
+  .publicMobileDrawerLocations {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+/* ==========================================================================
+   VERY SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 360px) {
+  .publicFooterServiceStripContent {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+
+  .publicFooterServiceItem,
+  .publicFooterServiceItem:first-child,
+  .publicFooterServiceItem:last-child {
+    gap: 4px;
+
+    min-height: 42px;
+
+    padding:
+      4px
+      3px;
+  }
+
+
+  .publicFooterServiceIcon {
+    width: 27px;
+    height: 27px;
+    flex-basis: 27px;
+  }
+
+
+  .publicFooterServiceText strong {
+    font-size: 0.59rem;
+  }
+
+
+  .publicFooterServiceText span {
+    font-size: 0.5rem;
+  }
+
+
+  .publicFooterMain {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      0
+      9px;
+
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .publicMobileContactBar {
+    gap: 6px;
+
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+
+  .publicMobileContactLink {
+    font-size: 0.61rem;
+  }
+
+
+  .publicMobileMainRow {
+    grid-template-columns:
+      42px
+      minmax(94px, 1fr)
+      auto;
+
+    gap: 2px;
+  }
+
+
+  .publicMobileLogo {
+    width: 102px;
+  }
+
+
+  .publicMobileHeaderActionLabel {
+    display: none;
+  }
+
+
+  .publicMobileHeaderAction {
+    min-width: 36px;
+  }
+
+
+  .publicMobileBottomNavInner {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+
+  .publicMobileBottomNavItem {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+
+  .publicMobileBottomNavIconShell {
+    width: 34px;
+  }
+}
+
+
+/* ==========================================================================
+   HOVER DEVICES ONLY
+   ========================================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .publicMobileBottomNavItem:hover {
+    color:
+      var(--le-magenta);
+
+    background:
+      var(--le-magenta-soft-2);
+  }
+
+
+  .publicMobileDrawerCategory:hover {
+    border-color:
+      rgba(230, 0, 126, 0.24);
+
+    background:
+      var(--le-magenta-soft-2);
+  }
+
+
+  .publicMobileDrawerSectionAction:hover {
+    color:
+      var(--le-magenta-dark);
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (
+  prefers-reduced-motion:
+  reduce
+) {
+  .publicSearchField,
+  .publicSearchSubmit,
+  .publicDesktopAction,
+  .publicDesktopNavigationLink,
+  .publicDesktopCategoryLink,
+  .publicMobileMenuButton,
+  .publicMobileDrawerOverlay,
+  .publicMobileDrawer,
+  .publicMobileDrawerClose,
+  .publicMobileDrawerNavigationLink,
+  .publicMobileDrawerContact,
+  .publicMobileBottomNavItem,
+  .publicMobileBottomNavIconShell,
+  .publicMobileBottomNavActiveIndicator,
+  .publicFooterServiceItem,
+  .publicFooterSocialLink,
+  .publicFooterLink {
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+  .publicHeaderRoot,
+  .publicMobileBottomNav,
+  .publicMobileDrawerRoot {
+    display: none !important;
+  }
+
+
+  .publicFooter {
+    padding-bottom: 0;
+
+    color: #000000;
+
+    background: #ffffff;
+  }
+}

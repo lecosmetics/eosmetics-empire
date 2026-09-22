@@ -1,0 +1,3360 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * CATÉGORIES PUBLIQUES — STYLES COMPLETS
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/categories/public-categories.module.css
+ *
+ * ============================================================================
+ *
+ * ROUTE PRINCIPALE :
+ *
+ * /categories
+ *
+ * ============================================================================
+ *
+ * ARCHITECTURE
+ *
+ * 1. Breadcrumb
+ * 2. Hero avec /imagse/resulta.png
+ * 3. Toutes nos catégories
+ * 4. Grille de catégories
+ * 5. Bannière éditoriale basse
+ *
+ * ============================================================================
+ *
+ * RESPONSIVE
+ *
+ * Desktop :
+ * - page pleine largeur ;
+ * - 5 catégories par ligne ;
+ * - Footer public visible.
+ *
+ * Tablette :
+ * - 3 catégories par ligne.
+ *
+ * Mobile :
+ * - 2 catégories par ligne ;
+ * - aucun carousel ;
+ * - aucun scroll horizontal ;
+ * - Footer public masqué uniquement sur /categories ;
+ * - Bottom Navigation globale conservée.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. VARIABLES
+   ========================================================================== */
+
+.categoriesPage,
+.categoriesHeroSection,
+.categoriesGridSection,
+.categoriesPromoSection,
+.categoriesLoadingPage,
+.categoryProductsPage {
+  --categories-primary:
+    var(--ce-primary, #ed006d);
+
+  --categories-primary-hover:
+    #d50063;
+
+  --categories-primary-dark:
+    #b70055;
+
+  --categories-primary-soft:
+    #fff0f6;
+
+  --categories-primary-soft-2:
+    #fff7fa;
+
+  --categories-pink:
+    #f8bad1;
+
+  --categories-pink-light:
+    #fde3ed;
+
+  --categories-black:
+    #121015;
+
+  --categories-text:
+    #211b21;
+
+  --categories-text-soft:
+    #665d64;
+
+  --categories-text-muted:
+    #958b92;
+
+  --categories-white:
+    #ffffff;
+
+  --categories-border:
+    #ece5e9;
+
+  --categories-border-soft:
+    #f3edf0;
+
+  --categories-surface:
+    #ffffff;
+
+  --categories-surface-soft:
+    #fbf8fa;
+
+  --categories-shadow-small:
+    0 4px 14px
+    rgb(31 16 26 / 5%);
+
+  --categories-shadow-medium:
+    0 10px 30px
+    rgb(31 16 26 / 9%);
+
+  --categories-shadow-strong:
+    0 16px 40px
+    rgb(31 16 26 / 13%);
+
+  --categories-shadow-primary:
+    0 10px 28px
+    rgb(237 0 109 / 20%);
+
+  --categories-radius-small:
+    8px;
+
+  --categories-radius-medium:
+    12px;
+
+  --categories-radius-large:
+    18px;
+
+  --categories-page-gutter:
+    clamp(
+      10px,
+      2vw,
+      30px
+    );
+
+  box-sizing:
+    border-box;
+
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+}
+
+
+/* ==========================================================================
+   2. BOX SIZING
+   ========================================================================== */
+
+.categoriesPage *,
+.categoriesHeroSection *,
+.categoriesGridSection *,
+.categoriesPromoSection *,
+.categoriesLoadingPage *,
+.categoryProductsPage * {
+  box-sizing:
+    border-box;
+}
+
+
+/* ==========================================================================
+   3. PAGE ROOT
+   ========================================================================== */
+
+.categoriesPage {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow-x:
+    clip;
+
+  background:
+    var(--categories-white);
+
+  color:
+    var(--categories-text);
+}
+
+
+/* ==========================================================================
+   4. HERO — SECTION
+   ========================================================================== */
+
+.categoriesHeroSection {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    var(--categories-white);
+}
+
+
+/* ==========================================================================
+   5. BREADCRUMB — CONTENEUR
+   ========================================================================== */
+
+.categoriesHeroBreadcrumbContainer {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    8px
+    var(--categories-page-gutter);
+}
+
+
+/* ==========================================================================
+   6. BREADCRUMB
+   ========================================================================== */
+
+.categoriesHeroBreadcrumb {
+  width:
+    100%;
+
+  min-width:
+    0;
+}
+
+
+.categoriesHeroBreadcrumbList {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    5px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+
+.categoriesHeroBreadcrumbItem {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  min-width:
+    0;
+}
+
+
+.categoriesHeroBreadcrumbLink {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.2;
+
+  text-decoration:
+    none;
+
+  transition:
+    color 160ms ease;
+}
+
+
+.categoriesHeroBreadcrumbLink:hover {
+  color:
+    var(--categories-primary);
+}
+
+
+.categoriesHeroBreadcrumbCurrent {
+  overflow:
+    hidden;
+
+  color:
+    var(--categories-primary);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    750;
+
+  line-height:
+    1.2;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+.categoriesHeroBreadcrumbSeparator {
+  display:
+    inline-flex;
+
+  flex:
+    0 0 auto;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    #b5abb1;
+}
+
+
+/* ==========================================================================
+   7. HERO — BANNIÈRE
+   ========================================================================== */
+
+.categoriesHeroBanner {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    clamp(
+      280px,
+      24vw,
+      365px
+    );
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  background:
+    #f2c2d4;
+
+  isolation:
+    isolate;
+}
+
+
+/* ==========================================================================
+   8. HERO — IMAGE
+   ========================================================================== */
+
+.categoriesHeroImageLayer {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    0;
+
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+.categoriesHeroImage {
+  object-fit:
+    cover;
+
+  object-position:
+    center center;
+
+  user-select:
+    none;
+
+  pointer-events:
+    none;
+}
+
+
+.categoriesHeroImageOverlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    1;
+
+  pointer-events:
+    none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(255 246 250 / 92%) 0%,
+      rgb(255 244 249 / 78%) 24%,
+      rgb(255 244 249 / 43%) 43%,
+      rgb(255 244 249 / 10%) 61%,
+      transparent 78%
+    );
+}
+
+
+/* ==========================================================================
+   9. HERO — CONTENU
+   ========================================================================== */
+
+.categoriesHeroContent {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    flex;
+
+  width:
+    min(
+      48%,
+      650px
+    );
+
+  min-height:
+    clamp(
+      280px,
+      24vw,
+      365px
+    );
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  margin:
+    0;
+
+  padding:
+    28px
+    0
+    28px
+    clamp(
+      24px,
+      5vw,
+      76px
+    );
+}
+
+
+/* ==========================================================================
+   10. HERO — EYEBROW
+   ========================================================================== */
+
+.categoriesHeroEyebrow {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  min-height:
+    23px;
+
+  margin:
+    0
+    0
+    9px;
+
+  padding:
+    0
+    9px;
+
+  color:
+    var(--categories-primary);
+
+  background:
+    rgb(255 255 255 / 76%);
+
+  border:
+    1px solid
+    rgb(237 0 109 / 13%);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.63rem;
+
+  font-weight:
+    850;
+
+  line-height:
+    1;
+
+  letter-spacing:
+    0.065em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ==========================================================================
+   11. HERO — TITRE
+   ========================================================================== */
+
+.categoriesHeroTitle {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  margin:
+    0;
+
+  color:
+    var(--categories-black);
+
+  font-size:
+    clamp(
+      2.2rem,
+      4.1vw,
+      4.5rem
+    );
+
+  font-style:
+    italic;
+
+  font-weight:
+    950;
+
+  line-height:
+    0.88;
+
+  letter-spacing:
+    -0.065em;
+}
+
+
+.categoriesHeroTitleLine {
+  display:
+    block;
+
+  width:
+    max-content;
+
+  max-width:
+    100%;
+}
+
+
+.categoriesHeroTitleLine:nth-child(2) {
+  color:
+    var(--categories-primary);
+}
+
+
+/* ==========================================================================
+   12. HERO — DESCRIPTION
+   ========================================================================== */
+
+.categoriesHeroDescription {
+  width:
+    min(
+      100%,
+      470px
+    );
+
+  margin:
+    15px
+    0
+    0;
+
+  color:
+    var(--categories-text);
+
+  font-size:
+    clamp(
+      0.82rem,
+      1.1vw,
+      1rem
+    );
+
+  font-weight:
+    500;
+
+  line-height:
+    1.4;
+}
+
+
+/* ==========================================================================
+   13. GRILLE — SECTION
+   ========================================================================== */
+
+.categoriesGridSection {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    20px
+    0
+    16px;
+
+  background:
+    var(--categories-white);
+}
+
+
+/* ==========================================================================
+   14. GRILLE — INNER
+   ========================================================================== */
+
+.categoriesGridInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--categories-page-gutter);
+}
+
+
+/* ==========================================================================
+   15. GRILLE — HEADER
+   ========================================================================== */
+
+.categoriesGridHeader {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    14px;
+
+  width:
+    100%;
+
+  margin:
+    0
+    0
+    14px;
+}
+
+
+.categoriesGridHeading {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+}
+
+
+.categoriesGridTitle {
+  margin:
+    0;
+
+  color:
+    var(--categories-text);
+
+  font-size:
+    clamp(
+      1.3rem,
+      1.9vw,
+      1.9rem
+    );
+
+  font-weight:
+    850;
+
+  line-height:
+    1.05;
+
+  letter-spacing:
+    -0.035em;
+}
+
+
+.categoriesGridTitleUnderline {
+  display:
+    block;
+
+  width:
+    42px;
+
+  height:
+    4px;
+
+  margin-top:
+    6px;
+
+  background:
+    var(--categories-primary);
+
+  border-radius:
+    999px;
+}
+
+
+.categoriesGridCount {
+  flex:
+    0 0 auto;
+
+  margin:
+    0;
+
+  padding-bottom:
+    3px;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.71rem;
+
+  font-weight:
+    650;
+
+  line-height:
+    1.2;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ==========================================================================
+   16. GRILLE DES CATÉGORIES
+   ========================================================================== */
+
+.categoriesGrid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  align-items:
+    stretch;
+
+  gap:
+    clamp(
+      8px,
+      1vw,
+      14px
+    );
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+
+.categoriesGridItem {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+}
+
+
+/* ==========================================================================
+   17. CARTE CATÉGORIE
+   ========================================================================== */
+
+.categoryCard {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  background:
+    var(--categories-white);
+
+  border:
+    1px solid
+    var(--categories-border);
+
+  border-radius:
+    var(--categories-radius-medium);
+
+  box-shadow:
+    var(--categories-shadow-small);
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.categoryCard:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgb(237 0 109 / 23%);
+
+  box-shadow:
+    var(--categories-shadow-medium);
+}
+
+
+/* ==========================================================================
+   18. CARTE — LIEN
+   ========================================================================== */
+
+.categoryCardLink {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+
+  flex-direction:
+    column;
+
+  color:
+    inherit;
+
+  text-decoration:
+    none;
+
+  outline:
+    none;
+}
+
+
+.categoryCardLink:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 22%);
+
+  outline-offset:
+    -3px;
+
+  border-radius:
+    var(--categories-radius-medium);
+}
+
+
+/* ==========================================================================
+   19. CARTE — IMAGE
+   ========================================================================== */
+
+.categoryCardImageFrame {
+  position:
+    relative;
+
+  width:
+    100%;
+
+  aspect-ratio:
+    1.24 / 1;
+
+  overflow:
+    hidden;
+
+  background:
+    var(--categories-primary-soft);
+}
+
+
+.categoryCardImage {
+  object-fit:
+    cover;
+
+  object-position:
+    center;
+
+  transition:
+    transform 280ms ease;
+}
+
+
+.categoryCard:hover
+.categoryCardImage {
+  transform:
+    scale(1.035);
+}
+
+
+.categoryCardImageOverlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    1;
+
+  pointer-events:
+    none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 58%,
+      rgb(22 12 18 / 6%) 100%
+    );
+}
+
+
+/* ==========================================================================
+   20. CARTE — CONTENU
+   ========================================================================== */
+
+.categoryCardContent {
+  display:
+    flex;
+
+  flex:
+    1 1 auto;
+
+  min-width:
+    0;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    space-between;
+
+  gap:
+    6px;
+
+  padding:
+    10px
+    11px
+    9px;
+}
+
+
+.categoryCardName {
+  display:
+    -webkit-box;
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  color:
+    var(--categories-text);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.22;
+
+  letter-spacing:
+    -0.012em;
+
+  line-clamp:
+    2;
+
+  -webkit-box-orient:
+    vertical;
+
+  -webkit-line-clamp:
+    2;
+}
+
+.categoryCardFooter {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    8px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+}
+
+
+.categoryCardProductCount {
+  overflow:
+    hidden;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.67rem;
+
+  font-weight:
+    580;
+
+  line-height:
+    1.2;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ==========================================================================
+   21. CARTE — FLÈCHE
+   ========================================================================== */
+
+.categoryCardArrow {
+  display:
+    inline-flex;
+
+  width:
+    30px;
+
+  height:
+    30px;
+
+  flex:
+    0 0 30px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    var(--categories-white);
+
+  background:
+    var(--categories-primary);
+
+  border-radius:
+    50%;
+
+  box-shadow:
+    0 5px 13px
+    rgb(237 0 109 / 20%);
+
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+
+.categoryCard:hover
+.categoryCardArrow {
+  transform:
+    translate(
+      1px,
+      -1px
+    );
+
+  background:
+    var(--categories-primary-hover);
+}
+
+
+/* ==========================================================================
+   22. ÉTAT VIDE
+   ========================================================================== */
+
+.categoriesEmptyState {
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-height:
+    175px;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    24px;
+
+  background:
+    var(--categories-surface-soft);
+
+  border:
+    1px solid
+    var(--categories-border);
+
+  border-radius:
+    var(--categories-radius-medium);
+}
+
+
+.categoriesEmptyStateContent {
+  width:
+    min(
+      100%,
+      440px
+    );
+
+  text-align:
+    center;
+}
+
+
+.categoriesEmptyStateTitle {
+  margin:
+    0;
+
+  color:
+    var(--categories-text);
+
+  font-size:
+    1.05rem;
+
+  font-weight:
+    800;
+}
+
+
+.categoriesEmptyStateDescription {
+  margin:
+    7px
+    0
+    0;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================================
+   23. PROMO — SECTION
+   ========================================================================== */
+
+.categoriesPromoSection {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    0
+    0
+    18px;
+
+  background:
+    var(--categories-white);
+}
+
+
+/* ==========================================================================
+   24. PROMO — INNER
+   ========================================================================== */
+
+.categoriesPromoInner {
+  width:
+    100%;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding-inline:
+    var(--categories-page-gutter);
+}
+
+
+/* ==========================================================================
+   25. PROMO — BANNIÈRE
+   ========================================================================== */
+
+.categoriesPromoBanner {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    150px;
+
+  align-items:
+    center;
+
+  overflow:
+    hidden;
+
+  background:
+    linear-gradient(
+      105deg,
+      #fbd2e2 0%,
+      #f8bdd4 47%,
+      #f49ac1 100%
+    );
+
+  border-radius:
+    var(--categories-radius-medium);
+
+  isolation:
+    isolate;
+}
+
+
+/* ==========================================================================
+   26. PROMO — CONTENU
+   ========================================================================== */
+
+.categoriesPromoContent {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  display:
+    flex;
+
+  width:
+    min(
+      55%,
+      620px
+    );
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    center;
+
+  padding:
+    22px
+    0
+    22px
+    clamp(
+      20px,
+      4vw,
+      56px
+    );
+}
+
+
+.categoriesPromoEyebrow {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    6px;
+
+  margin:
+    0
+    0
+    5px;
+
+  color:
+    var(--categories-primary-dark);
+
+  font-size:
+    0.66rem;
+
+  font-weight:
+    850;
+
+  line-height:
+    1.15;
+
+  letter-spacing:
+    0.045em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.categoriesPromoEyebrowIcon {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+}
+
+
+.categoriesPromoTitle {
+  margin:
+    0;
+
+  color:
+    var(--categories-black);
+
+  font-size:
+    clamp(
+      1.45rem,
+      2.6vw,
+      2.6rem
+    );
+
+  font-style:
+    italic;
+
+  font-weight:
+    920;
+
+  line-height:
+    0.96;
+
+  letter-spacing:
+    -0.045em;
+}
+
+
+.categoriesPromoDescription {
+  width:
+    min(
+      100%,
+      420px
+    );
+
+  margin:
+    8px
+    0
+    0;
+
+  color:
+    #4f3f48;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    520;
+
+  line-height:
+    1.4;
+}
+
+
+/* ==========================================================================
+   27. PROMO — CTA
+   ========================================================================== */
+
+.categoriesPromoAction {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  min-height:
+    37px;
+
+  margin-top:
+    12px;
+
+  padding:
+    0
+    14px;
+
+  color:
+    var(--categories-white);
+
+  background:
+    var(--categories-primary);
+
+  border:
+    1px solid
+    var(--categories-primary);
+
+  border-radius:
+    7px;
+
+  box-shadow:
+    var(--categories-shadow-primary);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    750;
+
+  line-height:
+    1;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+
+.categoriesPromoAction:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    var(--categories-primary-hover);
+
+  border-color:
+    var(--categories-primary-hover);
+}
+
+
+.categoriesPromoAction:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 24%);
+
+  outline-offset:
+    3px;
+}
+
+
+.categoriesPromoActionIcon {
+  flex:
+    0 0 auto;
+}
+
+
+/* ==========================================================================
+   28. PROMO — DÉCORATION
+   ========================================================================== */
+
+.categoriesPromoDecoration {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    1;
+
+  overflow:
+    hidden;
+
+  pointer-events:
+    none;
+}
+
+
+.categoriesPromoDecorationCircleLarge {
+  position:
+    absolute;
+
+  top:
+    -85px;
+
+  right:
+    -35px;
+
+  width:
+    270px;
+
+  height:
+    270px;
+
+  background:
+    rgb(255 255 255 / 19%);
+
+  border:
+    1px solid
+    rgb(255 255 255 / 25%);
+
+  border-radius:
+    50%;
+}
+
+
+.categoriesPromoDecorationCircleMedium {
+  position:
+    absolute;
+
+  top:
+    17px;
+
+  right:
+    150px;
+
+  width:
+    110px;
+
+  height:
+    110px;
+
+  background:
+    rgb(255 255 255 / 14%);
+
+  border-radius:
+    50%;
+}
+
+
+.categoriesPromoDecorationCircleSmall {
+  position:
+    absolute;
+
+  right:
+    52px;
+
+  bottom:
+    -28px;
+
+  width:
+    86px;
+
+  height:
+    86px;
+
+  background:
+    rgb(237 0 109 / 10%);
+
+  border-radius:
+    50%;
+}
+
+
+.categoriesPromoDecorationSparkle {
+  position:
+    absolute;
+
+  top:
+    50%;
+
+  right:
+    clamp(
+      40px,
+      11vw,
+      170px
+    );
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  color:
+    rgb(255 255 255 / 80%);
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* ==========================================================================
+   29. LOADING — PAGE
+   ========================================================================== */
+
+.categoriesLoadingPage {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background:
+    var(--categories-white);
+}
+
+
+.categoriesLoadingHero {
+  width:
+    100%;
+
+  min-height:
+    clamp(
+      280px,
+      24vw,
+      365px
+    );
+
+  background:
+    linear-gradient(
+      90deg,
+      #f8edf2,
+      #fff7fa,
+      #f8edf2
+    );
+
+  background-size:
+    220% 100%;
+
+  animation:
+    categoriesSkeletonPulse
+    1.4s
+    ease-in-out
+    infinite;
+}
+
+
+.categoriesLoadingHeader {
+  width:
+    min(
+      280px,
+      60%
+    );
+
+  height:
+    27px;
+
+  margin:
+    20px
+    var(--categories-page-gutter)
+    14px;
+
+  background:
+    #f1e9ed;
+
+  border-radius:
+    7px;
+}
+
+
+.categoriesLoadingGrid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    10px;
+
+  width:
+    100%;
+
+  padding:
+    0
+    var(--categories-page-gutter)
+    18px;
+}
+
+
+.categoriesLoadingCard {
+  overflow:
+    hidden;
+
+  background:
+    var(--categories-white);
+
+  border:
+    1px solid
+    var(--categories-border-soft);
+
+  border-radius:
+    var(--categories-radius-medium);
+}
+
+
+.categoriesLoadingCardImage {
+  width:
+    100%;
+
+  aspect-ratio:
+    1.24 / 1;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f4edf1,
+      #fbf7f9,
+      #f4edf1
+    );
+
+  background-size:
+    220% 100%;
+
+  animation:
+    categoriesSkeletonPulse
+    1.4s
+    ease-in-out
+    infinite;
+}
+
+
+.categoriesLoadingLine,
+.categoriesLoadingLineShort {
+  height:
+    9px;
+
+  margin:
+    10px;
+
+  background:
+    #f0e8ec;
+
+  border-radius:
+    999px;
+}
+
+
+.categoriesLoadingLine {
+  width:
+    72%;
+}
+
+
+.categoriesLoadingLineShort {
+  width:
+    42%;
+
+  margin-top:
+    -2px;
+}
+
+
+/* ==========================================================================
+   30. CATEGORY PRODUCTS PAGE — ROOT
+   ========================================================================== */
+
+/**
+ * Ces classes sont préparées dans le même module pour :
+ *
+ * /categories/[slug]
+ *
+ * afin d’éviter de recréer un second fichier CSS pour exactement
+ * le même univers visuel.
+ */
+
+.categoryProductsPage {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  max-width:
+    none;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  overflow-x:
+    clip;
+
+  background:
+    var(--categories-white);
+}
+
+
+/* ==========================================================================
+   31. CATEGORY PRODUCTS — HEADER
+   ========================================================================== */
+
+.categoryProductsHeader {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    16px;
+
+  width:
+    100%;
+
+  padding:
+    18px
+    var(--categories-page-gutter)
+    13px;
+}
+
+
+.categoryProductsHeading {
+  min-width:
+    0;
+}
+
+
+.categoryProductsTitle {
+  margin:
+    0;
+
+  color:
+    var(--categories-text);
+
+  font-size:
+    clamp(
+      1.4rem,
+      2.2vw,
+      2.15rem
+    );
+
+  font-weight:
+    850;
+
+  line-height:
+    1.05;
+
+  letter-spacing:
+    -0.04em;
+}
+
+
+.categoryProductsDescription {
+  width:
+    min(
+      100%,
+      620px
+    );
+
+  margin:
+    7px
+    0
+    0;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.45;
+}
+
+
+.categoryProductsCount {
+  flex:
+    0 0 auto;
+
+  margin:
+    0;
+
+  color:
+    var(--categories-text-muted);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    650;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ==========================================================================
+   32. CATEGORY PRODUCTS — GRID
+   ========================================================================== */
+
+.categoryProductsGrid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      8px,
+      1vw,
+      14px
+    );
+
+  width:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0
+    var(--categories-page-gutter)
+    18px;
+
+  list-style:
+    none;
+}
+
+
+.categoryProductsGridItem {
+  display:
+    flex;
+
+  min-width:
+    0;
+
+  width:
+    100%;
+}
+
+
+/* ==========================================================================
+   33. CATEGORY PRODUCTS — EMPTY
+   ========================================================================== */
+
+.categoryProductsEmpty {
+  width:
+    calc(
+      100% -
+      (
+        2 *
+        var(--categories-page-gutter)
+      )
+    );
+
+  margin:
+    0
+    var(--categories-page-gutter)
+    18px;
+
+  padding:
+    30px
+    20px;
+
+  color:
+    var(--categories-text-muted);
+
+  background:
+    var(--categories-surface-soft);
+
+  border:
+    1px solid
+    var(--categories-border);
+
+  border-radius:
+    var(--categories-radius-medium);
+
+  font-size:
+    0.78rem;
+
+  text-align:
+    center;
+}
+
+
+/* ==========================================================================
+   34. DESKTOP LARGE
+   ========================================================================== */
+
+@media (
+  min-width:
+    1440px
+) {
+  .categoriesHeroBanner,
+  .categoriesHeroContent {
+    min-height:
+      390px;
+  }
+
+
+  .categoriesHeroTitle {
+    font-size:
+      4.75rem;
+  }
+
+
+  .categoriesGrid {
+    gap:
+      14px;
+  }
+
+
+  .categoryProductsGrid {
+    gap:
+      14px;
+  }
+}
+
+
+/* ==========================================================================
+   35. DESKTOP
+   ========================================================================== */
+
+@media (
+  min-width:
+    1024px
+) {
+  .categoriesGrid {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .categoryProductsGrid {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+
+/* ==========================================================================
+   36. TABLETTE
+   ========================================================================== */
+
+@media (
+  min-width:
+    768px
+)
+and (
+  max-width:
+    1023px
+) {
+  .categoriesPage,
+  .categoriesHeroSection,
+  .categoriesGridSection,
+  .categoriesPromoSection,
+  .categoriesLoadingPage,
+  .categoryProductsPage {
+    --categories-page-gutter:
+      14px;
+  }
+
+
+  .categoriesHeroBanner,
+  .categoriesHeroContent {
+    min-height:
+      280px;
+  }
+
+
+  .categoriesHeroContent {
+    width:
+      52%;
+
+    padding-left:
+      30px;
+  }
+
+
+  .categoriesHeroTitle {
+    font-size:
+      clamp(
+        2.2rem,
+        5vw,
+        3.25rem
+      );
+  }
+
+
+  .categoriesHeroDescription {
+    max-width:
+      330px;
+
+    font-size:
+      0.79rem;
+  }
+
+
+  .categoriesGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      9px;
+  }
+
+
+  .categoriesLoadingGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .categoryProductsGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      9px;
+  }
+
+
+  .categoriesPromoContent {
+    width:
+      63%;
+  }
+}
+
+
+/* ==========================================================================
+   37. MOBILE
+   ========================================================================== */
+
+@media (
+  max-width:
+    767px
+) {
+  .categoriesPage,
+  .categoriesHeroSection,
+  .categoriesGridSection,
+  .categoriesPromoSection,
+  .categoriesLoadingPage,
+  .categoryProductsPage {
+    --categories-page-gutter:
+      8px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FOOTER
+     ------------------------------------------------------------------------
+     
+     IMPORTANT :
+     
+     Le futur page.tsx doit porter :
+     
+     data-public-categories-page="true"
+     
+     Le Footer global possède déjà :
+     
+     data-public-footer="true"
+     
+     On masque donc uniquement le Footer lorsqu’on se trouve réellement
+     sur /categories.
+     
+     La Bottom Navigation n’est jamais masquée.
+     ------------------------------------------------------------------------ */
+
+  :global(body):has(
+    [data-public-categories-page="true"]
+  )
+  :global(
+    [data-public-footer="true"]
+  ) {
+    display:
+      none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     BREADCRUMB
+     ------------------------------------------------------------------------ */
+
+  .categoriesHeroBreadcrumbContainer {
+    padding:
+      6px
+      var(--categories-page-gutter);
+  }
+
+
+  .categoriesHeroBreadcrumbLink,
+  .categoriesHeroBreadcrumbCurrent {
+    font-size:
+      0.62rem;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------------------ */
+
+  .categoriesHeroBanner {
+    min-height:
+      215px;
+  }
+
+
+  .categoriesHeroImage {
+    object-position:
+      58% center;
+  }
+
+
+  .categoriesHeroImageOverlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgb(255 246 250 / 88%) 0%,
+        rgb(255 244 249 / 68%) 35%,
+        rgb(255 244 249 / 25%) 58%,
+        transparent 82%
+      );
+  }
+
+
+  .categoriesHeroContent {
+    width:
+      59%;
+
+    min-height:
+      215px;
+
+    padding:
+      14px
+      0
+      14px
+      12px;
+  }
+
+
+  .categoriesHeroEyebrow {
+    min-height:
+      20px;
+
+    margin-bottom:
+      6px;
+
+    padding-inline:
+      7px;
+
+    font-size:
+      0.5rem;
+  }
+
+
+  .categoriesHeroTitle {
+    font-size:
+      clamp(
+        1.65rem,
+        8.4vw,
+        2.35rem
+      );
+
+    line-height:
+      0.87;
+  }
+
+
+  .categoriesHeroDescription {
+    width:
+      min(
+        100%,
+        185px
+      );
+
+    margin-top:
+      9px;
+
+    font-size:
+      0.61rem;
+
+    line-height:
+      1.3;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SECTION CATÉGORIES
+     ------------------------------------------------------------------------ */
+
+  .categoriesGridSection {
+    padding:
+      12px
+      0
+      10px;
+  }
+
+
+  .categoriesGridHeader {
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    margin-bottom:
+      9px;
+  }
+
+
+  .categoriesGridTitle {
+    font-size:
+      1.13rem;
+  }
+
+
+  .categoriesGridTitleUnderline {
+    width:
+      30px;
+
+    height:
+      3px;
+
+    margin-top:
+      4px;
+  }
+
+
+  .categoriesGridCount {
+    padding:
+      0;
+
+    font-size:
+      0.59rem;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     GRILLE 2 COLONNES
+     ------------------------------------------------------------------------ */
+
+  .categoriesGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      7px;
+
+    width:
+      100%;
+
+    overflow:
+      visible;
+  }
+
+
+  .categoriesGridItem {
+    width:
+      100%;
+
+    min-width:
+      0;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CARTE MOBILE
+     ------------------------------------------------------------------------ */
+
+  .categoryCard {
+    border-radius:
+      8px;
+
+    box-shadow:
+      0 3px 10px
+      rgb(31 16 26 / 5%);
+  }
+
+
+  .categoryCard:hover {
+    transform:
+      none;
+  }
+
+
+  .categoryCardImageFrame {
+    aspect-ratio:
+      1.18 / 1;
+  }
+
+
+  .categoryCardContent {
+    gap:
+      4px;
+
+    padding:
+      7px
+      8px
+      7px;
+  }
+
+
+  .categoryCardName {
+    font-size:
+      0.68rem;
+
+    line-height:
+      1.16;
+  }
+
+
+  .categoryCardProductCount {
+    font-size:
+      0.56rem;
+  }
+
+
+  .categoryCardArrow {
+    width:
+      25px;
+
+    height:
+      25px;
+
+    flex-basis:
+      25px;
+  }
+
+
+  .categoryCardArrow svg {
+    width:
+      14px;
+
+    height:
+      14px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ÉTAT VIDE MOBILE
+     ------------------------------------------------------------------------ */
+
+  .categoriesEmptyState {
+    min-height:
+      130px;
+
+    padding:
+      18px
+      12px;
+  }
+
+
+  .categoriesEmptyStateTitle {
+    font-size:
+      0.92rem;
+  }
+
+
+  .categoriesEmptyStateDescription {
+    font-size:
+      0.68rem;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PROMO MOBILE
+     ------------------------------------------------------------------------ */
+
+  .categoriesPromoSection {
+    padding-bottom:
+      10px;
+  }
+
+
+  .categoriesPromoBanner {
+    min-height:
+      120px;
+
+    border-radius:
+      8px;
+  }
+
+
+  .categoriesPromoContent {
+    width:
+      72%;
+
+    padding:
+      13px
+      0
+      13px
+      12px;
+  }
+
+
+  .categoriesPromoEyebrow {
+    margin-bottom:
+      3px;
+
+    font-size:
+      0.49rem;
+  }
+
+
+  .categoriesPromoEyebrowIcon svg {
+    width:
+      13px;
+
+    height:
+      13px;
+  }
+
+
+  .categoriesPromoTitle {
+    font-size:
+      clamp(
+        1.03rem,
+        5.3vw,
+        1.35rem
+      );
+  }
+
+
+  .categoriesPromoDescription {
+    width:
+      min(
+        100%,
+        230px
+      );
+
+    margin-top:
+      5px;
+
+    font-size:
+      0.57rem;
+
+    line-height:
+      1.28;
+  }
+
+
+  .categoriesPromoAction {
+    min-height:
+      29px;
+
+    margin-top:
+      7px;
+
+    padding-inline:
+      9px;
+
+    gap:
+      4px;
+
+    border-radius:
+      6px;
+
+    font-size:
+      0.51rem;
+  }
+
+
+  .categoriesPromoActionIcon {
+    width:
+      14px;
+
+    height:
+      14px;
+  }
+
+
+  .categoriesPromoDecorationCircleLarge {
+    top:
+      -54px;
+
+    right:
+      -44px;
+
+    width:
+      165px;
+
+    height:
+      165px;
+  }
+
+
+  .categoriesPromoDecorationCircleMedium {
+    top:
+      20px;
+
+    right:
+      60px;
+
+    width:
+      70px;
+
+    height:
+      70px;
+  }
+
+
+  .categoriesPromoDecorationSparkle {
+    right:
+      30px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LOADING MOBILE
+     ------------------------------------------------------------------------ */
+
+  .categoriesLoadingHero {
+    min-height:
+      215px;
+  }
+
+
+  .categoriesLoadingHeader {
+    margin:
+      12px
+      var(--categories-page-gutter)
+      9px;
+  }
+
+
+  .categoriesLoadingGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      7px;
+
+    padding:
+      0
+      var(--categories-page-gutter)
+      10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PRODUITS D’UNE CATÉGORIE
+     ------------------------------------------------------------------------ */
+
+  .categoryProductsHeader {
+    align-items:
+      center;
+
+    gap:
+      8px;
+
+    padding:
+      12px
+      var(--categories-page-gutter)
+      9px;
+  }
+
+
+  .categoryProductsTitle {
+    font-size:
+      1.15rem;
+  }
+
+
+  .categoryProductsDescription {
+    margin-top:
+      5px;
+
+    font-size:
+      0.65rem;
+  }
+
+
+  .categoryProductsCount {
+    font-size:
+      0.57rem;
+  }
+
+
+  .categoryProductsGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      7px;
+
+    padding:
+      0
+      var(--categories-page-gutter)
+      10px;
+  }
+}
+
+
+/* ==========================================================================
+   38. MOBILE 430 PX
+   ========================================================================== */
+
+@media (
+  max-width:
+    430px
+) {
+  .categoriesHeroBanner,
+  .categoriesHeroContent {
+    min-height:
+      198px;
+  }
+
+
+  .categoriesHeroContent {
+    width:
+      61%;
+
+    padding-left:
+      10px;
+  }
+
+
+  .categoriesHeroTitle {
+    font-size:
+      clamp(
+        1.48rem,
+        7.9vw,
+        1.95rem
+      );
+  }
+
+
+  .categoriesHeroDescription {
+    max-width:
+      155px;
+
+    font-size:
+      0.57rem;
+  }
+
+
+  .categoriesGrid {
+    gap:
+      6px;
+  }
+
+
+  .categoryCardContent {
+    padding:
+      6px
+      7px;
+  }
+
+
+  .categoryCardName {
+    font-size:
+      0.64rem;
+  }
+
+
+  .categoryCardProductCount {
+    font-size:
+      0.53rem;
+  }
+
+
+  .categoryCardArrow {
+    width:
+      23px;
+
+    height:
+      23px;
+
+    flex-basis:
+      23px;
+  }
+
+
+  .categoriesPromoBanner {
+    min-height:
+      112px;
+  }
+
+
+  .categoriesPromoContent {
+    width:
+      76%;
+
+    padding-left:
+      10px;
+  }
+
+
+  .categoriesPromoTitle {
+    font-size:
+      1rem;
+  }
+
+
+  .categoriesPromoDescription {
+    max-width:
+      205px;
+
+    font-size:
+      0.53rem;
+  }
+
+
+  .categoriesPromoAction {
+    min-height:
+      27px;
+
+    padding-inline:
+      8px;
+
+    font-size:
+      0.48rem;
+  }
+}
+
+
+/* ==========================================================================
+   39. PETITS MOBILES
+   ========================================================================== */
+
+@media (
+  max-width:
+    359px
+) {
+  .categoriesPage,
+  .categoriesHeroSection,
+  .categoriesGridSection,
+  .categoriesPromoSection,
+  .categoriesLoadingPage,
+  .categoryProductsPage {
+    --categories-page-gutter:
+      6px;
+  }
+
+
+  .categoriesHeroBanner,
+  .categoriesHeroContent {
+    min-height:
+      185px;
+  }
+
+
+  .categoriesHeroContent {
+    width:
+      62%;
+
+    padding-left:
+      8px;
+  }
+
+
+  .categoriesHeroEyebrow {
+    min-height:
+      18px;
+
+    padding-inline:
+      6px;
+
+    font-size:
+      0.44rem;
+  }
+
+
+  .categoriesHeroTitle {
+    font-size:
+      1.38rem;
+  }
+
+
+  .categoriesHeroDescription {
+    max-width:
+      140px;
+
+    font-size:
+      0.52rem;
+  }
+
+
+  .categoriesGridTitle {
+    font-size:
+      1.03rem;
+  }
+
+
+  .categoriesGridCount {
+    font-size:
+      0.54rem;
+  }
+
+
+  .categoriesGrid {
+    gap:
+      5px;
+  }
+
+
+  .categoryCardName {
+    font-size:
+      0.59rem;
+  }
+
+
+  .categoryCardProductCount {
+    font-size:
+      0.49rem;
+  }
+
+
+  .categoryCardArrow {
+    width:
+      21px;
+
+    height:
+      21px;
+
+    flex-basis:
+      21px;
+  }
+
+
+  .categoriesPromoBanner {
+    min-height:
+      105px;
+  }
+
+
+  .categoriesPromoContent {
+    width:
+      79%;
+  }
+
+
+  .categoriesPromoTitle {
+    font-size:
+      0.91rem;
+  }
+
+
+  .categoriesPromoDescription {
+    font-size:
+      0.49rem;
+  }
+
+
+  .categoriesPromoAction {
+    min-height:
+      25px;
+
+    font-size:
+      0.44rem;
+  }
+}
+
+
+/* ==========================================================================
+   40. HOVER DEVICES
+   ========================================================================== */
+
+@media (
+  hover:
+    hover
+)
+and (
+  pointer:
+    fine
+) {
+  .categoryCard:hover {
+    transform:
+      translateY(-3px);
+  }
+
+
+  .categoryCard:hover
+  .categoryCardImage {
+    transform:
+      scale(1.035);
+  }
+}
+
+
+/* ==========================================================================
+   41. TOUCH DEVICES
+   ========================================================================== */
+
+@media (
+  hover:
+    none
+) {
+  .categoryCard:hover,
+  .categoriesPromoAction:hover {
+    transform:
+      none;
+  }
+
+
+  .categoryCard:hover
+  .categoryCardImage {
+    transform:
+      none;
+  }
+
+
+  .categoryCard:hover
+  .categoryCardArrow {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   42. FOCUS
+   ========================================================================== */
+
+.categoriesHeroBreadcrumbLink:focus-visible,
+.categoriesPromoAction:focus-visible {
+  outline-color:
+    var(--categories-primary);
+}
+
+
+/* ==========================================================================
+   43. REDUCED MOTION
+   ========================================================================== */
+
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
+  .categoryCard,
+  .categoryCardImage,
+  .categoryCardArrow,
+  .categoriesPromoAction {
+    transition:
+      none !important;
+  }
+
+
+  .categoriesLoadingHero,
+  .categoriesLoadingCardImage {
+    animation:
+      none !important;
+  }
+
+
+  .categoryCard:hover,
+  .categoryCard:hover
+  .categoryCardImage,
+  .categoryCard:hover
+  .categoryCardArrow,
+  .categoriesPromoAction:hover {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   44. SKELETON ANIMATION
+   ========================================================================== */
+
+@keyframes categoriesSkeletonPulse {
+  0% {
+    background-position:
+      100% 0;
+  }
+
+
+  100% {
+    background-position:
+      -100% 0;
+  }
+}
+
+
+/* ==========================================================================
+   45. PRINT
+   ========================================================================== */
+
+@media print {
+  .categoriesPage,
+  .categoriesHeroSection,
+  .categoriesGridSection,
+  .categoriesPromoSection,
+  .categoryProductsPage {
+    print-color-adjust:
+      exact;
+
+    -webkit-print-color-adjust:
+      exact;
+  }
+
+
+  .categoriesPromoAction,
+  .categoryCard {
+    box-shadow:
+      none;
+  }
+
+
+  .categoryCard {
+    break-inside:
+      avoid;
+  }
+
+
+  .categoriesPromoSection {
+    display:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   FIN
+   ========================================================================== */
+
+/**
+ * ============================================================================
+ * RÉSULTAT
+ * ============================================================================
+ *
+ * DESKTOP
+ *
+ * ┌─────────────────────────────────────────────────────────────────────────┐
+ * │ HERO PLEINE LARGEUR — resulta.png                                      │
+ * └─────────────────────────────────────────────────────────────────────────┘
+ *
+ * Toutes nos catégories                                      X catégories
+ *
+ * [ 1 ][ 2 ][ 3 ][ 4 ][ 5 ]
+ * [ 6 ][ 7 ][ 8 ][ 9 ][10 ]
+ * [11 ][12 ][13 ][14 ][15 ]
+ *
+ * aucune limite artificielle.
+ *
+ * ============================================================================
+ *
+ * TABLETTE
+ *
+ * [ 1 ][ 2 ][ 3 ]
+ * [ 4 ][ 5 ][ 6 ]
+ *
+ * ============================================================================
+ *
+ * MOBILE
+ *
+ * [ 1 ][ 2 ]
+ * [ 3 ][ 4 ]
+ * [ 5 ][ 6 ]
+ * [ 7 ][ 8 ]
+ *
+ * Aucun :
+ *
+ * - carousel ;
+ * - scroll horizontal ;
+ * - width: max-content ;
+ * - limite artificielle.
+ *
+ * ============================================================================
+ *
+ * FOOTER MOBILE
+ *
+ * La page /categories devra avoir :
+ *
+ * data-public-categories-page="true"
+ *
+ * Sur mobile uniquement :
+ *
+ * PublicFooter = masqué.
+ *
+ * PublicMobileBottomNav = conservée.
+ *
+ * ============================================================================
+ */

@@ -1,0 +1,1888 @@
+// use prisma-8
+
+
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE — DATA CONTRACT PRINCIPAL
+ * ============================================================================
+ *
+ * Projet :
+ * Cosmetics Empire
+ *
+ * Base :
+ * PostgreSQL / Supabase
+ *
+ * ORM :
+ * Prisma ORM 8
+ *
+ * Architecture :
+ *
+ * - Boutiques / points de vente / représentants
+ * - Gestionnaires et authentification
+ * - Inscription Gestionnaire sécurisée
+ * - Vérification OTP par e-mail
+ * - Catalogue officiel L&E
+ * - Produits créés par les boutiques
+ * - Produits commercialisés par boutique
+ * - Images produit
+ * - Prix normal / promotionnel
+ * - QR code stable
+ * - Stock
+ * - Historique des mouvements de stock
+ * - Clients
+ * - Adresses
+ * - Commandes
+ * - Paiements
+ * - Livraisons
+ * - Reçus
+ * - Notifications
+ * - Historique des e-mails
+ * - Rate limiting de sécurité
+ * - Journal d'audit
+ *
+ * IMPORTANT :
+ *
+ * Prisma ORM 8 n'utilise plus ici :
+ *
+ * - generator client
+ * - datasource db
+ *
+ * La connexion PostgreSQL est définie dans :
+ *
+ * prisma.config.ts
+ *
+ * ============================================================================
+ */
+
+
+/**
+ * ============================================================================
+ * ENUMS — BOUTIQUES
+ * ============================================================================
+ */
+
+enum StoreType {
+  @@type("pg/text@1")
+
+  BOUTIQUE
+  POINT_OF_SALE
+  REPRESENTATIVE
+}
+
+
+enum StoreStatus {
+  @@type("pg/text@1")
+
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — GESTIONNAIRES
+ * ============================================================================
+ */
+
+enum ManagerRole {
+  @@type("pg/text@1")
+
+  OWNER
+  MANAGER
+  STAFF
+}
+
+
+enum ManagerStatus {
+  @@type("pg/text@1")
+
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — INSCRIPTION
+ * ============================================================================
+ */
+
+enum RegistrationStatus {
+  @@type("pg/text@1")
+
+  PENDING_VERIFICATION
+  EMAIL_VERIFIED
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — PRODUITS
+ * ============================================================================
+ */
+
+enum ProductOrigin {
+  @@type("pg/text@1")
+
+  CATALOG
+  STORE
+}
+
+
+enum ProductStatus {
+  @@type("pg/text@1")
+
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+
+enum StoreProductStatus {
+  @@type("pg/text@1")
+
+  ACTIVE
+  OUT_OF_STOCK
+  HIDDEN
+  ARCHIVED
+}
+
+
+enum StockMovementType {
+  @@type("pg/text@1")
+
+  INITIAL
+  RESTOCK
+  SALE
+  RETURN
+  ADJUSTMENT_IN
+  ADJUSTMENT_OUT
+  CANCELLATION
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — CLIENTS
+ * ============================================================================
+ */
+
+enum CustomerStatus {
+  @@type("pg/text@1")
+
+  ACTIVE
+  BLOCKED
+  ARCHIVED
+}
+
+
+enum AddressType {
+  @@type("pg/text@1")
+
+  SHIPPING
+  BILLING
+  OTHER
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — COMMANDES
+ * ============================================================================
+ */
+
+enum OrderStatus {
+  @@type("pg/text@1")
+
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+
+enum OrderSource {
+  @@type("pg/text@1")
+
+  WEBSITE
+  MANAGER
+  STORE
+  OTHER
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — PAIEMENTS
+ * ============================================================================
+ */
+
+enum PaymentStatus {
+  @@type("pg/text@1")
+
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+
+enum PaymentMethod {
+  @@type("pg/text@1")
+
+  CASH
+  MOBILE_MONEY
+  CARD
+  BANK_TRANSFER
+  OTHER
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — LIVRAISONS
+ * ============================================================================
+ */
+
+enum ShipmentStatus {
+  @@type("pg/text@1")
+
+  PENDING
+  PREPARING
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+  RETURNED
+  CANCELLED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — REÇUS
+ * ============================================================================
+ */
+
+enum ReceiptStatus {
+  @@type("pg/text@1")
+
+  ISSUED
+  CANCELLED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — NOTIFICATIONS
+ * ============================================================================
+ */
+
+enum NotificationType {
+  @@type("pg/text@1")
+
+  ORDER
+  PAYMENT
+  STOCK
+  DELIVERY
+  SECURITY
+  SYSTEM
+}
+
+
+enum NotificationChannel {
+  @@type("pg/text@1")
+
+  IN_APP
+  EMAIL
+}
+
+
+enum NotificationStatus {
+  @@type("pg/text@1")
+
+  PENDING
+  SENT
+  FAILED
+  READ
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — E-MAILS
+ * ============================================================================
+ */
+
+enum EmailType {
+  @@type("pg/text@1")
+
+  REGISTRATION_OTP
+  WELCOME
+  PASSWORD_RESET
+  ORDER_CONFIRMATION
+  PAYMENT_CONFIRMATION
+  RECEIPT
+  SHIPPING_UPDATE
+  DELIVERY_CONFIRMATION
+  SECURITY
+  OTHER
+}
+
+
+enum EmailStatus {
+  @@type("pg/text@1")
+
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — SÉCURITÉ / RATE LIMIT
+ * ============================================================================
+ */
+
+enum SecurityRateLimitScope {
+  @@type("pg/text@1")
+
+  REGISTRATION_EMAIL
+  REPRESENTATIVE_CODE
+  VERIFICATION_TOKEN
+  VERIFICATION_RESEND
+  LOGIN
+  PASSWORD_RESET
+}
+
+
+/**
+ * ============================================================================
+ * ENUMS — AUDIT
+ * ============================================================================
+ */
+
+enum AuditAction {
+  @@type("pg/text@1")
+
+  CREATE
+  UPDATE
+  DELETE
+
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+
+  PASSWORD_CHANGE
+
+  STOCK_CHANGE
+  ORDER_STATUS_CHANGE
+  PAYMENT_STATUS_CHANGE
+
+  OTHER
+}
+
+
+/**
+ * ============================================================================
+ * BOUTIQUE
+ * ============================================================================
+ */
+
+model Store {
+  id String @id @default(cuid(2))
+
+  name String
+
+  slug String @unique
+
+  type StoreType @default(BOUTIQUE)
+
+  city String
+
+  country String
+
+  address String
+
+  phone String
+
+  email String
+
+  status StoreStatus @default(ACTIVE)
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  managers Manager[]
+
+
+  /**
+   * Produits créés directement par cette boutique.
+   *
+   * Ne pas confondre avec storeProducts :
+   *
+   * createdProducts
+   * → identité/origine du produit.
+   *
+   * storeProducts
+   * → produits effectivement commercialisés par la boutique.
+   */
+
+  createdProducts Product[]
+    @relation("StoreCreatedProducts")
+
+
+  storeProducts StoreProduct[]
+
+  stockMovements StockMovement[]
+
+  customers Customer[]
+
+  orders Order[]
+
+  payments Payment[]
+
+  shipments Shipment[]
+
+  receipts Receipt[]
+
+  notifications Notification[]
+
+  emails EmailLog[]
+
+  auditLogs AuditLog[]
+
+
+  @@index([status])
+
+  @@index([country])
+
+  @@index([city])
+
+  @@index([type])
+
+  @@map("stores")
+}
+
+
+/**
+ * ============================================================================
+ * GESTIONNAIRE
+ * ============================================================================
+ */
+
+model Manager {
+  id String @id @default(cuid(2))
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  email String @unique
+
+  passwordHash String
+
+
+  role ManagerRole @default(OWNER)
+
+  status ManagerStatus @default(ACTIVE)
+
+
+  emailVerifiedAt DateTime?
+
+
+  lastLoginAt DateTime?
+
+  passwordChangedAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  stockMovements StockMovement[]
+
+  notifications Notification[]
+
+  auditLogs AuditLog[]
+
+
+  @@index([storeId])
+
+  @@index([status])
+
+  @@index([role])
+
+  @@map("managers")
+}
+
+
+/**
+ * ============================================================================
+ * INSCRIPTION TEMPORAIRE GESTIONNAIRE
+ * ============================================================================
+ *
+ * Cette table existe AVANT la création définitive de :
+ *
+ * Store
+ * +
+ * Manager
+ *
+ * PARCOURS :
+ *
+ * formulaire inscription
+ *        ↓
+ * ManagerRegistration
+ * status = PENDING_VERIFICATION
+ *        ↓
+ * OTP valide
+ *        ↓
+ * création transactionnelle Store + Manager
+ *        ↓
+ * status = COMPLETED
+ *
+ * Le code représentant Cosmetics Empire N'EST JAMAIS enregistré ici.
+ * ============================================================================
+ */
+
+model ManagerRegistration {
+  id String @id @default(cuid(2))
+
+
+  storeName String
+
+  city String
+
+  country String
+
+  address String
+
+  phone String
+
+
+  /**
+   * Une seule inscription temporaire est conservée par e-mail.
+   *
+   * Si l'inscription existe déjà et est encore en attente,
+   * le système la reprend au lieu de créer plusieurs comptes.
+   */
+
+  email String @unique
+
+
+  /**
+   * Hash Argon2id uniquement.
+   *
+   * Le mot de passe en clair n'est jamais enregistré.
+   */
+
+  passwordHash String
+
+
+  status RegistrationStatus
+    @default(PENDING_VERIFICATION)
+
+
+  /**
+   * OTP
+   */
+
+  otpHash String
+
+  otpExpiresAt DateTime
+
+  otpAttemptCount Int @default(0)
+
+  otpResendCount Int @default(0)
+
+  otpLastSentAt DateTime?
+
+
+  /**
+   * Vérification e-mail
+   */
+
+  emailVerifiedAt DateTime?
+
+
+  /**
+   * Token opaque permettant de reprendre la vérification.
+   *
+   * Le navigateur reçoit le token brut uniquement via un
+   * cookie HttpOnly.
+   *
+   * PostgreSQL conserve uniquement son hash.
+   */
+
+  registrationTokenHash String @unique
+
+  registrationTokenExpiresAt DateTime
+
+
+  /**
+   * Expiration globale de l'inscription temporaire.
+   */
+
+  expiresAt DateTime
+
+
+  completedAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([status])
+
+  @@index([expiresAt])
+
+  @@index([otpExpiresAt])
+
+  @@index([registrationTokenExpiresAt])
+
+  @@map("manager_registrations")
+}
+
+
+/**
+ * ============================================================================
+ * RATE LIMIT DE SÉCURITÉ
+ * ============================================================================
+ *
+ * Utilisé notamment pour :
+ *
+ * - inscription ;
+ * - code représentant ;
+ * - OTP ;
+ * - renvoi OTP ;
+ * - connexion ;
+ * - récupération mot de passe.
+ *
+ * keyHash :
+ *
+ * ne doit pas nécessairement contenir directement :
+ *
+ * - l'e-mail ;
+ * - l'adresse IP ;
+ * - un token.
+ *
+ * Le service peut stocker un hash déterministe de la clé.
+ * ============================================================================
+ */
+
+model SecurityRateLimit {
+  id String @id @default(cuid(2))
+
+
+  scope SecurityRateLimitScope
+
+  keyHash String
+
+
+  attemptCount Int @default(0)
+
+
+  windowStartedAt DateTime
+
+  expiresAt DateTime
+
+  blockedUntil DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@unique([scope, keyHash])
+
+  @@index([expiresAt])
+
+  @@index([blockedUntil])
+
+  @@index([scope])
+
+  @@map("security_rate_limits")
+}
+
+
+/**
+ * ============================================================================
+ * CATÉGORIE PRODUIT
+ * ============================================================================
+ */
+
+model ProductCategory {
+  id String @id @default(cuid(2))
+
+  name String
+
+  slug String @unique
+
+  description String?
+
+  isActive Boolean @default(true)
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+  products Product[]
+
+
+  @@index([isActive])
+
+  @@map("product_categories")
+}
+
+
+/**
+ * ============================================================================
+ * PRODUIT
+ * ============================================================================
+ *
+ * Product représente l'identité métier du produit.
+ *
+ * CATALOG :
+ *
+ * - produit officiel du catalogue L&E ;
+ * - createdByStoreId = null.
+ *
+ * STORE :
+ *
+ * - produit créé directement par une boutique ;
+ * - createdByStoreId = boutique créatrice.
+ *
+ * Le prix et le stock ne sont pas placés ici.
+ *
+ * Ils appartiennent à StoreProduct.
+ * ============================================================================
+ */
+
+model Product {
+  id String @id @default(cuid(2))
+
+
+  origin ProductOrigin @default(CATALOG)
+
+
+  createdByStoreId String?
+
+  createdByStore Store?
+    @relation(
+      "StoreCreatedProducts",
+      fields: [createdByStoreId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  categoryId String?
+
+  category ProductCategory?
+    @relation(
+      fields: [categoryId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  name String
+
+  slug String @unique
+
+  sku String @unique
+
+  description String?
+
+
+  brand String
+    @default("L&E Cosmetics")
+
+
+  status ProductStatus @default(ACTIVE)
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  images ProductImage[]
+
+  storeProducts StoreProduct[]
+
+
+  @@index([origin])
+
+  @@index([createdByStoreId])
+
+  @@index([origin, status])
+
+  @@index([createdByStoreId, status])
+
+  @@index([categoryId])
+
+  @@index([status])
+
+  @@index([name])
+
+  @@map("products")
+}
+
+
+/**
+ * ============================================================================
+ * IMAGES PRODUIT
+ * ============================================================================
+ *
+ * PostgreSQL conserve uniquement :
+ *
+ * - URL ;
+ * - texte alternatif ;
+ * - position ;
+ * - indicateur image principale.
+ *
+ * Les fichiers eux-mêmes restent dans un stockage objet.
+ * ============================================================================
+ */
+
+model ProductImage {
+  id String @id @default(cuid(2))
+
+
+  productId String
+
+  product Product
+    @relation(
+      fields: [productId],
+      references: [id],
+      onDelete: Cascade
+    )
+
+
+  url String
+
+  altText String?
+
+
+  position Int @default(0)
+
+  isPrimary Boolean @default(false)
+
+
+  createdAt temporal.createdAt()
+
+
+  @@index([productId])
+
+  @@index([productId, position])
+
+  @@index([productId, isPrimary])
+
+  @@map("product_images")
+}
+
+
+/**
+ * ============================================================================
+ * PRODUIT COMMERCIALISÉ PAR UNE BOUTIQUE
+ * ============================================================================
+ *
+ * Contient les informations spécifiques à une boutique :
+ *
+ * - prix ;
+ * - ancien prix / prix de référence ;
+ * - devise ;
+ * - quantité en stock ;
+ * - seuil stock faible ;
+ * - statut ;
+ * - token QR.
+ *
+ * PRIX :
+ *
+ * sans promotion :
+ *
+ * price = prix normal
+ * compareAtPrice = null
+ *
+ * avec promotion :
+ *
+ * price = prix promotionnel
+ * compareAtPrice = prix normal avant promotion
+ *
+ * QR :
+ *
+ * qrToken reste stable.
+ *
+ * Le QR ne contient jamais directement :
+ *
+ * - prix ;
+ * - stock ;
+ * - données sensibles.
+ * ============================================================================
+ */
+
+model StoreProduct {
+  id String @id @default(cuid(2))
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  productId String
+
+  product Product
+    @relation(
+      fields: [productId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  price Numeric(12, 2)
+
+
+  compareAtPrice Numeric(12, 2)?
+
+
+  currency String @default("XAF")
+
+
+  stockQuantity Int @default(0)
+
+  lowStockThreshold Int @default(5)
+
+
+  status StoreProductStatus
+    @default(ACTIVE)
+
+
+  /**
+   * Token stable généré par Prisma.
+   */
+
+  qrToken String
+    @unique
+    @default(cuid(2))
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  orderItems OrderItem[]
+
+  stockMovements StockMovement[]
+
+
+  @@unique([storeId, productId])
+
+  @@index([storeId, status])
+
+  @@index([productId])
+
+  @@index([stockQuantity])
+
+  @@map("store_products")
+}
+
+
+/**
+ * ============================================================================
+ * MOUVEMENTS DE STOCK
+ * ============================================================================
+ *
+ * StoreProduct.stockQuantity
+ * → stock courant.
+ *
+ * StockMovement
+ * → historique immuable des modifications.
+ * ============================================================================
+ */
+
+model StockMovement {
+  id String @id @default(cuid(2))
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  storeProductId String
+
+  storeProduct StoreProduct
+    @relation(
+      fields: [storeProductId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  managerId String?
+
+  manager Manager?
+    @relation(
+      fields: [managerId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  type StockMovementType
+
+
+  quantity Int
+
+  quantityBefore Int
+
+  quantityAfter Int
+
+
+  reason String?
+
+  reference String?
+
+
+  createdAt temporal.createdAt()
+
+
+  @@index([storeId])
+
+  @@index([storeProductId])
+
+  @@index([managerId])
+
+  @@index([createdAt])
+
+  @@map("stock_movements")
+}
+
+
+/**
+ * ============================================================================
+ * CLIENT
+ * ============================================================================
+ */
+
+model Customer {
+  id String @id @default(cuid(2))
+
+
+  storeId String?
+
+  store Store?
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  firstName String
+
+  lastName String
+
+
+  email String?
+
+  phone String?
+
+
+  status CustomerStatus
+    @default(ACTIVE)
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  addresses CustomerAddress[]
+
+  orders Order[]
+
+
+  @@index([storeId])
+
+  @@index([email])
+
+  @@index([phone])
+
+  @@index([status])
+
+  @@map("customers")
+}
+
+
+/**
+ * ============================================================================
+ * ADRESSES CLIENT
+ * ============================================================================
+ */
+
+model CustomerAddress {
+  id String @id @default(cuid(2))
+
+
+  customerId String
+
+  customer Customer
+    @relation(
+      fields: [customerId],
+      references: [id],
+      onDelete: Cascade
+    )
+
+
+  type AddressType
+    @default(SHIPPING)
+
+
+  label String?
+
+
+  recipientName String
+
+  phone String?
+
+
+  country String
+
+  city String
+
+  address String
+
+
+  postalCode String?
+
+
+  isDefault Boolean @default(false)
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([customerId])
+
+  @@index([customerId, isDefault])
+
+  @@map("customer_addresses")
+}
+
+
+/**
+ * ============================================================================
+ * COMMANDE
+ * ============================================================================
+ */
+
+model Order {
+  id String @id @default(cuid(2))
+
+
+  orderNumber String @unique
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  customerId String?
+
+  customer Customer?
+    @relation(
+      fields: [customerId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  source OrderSource
+    @default(WEBSITE)
+
+
+  status OrderStatus
+    @default(PENDING)
+
+
+  /**
+   * Snapshot client.
+   *
+   * Une modification ultérieure du profil client ne doit pas
+   * changer l'ancienne commande.
+   */
+
+  customerFirstName String
+
+  customerLastName String
+
+  customerEmail String?
+
+  customerPhone String?
+
+
+  /**
+   * Snapshot livraison.
+   */
+
+  shippingRecipientName String?
+
+  shippingPhone String?
+
+  shippingCountry String?
+
+  shippingCity String?
+
+  shippingAddress String?
+
+  shippingPostalCode String?
+
+
+  currency String
+    @default("XAF")
+
+
+  subtotal Numeric(12, 2)
+
+  discountAmount Numeric(12, 2)
+    @default(0)
+
+  shippingAmount Numeric(12, 2)
+    @default(0)
+
+  taxAmount Numeric(12, 2)
+    @default(0)
+
+  totalAmount Numeric(12, 2)
+
+
+  notes String?
+
+
+  confirmedAt DateTime?
+
+  cancelledAt DateTime?
+
+  deliveredAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  items OrderItem[]
+
+  payments Payment[]
+
+  shipments Shipment[]
+
+  receipt Receipt?
+
+
+  @@index([storeId])
+
+  @@index([customerId])
+
+  @@index([status])
+
+  @@index([createdAt])
+
+  @@index([storeId, status])
+
+  @@map("orders")
+}
+
+
+/**
+ * ============================================================================
+ * LIGNE DE COMMANDE
+ * ============================================================================
+ *
+ * Les informations essentielles du produit sont copiées.
+ *
+ * Ainsi une modification future du produit ne modifie jamais
+ * l'historique d'une commande existante.
+ * ============================================================================
+ */
+
+model OrderItem {
+  id String @id @default(cuid(2))
+
+
+  orderId String
+
+  order Order
+    @relation(
+      fields: [orderId],
+      references: [id],
+      onDelete: Cascade
+    )
+
+
+  storeProductId String?
+
+  storeProduct StoreProduct?
+    @relation(
+      fields: [storeProductId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  productName String
+
+  sku String?
+
+
+  quantity Int
+
+
+  unitPrice Numeric(12, 2)
+
+  totalPrice Numeric(12, 2)
+
+
+  createdAt temporal.createdAt()
+
+
+  @@index([orderId])
+
+  @@index([storeProductId])
+
+  @@map("order_items")
+}
+
+
+/**
+ * ============================================================================
+ * PAIEMENT
+ * ============================================================================
+ */
+
+model Payment {
+  id String @id @default(cuid(2))
+
+
+  paymentReference String @unique
+
+
+  orderId String
+
+  order Order
+    @relation(
+      fields: [orderId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  method PaymentMethod
+
+
+  status PaymentStatus
+    @default(PENDING)
+
+
+  provider String?
+
+  providerReference String?
+
+
+  currency String
+    @default("XAF")
+
+
+  amount Numeric(12, 2)
+
+
+  paidAt DateTime?
+
+  failedAt DateTime?
+
+  refundedAt DateTime?
+
+
+  failureReason String?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([orderId])
+
+  @@index([storeId])
+
+  @@index([status])
+
+  @@index([createdAt])
+
+  @@map("payments")
+}
+
+
+/**
+ * ============================================================================
+ * LIVRAISON
+ * ============================================================================
+ */
+
+model Shipment {
+  id String @id @default(cuid(2))
+
+
+  shipmentNumber String @unique
+
+
+  orderId String
+
+  order Order
+    @relation(
+      fields: [orderId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  status ShipmentStatus
+    @default(PENDING)
+
+
+  carrier String?
+
+  trackingNumber String?
+
+  trackingUrl String?
+
+
+  recipientName String
+
+  phone String?
+
+
+  country String
+
+  city String
+
+  address String
+
+
+  postalCode String?
+
+
+  shippingCost Numeric(12, 2)
+    @default(0)
+
+
+  currency String
+    @default("XAF")
+
+
+  shippedAt DateTime?
+
+  deliveredAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([orderId])
+
+  @@index([storeId])
+
+  @@index([status])
+
+  @@index([trackingNumber])
+
+  @@map("shipments")
+}
+
+
+/**
+ * ============================================================================
+ * REÇU
+ * ============================================================================
+ */
+
+model Receipt {
+  id String @id @default(cuid(2))
+
+
+  receiptNumber String @unique
+
+
+  orderId String @unique
+
+  order Order
+    @relation(
+      fields: [orderId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Restrict
+    )
+
+
+  status ReceiptStatus
+    @default(ISSUED)
+
+
+  currency String
+    @default("XAF")
+
+
+  amount Numeric(12, 2)
+
+
+  /**
+   * URL vers le PDF généré.
+   *
+   * Le fichier PDF lui-même ne doit pas être stocké dans
+   * PostgreSQL.
+   */
+
+  pdfUrl String?
+
+
+  issuedAt DateTime
+    @default(now())
+
+
+  emailedAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([storeId])
+
+  @@index([status])
+
+  @@map("receipts")
+}
+
+
+/**
+ * ============================================================================
+ * NOTIFICATION
+ * ============================================================================
+ */
+
+model Notification {
+  id String @id @default(cuid(2))
+
+
+  storeId String
+
+  store Store
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: Cascade
+    )
+
+
+  managerId String?
+
+  manager Manager?
+    @relation(
+      fields: [managerId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  type NotificationType
+
+
+  channel NotificationChannel
+    @default(IN_APP)
+
+
+  status NotificationStatus
+    @default(PENDING)
+
+
+  title String
+
+  message String
+
+
+  referenceType String?
+
+  referenceId String?
+
+
+  readAt DateTime?
+
+  sentAt DateTime?
+
+  failedAt DateTime?
+
+
+  createdAt temporal.createdAt()
+
+
+  @@index([storeId])
+
+  @@index([managerId])
+
+  @@index([status])
+
+  @@index([createdAt])
+
+  @@map("notifications")
+}
+
+
+/**
+ * ============================================================================
+ * HISTORIQUE DES E-MAILS
+ * ============================================================================
+ *
+ * Resend effectue l'envoi.
+ *
+ * EmailLog conserve la trace métier.
+ *
+ * IMPORTANT :
+ *
+ * ne jamais stocker ici :
+ *
+ * - OTP en clair ;
+ * - mot de passe ;
+ * - code représentant.
+ * ============================================================================
+ */
+
+model EmailLog {
+  id String @id @default(cuid(2))
+
+
+  storeId String?
+
+  store Store?
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  type EmailType
+
+
+  status EmailStatus
+    @default(PENDING)
+
+
+  recipient String
+
+  subject String
+
+
+  provider String
+    @default("resend")
+
+
+  providerMessageId String?
+
+
+  referenceType String?
+
+  referenceId String?
+
+
+  sentAt DateTime?
+
+  deliveredAt DateTime?
+
+  failedAt DateTime?
+
+
+  failureReason String?
+
+
+  createdAt temporal.createdAt()
+
+  updatedAt temporal.updatedAt()
+
+
+  @@index([storeId])
+
+  @@index([recipient])
+
+  @@index([status])
+
+  @@index([type])
+
+  @@index([createdAt])
+
+  @@map("email_logs")
+}
+
+
+/**
+ * ============================================================================
+ * JOURNAL D'AUDIT
+ * ============================================================================
+ *
+ * IMPORTANT :
+ *
+ * metadata ne doit JAMAIS contenir :
+ *
+ * - mot de passe ;
+ * - passwordHash ;
+ * - OTP ;
+ * - otpHash ;
+ * - code représentant ;
+ * - token d'authentification ;
+ * - SESSION_SECRET ;
+ * - OTP_PEPPER ;
+ * - clé Resend.
+ * ============================================================================
+ */
+
+model AuditLog {
+  id String @id @default(cuid(2))
+
+
+  storeId String?
+
+  store Store?
+    @relation(
+      fields: [storeId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  managerId String?
+
+  manager Manager?
+    @relation(
+      fields: [managerId],
+      references: [id],
+      onDelete: SetNull
+    )
+
+
+  action AuditAction
+
+
+  entityType String?
+
+  entityId String?
+
+
+  metadata Json?
+
+
+  /**
+   * Ces informations ne sont conservées que lorsqu'elles sont
+   * réellement nécessaires à la sécurité / audit.
+   *
+   * Elles ne sont pas utilisées comme justification pour
+   * conserver l'IP de géolocalisation pays.
+   */
+
+  ipAddress String?
+
+  userAgent String?
+
+
+  createdAt temporal.createdAt()
+
+
+  @@index([storeId])
+
+  @@index([managerId])
+
+  @@index([action])
+
+  @@index([createdAt])
+
+  @@map("audit_logs")
+}

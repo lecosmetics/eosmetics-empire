@@ -1,40 +1,415 @@
+/* ============================================================
+   COSMETICS EMPIRE
+   GLOBAL DESIGN SYSTEM
+   ------------------------------------------------------------
+   Ce fichier constitue la fondation visuelle générale du projet.
+
+   RÈGLE :
+   Les pages ne doivent pas réinventer leurs propres couleurs,
+   boutons, champs, ombres, bordures, tailles ou conteneurs.
+
+   Les valeurs communes doivent venir d'ici.
+   ============================================================ */
+
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ----------------------------------------------------------
+     BRAND — L&E COSMETICS EMPIRE
+     Palette inspirée de l'identité officielle de la marque.
+     ---------------------------------------------------------- */
+
+  --ce-primary: #ed006d;
+  --ce-primary-hover: #d60063;
+  --ce-primary-active: #bd0058;
+
+  --ce-primary-dark: #9f0055;
+  --ce-primary-deep: #7f0047;
+
+  --ce-primary-soft: #fff0f6;
+  --ce-primary-softer: #fff7fa;
+
+  --ce-gradient-brand:
+    linear-gradient(
+      135deg,
+      #ff0878 0%,
+      #ed006d 48%,
+      #9f0055 100%
+    );
+
+  --ce-gradient-brand-horizontal:
+    linear-gradient(
+      90deg,
+      #ff0878 0%,
+      #ed006d 48%,
+      #9f0055 100%
+    );
+
+
+  /* ----------------------------------------------------------
+     BASE COLORS
+     ---------------------------------------------------------- */
+
+  --ce-white: #ffffff;
+  --ce-black: #000000;
+
+  --ce-neutral-25: #fdfdfd;
+  --ce-neutral-50: #fafafa;
+  --ce-neutral-100: #f5f5f5;
+  --ce-neutral-150: #f1f1f1;
+  --ce-neutral-200: #e8e8e8;
+  --ce-neutral-300: #d7d7d7;
+  --ce-neutral-400: #a7a7a7;
+  --ce-neutral-500: #767676;
+  --ce-neutral-600: #5c5c5c;
+  --ce-neutral-700: #404040;
+  --ce-neutral-800: #262626;
+  --ce-neutral-900: #171717;
+  --ce-neutral-950: #0b0b0b;
+
+
+  /* ----------------------------------------------------------
+     SEMANTIC COLORS
+     ---------------------------------------------------------- */
+
+  --ce-success: #15803d;
+  --ce-success-hover: #116932;
+  --ce-success-soft: #f0fdf4;
+
+  --ce-warning: #b45309;
+  --ce-warning-hover: #92400e;
+  --ce-warning-soft: #fffbeb;
+
+  --ce-danger: #b91c1c;
+  --ce-danger-hover: #991b1b;
+  --ce-danger-soft: #fef2f2;
+
+  --ce-info: #1d4ed8;
+  --ce-info-hover: #1e40af;
+  --ce-info-soft: #eff6ff;
+
+
+  /* ----------------------------------------------------------
+     BACKGROUNDS
+     ---------------------------------------------------------- */
+
+  --ce-background: #ffffff;
+  --ce-background-soft: #fcfbfc;
+  --ce-background-muted: #f8f7f8;
+
+  --ce-surface: #ffffff;
+  --ce-surface-soft: #fff8fb;
+  --ce-surface-muted: #f7f7f7;
+
+  --ce-surface-dark: #171717;
+  --ce-surface-dark-soft: #242424;
+
+  --ce-overlay: rgb(0 0 0 / 52%);
+  --ce-overlay-strong: rgb(0 0 0 / 70%);
+
+
+  /* ----------------------------------------------------------
+     TEXT COLORS
+     ---------------------------------------------------------- */
+
+  --ce-text: #171717;
+  --ce-text-secondary: #4f4f4f;
+  --ce-text-muted: #747474;
+  --ce-text-subtle: #969696;
+  --ce-text-disabled: #b7b7b7;
+
+  --ce-text-inverse: #ffffff;
+
+  --ce-text-brand: var(--ce-primary);
+  --ce-text-danger: var(--ce-danger);
+  --ce-text-success: var(--ce-success);
+
+
+  /* ----------------------------------------------------------
+     BORDERS
+     ---------------------------------------------------------- */
+
+  --ce-border-light: #f0f0f0;
+  --ce-border: #e4e4e4;
+  --ce-border-strong: #cecece;
+
+  --ce-border-brand: rgb(237 0 109 / 30%);
+
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------------------------- */
+
+  --ce-font-sans:
+    Arial,
+    Helvetica,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  --ce-font-serif:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  --ce-font-size-2xs: 0.6875rem;
+  --ce-font-size-xs: 0.75rem;
+  --ce-font-size-sm: 0.875rem;
+  --ce-font-size-md: 1rem;
+  --ce-font-size-lg: 1.125rem;
+  --ce-font-size-xl: 1.25rem;
+  --ce-font-size-2xl: 1.5rem;
+  --ce-font-size-3xl: 1.875rem;
+  --ce-font-size-4xl: 2.25rem;
+  --ce-font-size-5xl: 3rem;
+  --ce-font-size-6xl: 3.75rem;
+
+  --ce-font-weight-regular: 400;
+  --ce-font-weight-medium: 500;
+  --ce-font-weight-semibold: 600;
+  --ce-font-weight-bold: 700;
+  --ce-font-weight-extrabold: 800;
+
+  --ce-line-height-none: 1;
+  --ce-line-height-tight: 1.15;
+  --ce-line-height-snug: 1.3;
+  --ce-line-height-normal: 1.5;
+  --ce-line-height-relaxed: 1.7;
+
+  --ce-letter-spacing-tight: -0.025em;
+  --ce-letter-spacing-normal: 0;
+  --ce-letter-spacing-wide: 0.04em;
+  --ce-letter-spacing-wider: 0.08em;
+
+
+  /* ----------------------------------------------------------
+     SPACING
+     ---------------------------------------------------------- */
+
+  --ce-space-0: 0;
+  --ce-space-1: 0.25rem;
+  --ce-space-2: 0.5rem;
+  --ce-space-3: 0.75rem;
+  --ce-space-4: 1rem;
+  --ce-space-5: 1.25rem;
+  --ce-space-6: 1.5rem;
+  --ce-space-7: 1.75rem;
+  --ce-space-8: 2rem;
+  --ce-space-9: 2.25rem;
+  --ce-space-10: 2.5rem;
+  --ce-space-12: 3rem;
+  --ce-space-14: 3.5rem;
+  --ce-space-16: 4rem;
+  --ce-space-20: 5rem;
+  --ce-space-24: 6rem;
+  --ce-space-28: 7rem;
+  --ce-space-32: 8rem;
+
+
+  /* ----------------------------------------------------------
+     RADIUS
+     ---------------------------------------------------------- */
+
+  --ce-radius-xs: 4px;
+  --ce-radius-sm: 6px;
+  --ce-radius-md: 10px;
+  --ce-radius-lg: 14px;
+  --ce-radius-xl: 18px;
+  --ce-radius-2xl: 24px;
+  --ce-radius-3xl: 32px;
+  --ce-radius-full: 9999px;
+
+
+  /* ----------------------------------------------------------
+     SHADOWS
+     ---------------------------------------------------------- */
+
+  --ce-shadow-xs:
+    0 1px 2px rgb(0 0 0 / 4%);
+
+  --ce-shadow-sm:
+    0 2px 8px rgb(0 0 0 / 6%);
+
+  --ce-shadow-md:
+    0 8px 24px rgb(0 0 0 / 8%);
+
+  --ce-shadow-lg:
+    0 16px 40px rgb(0 0 0 / 10%);
+
+  --ce-shadow-xl:
+    0 24px 60px rgb(0 0 0 / 14%);
+
+  --ce-shadow-brand:
+    0 12px 30px rgb(237 0 109 / 22%);
+
+
+  /* ----------------------------------------------------------
+     LAYOUT
+     ---------------------------------------------------------- */
+
+  --ce-container-xs: 540px;
+  --ce-container-sm: 640px;
+  --ce-container-md: 768px;
+  --ce-container-lg: 1024px;
+  --ce-container-xl: 1280px;
+  --ce-container-2xl: 1440px;
+
+  --ce-page-padding-mobile: 16px;
+  --ce-page-padding-tablet: 24px;
+  --ce-page-padding-desktop: 32px;
+
+  --ce-section-space-mobile: 48px;
+  --ce-section-space-desktop: 72px;
+
+  --ce-header-height-mobile: 64px;
+  --ce-header-height-desktop: 74px;
+
+  --ce-sidebar-width: 280px;
+
+
+  /* ----------------------------------------------------------
+     FORM CONTROLS
+     ---------------------------------------------------------- */
+
+  --ce-control-height-sm: 38px;
+  --ce-control-height-md: 46px;
+  --ce-control-height-lg: 54px;
+
+  --ce-control-padding-x: 14px;
+
+  --ce-input-background: #ffffff;
+  --ce-input-border: var(--ce-border);
+  --ce-input-border-hover: #c8c8c8;
+  --ce-input-border-focus: var(--ce-primary);
+
+  --ce-placeholder: #9a9a9a;
+
+
+  /* ----------------------------------------------------------
+     BUTTONS
+     ---------------------------------------------------------- */
+
+  --ce-button-height-sm: 38px;
+  --ce-button-height-md: 46px;
+  --ce-button-height-lg: 54px;
+
+  --ce-button-padding-sm: 0 14px;
+  --ce-button-padding-md: 0 20px;
+  --ce-button-padding-lg: 0 26px;
+
+
+  /* ----------------------------------------------------------
+     MOTION
+     ---------------------------------------------------------- */
+
+  --ce-duration-fast: 120ms;
+  --ce-duration-normal: 200ms;
+  --ce-duration-slow: 320ms;
+
+  --ce-ease-standard:
+    cubic-bezier(0.2, 0, 0, 1);
+
+  --ce-ease-emphasized:
+    cubic-bezier(0.2, 0, 0, 1.15);
+
+
+  /* ----------------------------------------------------------
+     Z-INDEX
+     ---------------------------------------------------------- */
+
+  --ce-z-base: 0;
+  --ce-z-dropdown: 100;
+  --ce-z-sticky: 200;
+  --ce-z-header: 300;
+  --ce-z-drawer: 400;
+  --ce-z-modal-backdrop: 500;
+  --ce-z-modal: 510;
+  --ce-z-toast: 600;
+
+
+  /* ----------------------------------------------------------
+     MISC
+     ---------------------------------------------------------- */
+
+  --ce-focus-ring:
+    0 0 0 4px rgb(237 0 109 / 14%);
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* ============================================================
+   2. GLOBAL RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
+  width: 100%;
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ce-background);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  color: var(--ce-text);
+  background: var(--ce-background);
+
+  font-family: var(--ce-font-sans);
+  font-size: var(--ce-font-size-md);
+  font-weight: var(--ce-font-weight-regular);
+  line-height: var(--ce-line-height-normal);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
+body,
+input,
+textarea,
+select,
+button {
+  font-family: var(--ce-font-sans);
+}
+
+main {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 a {
@@ -42,8 +417,705 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+button,
+input,
+textarea,
+select {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+button {
+  border: 0;
+  background: transparent;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+fieldset {
+  border: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--ce-border);
+}
+
+
+/* ============================================================
+   3. TEXT SELECTION
+   ============================================================ */
+
+::selection {
+  color: var(--ce-white);
+  background: var(--ce-primary);
+}
+
+
+/* ============================================================
+   4. SCROLLBAR
+   ============================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ce-neutral-300) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--ce-neutral-300);
+  border-radius: var(--ce-radius-full);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ce-neutral-400);
+}
+
+
+/* ============================================================
+   5. FOCUS / ACCESSIBILITY
+   ============================================================ */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ce-primary);
+  outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  box-shadow: var(--ce-focus-ring);
+}
+
+
+/* ============================================================
+   6. TYPOGRAPHY
+   ============================================================ */
+
+.ce-title-display {
+  font-family: var(--ce-font-serif);
+  font-size: clamp(2.4rem, 5vw, 4.75rem);
+  font-weight: var(--ce-font-weight-bold);
+  line-height: 0.98;
+  letter-spacing: var(--ce-letter-spacing-tight);
+}
+
+.ce-title-page {
+  font-size: clamp(1.85rem, 3vw, 2.75rem);
+  font-weight: var(--ce-font-weight-bold);
+  line-height: var(--ce-line-height-tight);
+  letter-spacing: var(--ce-letter-spacing-tight);
+}
+
+.ce-title-section {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: var(--ce-font-weight-bold);
+  line-height: var(--ce-line-height-tight);
+}
+
+.ce-title-card {
+  font-size: var(--ce-font-size-lg);
+  font-weight: var(--ce-font-weight-semibold);
+  line-height: var(--ce-line-height-snug);
+}
+
+.ce-text {
+  color: var(--ce-text);
+}
+
+.ce-text-secondary {
+  color: var(--ce-text-secondary);
+}
+
+.ce-text-muted {
+  color: var(--ce-text-muted);
+}
+
+.ce-text-brand {
+  color: var(--ce-primary);
+}
+
+.ce-eyebrow {
+  color: var(--ce-primary);
+
+  font-size: var(--ce-font-size-xs);
+  font-weight: var(--ce-font-weight-bold);
+
+  line-height: var(--ce-line-height-normal);
+  letter-spacing: var(--ce-letter-spacing-wider);
+
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   7. GLOBAL CONTAINERS
+   ============================================================ */
+
+.ce-container {
+  width: 100%;
+  max-width: var(--ce-container-2xl);
+
+  margin-inline: auto;
+
+  padding-inline: var(--ce-page-padding-mobile);
+}
+
+.ce-container-lg {
+  width: 100%;
+  max-width: var(--ce-container-xl);
+
+  margin-inline: auto;
+
+  padding-inline: var(--ce-page-padding-mobile);
+}
+
+.ce-container-md {
+  width: 100%;
+  max-width: var(--ce-container-lg);
+
+  margin-inline: auto;
+
+  padding-inline: var(--ce-page-padding-mobile);
+}
+
+
+/* ============================================================
+   8. SECTIONS
+   ============================================================ */
+
+.ce-section {
+  width: 100%;
+  padding-block: var(--ce-section-space-mobile);
+}
+
+.ce-section-soft {
+  background: var(--ce-background-soft);
+}
+
+.ce-section-muted {
+  background: var(--ce-background-muted);
+}
+
+
+/* ============================================================
+   9. CARDS
+   ============================================================ */
+
+.ce-card {
+  background: var(--ce-surface);
+
+  border: 1px solid var(--ce-border-light);
+  border-radius: var(--ce-radius-xl);
+
+  box-shadow: var(--ce-shadow-sm);
+}
+
+.ce-card-soft {
+  background: var(--ce-surface-soft);
+
+  border: 1px solid var(--ce-border-light);
+  border-radius: var(--ce-radius-xl);
+}
+
+.ce-card-dark {
+  color: var(--ce-text-inverse);
+  background: var(--ce-surface-dark);
+
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: var(--ce-radius-xl);
+
+  box-shadow: var(--ce-shadow-lg);
+}
+
+
+/* ============================================================
+   10. BUTTON BASE
+   ============================================================ */
+
+.ce-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ce-space-2);
+
+  min-height: var(--ce-button-height-md);
+
+  padding: var(--ce-button-padding-md);
+
+  border: 1px solid transparent;
+  border-radius: var(--ce-radius-md);
+
+  font-size: var(--ce-font-size-sm);
+  font-weight: var(--ce-font-weight-semibold);
+  line-height: 1;
+
+  white-space: nowrap;
+
+  transition:
+    background-color var(--ce-duration-normal) var(--ce-ease-standard),
+    border-color var(--ce-duration-normal) var(--ce-ease-standard),
+    color var(--ce-duration-normal) var(--ce-ease-standard),
+    box-shadow var(--ce-duration-normal) var(--ce-ease-standard),
+    transform var(--ce-duration-fast) var(--ce-ease-standard);
+}
+
+.ce-button:hover {
+  text-decoration: none;
+}
+
+.ce-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ce-button:disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   11. BUTTON SIZES
+   ============================================================ */
+
+.ce-button-sm {
+  min-height: var(--ce-button-height-sm);
+  padding: var(--ce-button-padding-sm);
+  font-size: var(--ce-font-size-xs);
+}
+
+.ce-button-lg {
+  min-height: var(--ce-button-height-lg);
+  padding: var(--ce-button-padding-lg);
+  font-size: var(--ce-font-size-md);
+}
+
+
+/* ============================================================
+   12. PRIMARY BUTTON
+   ============================================================ */
+
+.ce-button-primary {
+  color: var(--ce-white);
+  background: var(--ce-gradient-brand);
+
+  border-color: transparent;
+
+  box-shadow: var(--ce-shadow-brand);
+}
+
+.ce-button-primary:hover {
+  background:
+    linear-gradient(
+      135deg,
+      var(--ce-primary-hover) 0%,
+      var(--ce-primary) 48%,
+      var(--ce-primary-dark) 100%
+    );
+}
+
+.ce-button-primary:active {
+  background: var(--ce-primary-active);
+}
+
+
+/* ============================================================
+   13. SECONDARY BUTTON
+   ============================================================ */
+
+.ce-button-secondary {
+  color: var(--ce-text);
+  background: var(--ce-white);
+
+  border-color: var(--ce-border);
+}
+
+.ce-button-secondary:hover {
+  background: var(--ce-neutral-50);
+  border-color: var(--ce-border-strong);
+}
+
+
+/* ============================================================
+   14. GHOST BUTTON
+   ============================================================ */
+
+.ce-button-ghost {
+  color: var(--ce-text-secondary);
+  background: transparent;
+}
+
+.ce-button-ghost:hover {
+  color: var(--ce-text);
+  background: var(--ce-neutral-100);
+}
+
+
+/* ============================================================
+   15. DANGER BUTTON
+   ============================================================ */
+
+.ce-button-danger {
+  color: var(--ce-white);
+  background: var(--ce-danger);
+}
+
+.ce-button-danger:hover {
+  background: var(--ce-danger-hover);
+}
+
+
+/* ============================================================
+   16. ICON BUTTON
+   ============================================================ */
+
+.ce-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--ce-control-height-md);
+  height: var(--ce-control-height-md);
+
+  color: var(--ce-text-secondary);
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: var(--ce-radius-md);
+
+  transition:
+    color var(--ce-duration-normal) var(--ce-ease-standard),
+    background-color var(--ce-duration-normal) var(--ce-ease-standard);
+}
+
+.ce-icon-button:hover {
+  color: var(--ce-text);
+  background: var(--ce-neutral-100);
+}
+
+
+/* ============================================================
+   17. FORM CONTROLS
+   ============================================================ */
+
+.ce-input,
+.ce-select,
+.ce-textarea {
+  width: 100%;
+
+  color: var(--ce-text);
+  background: var(--ce-input-background);
+
+  border: 1px solid var(--ce-input-border);
+  border-radius: var(--ce-radius-md);
+
+  transition:
+    border-color var(--ce-duration-normal) var(--ce-ease-standard),
+    box-shadow var(--ce-duration-normal) var(--ce-ease-standard),
+    background-color var(--ce-duration-normal) var(--ce-ease-standard);
+}
+
+.ce-input,
+.ce-select {
+  min-height: var(--ce-control-height-md);
+  padding-inline: var(--ce-control-padding-x);
+}
+
+.ce-textarea {
+  min-height: 120px;
+  padding: 12px var(--ce-control-padding-x);
+}
+
+.ce-input:hover,
+.ce-select:hover,
+.ce-textarea:hover {
+  border-color: var(--ce-input-border-hover);
+}
+
+.ce-input:focus,
+.ce-select:focus,
+.ce-textarea:focus {
+  border-color: var(--ce-input-border-focus);
+  box-shadow: var(--ce-focus-ring);
+}
+
+.ce-input::placeholder,
+.ce-textarea::placeholder {
+  color: var(--ce-placeholder);
+}
+
+.ce-input:disabled,
+.ce-select:disabled,
+.ce-textarea:disabled {
+  color: var(--ce-text-disabled);
+  background: var(--ce-neutral-100);
+}
+
+
+/* ============================================================
+   18. FORM LABEL
+   ============================================================ */
+
+.ce-label {
+  display: inline-block;
+
+  margin-bottom: var(--ce-space-2);
+
+  color: var(--ce-text);
+
+  font-size: var(--ce-font-size-sm);
+  font-weight: var(--ce-font-weight-semibold);
+}
+
+
+/* ============================================================
+   19. BADGES
+   ============================================================ */
+
+.ce-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ce-space-1);
+
+  min-height: 26px;
+
+  padding-inline: 10px;
+
+  border-radius: var(--ce-radius-full);
+
+  font-size: var(--ce-font-size-xs);
+  font-weight: var(--ce-font-weight-semibold);
+}
+
+.ce-badge-brand {
+  color: var(--ce-primary-dark);
+  background: var(--ce-primary-soft);
+}
+
+.ce-badge-success {
+  color: var(--ce-success);
+  background: var(--ce-success-soft);
+}
+
+.ce-badge-warning {
+  color: var(--ce-warning);
+  background: var(--ce-warning-soft);
+}
+
+.ce-badge-danger {
+  color: var(--ce-danger);
+  background: var(--ce-danger-soft);
+}
+
+
+/* ============================================================
+   20. DIVIDER
+   ============================================================ */
+
+.ce-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--ce-border);
+}
+
+
+/* ============================================================
+   21. FLEX HELPERS
+   ============================================================ */
+
+.ce-row {
+  display: flex;
+  align-items: center;
+}
+
+.ce-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ce-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================================================
+   22. VISUALLY HIDDEN
+   ============================================================ */
+
+.ce-sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+/* ============================================================
+   23. NO SCROLL
+   Utilisé notamment lors de l'ouverture d'un menu mobile
+   ou d'une modal.
+   ============================================================ */
+
+.ce-no-scroll {
+  overflow: hidden !important;
+}
+
+
+/* ============================================================
+   24. MOBILE / TABLET
+   ============================================================ */
+
+@media (min-width: 640px) {
+  .ce-container,
+  .ce-container-lg,
+  .ce-container-md {
+    padding-inline: var(--ce-page-padding-tablet);
+  }
+}
+
+
+/* ============================================================
+   25. DESKTOP
+   ============================================================ */
+
+@media (min-width: 1024px) {
+  .ce-container,
+  .ce-container-lg,
+  .ce-container-md {
+    padding-inline: var(--ce-page-padding-desktop);
+  }
+
+  .ce-section {
+    padding-block: var(--ce-section-space-desktop);
+  }
+}
+
+
+/* ============================================================
+   26. SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 479px) {
+  :root {
+    --ce-page-padding-mobile: 14px;
+  }
+
+  .ce-button {
+    min-height: 44px;
+  }
+}
+
+
+/* ============================================================
+   27. REDUCED MOTION / ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
   html {
-    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ============================================================
+   28. PRINT
+   ============================================================ */
+
+@media print {
+  body {
+    color: #000000;
+    background: #ffffff;
+  }
+
+  button,
+  .ce-no-print {
+    display: none !important;
   }
 }

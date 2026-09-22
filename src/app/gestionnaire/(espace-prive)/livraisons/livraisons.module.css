@@ -1,0 +1,3593 @@
+/* ============================================================================
+   COSMETICS EMPIRE
+   ESPACE GESTIONNAIRE — LIVRAISONS
+   ----------------------------------------------------------------------------
+   Fichier :
+   src/app/gestionnaire/(espace-prive)/livraisons/livraisons.module.css
+
+   PRINCIPES :
+
+   - largeur complète du Main Gestionnaire ;
+   - aucun max-width global ;
+   - aucun margin: auto sur le contenu principal ;
+   - aucun espace vide artificiel ;
+   - desktop réellement horizontal ;
+   - tableau scrollable seulement lorsque nécessaire ;
+   - responsive laptop / tablette / mobile ;
+   - cartes propres et lumineuses ;
+   - identité Cosmetics Empire ;
+   - accent magenta ;
+   - bordures légères ;
+   - ombres discrètes ;
+   - aucune duplication du shell global.
+   ============================================================================ */
+
+
+/* ============================================================================
+   VARIABLES / ROOT PAGE
+   ============================================================================ */
+
+.livraisonsPage,
+.livraisonDetail {
+  --livraisons-primary: #ed006d;
+  --livraisons-primary-dark: #ca005d;
+  --livraisons-primary-hover: #d80065;
+
+  --livraisons-primary-soft: #fff0f6;
+  --livraisons-primary-soft-2: #fff7fa;
+
+  --livraisons-bg: #f8f8fa;
+  --livraisons-card: #ffffff;
+
+  --livraisons-text: #17171c;
+  --livraisons-text-soft: #5f6068;
+  --livraisons-text-muted: #92939c;
+
+  --livraisons-border: #e8e8ed;
+  --livraisons-border-soft: #f0f0f3;
+
+  --livraisons-success: #15965f;
+  --livraisons-success-dark: #087443;
+  --livraisons-success-soft: #eaf8f1;
+
+  --livraisons-warning: #b87808;
+  --livraisons-warning-soft: #fff6df;
+
+  --livraisons-info: #2768d6;
+  --livraisons-info-soft: #edf4ff;
+
+  --livraisons-danger: #c94757;
+  --livraisons-danger-dark: #a92f40;
+  --livraisons-danger-soft: #fff0f2;
+
+  --livraisons-purple: #7652c8;
+  --livraisons-purple-soft: #f3efff;
+
+  --livraisons-neutral-soft: #f4f4f6;
+
+  --livraisons-radius-large: 18px;
+  --livraisons-radius: 14px;
+  --livraisons-radius-small: 10px;
+
+  --livraisons-shadow:
+    0 1px 2px rgba(17, 17, 24, 0.025),
+    0 6px 20px rgba(17, 17, 24, 0.035);
+
+  --livraisons-shadow-hover:
+    0 2px 4px rgba(17, 17, 24, 0.04),
+    0 10px 28px rgba(17, 17, 24, 0.055);
+
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+
+  margin: 0;
+
+  box-sizing: border-box;
+
+  color: var(--livraisons-text);
+}
+
+
+.livraisonsPage {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    28px
+    clamp(18px, 2vw, 34px)
+    44px;
+
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+
+  gap: 24px;
+
+  background: var(--livraisons-bg);
+}
+
+
+.livraisonsPage *,
+.livraisonsPage *::before,
+.livraisonsPage *::after,
+.livraisonDetail *,
+.livraisonDetail *::before,
+.livraisonDetail *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+.livraisonsVisuallyHidden {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+
+/* ============================================================================
+   FOCUS
+   ============================================================================ */
+
+.livraisonsPage a:focus-visible,
+.livraisonsPage button:focus-visible,
+.livraisonsPage input:focus-visible,
+.livraisonsPage select:focus-visible,
+.livraisonDetail a:focus-visible,
+.livraisonDetail button:focus-visible {
+  outline: 3px solid rgba(237, 0, 109, 0.18);
+  outline-offset: 2px;
+}
+
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.livraisonsHeader {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+.livraisonsBreadcrumb {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  overflow: hidden;
+}
+
+
+.livraisonsBreadcrumbHome {
+  width: 26px;
+  height: 26px;
+
+  flex: 0 0 26px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-text-muted);
+
+  border-radius: 7px;
+}
+
+
+.livraisonsBreadcrumbSeparator {
+  flex: 0 0 auto;
+
+  color: #b7b7bf;
+}
+
+
+.livraisonsBreadcrumbLink {
+  min-width: 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-weight: 500;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+
+.livraisonsBreadcrumbLink:hover {
+  color: var(--livraisons-primary);
+}
+
+
+.livraisonsBreadcrumbCurrent {
+  min-width: 0;
+
+  color: var(--livraisons-text);
+
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.livraisonsHeaderMain {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+.livraisonsHeaderCopy {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.livraisonsHeaderTitleRow {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.livraisonsHeaderIcon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #ffd3e5;
+  border-radius: 11px;
+}
+
+
+.livraisonsHeaderTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: clamp(25px, 2vw, 31px);
+  font-weight: 750;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+
+.livraisonsHeaderSubtitle {
+  margin: 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================================
+   KPI SECTION
+   ============================================================================ */
+
+.livraisonsKpiSection {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.livraisonsKpiGrid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+.livraisonsKpiCard {
+  min-width: 0;
+  min-height: 128px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  padding: 19px;
+
+  background: var(--livraisons-card);
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+
+.livraisonsKpiCard:hover {
+  border-color: #ddddE4;
+
+  box-shadow: var(--livraisons-shadow-hover);
+
+  transform: translateY(-1px);
+}
+
+
+.livraisonsKpiIcon {
+  width: 43px;
+  height: 43px;
+
+  flex: 0 0 43px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+}
+
+
+.livraisonsKpiIconPrimary {
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+}
+
+
+.livraisonsKpiIconPreparing {
+  color: var(--livraisons-warning);
+
+  background: var(--livraisons-warning-soft);
+}
+
+
+.livraisonsKpiIconProgress {
+  color: var(--livraisons-info);
+
+  background: var(--livraisons-info-soft);
+}
+
+
+.livraisonsKpiIconSuccess {
+  color: var(--livraisons-success);
+
+  background: var(--livraisons-success-soft);
+}
+
+
+.livraisonsKpiIconDanger {
+  color: var(--livraisons-danger);
+
+  background: var(--livraisons-danger-soft);
+}
+
+
+.livraisonsKpiContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.livraisonsKpiLabel {
+  color: var(--livraisons-text-soft);
+
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+
+.livraisonsKpiValue {
+  color: var(--livraisons-text);
+
+  font-size: clamp(24px, 1.8vw, 31px);
+  font-weight: 760;
+  line-height: 1.1;
+
+  letter-spacing: -0.025em;
+}
+
+
+.livraisonsKpiDescription {
+  margin-top: 3px;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+
+/* ============================================================================
+   FILTERS
+   ============================================================================ */
+
+.livraisonsFiltersSection {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.livraisonsFilters {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(250px, 1.3fr)
+    minmax(260px, 1.5fr)
+    minmax(160px, 0.8fr)
+    minmax(160px, 0.8fr)
+    minmax(185px, 0.9fr)
+    auto;
+
+  align-items: stretch;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  background: var(--livraisons-card);
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonsPeriodFilter,
+.livraisonsSearchField,
+.livraisonsSelectField {
+  position: relative;
+
+  min-width: 0;
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+
+  border: 1px solid #dedee4;
+  border-radius: 9px;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.livraisonsPeriodFilter:focus-within,
+.livraisonsSearchField:focus-within,
+.livraisonsSelectField:focus-within {
+  border-color: rgba(237, 0, 109, 0.55);
+
+  box-shadow:
+    0 0 0 3px rgba(237, 0, 109, 0.08);
+}
+
+
+.livraisonsFilterLeadingIcon {
+  width: 36px;
+
+  flex: 0 0 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-text-muted);
+}
+
+
+.livraisonsPeriodFields {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding-right: 7px;
+}
+
+
+.livraisonsDateField {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.livraisonsDateInput {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+
+  padding: 0 5px;
+
+  color: var(--livraisons-text);
+
+  background: transparent;
+
+  border: 0;
+  outline: 0;
+
+  font: inherit;
+  font-size: 12px;
+}
+
+
+.livraisonsPeriodSeparator {
+  padding: 0 3px;
+
+  color: #b2b2ba;
+
+  font-size: 12px;
+}
+
+
+.livraisonsSearchField {
+  padding-left: 38px;
+}
+
+
+.livraisonsSearchIcon {
+  position: absolute;
+
+  left: 13px;
+  top: 50%;
+
+  color: var(--livraisons-text-muted);
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+}
+
+
+.livraisonsSearchInput {
+  width: 100%;
+  height: 40px;
+  min-width: 0;
+
+  padding: 0 12px 0 0;
+
+  color: var(--livraisons-text);
+
+  background: transparent;
+
+  border: 0;
+  outline: 0;
+
+  font: inherit;
+  font-size: 13px;
+}
+
+
+.livraisonsSearchInput::placeholder {
+  color: #9b9ba3;
+}
+
+
+.livraisonsSearchInput::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+
+.livraisonsSelectField {
+  overflow: hidden;
+}
+
+
+.livraisonsSelect {
+  width: 100%;
+  height: 40px;
+  min-width: 0;
+
+  padding: 0 34px 0 12px;
+
+  color: var(--livraisons-text);
+
+  background: transparent;
+
+  border: 0;
+  outline: 0;
+
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  text-overflow: ellipsis;
+}
+
+
+.livraisonsSelectWithIcon {
+  padding-left: 37px;
+}
+
+
+.livraisonsSelectIcon {
+  position: absolute;
+
+  left: 12px;
+  top: 50%;
+
+  color: var(--livraisons-text-muted);
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+}
+
+
+.livraisonsResetButton {
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 14px;
+
+  color: var(--livraisons-text-soft);
+
+  background: #ffffff;
+
+  border: 1px solid #dedee4;
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 650;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease;
+}
+
+
+.livraisonsResetButton:hover:not(:disabled) {
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft-2);
+
+  border-color: #f3abc9;
+}
+
+
+.livraisonsResetButton:disabled {
+  color: #b0b0b7;
+
+  background: #f7f7f8;
+
+  cursor: not-allowed;
+
+  opacity: 0.72;
+}
+
+
+/* ============================================================================
+   TABLE SECTION
+   ============================================================================ */
+
+.livraisonsTableSection {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.livraisonsTableCard {
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: var(--livraisons-card);
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonsTableScroll {
+  width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: #cfcfd5 transparent;
+}
+
+
+.livraisonsTableScroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+
+.livraisonsTableScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.livraisonsTableScroll::-webkit-scrollbar-thumb {
+  background: #d4d4d9;
+
+  border-radius: 999px;
+}
+
+
+.livraisonsTable {
+  width: 100%;
+  min-width: 1460px;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  table-layout: auto;
+}
+
+
+.livraisonsTableHead {
+  background: #fafafa;
+}
+
+
+.livraisonsTableHeaderCell {
+  padding: 13px 14px;
+
+  color: #6d6d76;
+
+  border-bottom: 1px solid var(--livraisons-border);
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+
+  letter-spacing: 0.018em;
+
+  text-align: left;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.livraisonsTableHeaderNumber {
+  width: 48px;
+
+  text-align: center;
+}
+
+
+.livraisonsTableHeaderActions {
+  width: 92px;
+
+  text-align: right;
+}
+
+
+.livraisonsTableBody {
+  background: #ffffff;
+}
+
+
+.livraisonsTableRow {
+  transition:
+    background 140ms ease;
+}
+
+
+.livraisonsTableRow:hover {
+  background: #fdfbfd;
+}
+
+
+.livraisonsTableRow:last-child .livraisonsTableCell {
+  border-bottom: 0;
+}
+
+
+.livraisonsTableCell {
+  padding: 14px;
+
+  color: var(--livraisons-text);
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+
+  font-size: 12.5px;
+  line-height: 1.45;
+
+  vertical-align: middle;
+}
+
+
+.livraisonsTableCellNumber {
+  color: var(--livraisons-text-muted);
+
+  text-align: center;
+
+  font-size: 11.5px;
+}
+
+
+.livraisonsTableCellActions {
+  text-align: right;
+}
+
+
+/* ============================================================================
+   REFERENCE CELL
+   ============================================================================ */
+
+.livraisonsReferenceCell,
+.livraisonsCustomerCell,
+.livraisonsProductsCopy,
+.livraisonsAddressCell {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.livraisonsReference {
+  max-width: 170px;
+
+  color: var(--livraisons-text);
+
+  font-size: 12.5px;
+  font-weight: 700;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonsReferenceDate {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   CUSTOMER
+   ============================================================================ */
+
+.livraisonsCustomerName {
+  max-width: 180px;
+
+  font-weight: 650;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonsCustomerPhone {
+  color: var(--livraisons-text-muted);
+
+  font-size: 11px;
+}
+
+
+/* ============================================================================
+   ORDER
+   ============================================================================ */
+
+.livraisonsOrderReference {
+  display: inline-block;
+
+  max-width: 160px;
+
+  color: #414149;
+
+  font-weight: 650;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   PRODUCTS
+   ============================================================================ */
+
+.livraisonsProductsCell {
+  min-width: 160px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.livraisonsProductsIcon {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 9px;
+}
+
+
+.livraisonsProductName {
+  max-width: 170px;
+
+  color: var(--livraisons-text);
+
+  font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonsProductCount {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+}
+
+
+/* ============================================================================
+   ADDRESS
+   ============================================================================ */
+
+.livraisonsAddressCell {
+  min-width: 180px;
+  max-width: 235px;
+}
+
+
+.livraisonsAddressCell strong {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+
+.livraisonsAddressCell span {
+  color: var(--livraisons-text-muted);
+
+  font-size: 11px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   CARRIER
+   ============================================================================ */
+
+.livraisonsCarrier {
+  max-width: 160px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #44444b;
+
+  font-size: 11.5px;
+  font-weight: 550;
+
+  white-space: nowrap;
+}
+
+
+.livraisonsCarrier span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.livraisonsFallback,
+.livraisonsDateValue {
+  color: var(--livraisons-text-soft);
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   STATUS BADGES
+   ============================================================================ */
+
+.livraisonsStatusBadge {
+  width: fit-content;
+  max-width: 100%;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.25;
+
+  white-space: nowrap;
+}
+
+
+.livraisonsStatusDot {
+  width: 6px;
+  height: 6px;
+
+  flex: 0 0 6px;
+
+  background: currentColor;
+
+  border-radius: 50%;
+}
+
+
+.livraisonsStatusPending {
+  color: #946000;
+
+  background: #fff7df;
+
+  border: 1px solid #f5e1a5;
+}
+
+
+.livraisonsStatusPreparing {
+  color: #8d6208;
+
+  background: #fff6df;
+
+  border: 1px solid #f1d99e;
+}
+
+
+.livraisonsStatusShipped {
+  color: #245dc4;
+
+  background: #edf4ff;
+
+  border: 1px solid #cee0ff;
+}
+
+
+.livraisonsStatusInTransit {
+  color: #1d62c2;
+
+  background: #edf6ff;
+
+  border: 1px solid #cae2ff;
+}
+
+
+.livraisonsStatusDelivered {
+  color: var(--livraisons-success-dark);
+
+  background: var(--livraisons-success-soft);
+
+  border: 1px solid #c7ead8;
+}
+
+
+.livraisonsStatusFailed {
+  color: var(--livraisons-danger-dark);
+
+  background: var(--livraisons-danger-soft);
+
+  border: 1px solid #f1cbd1;
+}
+
+
+.livraisonsStatusReturned {
+  color: #6947ad;
+
+  background: var(--livraisons-purple-soft);
+
+  border: 1px solid #ddd0ff;
+}
+
+
+.livraisonsStatusCancelled {
+  color: #707079;
+
+  background: #f1f1f3;
+
+  border: 1px solid #dedee3;
+}
+
+
+/* ============================================================================
+   VIEW BUTTON
+   ============================================================================ */
+
+.livraisonsViewButton {
+  min-height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 0 11px;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #f7bfd6;
+  border-radius: 8px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+
+.livraisonsViewButton:hover {
+  color: #ffffff;
+
+  background: var(--livraisons-primary);
+
+  border-color: var(--livraisons-primary);
+}
+
+
+/* ============================================================================
+   TABLE FOOTER
+   ============================================================================ */
+
+.livraisonsTableFooter {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 14px 16px;
+
+  background: #ffffff;
+
+  border-top: 1px solid var(--livraisons-border);
+}
+
+
+.livraisonsTableCount {
+  margin: 0;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+
+.livraisonsTableCount strong {
+  color: var(--livraisons-text-soft);
+
+  font-weight: 700;
+}
+
+
+/* ============================================================================
+   PAGINATION
+   ============================================================================ */
+
+.livraisonsPagination {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.livraisonsPaginationPages {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+}
+
+
+.livraisonsPaginationPageGroup {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+}
+
+
+.livraisonsPaginationArrow,
+.livraisonsPaginationPage {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-text-soft);
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: 8px;
+
+  font-size: 11.5px;
+  font-weight: 650;
+
+  text-decoration: none;
+
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+
+
+.livraisonsPaginationArrow:hover,
+.livraisonsPaginationPage:hover {
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-color: #f5bfd5;
+}
+
+
+.livraisonsPaginationPageActive {
+  color: #ffffff;
+
+  background: var(--livraisons-primary);
+
+  border-color: var(--livraisons-primary);
+}
+
+
+.livraisonsPaginationPageActive:hover {
+  color: #ffffff;
+
+  background: var(--livraisons-primary-dark);
+
+  border-color: var(--livraisons-primary-dark);
+}
+
+
+.livraisonsPaginationDisabled {
+  color: #c2c2c8;
+
+  background: #f8f8f9;
+
+  cursor: not-allowed;
+}
+
+
+.livraisonsPaginationEllipsis {
+  min-width: 18px;
+
+  color: var(--livraisons-text-muted);
+
+  text-align: center;
+}
+
+
+/* ============================================================================
+   MOBILE LIST
+   ============================================================================ */
+
+.livraisonsMobileList {
+  display: none;
+}
+
+
+.livraisonsMobileCard {
+  width: 100%;
+  min-width: 0;
+
+  padding: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonsMobileCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.livraisonsMobileReference {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.livraisonsMobileReferenceLabel {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10px;
+  font-weight: 650;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+.livraisonsMobileReference strong {
+  max-width: 210px;
+
+  font-size: 14px;
+  font-weight: 750;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonsMobilePrimary {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  margin-top: 15px;
+  padding-top: 15px;
+
+  border-top: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonsMobileCustomer {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.livraisonsMobileCustomer strong {
+  font-size: 13px;
+}
+
+
+.livraisonsMobileCustomer span,
+.livraisonsMobileOrder {
+  color: var(--livraisons-text-muted);
+
+  font-size: 11px;
+}
+
+
+.livraisonsMobileOrder {
+  text-align: right;
+}
+
+
+.livraisonsMobileOrder strong {
+  color: var(--livraisons-text-soft);
+}
+
+
+.livraisonsMobileDetails {
+  margin: 15px 0 0;
+  padding: 0;
+
+  display: grid;
+
+  gap: 0;
+
+  border-top: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonsMobileDetailRow {
+  display: grid;
+
+  grid-template-columns:
+    minmax(90px, 0.65fr)
+    minmax(0, 1.35fr);
+
+  gap: 12px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonsMobileDetailRow dt {
+  color: var(--livraisons-text-muted);
+
+  font-size: 11px;
+}
+
+
+.livraisonsMobileDetailRow dd {
+  min-width: 0;
+
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 11.5px;
+  font-weight: 550;
+
+  text-align: right;
+}
+
+
+.livraisonsMobileDetailRow dd span,
+.livraisonsMobileDetailRow dd small {
+  display: block;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.livraisonsMobileDetailRow dd small {
+  margin-top: 2px;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 10px;
+  font-weight: 400;
+}
+
+
+.livraisonsMobileCardFooter {
+  padding-top: 14px;
+}
+
+
+.livraisonsMobileViewButton {
+  width: 100%;
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #f5bfd6;
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+
+.livraisonsMobilePagination {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  padding: 5px 0 0;
+}
+
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+
+.livraisonsEmptyState {
+  width: 100%;
+  min-height: 320px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 17px;
+
+  padding: 46px 24px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonsEmptyIcon {
+  width: 62px;
+  height: 62px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #fad0e1;
+  border-radius: 18px;
+}
+
+
+.livraisonsEmptyContent {
+  max-width: 520px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 7px;
+}
+
+
+.livraisonsEmptyTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 18px;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+
+.livraisonsEmptyDescription {
+  margin: 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+
+.livraisonsEmptyReset {
+  min-height: 39px;
+
+  margin-top: 9px;
+  padding: 0 14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #f4bfd5;
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+
+.livraisonsEmptyReset:hover {
+  color: #ffffff;
+
+  background: var(--livraisons-primary);
+
+  border-color: var(--livraisons-primary);
+}
+
+
+/* ============================================================================
+   DETAIL ROOT
+   ============================================================================ */
+
+.livraisonDetail {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    28px
+    clamp(18px, 2vw, 34px)
+    44px;
+
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+
+  gap: 20px;
+
+  background: var(--livraisons-bg);
+}
+
+
+/* ============================================================================
+   DETAIL HEADER
+   ============================================================================ */
+
+.livraisonDetailHeader {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.livraisonDetailBreadcrumb {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  min-width: 0;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 12px;
+}
+
+
+.livraisonDetailBreadcrumbLink {
+  color: var(--livraisons-text-soft);
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+
+.livraisonDetailBreadcrumbLink:hover {
+  color: var(--livraisons-primary);
+}
+
+
+.livraisonDetailBreadcrumbSeparator {
+  color: #babac1;
+}
+
+
+.livraisonDetailBreadcrumbCurrent {
+  min-width: 0;
+
+  color: var(--livraisons-text);
+
+  font-weight: 650;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonDetailHeaderMain {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+.livraisonDetailHeaderCopy {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.livraisonDetailBackLink {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+
+.livraisonDetailBackLink:hover {
+  color: var(--livraisons-primary);
+}
+
+
+.livraisonDetailTitleRow {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+}
+
+
+.livraisonDetailTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: clamp(24px, 2vw, 31px);
+  font-weight: 760;
+  line-height: 1.2;
+
+  letter-spacing: -0.025em;
+
+  overflow-wrap: anywhere;
+}
+
+
+.livraisonDetailSubtitle {
+  margin: 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* ============================================================================
+   DETAIL SUMMARY
+   ============================================================================ */
+
+.livraisonDetailSummaryGrid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 13px;
+}
+
+
+.livraisonDetailSummaryCard {
+  min-width: 0;
+  min-height: 92px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonDetailSummaryIcon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 10px;
+}
+
+
+.livraisonDetailSummaryCard > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.livraisonDetailSummaryLabel {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+
+.livraisonDetailSummaryValue {
+  min-width: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 13px;
+  font-weight: 720;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   DETAIL LAYOUT
+   ============================================================================ */
+
+.livraisonDetailTwoColumns {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+.livraisonDetailCard {
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonDetailCardHeader {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding: 15px 17px;
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailCardHeader > div {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.livraisonDetailCardIcon {
+  width: 35px;
+  height: 35px;
+
+  flex: 0 0 35px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 9px;
+}
+
+
+.livraisonDetailCardTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 14px;
+  font-weight: 720;
+  line-height: 1.4;
+}
+
+
+.livraisonDetailCardSubtitle {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+}
+
+
+/* ============================================================================
+   INFO LIST
+   ============================================================================ */
+
+.livraisonDetailInfoList {
+  margin: 0;
+  padding: 0 17px;
+}
+
+
+.livraisonDetailInfoRow {
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(130px, 0.75fr)
+    minmax(0, 1.25fr);
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailInfoRow:last-child {
+  border-bottom: 0;
+}
+
+
+.livraisonDetailInfoRow dt {
+  color: var(--livraisons-text-muted);
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+
+.livraisonDetailInfoRow dd {
+  min-width: 0;
+
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 11.5px;
+  font-weight: 600;
+
+  text-align: right;
+
+  overflow-wrap: anywhere;
+}
+
+
+.livraisonDetailInfoLabelIcon {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+/* ============================================================================
+   EXTERNAL / CONTACT LINKS
+   ============================================================================ */
+
+.livraisonDetailExternalLink,
+.livraisonDetailContactLink,
+.livraisonDetailOrderLink {
+  color: var(--livraisons-primary);
+
+  font-weight: 650;
+
+  text-decoration: none;
+}
+
+
+.livraisonDetailExternalLink,
+.livraisonDetailOrderLink {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.livraisonDetailExternalLink:hover,
+.livraisonDetailContactLink:hover,
+.livraisonDetailOrderLink:hover {
+  color: var(--livraisons-primary-dark);
+}
+
+
+.livraisonDetailOrderLink {
+  flex: 0 0 auto;
+
+  font-size: 11px;
+}
+
+
+/* ============================================================================
+   CUSTOMER
+   ============================================================================ */
+
+.livraisonDetailCustomer {
+  padding-bottom: 2px;
+}
+
+
+.livraisonDetailCustomerIdentity {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 17px;
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailCustomerAvatar {
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border: 1px solid #f8c9dc;
+  border-radius: 50%;
+
+  font-size: 16px;
+  font-weight: 750;
+}
+
+
+.livraisonDetailCustomerIdentity > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.livraisonDetailCustomerName {
+  max-width: 100%;
+
+  color: var(--livraisons-text);
+
+  font-size: 13px;
+  font-weight: 720;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonDetailCustomerCaption {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+}
+
+
+/* ============================================================================
+   PRODUCTS TABLE
+   ============================================================================ */
+
+.livraisonDetailProductsScroll {
+  width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #d1d1d6 transparent;
+}
+
+
+.livraisonDetailProductsTable {
+  width: 100%;
+  min-width: 760px;
+
+  border-collapse: collapse;
+}
+
+
+.livraisonDetailProductsTable th {
+  padding: 11px 16px;
+
+  color: var(--livraisons-text-muted);
+
+  background: #fafafa;
+
+  border-bottom: 1px solid var(--livraisons-border);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-align: left;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.livraisonDetailProductsTable td {
+  padding: 13px 16px;
+
+  color: var(--livraisons-text-soft);
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+
+  font-size: 11.5px;
+
+  vertical-align: middle;
+}
+
+
+.livraisonDetailProductsTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+.livraisonDetailProductsTable th:nth-child(3),
+.livraisonDetailProductsTable td:nth-child(3),
+.livraisonDetailProductsTable th:nth-child(4),
+.livraisonDetailProductsTable td:nth-child(4),
+.livraisonDetailProductsTable th:nth-child(5),
+.livraisonDetailProductsTable td:nth-child(5) {
+  text-align: right;
+}
+
+
+.livraisonDetailProductIdentity {
+  min-width: 190px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.livraisonDetailProductIcon {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 9px;
+}
+
+
+.livraisonDetailProductIdentity strong {
+  color: var(--livraisons-text);
+
+  font-size: 11.5px;
+}
+
+
+/* ============================================================================
+   PAYMENTS
+   ============================================================================ */
+
+.livraisonDetailPaymentsList {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    );
+
+  gap: 12px;
+
+  padding: 15px;
+}
+
+
+.livraisonDetailPayment {
+  min-width: 0;
+
+  padding: 14px;
+
+  background: #fafafa;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: 11px;
+}
+
+
+.livraisonDetailPaymentMain {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.livraisonDetailPaymentIcon {
+  width: 36px;
+  height: 36px;
+
+  flex: 0 0 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 9px;
+}
+
+
+.livraisonDetailPaymentCopy {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.livraisonDetailPaymentCopy strong {
+  font-size: 12px;
+}
+
+
+.livraisonDetailPaymentCopy span {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonDetailPaymentMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 13px;
+  padding-top: 12px;
+
+  border-top: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailPaymentMeta > strong {
+  font-size: 13px;
+}
+
+
+.livraisonDetailPaymentStatus {
+  display: inline-flex;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  font-size: 9.5px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.livraisonDetailPaymentPaid {
+  color: var(--livraisons-success-dark);
+
+  background: var(--livraisons-success-soft);
+}
+
+
+.livraisonDetailPaymentPending {
+  color: var(--livraisons-warning);
+
+  background: var(--livraisons-warning-soft);
+}
+
+
+.livraisonDetailPaymentFailed {
+  color: var(--livraisons-danger-dark);
+
+  background: var(--livraisons-danger-soft);
+}
+
+
+.livraisonDetailPaymentRefunded {
+  color: #6847a8;
+
+  background: var(--livraisons-purple-soft);
+}
+
+
+.livraisonDetailPaymentDetails {
+  margin: 13px 0 0;
+
+  display: grid;
+
+  gap: 8px;
+}
+
+
+.livraisonDetailPaymentDetails > div {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.livraisonDetailPaymentDetails dt {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10px;
+}
+
+
+.livraisonDetailPaymentDetails dd {
+  max-width: 65%;
+
+  margin: 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-align: right;
+
+  overflow-wrap: anywhere;
+}
+
+
+.livraisonDetailNoPayment {
+  min-height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 20px;
+
+  color: var(--livraisons-text-muted);
+
+  font-size: 11.5px;
+}
+
+
+/* ============================================================================
+   DETAIL ACTIONS
+   ============================================================================ */
+
+.livraisonDetailActions {
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: var(--livraisons-radius);
+
+  box-shadow: var(--livraisons-shadow);
+}
+
+
+.livraisonDetailActionsHeader {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding: 17px;
+
+  border-bottom: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailActionsHeading {
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+}
+
+
+.livraisonDetailActionsIcon {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--livraisons-primary);
+
+  background: var(--livraisons-primary-soft);
+
+  border-radius: 10px;
+}
+
+
+.livraisonDetailActionsHeading > div {
+  min-width: 0;
+}
+
+
+.livraisonDetailActionsTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 14px;
+  font-weight: 720;
+}
+
+
+.livraisonDetailActionsDescription {
+  margin: 4px 0 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+
+.livraisonDetailActionsCurrentStatus {
+  flex: 0 0 auto;
+
+  padding: 7px 10px;
+
+  color: var(--livraisons-text-soft);
+
+  background: #f7f7f8;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: 8px;
+
+  font-size: 10.5px;
+
+  white-space: nowrap;
+}
+
+
+.livraisonDetailActionsCurrentStatus strong {
+  color: var(--livraisons-text);
+}
+
+
+.livraisonDetailActionMessages {
+  width: 100%;
+}
+
+
+.livraisonDetailActionSuccess,
+.livraisonDetailActionError {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  margin: 14px 17px 0;
+  padding: 10px 12px;
+
+  border-radius: 9px;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.livraisonDetailActionSuccess {
+  color: var(--livraisons-success-dark);
+
+  background: var(--livraisons-success-soft);
+
+  border: 1px solid #c7ead8;
+}
+
+
+.livraisonDetailActionError {
+  color: var(--livraisons-danger-dark);
+
+  background: var(--livraisons-danger-soft);
+
+  border: 1px solid #f0c9d0;
+}
+
+
+.livraisonDetailActionsBody {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding: 17px;
+}
+
+
+.livraisonDetailActionsNotice {
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  color: var(--livraisons-text-muted);
+}
+
+
+.livraisonDetailActionsNotice svg {
+  flex: 0 0 auto;
+
+  margin-top: 1px;
+}
+
+
+.livraisonDetailActionsNotice p {
+  margin: 0;
+
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+
+.livraisonDetailActionsButtons {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.livraisonDetailCancelButton,
+.livraisonDetailConfirmButton {
+  min-height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 14px;
+
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    transform 140ms ease,
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+
+.livraisonDetailCancelButton {
+  color: var(--livraisons-danger);
+
+  background: var(--livraisons-danger-soft);
+
+  border: 1px solid #efc7ce;
+}
+
+
+.livraisonDetailCancelButton:hover:not(:disabled) {
+  color: #ffffff;
+
+  background: var(--livraisons-danger);
+
+  border-color: var(--livraisons-danger);
+
+  transform: translateY(-1px);
+}
+
+
+.livraisonDetailConfirmButton {
+  color: #ffffff;
+
+  background: var(--livraisons-primary);
+
+  border: 1px solid var(--livraisons-primary);
+}
+
+
+.livraisonDetailConfirmButton:hover:not(:disabled) {
+  background: var(--livraisons-primary-dark);
+
+  border-color: var(--livraisons-primary-dark);
+
+  transform: translateY(-1px);
+}
+
+
+.livraisonDetailCancelButton:disabled,
+.livraisonDetailConfirmButton:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.58;
+}
+
+
+.livraisonDetailNoActions {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 8px;
+
+  padding: 17px;
+
+  color: var(--livraisons-text-soft);
+
+  background: #fbfbfc;
+}
+
+
+.livraisonDetailNoActions p {
+  margin: 0;
+
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+
+/* ============================================================================
+   DIALOG
+   ============================================================================ */
+
+.livraisonDetailDialog {
+  width: min(92vw, 480px);
+  max-width: 480px;
+
+  margin: auto;
+  padding: 0;
+
+  color: var(--livraisons-text);
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 16px;
+
+  overflow: visible;
+}
+
+
+.livraisonDetailDialog::backdrop {
+  background: rgba(18, 18, 24, 0.5);
+
+  backdrop-filter: blur(2px);
+}
+
+
+.livraisonDetailDialogContent {
+  width: 100%;
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+  border-radius: 16px;
+
+  box-shadow:
+    0 22px 60px rgba(18, 18, 24, 0.18);
+}
+
+
+.livraisonDetailDialogIcon {
+  width: 48px;
+  height: 48px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+}
+
+
+.livraisonDetailDialogIconSuccess {
+  color: var(--livraisons-success);
+
+  background: var(--livraisons-success-soft);
+}
+
+
+.livraisonDetailDialogIconDanger {
+  color: var(--livraisons-danger);
+
+  background: var(--livraisons-danger-soft);
+}
+
+
+.livraisonDetailDialogCopy {
+  margin-top: 15px;
+}
+
+
+.livraisonDetailDialogTitle {
+  margin: 0;
+
+  color: var(--livraisons-text);
+
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+
+.livraisonDetailDialogDescription {
+  margin: 8px 0 0;
+
+  color: var(--livraisons-text-soft);
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+
+.livraisonDetailDialogReference {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  margin-top: 16px;
+  padding: 11px 12px;
+
+  background: #f8f8fa;
+
+  border: 1px solid var(--livraisons-border-soft);
+  border-radius: 9px;
+}
+
+
+.livraisonDetailDialogReference span {
+  color: var(--livraisons-text-muted);
+
+  font-size: 10.5px;
+}
+
+
+.livraisonDetailDialogReference strong {
+  min-width: 0;
+
+  font-size: 11.5px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.livraisonDetailDialogMessages {
+  width: 100%;
+}
+
+
+.livraisonDetailDialogMessages .livraisonDetailActionError {
+  margin:
+    14px
+    0
+    0;
+}
+
+
+.livraisonDetailDialogActions {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  margin-top: 20px;
+  padding-top: 17px;
+
+  border-top: 1px solid var(--livraisons-border-soft);
+}
+
+
+.livraisonDetailDialogSecondaryButton,
+.livraisonDetailDialogConfirmButton,
+.livraisonDetailDialogDangerButton {
+  min-height: 39px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 14px;
+
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+
+.livraisonDetailDialogSecondaryButton {
+  color: var(--livraisons-text-soft);
+
+  background: #ffffff;
+
+  border: 1px solid var(--livraisons-border);
+}
+
+
+.livraisonDetailDialogSecondaryButton:hover:not(:disabled) {
+  background: #f7f7f8;
+
+  border-color: #d5d5dc;
+}
+
+
+.livraisonDetailDialogConfirmButton {
+  color: #ffffff;
+
+  background: var(--livraisons-primary);
+
+  border: 1px solid var(--livraisons-primary);
+}
+
+
+.livraisonDetailDialogConfirmButton:hover:not(:disabled) {
+  background: var(--livraisons-primary-dark);
+
+  border-color: var(--livraisons-primary-dark);
+}
+
+
+.livraisonDetailDialogDangerButton {
+  color: #ffffff;
+
+  background: var(--livraisons-danger);
+
+  border: 1px solid var(--livraisons-danger);
+}
+
+
+.livraisonDetailDialogDangerButton:hover:not(:disabled) {
+  background: var(--livraisons-danger-dark);
+
+  border-color: var(--livraisons-danger-dark);
+}
+
+
+.livraisonDetailDialogSecondaryButton:disabled,
+.livraisonDetailDialogConfirmButton:disabled,
+.livraisonDetailDialogDangerButton:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.58;
+}
+
+
+/* ============================================================================
+   SPINNER
+   ============================================================================ */
+
+.livraisonDetailSpinner {
+  animation:
+    livraisonDetailSpin
+    850ms
+    linear
+    infinite;
+}
+
+
+@keyframes livraisonDetailSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ============================================================================
+   LAPTOP
+   ============================================================================ */
+
+@media (max-width: 1450px) {
+  .livraisonsKpiGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .livraisonsFilters {
+    grid-template-columns:
+      minmax(230px, 1fr)
+      minmax(250px, 1.3fr)
+      minmax(150px, 0.7fr)
+      minmax(150px, 0.7fr);
+  }
+
+
+  .livraisonsResetButton {
+    min-width: 150px;
+  }
+}
+
+
+/* ============================================================================
+   SMALL LAPTOP / TABLET LANDSCAPE
+   ============================================================================ */
+
+@media (max-width: 1180px) {
+  .livraisonsPage,
+  .livraisonDetail {
+    padding:
+      24px
+      20px
+      38px;
+  }
+
+
+  .livraisonsKpiGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .livraisonsFilters {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .livraisonsResetButton {
+    width: 100%;
+  }
+
+
+  .livraisonDetailSummaryGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .livraisonDetailTwoColumns {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+}
+
+
+/* ============================================================================
+   TABLET / MOBILE TABLE SWITCH
+   ============================================================================ */
+
+@media (max-width: 900px) {
+  .livraisonsTableCard {
+    display: none;
+  }
+
+
+  .livraisonsMobileList {
+    width: 100%;
+
+    display: grid;
+
+    gap: 12px;
+  }
+
+
+  .livraisonsKpiGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .livraisonDetailActionsHeader,
+  .livraisonDetailActionsBody {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .livraisonDetailActionsCurrentStatus {
+    white-space: normal;
+  }
+
+
+  .livraisonDetailActionsButtons {
+    width: 100%;
+  }
+
+
+  .livraisonDetailCancelButton,
+  .livraisonDetailConfirmButton {
+    flex: 1;
+  }
+
+
+  .livraisonDetailPaymentsList {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+}
+
+
+/* ============================================================================
+   MOBILE
+   ============================================================================ */
+
+@media (max-width: 700px) {
+  .livraisonsPage,
+  .livraisonDetail {
+    padding:
+      18px
+      14px
+      30px;
+
+    gap: 16px;
+  }
+
+
+  .livraisonsHeader {
+    gap: 10px;
+  }
+
+
+  .livraisonsHeaderTitleRow {
+    align-items: flex-start;
+  }
+
+
+  .livraisonsHeaderIcon {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+
+  .livraisonsHeaderTitle {
+    font-size: 24px;
+  }
+
+
+  .livraisonsHeaderSubtitle {
+    font-size: 12.5px;
+  }
+
+
+  .livraisonsKpiGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 10px;
+  }
+
+
+  .livraisonsKpiCard {
+    min-height: 96px;
+
+    align-items: center;
+
+    padding: 15px;
+  }
+
+
+  .livraisonsKpiValue {
+    font-size: 24px;
+  }
+
+
+  .livraisonsKpiDescription {
+    font-size: 10.5px;
+  }
+
+
+  .livraisonsFilters {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    padding: 11px;
+
+    gap: 9px;
+  }
+
+
+  .livraisonsPeriodFilter,
+  .livraisonsSearchField,
+  .livraisonsSelectField,
+  .livraisonsResetButton {
+    width: 100%;
+  }
+
+
+  .livraisonsPeriodFields {
+    padding-right: 5px;
+  }
+
+
+  .livraisonsEmptyState {
+    min-height: 280px;
+
+    padding: 38px 18px;
+  }
+
+
+  .livraisonDetailTitle {
+    font-size: 23px;
+  }
+
+
+  .livraisonDetailSummaryGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 9px;
+  }
+
+
+  .livraisonDetailSummaryCard {
+    min-height: 78px;
+
+    padding: 13px;
+  }
+
+
+  .livraisonDetailCardHeader {
+    align-items: flex-start;
+
+    padding: 14px;
+
+    flex-wrap: wrap;
+  }
+
+
+  .livraisonDetailInfoList {
+    padding: 0 14px;
+  }
+
+
+  .livraisonDetailInfoRow {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 5px;
+
+    padding: 11px 0;
+  }
+
+
+  .livraisonDetailInfoRow dd {
+    text-align: left;
+  }
+
+
+  .livraisonDetailCustomerIdentity {
+    padding: 14px;
+  }
+
+
+  .livraisonDetailActionsHeader,
+  .livraisonDetailActionsBody {
+    padding: 14px;
+  }
+
+
+  .livraisonDetailActionSuccess,
+  .livraisonDetailActionError {
+    margin:
+      12px
+      14px
+      0;
+  }
+
+
+  .livraisonDetailActionsButtons {
+    flex-direction: column;
+  }
+
+
+  .livraisonDetailCancelButton,
+  .livraisonDetailConfirmButton {
+    width: 100%;
+  }
+
+
+  .livraisonDetailDialog {
+    width: calc(100vw - 24px);
+  }
+
+
+  .livraisonDetailDialogContent {
+    padding: 18px;
+  }
+
+
+  .livraisonDetailDialogActions {
+    flex-direction: column-reverse;
+  }
+
+
+  .livraisonDetailDialogSecondaryButton,
+  .livraisonDetailDialogConfirmButton,
+  .livraisonDetailDialogDangerButton {
+    width: 100%;
+  }
+}
+
+
+/* ============================================================================
+   VERY SMALL MOBILE
+   ============================================================================ */
+
+@media (max-width: 430px) {
+  .livraisonsPage,
+  .livraisonDetail {
+    padding:
+      16px
+      11px
+      26px;
+  }
+
+
+  .livraisonsBreadcrumb {
+    font-size: 11px;
+  }
+
+
+  .livraisonsBreadcrumbHome {
+    display: none;
+  }
+
+
+  .livraisonsHeaderTitle {
+    font-size: 22px;
+  }
+
+
+  .livraisonsMobileCard {
+    padding: 14px;
+  }
+
+
+  .livraisonsMobileCardHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .livraisonsMobilePrimary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .livraisonsMobileOrder {
+    text-align: left;
+  }
+
+
+  .livraisonsMobileDetailRow {
+    grid-template-columns:
+      minmax(80px, 0.7fr)
+      minmax(0, 1.3fr);
+
+    gap: 8px;
+  }
+
+
+  .livraisonsPaginationPage {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  .livraisonsPaginationArrow {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  .livraisonDetailTitleRow {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+
+  .livraisonDetailPaymentDetails > div {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
+
+  .livraisonDetailPaymentDetails dd {
+    max-width: 100%;
+
+    text-align: left;
+  }
+}
+
+
+/* ============================================================================
+   REDUCED MOTION
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .livraisonsKpiCard,
+  .livraisonsViewButton,
+  .livraisonsPaginationArrow,
+  .livraisonsPaginationPage,
+  .livraisonsResetButton,
+  .livraisonDetailCancelButton,
+  .livraisonDetailConfirmButton,
+  .livraisonDetailDialogSecondaryButton,
+  .livraisonDetailDialogConfirmButton,
+  .livraisonDetailDialogDangerButton {
+    transition: none;
+  }
+
+
+  .livraisonDetailSpinner {
+    animation-duration: 1.8s;
+  }
+}

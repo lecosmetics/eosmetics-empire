@@ -1,0 +1,2475 @@
+/* ============================================================
+   L&E COSMETICS EMPIRE
+   CONNEXION — ESPACE GESTIONNAIRE
+   ------------------------------------------------------------
+   Fichier :
+   src/app/gestionnaire/(auth)/connexion/connexion.css
+
+   OBJECTIF :
+
+   - reproduire la maquette PC ;
+   - reproduire la maquette mobile ;
+   - page simple et premium ;
+   - header Auth léger ;
+   - carte Connexion centrée ;
+   - aucun menu privé ;
+   - aucune Sidebar ;
+   - aucun contenu marketing inutile ;
+   - responsive complet ;
+   - compatible avec LoginForm.tsx ;
+   - compatible avec PasswordField existant.
+   ============================================================ */
+
+
+/* ============================================================
+   1. PAGE ROOT
+   ============================================================ */
+
+.gestionnaire-login-page {
+  --login-primary:
+    var(--ce-primary, #ed006d);
+
+  --login-primary-dark:
+    var(--ce-primary-dark, #c8005e);
+
+  --login-primary-soft:
+    #fff0f6;
+
+  --login-background:
+    #fbfbfc;
+
+  --login-surface:
+    #ffffff;
+
+  --login-text:
+    #18181b;
+
+  --login-text-secondary:
+    #565964;
+
+  --login-text-muted:
+    #9296a2;
+
+  --login-border:
+    #e6e8ed;
+
+  --login-border-strong:
+    #d7dae1;
+
+  --login-error:
+    #c63e51;
+
+  --login-error-soft:
+    #fff4f5;
+
+  --login-success-soft:
+    #f3fbf7;
+
+  --login-radius:
+    16px;
+
+  --login-control-radius:
+    10px;
+
+  --login-shadow:
+    0 1px 2px rgb(15 23 42 / 2%),
+    0 18px 55px rgb(15 23 42 / 6%);
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-rows:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+
+  color:
+    var(--login-text);
+
+  background:
+    var(--login-background);
+
+  isolation: isolate;
+}
+
+
+.gestionnaire-login-page *,
+.gestionnaire-login-page *::before,
+.gestionnaire-login-page *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   2. ACCESSIBILITY
+   ============================================================ */
+
+.gestionnaire-login-sr-only,
+.gestionnaire-auth-field__label--sr-only {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip: rect(0, 0, 0, 0) !important;
+
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+
+/* ============================================================
+   3. BACKGROUND DECORATIONS
+   ============================================================ */
+
+.gestionnaire-login-page__decoration {
+  position: fixed;
+
+  z-index: -1;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter:
+    blur(1px);
+}
+
+
+.gestionnaire-login-page__decoration--left {
+  top: 23%;
+  left: -150px;
+
+  width: 360px;
+  height: 360px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgb(237 0 109 / 5%) 0%,
+      rgb(237 0 109 / 2.5%) 42%,
+      transparent 72%
+    );
+}
+
+
+.gestionnaire-login-page__decoration--right {
+  right: -130px;
+  bottom: 4%;
+
+  width: 330px;
+  height: 330px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgb(237 0 109 / 4.5%) 0%,
+      rgb(237 0 109 / 2%) 44%,
+      transparent 72%
+    );
+}
+
+
+/* ============================================================
+   4. HEADER
+   ============================================================ */
+
+.gestionnaire-login-header {
+  position: relative;
+
+  z-index: 10;
+
+  width: 100%;
+
+  min-height: 82px;
+
+  background:
+    rgb(255 255 255 / 94%);
+
+  border-bottom:
+    1px solid
+    #f0f1f3;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+}
+
+
+.gestionnaire-login-header__inner {
+  width: 100%;
+  max-width: 1600px;
+
+  min-height: 82px;
+
+  margin:
+    0
+    auto;
+
+  padding:
+    10px
+    clamp(24px, 4vw, 64px);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+
+/* ============================================================
+   5. HEADER BRAND
+   ============================================================ */
+
+.gestionnaire-login-header__brand {
+  min-width: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  color:
+    var(--login-text);
+
+  text-decoration: none;
+
+  border-radius: 12px;
+}
+
+
+.gestionnaire-login-header__brand:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 18%);
+
+  outline-offset: 3px;
+}
+
+
+.gestionnaire-login-header__logo {
+  width: 58px;
+  height: 58px;
+
+  flex: 0 0 58px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 11px;
+
+  background:
+    #ffffff;
+}
+
+
+.gestionnaire-login-header__logo-image {
+  display: block;
+
+  width: 54px;
+  height: 54px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+
+.gestionnaire-login-header__brand-copy {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  line-height: 1.13;
+}
+
+
+.gestionnaire-login-header__brand-copy strong {
+  color:
+    var(--login-text);
+
+  font-size: 0.86rem;
+  font-weight: 750;
+
+  letter-spacing: -0.015em;
+
+  white-space: nowrap;
+}
+
+
+.gestionnaire-login-header__brand-copy span {
+  margin-top: 3px;
+
+  color:
+    var(--login-text-muted);
+
+  font-size: 0.69rem;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   6. HEADER REGISTER
+   ============================================================ */
+
+.gestionnaire-login-header__register {
+  flex: 0 0 auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.gestionnaire-login-header__register-text {
+  color:
+    var(--login-text-secondary);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+
+.gestionnaire-login-header__register-button {
+  min-height: 42px;
+
+  padding:
+    0
+    17px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    var(--login-primary);
+
+  border-radius: 9px;
+
+  color:
+    var(--login-primary);
+
+  background:
+    #ffffff;
+
+  font-size: 0.76rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+
+.gestionnaire-login-header__register-button:hover {
+  color:
+    #ffffff;
+
+  background:
+    var(--login-primary);
+
+  border-color:
+    var(--login-primary);
+
+  box-shadow:
+    0 7px 18px
+    rgb(237 0 109 / 15%);
+}
+
+
+.gestionnaire-login-header__register-button:active {
+  transform:
+    translateY(1px);
+}
+
+
+.gestionnaire-login-header__register-button:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 18%);
+
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   7. MAIN
+   ============================================================ */
+
+.gestionnaire-login-main {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    54px
+    20px
+    46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================================================
+   8. LOGIN CARD
+   ============================================================ */
+
+.gestionnaire-login-card {
+  width: 100%;
+  max-width: 500px;
+
+  min-width: 0;
+
+  padding:
+    35px
+    38px
+    32px;
+
+  border:
+    1px solid
+    var(--login-border);
+
+  border-radius:
+    var(--login-radius);
+
+  background:
+    var(--login-surface);
+
+  box-shadow:
+    var(--login-shadow);
+}
+
+
+/* ============================================================
+   9. CARD HEADER
+   ============================================================ */
+
+.gestionnaire-login-card__header {
+  width: 100%;
+
+  margin-bottom: 27px;
+
+  text-align: center;
+}
+
+
+.gestionnaire-login-card__eyebrow {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 26px;
+
+  padding:
+    0
+    11px;
+
+  border-radius: 999px;
+
+  color:
+    var(--login-primary);
+
+  background:
+    var(--login-primary-soft);
+
+  font-size: 0.64rem;
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 0.105em;
+
+  text-transform: uppercase;
+}
+
+
+.gestionnaire-login-card__title {
+  margin:
+    16px
+    0
+    0;
+
+  color:
+    var(--login-text);
+
+  font-size:
+    clamp(
+      1.75rem,
+      2vw,
+      2.05rem
+    );
+
+  font-weight: 780;
+
+  line-height: 1.15;
+
+  letter-spacing:
+    -0.035em;
+}
+
+
+.gestionnaire-login-card__subtitle {
+  margin:
+    8px
+    0
+    0;
+
+  color:
+    var(--login-text-muted);
+
+  font-size: 0.82rem;
+  font-weight: 450;
+
+  line-height: 1.55;
+}
+
+
+/* ============================================================
+   10. LOGIN FORM
+   ============================================================ */
+
+.gestionnaire-login-form {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* ============================================================
+   11. GLOBAL LOGIN MESSAGE
+   ============================================================ */
+
+.gestionnaire-login-form__message {
+  width: 100%;
+
+  margin-bottom: 17px;
+
+  padding:
+    11px
+    12px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 9px;
+
+  font-size: 0.73rem;
+  font-weight: 500;
+
+  line-height: 1.5;
+}
+
+
+.gestionnaire-login-form__message--error {
+  color:
+    #a93646;
+
+  background:
+    var(--login-error-soft);
+
+  border-color:
+    #f2d5d9;
+}
+
+
+.gestionnaire-login-form__message--verification {
+  color:
+    #8c2757;
+
+  background:
+    var(--login-primary-soft);
+
+  border-color:
+    #f5ccdf;
+}
+
+
+.gestionnaire-login-form__message-icon {
+  width: 21px;
+  height: 21px;
+
+  flex: 0 0 21px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+.gestionnaire-login-form__message-text {
+  flex: 1 1 auto;
+
+  min-width: 0;
+}
+
+
+/* ============================================================
+   12. FORM FIELDS GROUP
+   ============================================================ */
+
+.gestionnaire-login-form__fields {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* ============================================================
+   13. GENERIC AUTH FIELD
+   ------------------------------------------------------------
+   Ces classes sont partagées avec PasswordField.
+   ============================================================ */
+
+.gestionnaire-auth-field,
+.gestionnaire-login-field,
+.gestionnaire-login-form__password {
+  width: 100%;
+  min-width: 0;
+
+  position: relative;
+}
+
+
+.gestionnaire-auth-field__label {
+  display: block;
+}
+
+
+.gestionnaire-auth-field__control,
+.gestionnaire-login-field__control {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 54px;
+
+  display: flex;
+
+  align-items: center;
+
+  border:
+    1px solid
+    var(--login-border);
+
+  border-radius:
+    var(--login-control-radius);
+
+  background:
+    #ffffff;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+
+.gestionnaire-auth-field__control:hover,
+.gestionnaire-login-field__control:hover {
+  border-color:
+    var(--login-border-strong);
+}
+
+
+.gestionnaire-auth-field__control:focus-within,
+.gestionnaire-login-field__control:focus-within {
+  border-color:
+    rgb(237 0 109 / 55%);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(237 0 109 / 7%);
+}
+
+
+/* ============================================================
+   14. FIELD ICON
+   ============================================================ */
+
+.gestionnaire-auth-field__icon,
+.gestionnaire-login-field__icon {
+  position: absolute;
+
+  z-index: 2;
+
+  top: 50%;
+  left: 15px;
+
+  width: 22px;
+  height: 22px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color:
+    #9ba0aa;
+
+  transform:
+    translateY(-50%);
+
+  pointer-events: none;
+
+  transition:
+    color 160ms ease;
+}
+
+
+.gestionnaire-auth-field__control:focus-within
+.gestionnaire-auth-field__icon,
+.gestionnaire-login-field__control:focus-within
+.gestionnaire-login-field__icon {
+  color:
+    var(--login-primary);
+}
+
+
+/* ============================================================
+   15. INPUT
+   ============================================================ */
+
+.gestionnaire-auth-field__input,
+.gestionnaire-login-field__input {
+  width: 100%;
+  min-width: 0;
+
+  height: 52px;
+
+  padding:
+    0
+    48px;
+
+  border: 0;
+
+  border-radius:
+    inherit;
+
+  outline: none;
+
+  color:
+    var(--login-text);
+
+  background:
+    transparent;
+
+  font: inherit;
+
+  font-size: 0.83rem;
+  font-weight: 450;
+
+  line-height: 1;
+
+  appearance: none;
+
+  -webkit-appearance: none;
+}
+
+
+.gestionnaire-auth-field__input::placeholder,
+.gestionnaire-login-field__input::placeholder {
+  color:
+    #a4a8b1;
+
+  opacity: 1;
+}
+
+
+.gestionnaire-auth-field__input:-webkit-autofill,
+.gestionnaire-login-field__input:-webkit-autofill {
+  -webkit-text-fill-color:
+    var(--login-text);
+
+  box-shadow:
+    0 0 0 1000px
+    #ffffff
+    inset;
+
+  transition:
+    background-color 9999s ease-out 0s;
+}
+
+
+/* ============================================================
+   16. PASSWORD FIELD
+   ------------------------------------------------------------
+   PasswordField utilise la structure Auth commune.
+
+   Les sélecteurs supplémentaires rendent ce CSS compatible
+   même si le bouton porte l'un des noms déjà utilisés dans
+   l'architecture Auth.
+   ============================================================ */
+
+.gestionnaire-login-form__password
+.gestionnaire-auth-field__input {
+  padding-right: 54px;
+}
+
+
+.gestionnaire-auth-field__toggle,
+.gestionnaire-auth-field__password-toggle,
+.gestionnaire-password-field__toggle {
+  position: absolute;
+
+  z-index: 3;
+
+  top: 50%;
+  right: 8px;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  color:
+    #8e939e;
+
+  background:
+    transparent;
+
+  cursor: pointer;
+
+  transform:
+    translateY(-50%);
+
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+
+.gestionnaire-auth-field__toggle:hover:not(:disabled),
+.gestionnaire-auth-field__password-toggle:hover:not(:disabled),
+.gestionnaire-password-field__toggle:hover:not(:disabled) {
+  color:
+    var(--login-primary);
+
+  background:
+    var(--login-primary-soft);
+}
+
+
+.gestionnaire-auth-field__toggle:focus-visible,
+.gestionnaire-auth-field__password-toggle:focus-visible,
+.gestionnaire-password-field__toggle:focus-visible {
+  outline:
+    2px solid
+    var(--login-primary);
+
+  outline-offset: 1px;
+}
+
+
+/*
+ * Fallback pour PasswordField si le bouton d'œil est placé
+ * directement comme bouton dans le contrôle sans classe toggle.
+ */
+
+.gestionnaire-login-form__password
+.gestionnaire-auth-field__control
+> button {
+  position: absolute;
+
+  z-index: 3;
+
+  top: 50%;
+  right: 8px;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  color:
+    #8e939e;
+
+  background:
+    transparent;
+
+  cursor: pointer;
+
+  transform:
+    translateY(-50%);
+
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+
+.gestionnaire-login-form__password
+.gestionnaire-auth-field__control
+> button:hover:not(:disabled) {
+  color:
+    var(--login-primary);
+
+  background:
+    var(--login-primary-soft);
+}
+
+
+.gestionnaire-login-form__password
+.gestionnaire-auth-field__control
+> button:focus-visible {
+  outline:
+    2px solid
+    var(--login-primary);
+
+  outline-offset: 1px;
+}
+
+
+/* ============================================================
+   17. ERROR FIELD
+   ============================================================ */
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__control,
+.gestionnaire-auth-field--error
+.gestionnaire-login-field__control {
+  border-color:
+    rgb(198 62 81 / 60%);
+
+  background:
+    #fffdfd;
+}
+
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__control:focus-within {
+  border-color:
+    var(--login-error);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(198 62 81 / 7%);
+}
+
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__icon {
+  color:
+    var(--login-error);
+}
+
+
+.gestionnaire-auth-field__error,
+.gestionnaire-login-field__error {
+  margin:
+    6px
+    2px
+    0;
+
+  color:
+    var(--login-error);
+
+  font-size: 0.7rem;
+  font-weight: 550;
+
+  line-height: 1.45;
+}
+
+
+/* ============================================================
+   18. DISABLED FIELD
+   ============================================================ */
+
+.gestionnaire-auth-field__input:disabled,
+.gestionnaire-login-field__input:disabled {
+  color:
+    #90949d;
+
+  cursor:
+    not-allowed;
+}
+
+
+.gestionnaire-auth-field__control:has(
+  .gestionnaire-auth-field__input:disabled
+),
+.gestionnaire-login-field__control:has(
+  .gestionnaire-login-field__input:disabled
+) {
+  background:
+    #f8f8f9;
+
+  opacity:
+    0.72;
+}
+
+
+/* ============================================================
+   19. FORGOT PASSWORD
+   ============================================================ */
+
+.gestionnaire-login-form__forgot {
+  width: 100%;
+
+  margin-top: 11px;
+
+  display: flex;
+
+  justify-content: flex-end;
+}
+
+
+.gestionnaire-login-form__forgot-link {
+  color:
+    var(--login-primary);
+
+  font-size: 0.72rem;
+  font-weight: 650;
+
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  transition:
+    color 150ms ease;
+}
+
+
+.gestionnaire-login-form__forgot-link:hover {
+  color:
+    var(--login-primary-dark);
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+
+.gestionnaire-login-form__forgot-link:focus-visible {
+  outline:
+    2px solid
+    rgb(237 0 109 / 28%);
+
+  outline-offset: 3px;
+
+  border-radius: 4px;
+}
+
+
+/* ============================================================
+   20. SUBMIT
+   ============================================================ */
+
+.gestionnaire-login-form__submit {
+  width: 100%;
+
+  min-height: 53px;
+
+  margin-top: 20px;
+
+  padding:
+    0
+    18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    var(--login-primary);
+
+  border-radius:
+    10px;
+
+  color:
+    #ffffff;
+
+  background:
+    var(--login-primary);
+
+  box-shadow:
+    0 8px 18px
+    rgb(237 0 109 / 15%);
+
+  font: inherit;
+
+  font-size: 0.82rem;
+  font-weight: 750;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+
+.gestionnaire-login-form__submit:hover:not(:disabled) {
+  background:
+    var(--login-primary-dark);
+
+  border-color:
+    var(--login-primary-dark);
+
+  box-shadow:
+    0 10px 22px
+    rgb(237 0 109 / 19%);
+}
+
+
+.gestionnaire-login-form__submit:active:not(:disabled) {
+  transform:
+    translateY(1px);
+}
+
+
+.gestionnaire-login-form__submit:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 20%);
+
+  outline-offset: 3px;
+}
+
+
+.gestionnaire-login-form__submit:disabled {
+  opacity:
+    0.72;
+
+  cursor:
+    wait;
+
+  box-shadow:
+    none;
+}
+
+
+.gestionnaire-login-form__submit-icon {
+  flex:
+    0 0 auto;
+
+  transition:
+    transform 160ms ease;
+}
+
+
+.gestionnaire-login-form__submit:hover:not(:disabled)
+.gestionnaire-login-form__submit-icon {
+  transform:
+    translateX(2px);
+}
+
+
+/* ============================================================
+   21. SUBMIT SPINNER
+   ============================================================ */
+
+.gestionnaire-login-form__spinner {
+  width: 18px;
+  height: 18px;
+
+  flex: 0 0 18px;
+
+  border:
+    2px solid
+    rgb(255 255 255 / 36%);
+
+  border-top-color:
+    #ffffff;
+
+  border-radius:
+    50%;
+
+  animation:
+    gestionnaire-login-spin
+    700ms
+    linear
+    infinite;
+}
+
+
+/* ============================================================
+   22. DIVIDER
+   ============================================================ */
+
+.gestionnaire-login-form__divider {
+  width: 100%;
+
+  margin:
+    23px
+    0
+    18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.gestionnaire-login-form__divider-line {
+  height: 1px;
+
+  flex:
+    1 1 auto;
+
+  background:
+    #eceef1;
+}
+
+
+.gestionnaire-login-form__divider-text {
+  flex:
+    0 0 auto;
+
+  color:
+    #9ca0aa;
+
+  font-size: 0.68rem;
+  font-weight: 550;
+
+  line-height: 1;
+}
+
+
+/* ============================================================
+   23. REGISTER INSIDE CARD
+   ============================================================ */
+
+.gestionnaire-login-form__register {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  text-align: center;
+}
+
+
+.gestionnaire-login-form__register-text {
+  color:
+    var(--login-text-muted);
+
+  font-size: 0.73rem;
+  font-weight: 450;
+
+  line-height: 1.45;
+}
+
+
+.gestionnaire-login-form__register-link {
+  color:
+    var(--login-primary);
+
+  font-size: 0.73rem;
+  font-weight: 700;
+
+  line-height: 1.45;
+
+  text-decoration: none;
+}
+
+
+.gestionnaire-login-form__register-link:hover {
+  color:
+    var(--login-primary-dark);
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+
+.gestionnaire-login-form__register-link:focus-visible {
+  outline:
+    2px solid
+    rgb(237 0 109 / 25%);
+
+  outline-offset: 3px;
+
+  border-radius: 4px;
+}
+
+
+/* ============================================================
+   24. SECURITY NOTICE
+   ============================================================ */
+
+.gestionnaire-login-security {
+  width: 100%;
+
+  margin-top: 23px;
+
+  padding:
+    13px
+    14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  border:
+    1px solid
+    #edf0f2;
+
+  border-radius:
+    10px;
+
+  background:
+    #fafbfb;
+}
+
+
+.gestionnaire-login-security__icon {
+  width: 39px;
+  height: 39px;
+
+  flex:
+    0 0 39px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color:
+    #8b929d;
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    #eceef1;
+
+  border-radius:
+    9px;
+}
+
+
+.gestionnaire-login-security__content {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.gestionnaire-login-security__title {
+  color:
+    #444852;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+.gestionnaire-login-security__description {
+  margin-top: 3px;
+
+  color:
+    #969aa4;
+
+  font-size: 0.66rem;
+  font-weight: 450;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   25. FOOTER
+   ============================================================ */
+
+.gestionnaire-login-footer {
+  width: 100%;
+
+  min-height: 62px;
+
+  padding:
+    14px
+    20px
+    22px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+.gestionnaire-login-footer__copyright {
+  margin: 0;
+
+  color:
+    #a1a5ae;
+
+  font-size: 0.67rem;
+  font-weight: 450;
+
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   26. SKELETON BASE
+   ============================================================ */
+
+.gestionnaire-login-page--loading {
+  pointer-events: none;
+}
+
+
+.gestionnaire-login-skeleton {
+  display: block;
+
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #eff0f2 0%,
+      #f7f7f8 45%,
+      #edeef0 100%
+    );
+
+  background-size:
+    220%
+    100%;
+
+  animation:
+    gestionnaire-login-skeleton
+    1.3s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   27. LOADING HEADER
+   ============================================================ */
+
+.gestionnaire-login-loading__brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.gestionnaire-login-loading__brand-logo {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 11px;
+}
+
+
+.gestionnaire-login-loading__brand-copy {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.gestionnaire-login-loading__brand-title {
+  width: 105px;
+  height: 11px;
+}
+
+
+.gestionnaire-login-loading__brand-subtitle {
+  width: 54px;
+  height: 8px;
+}
+
+
+.gestionnaire-login-loading__header-register {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.gestionnaire-login-loading__header-register-text {
+  width: 128px;
+  height: 10px;
+}
+
+
+.gestionnaire-login-loading__header-register-button {
+  width: 116px;
+  height: 42px;
+
+  border-radius: 9px;
+}
+
+
+/* ============================================================
+   28. LOADING CARD HEADER
+   ============================================================ */
+
+.gestionnaire-login-loading__eyebrow {
+  width: 126px;
+  height: 26px;
+
+  margin:
+    0
+    auto;
+
+  border-radius: 999px;
+}
+
+
+.gestionnaire-login-loading__title {
+  width: 145px;
+  height: 31px;
+
+  margin:
+    17px
+    auto
+    0;
+}
+
+
+.gestionnaire-login-loading__subtitle {
+  width: 225px;
+  max-width: 80%;
+
+  height: 11px;
+
+  margin:
+    11px
+    auto
+    0;
+}
+
+
+/* ============================================================
+   29. LOADING FIELDS
+   ============================================================ */
+
+.gestionnaire-login-loading__field {
+  position: relative;
+
+  width: 100%;
+  min-height: 54px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding:
+    0
+    15px;
+
+  border:
+    1px solid
+    var(--login-border);
+
+  border-radius:
+    var(--login-control-radius);
+
+  background:
+    #ffffff;
+}
+
+
+.gestionnaire-login-loading__field-icon {
+  width: 22px;
+  height: 22px;
+
+  flex:
+    0 0 22px;
+
+  border-radius: 5px;
+}
+
+
+.gestionnaire-login-loading__field-text {
+  width: 42%;
+  height: 10px;
+}
+
+
+/* ============================================================
+   30. LOADING FORGOT
+   ============================================================ */
+
+.gestionnaire-login-loading__forgot {
+  width: 112px;
+  height: 9px;
+}
+
+
+/* ============================================================
+   31. LOADING SUBMIT
+   ============================================================ */
+
+.gestionnaire-login-loading__submit {
+  width: 100%;
+  height: 53px;
+
+  margin-top: 20px;
+
+  border-radius: 10px;
+}
+
+
+/* ============================================================
+   32. LOADING DIVIDER
+   ============================================================ */
+
+.gestionnaire-login-loading__divider-text {
+  width: 18px;
+  height: 8px;
+}
+
+
+/* ============================================================
+   33. LOADING REGISTER
+   ============================================================ */
+
+.gestionnaire-login-loading__register-text {
+  width: 110px;
+  height: 9px;
+}
+
+
+.gestionnaire-login-loading__register-link {
+  width: 83px;
+  height: 9px;
+}
+
+
+/* ============================================================
+   34. LOADING SECURITY
+   ============================================================ */
+
+.gestionnaire-login-loading__security-icon {
+  width: 39px;
+  height: 39px;
+
+  flex:
+    0 0 39px;
+
+  border-radius: 9px;
+}
+
+
+.gestionnaire-login-loading__security-title {
+  width: 115px;
+  height: 9px;
+}
+
+
+.gestionnaire-login-loading__security-description {
+  width: 210px;
+  max-width: 100%;
+
+  height: 8px;
+
+  margin-top: 7px;
+}
+
+
+/* ============================================================
+   35. LOADING FOOTER
+   ============================================================ */
+
+.gestionnaire-login-loading__footer {
+  width: 160px;
+  height: 9px;
+}
+
+
+/* ============================================================
+   36. ANIMATIONS
+   ============================================================ */
+
+@keyframes gestionnaire-login-spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+@keyframes gestionnaire-login-skeleton {
+  0% {
+    background-position:
+      100%
+      0;
+  }
+
+  100% {
+    background-position:
+      -120%
+      0;
+  }
+}
+
+
+/* ============================================================
+   37. LAPTOP
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  .gestionnaire-login-header__inner {
+    padding-inline:
+      clamp(
+        20px,
+        3vw,
+        38px
+      );
+  }
+
+
+  .gestionnaire-login-main {
+    padding-top: 46px;
+    padding-bottom: 40px;
+  }
+}
+
+
+/* ============================================================
+   38. TABLET
+   ============================================================ */
+
+@media (max-width: 820px) {
+  .gestionnaire-login-header {
+    min-height: 76px;
+  }
+
+
+  .gestionnaire-login-header__inner {
+    min-height: 76px;
+
+    padding:
+      9px
+      18px;
+  }
+
+
+  .gestionnaire-login-header__logo {
+    width: 52px;
+    height: 52px;
+
+    flex-basis: 52px;
+  }
+
+
+  .gestionnaire-login-header__logo-image {
+    width: 49px;
+    height: 49px;
+  }
+
+
+  .gestionnaire-login-header__brand-copy strong {
+    font-size: 0.8rem;
+  }
+
+
+  .gestionnaire-login-header__brand-copy span {
+    font-size: 0.64rem;
+  }
+
+
+  .gestionnaire-login-header__register {
+    gap: 10px;
+  }
+
+
+  .gestionnaire-login-header__register-text {
+    font-size: 0.72rem;
+  }
+
+
+  .gestionnaire-login-header__register-button {
+    min-height: 40px;
+
+    padding-inline: 14px;
+  }
+
+
+  .gestionnaire-login-main {
+    padding:
+      38px
+      18px;
+  }
+
+
+  .gestionnaire-login-card {
+    max-width: 490px;
+
+    padding:
+      32px
+      34px
+      30px;
+  }
+}
+
+
+/* ============================================================
+   39. MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .gestionnaire-login-page {
+    grid-template-rows:
+      auto
+      minmax(0, 1fr)
+      auto;
+
+    background:
+      #fbfbfc;
+  }
+
+
+  /* ----------------------------------------------------------
+     BACKGROUND
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-page__decoration--left {
+    top: 18%;
+    left: -160px;
+
+    width: 290px;
+    height: 290px;
+  }
+
+
+  .gestionnaire-login-page__decoration--right {
+    right: -150px;
+    bottom: 6%;
+
+    width: 280px;
+    height: 280px;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-header {
+    min-height: 72px;
+  }
+
+
+  .gestionnaire-login-header__inner {
+    min-height: 72px;
+
+    padding:
+      8px
+      14px;
+
+    gap: 10px;
+  }
+
+
+  .gestionnaire-login-header__brand {
+    gap: 8px;
+  }
+
+
+  .gestionnaire-login-header__logo {
+    width: 48px;
+    height: 48px;
+
+    flex-basis: 48px;
+
+    border-radius: 9px;
+  }
+
+
+  .gestionnaire-login-header__logo-image {
+    width: 45px;
+    height: 45px;
+  }
+
+
+  .gestionnaire-login-header__brand-copy strong {
+    max-width: 115px;
+
+    font-size: 0.72rem;
+  }
+
+
+  .gestionnaire-login-header__brand-copy span {
+    font-size: 0.59rem;
+  }
+
+
+  .gestionnaire-login-header__register {
+    margin-left: auto;
+  }
+
+
+  .gestionnaire-login-header__register-text {
+    display: none;
+  }
+
+
+  .gestionnaire-login-header__register-button {
+    min-height: 38px;
+
+    padding:
+      0
+      13px;
+
+    border-radius: 8px;
+
+    font-size: 0.69rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     MAIN
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-main {
+    align-items: flex-start;
+
+    padding:
+      27px
+      13px
+      30px;
+  }
+
+
+  /* ----------------------------------------------------------
+     CARD
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-card {
+    max-width: none;
+
+    padding:
+      27px
+      20px
+      23px;
+
+    border-radius: 14px;
+
+    box-shadow:
+      0 10px 32px
+      rgb(15 23 42 / 5%);
+  }
+
+
+  .gestionnaire-login-card__header {
+    margin-bottom: 24px;
+  }
+
+
+  .gestionnaire-login-card__eyebrow {
+    min-height: 25px;
+
+    padding-inline: 10px;
+
+    font-size: 0.59rem;
+  }
+
+
+  .gestionnaire-login-card__title {
+    margin-top: 14px;
+
+    font-size: 1.65rem;
+  }
+
+
+  .gestionnaire-login-card__subtitle {
+    margin-top: 7px;
+
+    font-size: 0.77rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FORM
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-form__fields {
+    gap: 13px;
+  }
+
+
+  .gestionnaire-auth-field__control,
+  .gestionnaire-login-field__control,
+  .gestionnaire-login-loading__field {
+    min-height: 53px;
+  }
+
+
+  .gestionnaire-auth-field__input,
+  .gestionnaire-login-field__input {
+    height: 51px;
+
+    /*
+     * 16px évite le zoom automatique d'iOS au focus.
+     */
+    font-size: 16px;
+  }
+
+
+  .gestionnaire-login-form__forgot {
+    margin-top: 10px;
+  }
+
+
+  .gestionnaire-login-form__forgot-link {
+    font-size: 0.7rem;
+  }
+
+
+  .gestionnaire-login-form__submit {
+    min-height: 52px;
+
+    margin-top: 18px;
+
+    font-size: 0.79rem;
+  }
+
+
+  .gestionnaire-login-form__divider {
+    margin:
+      21px
+      0
+      17px;
+  }
+
+
+  .gestionnaire-login-form__register {
+    flex-wrap: wrap;
+  }
+
+
+  .gestionnaire-login-security {
+    margin-top: 21px;
+
+    padding:
+      12px;
+  }
+
+
+  .gestionnaire-login-security__icon {
+    width: 37px;
+    height: 37px;
+
+    flex-basis: 37px;
+  }
+
+
+  .gestionnaire-login-security__title {
+    font-size: 0.7rem;
+  }
+
+
+  .gestionnaire-login-security__description {
+    font-size: 0.63rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FOOTER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-footer {
+    min-height: 52px;
+
+    padding:
+      10px
+      14px
+      18px;
+  }
+
+
+  /* ----------------------------------------------------------
+     LOADING
+     ---------------------------------------------------------- */
+
+  .gestionnaire-login-loading__header-register-text {
+    display: none;
+  }
+
+
+  .gestionnaire-login-loading__header-register-button {
+    width: 105px;
+    height: 38px;
+  }
+}
+
+
+/* ============================================================
+   40. SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .gestionnaire-login-header__inner {
+    padding-inline: 11px;
+  }
+
+
+  .gestionnaire-login-header__brand-copy strong {
+    max-width: 95px;
+
+    font-size: 0.68rem;
+  }
+
+
+  .gestionnaire-login-header__brand-copy span {
+    display: none;
+  }
+
+
+  .gestionnaire-login-header__register-button {
+    min-height: 37px;
+
+    padding:
+      0
+      11px;
+
+    font-size: 0.66rem;
+  }
+
+
+  .gestionnaire-login-main {
+    padding:
+      23px
+      10px
+      26px;
+  }
+
+
+  .gestionnaire-login-card {
+    padding:
+      25px
+      17px
+      21px;
+  }
+
+
+  .gestionnaire-login-card__title {
+    font-size: 1.55rem;
+  }
+
+
+  .gestionnaire-login-card__subtitle {
+    font-size: 0.74rem;
+  }
+
+
+  .gestionnaire-login-form__message {
+    padding:
+      10px;
+
+    font-size: 0.69rem;
+  }
+
+
+  .gestionnaire-login-form__register {
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
+
+  .gestionnaire-login-security {
+    align-items: flex-start;
+  }
+}
+
+
+/* ============================================================
+   41. VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 350px) {
+  .gestionnaire-login-header__brand-copy {
+    display: none;
+  }
+
+
+  .gestionnaire-login-header__register-button {
+    padding-inline: 10px;
+  }
+
+
+  .gestionnaire-login-main {
+    padding-inline: 8px;
+  }
+
+
+  .gestionnaire-login-card {
+    padding:
+      23px
+      14px
+      20px;
+  }
+
+
+  .gestionnaire-auth-field__icon,
+  .gestionnaire-login-field__icon {
+    left: 13px;
+  }
+
+
+  .gestionnaire-auth-field__input,
+  .gestionnaire-login-field__input {
+    padding-left: 44px;
+  }
+
+
+  .gestionnaire-login-security__icon {
+    display: none;
+  }
+}
+
+
+/* ============================================================
+   42. SHORT DESKTOP SCREENS
+   ------------------------------------------------------------
+   Évite que le formulaire paraisse inutilement trop bas sur
+   les laptops avec peu de hauteur.
+   ============================================================ */
+
+@media (min-width: 601px) and (max-height: 760px) {
+  .gestionnaire-login-header {
+    min-height: 72px;
+  }
+
+
+  .gestionnaire-login-header__inner {
+    min-height: 72px;
+  }
+
+
+  .gestionnaire-login-header__logo {
+    width: 52px;
+    height: 52px;
+
+    flex-basis: 52px;
+  }
+
+
+  .gestionnaire-login-header__logo-image {
+    width: 49px;
+    height: 49px;
+  }
+
+
+  .gestionnaire-login-main {
+    align-items: flex-start;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+
+  .gestionnaire-login-card {
+    padding-top: 29px;
+    padding-bottom: 27px;
+  }
+}
+
+
+/* ============================================================
+   43. REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .gestionnaire-login-page *,
+  .gestionnaire-login-page *::before,
+  .gestionnaire-login-page *::after {
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+
+  .gestionnaire-login-skeleton {
+    animation: none;
+
+    background:
+      #eff0f2;
+  }
+}
+
+
+/* ============================================================
+   44. FORCED COLORS
+   ============================================================ */
+
+@media (forced-colors: active) {
+  .gestionnaire-login-card,
+  .gestionnaire-auth-field__control,
+  .gestionnaire-login-field__control,
+  .gestionnaire-login-security,
+  .gestionnaire-login-header__register-button,
+  .gestionnaire-login-form__submit {
+    border:
+      1px solid
+      CanvasText;
+  }
+
+
+  .gestionnaire-login-form__submit {
+    forced-color-adjust: none;
+
+    color:
+      Canvas;
+
+    background:
+      CanvasText;
+  }
+}
+
+
+/* ============================================================
+   45. PRINT
+   ============================================================ */
+
+@media print {
+  .gestionnaire-login-page {
+    display: block;
+
+    min-height: 0;
+
+    background:
+      #ffffff;
+  }
+
+
+  .gestionnaire-login-page__decoration,
+  .gestionnaire-login-footer {
+    display: none;
+  }
+
+
+  .gestionnaire-login-header {
+    border-bottom:
+      1px solid
+      #dddddd;
+
+    background:
+      #ffffff;
+  }
+
+
+  .gestionnaire-login-main {
+    padding:
+      30px
+      0;
+  }
+
+
+  .gestionnaire-login-card {
+    box-shadow: none;
+  }
+}

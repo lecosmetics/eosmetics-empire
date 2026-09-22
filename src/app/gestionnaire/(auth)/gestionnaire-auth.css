@@ -1,0 +1,2335 @@
+/* ============================================================
+   COSMETICS EMPIRE
+   AUTHENTIFICATION — ESPACE GESTIONNAIRE
+   ------------------------------------------------------------
+   Fichier :
+   src/app/gestionnaire/(auth)/gestionnaire-auth.css
+
+   UTILISÉ PAR :
+
+   /gestionnaire/inscription
+   /gestionnaire/verification
+   /gestionnaire/connexion
+
+   OBJECTIF :
+
+   Construire une seule base visuelle professionnelle pour
+   toutes les pages d'authentification Gestionnaire.
+
+   ARCHITECTURE :
+
+   Auth Layout
+   │
+   ├── Header Auth
+   │   ├── Logo officiel
+   │   └── Se connecter
+   │
+   └── Main
+       └── Carte Auth
+           ├── Badge
+           ├── Titre
+           ├── Sous-titre
+           ├── Notice
+           ├── Formulaire
+           └── Navigation secondaire
+
+   IMPORTANT :
+
+   - aucun shell privé ici ;
+   - aucune sidebar ;
+   - aucun dashboard ;
+   - aucune section marketing ;
+   - aucune illustration géante ;
+   - aucun style métier des futures pages privées.
+
+   Les couleurs principales restent basées sur les tokens
+   définis dans src/app/globals.css.
+   ============================================================ */
+
+
+/* ============================================================
+   1. AUTH TOKENS
+   ============================================================ */
+
+.gestionnaire-auth {
+  --gauth-primary:
+    var(--ce-primary, #ed006d);
+
+  --gauth-primary-hover:
+    var(--ce-primary-hover, #d60063);
+
+  --gauth-primary-active:
+    var(--ce-primary-active, #bd0058);
+
+  --gauth-primary-dark:
+    var(--ce-primary-dark, #9f0055);
+
+  --gauth-primary-soft:
+    rgb(237 0 109 / 7%);
+
+  --gauth-primary-soft-strong:
+    rgb(237 0 109 / 11%);
+
+  --gauth-primary-border:
+    rgb(237 0 109 / 22%);
+
+  --gauth-white:
+    var(--ce-white, #ffffff);
+
+  --gauth-background:
+    #fafbfc;
+
+  --gauth-surface:
+    #ffffff;
+
+  --gauth-surface-soft:
+    #f8f9fb;
+
+  --gauth-text:
+    var(--ce-text, #171a21);
+
+  --gauth-text-secondary:
+    var(--ce-text-secondary, #596172);
+
+  --gauth-text-muted:
+    var(--ce-text-muted, #858e9f);
+
+  --gauth-border:
+    var(--ce-border-light, #e2e6ed);
+
+  --gauth-border-strong:
+    var(--ce-border, #d6dce5);
+
+  --gauth-error:
+    var(--ce-danger, #dc3545);
+
+  --gauth-success:
+    var(--ce-success, #16864b);
+
+  --gauth-warning:
+    #a86600;
+
+  --gauth-card-width:
+    760px;
+
+  --gauth-header-height:
+    88px;
+
+  --gauth-field-height:
+    58px;
+
+  --gauth-radius-card:
+    18px;
+
+  --gauth-radius-field:
+    11px;
+
+  --gauth-shadow-card:
+    0 18px 50px rgb(27 35 52 / 7%),
+    0 2px 8px rgb(27 35 52 / 3%);
+
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  color:
+    var(--gauth-text);
+
+  background:
+    var(--gauth-background);
+
+  overflow-x: hidden;
+}
+
+
+/* ============================================================
+   2. GLOBAL AUTH BOX SIZING
+   ============================================================ */
+
+.gestionnaire-auth *,
+.gestionnaire-auth *::before,
+.gestionnaire-auth *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   3. AUTH MAIN
+   ============================================================ */
+
+.gestionnaire-auth__main {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    calc(
+      100vh -
+      var(--gauth-header-height)
+    );
+
+  min-height:
+    calc(
+      100dvh -
+      var(--gauth-header-height)
+    );
+
+  padding:
+    28px
+    var(--ce-page-padding-desktop, 28px)
+    48px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fafbfc 0%,
+      #ffffff 100%
+    );
+}
+
+
+/* ============================================================
+   4. AUTH CONTENT
+   ============================================================ */
+
+.gestionnaire-auth__content {
+  width: 100%;
+  min-width: 0;
+
+  max-width:
+    var(--gauth-card-width);
+
+  margin-inline: auto;
+}
+
+
+/* ============================================================
+   5. AUTH HEADER
+   ============================================================ */
+
+.gestionnaire-auth-header {
+  position: relative;
+  z-index: 20;
+
+  width: 100%;
+  height:
+    var(--gauth-header-height);
+
+  background:
+    rgb(255 255 255 / 97%);
+
+  border-bottom:
+    1px solid
+    var(--gauth-border);
+
+  box-shadow:
+    0 3px 16px
+    rgb(20 25 38 / 2%);
+}
+
+
+/* ============================================================
+   6. AUTH HEADER INNER
+   ============================================================ */
+
+.gestionnaire-auth-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1180px;
+  height: 100%;
+
+  margin-inline: auto;
+
+  padding-inline:
+    var(--ce-page-padding-desktop, 28px);
+}
+
+
+/* ============================================================
+   7. AUTH BRAND
+   ============================================================ */
+
+.gestionnaire-auth-header__brand {
+  display: inline-flex;
+  align-items: center;
+
+  min-width: 0;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+}
+
+.gestionnaire-auth-header__brand:focus-visible {
+  outline:
+    2px solid
+    var(--gauth-primary);
+
+  outline-offset: 4px;
+}
+
+
+/* ============================================================
+   8. AUTH LOGO
+   ============================================================ */
+
+.gestionnaire-auth-header__logo-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 126px;
+  height: 70px;
+
+  overflow: visible;
+}
+
+.gestionnaire-auth-header__logo {
+  display: block;
+
+  width: 126px;
+  height: auto;
+
+  max-width: 100%;
+
+  object-fit: contain;
+  object-position: left center;
+}
+
+
+/* ============================================================
+   9. HEADER LOGIN LINK
+   ============================================================ */
+
+.gestionnaire-auth-header__login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  min-height: 44px;
+
+  padding:
+    0
+    10px;
+
+  color:
+    var(--gauth-primary);
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 10px;
+
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.gestionnaire-auth-header__login:hover {
+  color:
+    var(--gauth-primary-hover);
+
+  background:
+    var(--gauth-primary-soft);
+}
+
+.gestionnaire-auth-header__login:focus-visible {
+  outline:
+    2px solid
+    var(--gauth-primary);
+
+  outline-offset: 2px;
+}
+
+.gestionnaire-auth-header__login svg {
+  flex: 0 0 auto;
+}
+
+
+/* ============================================================
+   10. AUTH CARD
+   ============================================================ */
+
+.gestionnaire-auth-card {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    26px
+    36px
+    28px;
+
+  background:
+    var(--gauth-surface);
+
+  border:
+    1px solid
+    var(--gauth-border);
+
+  border-radius:
+    var(--gauth-radius-card);
+
+  box-shadow:
+    var(--gauth-shadow-card);
+}
+
+
+/* ============================================================
+   11. AUTH CARD HEADER
+   ============================================================ */
+
+.gestionnaire-auth-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   12. AUTH BADGE
+   ============================================================ */
+
+.gestionnaire-auth-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 34px;
+
+  padding:
+    0
+    20px;
+
+  color:
+    var(--gauth-primary-dark);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(237 0 109 / 7%) 0%,
+      rgb(237 0 109 / 11%) 50%,
+      rgb(237 0 109 / 7%) 100%
+    );
+
+  border:
+    1px solid
+    rgb(237 0 109 / 4%);
+
+  border-radius:
+    999px;
+
+  font-size: 0.73rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   13. AUTH TITLE
+   ============================================================ */
+
+.gestionnaire-auth-card__title {
+  margin:
+    14px
+    0
+    0;
+
+  color:
+    var(--gauth-text);
+
+  font-family:
+    var(
+      --ce-font-serif,
+      Georgia,
+      "Times New Roman",
+      serif
+    );
+
+  font-size:
+    clamp(
+      2rem,
+      3vw,
+      2.55rem
+    );
+
+  font-weight: 700;
+
+  line-height: 1.08;
+
+  letter-spacing:
+    -0.03em;
+
+  text-wrap: balance;
+}
+
+
+/* ============================================================
+   14. AUTH SUBTITLE
+   ============================================================ */
+
+.gestionnaire-auth-card__subtitle {
+  max-width: 580px;
+
+  margin:
+    8px
+    auto
+    0;
+
+  color:
+    var(--gauth-text-secondary);
+
+  font-size:
+    clamp(
+      0.96rem,
+      1.6vw,
+      1.08rem
+    );
+
+  font-weight: 400;
+
+  line-height: 1.5;
+}
+
+
+/* ============================================================
+   15. REGISTRATION NOTICE
+   ============================================================ */
+
+.gestionnaire-auth-notice {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin-top: 19px;
+
+  padding:
+    13px
+    16px;
+
+  color:
+    var(--gauth-primary-dark);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgb(237 0 109 / 7%) 0%,
+      rgb(237 0 109 / 9%) 100%
+    );
+
+  border:
+    1px solid
+    rgb(237 0 109 / 5%);
+
+  border-radius: 10px;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  line-height: 1.45;
+}
+
+.gestionnaire-auth-notice__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 1px;
+
+  color:
+    var(--gauth-primary);
+}
+
+.gestionnaire-auth-notice__text {
+  min-width: 0;
+}
+
+
+/* ============================================================
+   16. AUTH FORM
+   ============================================================ */
+
+.gestionnaire-auth-form {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  margin-top: 18px;
+}
+
+
+/* ============================================================
+   17. FORM FIELDS STACK
+   ============================================================ */
+
+.gestionnaire-auth-form__fields {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+
+/* ============================================================
+   18. FIELD GROUP
+   ============================================================ */
+
+.gestionnaire-auth-field {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ============================================================
+   19. ACCESSIBLE LABEL
+   ============================================================ */
+
+.gestionnaire-auth-field__label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    var(--gauth-text);
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  line-height: 1.35;
+}
+
+
+/* ============================================================
+   20. VISUALLY HIDDEN LABEL
+   ============================================================ */
+
+.gestionnaire-auth-field__label--sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+/* ============================================================
+   21. FIELD CONTROL
+   ============================================================ */
+
+.gestionnaire-auth-field__control {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    var(--gauth-field-height);
+
+  background:
+    var(--gauth-surface);
+
+  border:
+    1px solid
+    var(--gauth-border-strong);
+
+  border-radius:
+    var(--gauth-radius-field);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.gestionnaire-auth-field__control:hover {
+  border-color:
+    #c8ced9;
+}
+
+.gestionnaire-auth-field__control:focus-within {
+  border-color:
+    rgb(237 0 109 / 52%);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(237 0 109 / 7%);
+}
+
+
+/* ============================================================
+   22. FIELD ICON
+   ============================================================ */
+
+.gestionnaire-auth-field__icon {
+  position: absolute;
+
+  left: 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  color:
+    #697386;
+
+  pointer-events: none;
+}
+
+.gestionnaire-auth-field__icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+
+/* ============================================================
+   23. INPUT
+   ============================================================ */
+
+.gestionnaire-auth-field__input {
+  width: 100%;
+  min-width: 0;
+  height:
+    calc(
+      var(--gauth-field-height) -
+      2px
+    );
+
+  padding:
+    0
+    16px
+    0
+    51px;
+
+  color:
+    var(--gauth-text);
+
+  background:
+    transparent;
+
+  border: 0;
+
+  border-radius:
+    inherit;
+
+  outline: none;
+
+  appearance: none;
+
+  font: inherit;
+
+  font-size: 0.95rem;
+  font-weight: 400;
+
+  line-height: 1.3;
+}
+
+.gestionnaire-auth-field__input::placeholder {
+  color:
+    #7e889a;
+
+  opacity: 1;
+}
+
+
+/* ============================================================
+   24. INPUT WITHOUT LEFT ICON
+   ============================================================ */
+
+.gestionnaire-auth-field__input--no-icon {
+  padding-left: 16px;
+}
+
+
+/* ============================================================
+   25. INPUT WITH RIGHT ACTION
+   ============================================================ */
+
+.gestionnaire-auth-field__input--with-action {
+  padding-right: 52px;
+}
+
+
+/* ============================================================
+   26. AUTOFILL
+   ============================================================ */
+
+.gestionnaire-auth-field__input:-webkit-autofill,
+.gestionnaire-auth-field__input:-webkit-autofill:hover,
+.gestionnaire-auth-field__input:-webkit-autofill:focus {
+  -webkit-text-fill-color:
+    var(--gauth-text);
+
+  box-shadow:
+    0 0 0 1000px
+    var(--gauth-surface)
+    inset;
+
+  transition:
+    background-color
+    9999s ease-out 0s;
+}
+
+
+/* ============================================================
+   27. DISABLED FIELD
+   ============================================================ */
+
+.gestionnaire-auth-field__control:has(
+  .gestionnaire-auth-field__input:disabled
+) {
+  background:
+    #f5f6f8;
+
+  border-color:
+    #e2e5eb;
+
+  opacity: 0.72;
+}
+
+.gestionnaire-auth-field__input:disabled {
+  cursor:
+    not-allowed;
+}
+
+
+/* ============================================================
+   28. FIELD ERROR STATE
+   ============================================================ */
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__control {
+  border-color:
+    rgb(220 53 69 / 60%);
+}
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__control:focus-within {
+  border-color:
+    var(--gauth-error);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(220 53 69 / 8%);
+}
+
+.gestionnaire-auth-field--error
+.gestionnaire-auth-field__icon {
+  color:
+    var(--gauth-error);
+}
+
+
+/* ============================================================
+   29. ERROR MESSAGE
+   ============================================================ */
+
+.gestionnaire-auth-field__error {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 6px;
+
+  margin-top: 6px;
+
+  color:
+    var(--gauth-error);
+
+  font-size: 0.76rem;
+  font-weight: 500;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   30. SUCCESS STATE
+   ============================================================ */
+
+.gestionnaire-auth-field--success
+.gestionnaire-auth-field__control {
+  border-color:
+    rgb(22 134 75 / 42%);
+}
+
+
+/* ============================================================
+   31. FIELD HELP
+   ============================================================ */
+
+.gestionnaire-auth-field__help {
+  margin-top: 6px;
+
+  color:
+    var(--gauth-text-muted);
+
+  font-size: 0.73rem;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   32. COUNTRY SELECT
+   ============================================================ */
+
+.gestionnaire-country-select {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.gestionnaire-country-select__select {
+  width: 100%;
+  min-width: 0;
+
+  height:
+    calc(
+      var(--gauth-field-height) -
+      2px
+    );
+
+  padding:
+    0
+    48px
+    0
+    51px;
+
+  color:
+    var(--gauth-text);
+
+  background:
+    transparent;
+
+  border: 0;
+
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  font: inherit;
+
+  font-size: 0.95rem;
+
+  cursor: pointer;
+}
+
+.gestionnaire-country-select__select:invalid {
+  color:
+    #7e889a;
+}
+
+.gestionnaire-country-select__chevron {
+  position: absolute;
+
+  top: 50%;
+  right: 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color:
+    #677184;
+
+  pointer-events: none;
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* ============================================================
+   33. PHONE INPUT
+   ============================================================ */
+
+.gestionnaire-phone-input {
+  display: flex;
+  align-items: stretch;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.gestionnaire-phone-input__prefix {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 76px;
+
+  padding:
+    0
+    12px;
+
+  color:
+    var(--gauth-text-secondary);
+
+  background:
+    #f8f9fb;
+
+  border-right:
+    1px solid
+    var(--gauth-border);
+
+  border-radius:
+    var(--gauth-radius-field)
+    0
+    0
+    var(--gauth-radius-field);
+
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-phone-input__number {
+  flex: 1 1 auto;
+
+  min-width: 0;
+}
+
+
+/* ============================================================
+   34. PASSWORD FIELD
+   ============================================================ */
+
+.gestionnaire-password-field {
+  position: relative;
+
+  width: 100%;
+}
+
+
+/* ============================================================
+   35. PASSWORD VISIBILITY BUTTON
+   ============================================================ */
+
+.gestionnaire-password-field__toggle {
+  position: absolute;
+
+  top: 50%;
+  right: 9px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  color:
+    #687386;
+
+  background:
+    transparent;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transform:
+    translateY(-50%);
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.gestionnaire-password-field__toggle:hover {
+  color:
+    var(--gauth-primary);
+
+  background:
+    var(--gauth-primary-soft);
+}
+
+.gestionnaire-password-field__toggle:focus-visible {
+  outline:
+    2px solid
+    var(--gauth-primary);
+
+  outline-offset: 1px;
+}
+
+
+/* ============================================================
+   36. PASSWORD REQUIREMENTS
+   ============================================================ */
+
+.gestionnaire-password-field__requirements {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap:
+    5px
+    12px;
+
+  margin-top: 7px;
+
+  color:
+    var(--gauth-text-muted);
+
+  font-size: 0.72rem;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   37. FORM GLOBAL ERROR
+   ============================================================ */
+
+.gestionnaire-auth-form__error {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  padding:
+    11px
+    13px;
+
+  color:
+    #a52c39;
+
+  background:
+    rgb(220 53 69 / 6%);
+
+  border:
+    1px solid
+    rgb(220 53 69 / 12%);
+
+  border-radius: 9px;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  line-height: 1.45;
+}
+
+
+/* ============================================================
+   38. FORM GLOBAL SUCCESS
+   ============================================================ */
+
+.gestionnaire-auth-form__success {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  padding:
+    11px
+    13px;
+
+  color:
+    #126c3d;
+
+  background:
+    rgb(22 134 75 / 6%);
+
+  border:
+    1px solid
+    rgb(22 134 75 / 12%);
+
+  border-radius: 9px;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  line-height: 1.45;
+}
+
+
+/* ============================================================
+   39. SUBMIT
+   ============================================================ */
+
+.gestionnaire-auth-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  width: 100%;
+  min-height: 56px;
+
+  margin-top: 18px;
+
+  padding:
+    0
+    20px;
+
+  color:
+    #ffffff;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--gauth-primary-dark) 0%,
+      var(--gauth-primary) 100%
+    );
+
+  border: 0;
+
+  border-radius:
+    10px;
+
+  box-shadow:
+    0 9px 22px
+    rgb(237 0 109 / 14%);
+
+  font: inherit;
+
+  font-size: 0.93rem;
+  font-weight: 700;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease,
+    opacity 160ms ease;
+}
+
+.gestionnaire-auth-form__submit:hover:not(:disabled) {
+  filter:
+    brightness(1.02);
+
+  box-shadow:
+    0 11px 25px
+    rgb(237 0 109 / 19%);
+}
+
+.gestionnaire-auth-form__submit:active:not(:disabled) {
+  transform:
+    translateY(1px);
+}
+
+.gestionnaire-auth-form__submit:focus-visible {
+  outline:
+    3px solid
+    rgb(237 0 109 / 20%);
+
+  outline-offset: 3px;
+}
+
+.gestionnaire-auth-form__submit:disabled {
+  opacity: 0.62;
+
+  cursor:
+    not-allowed;
+
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   40. SUBMIT ICON
+   ============================================================ */
+
+.gestionnaire-auth-form__submit-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================================================
+   41. LOADING SPINNER
+   ============================================================ */
+
+.gestionnaire-auth-spinner {
+  width: 18px;
+  height: 18px;
+
+  border:
+    2px solid
+    rgb(255 255 255 / 38%);
+
+  border-top-color:
+    #ffffff;
+
+  border-radius: 50%;
+
+  animation:
+    gestionnaire-auth-spin
+    700ms
+    linear
+    infinite;
+}
+
+@keyframes gestionnaire-auth-spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* ============================================================
+   42. AUTH FOOTER DIVIDER
+   ============================================================ */
+
+.gestionnaire-auth-card__footer {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  margin-top: 22px;
+
+  color:
+    var(--gauth-text-secondary);
+
+  font-size: 0.82rem;
+
+  text-align: center;
+}
+
+.gestionnaire-auth-card__footer::before,
+.gestionnaire-auth-card__footer::after {
+  content: "";
+
+  flex: 1 1 auto;
+
+  height: 1px;
+
+  background:
+    var(--gauth-border);
+}
+
+
+/* ============================================================
+   43. AUTH FOOTER TEXT
+   ============================================================ */
+
+.gestionnaire-auth-card__footer-text {
+  flex: 0 1 auto;
+
+  min-width: 0;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   44. AUTH FOOTER LINK
+   ============================================================ */
+
+.gestionnaire-auth-card__footer-link {
+  color:
+    var(--gauth-primary);
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.gestionnaire-auth-card__footer-link:hover {
+  color:
+    var(--gauth-primary-hover);
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+.gestionnaire-auth-card__footer-link:focus-visible {
+  outline:
+    2px solid
+    var(--gauth-primary);
+
+  outline-offset: 3px;
+
+  border-radius: 3px;
+}
+
+
+/* ============================================================
+   45. OTP / VERIFICATION PAGE
+   ============================================================ */
+
+.gestionnaire-verification {
+  width: 100%;
+}
+
+
+/* ============================================================
+   46. OTP FIELDSET
+   ============================================================ */
+
+.gestionnaire-verification__otp {
+  display: flex;
+  justify-content: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  margin-top: 23px;
+}
+
+
+/* ============================================================
+   47. OTP INPUT
+   ============================================================ */
+
+.gestionnaire-verification__otp-input {
+  width: 56px;
+  height: 62px;
+
+  padding: 0;
+
+  color:
+    var(--gauth-text);
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    var(--gauth-border-strong);
+
+  border-radius: 11px;
+
+  outline: none;
+
+  font: inherit;
+
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  line-height: 1;
+
+  text-align: center;
+
+  caret-color:
+    var(--gauth-primary);
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.gestionnaire-verification__otp-input:focus {
+  border-color:
+    rgb(237 0 109 / 55%);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(237 0 109 / 8%);
+}
+
+
+/* ============================================================
+   48. VERIFICATION EMAIL
+   ============================================================ */
+
+.gestionnaire-verification__email {
+  color:
+    var(--gauth-text);
+
+  font-weight: 600;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ============================================================
+   49. OTP RESEND AREA
+   ============================================================ */
+
+.gestionnaire-verification__resend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-top: 18px;
+
+  color:
+    var(--gauth-text-secondary);
+
+  font-size: 0.8rem;
+
+  text-align: center;
+}
+
+
+/* ============================================================
+   50. RESEND BUTTON
+   ============================================================ */
+
+.gestionnaire-verification__resend-button {
+  padding: 0;
+
+  color:
+    var(--gauth-primary);
+
+  background:
+    transparent;
+
+  border: 0;
+
+  font: inherit;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.gestionnaire-verification__resend-button:hover:not(:disabled) {
+  color:
+    var(--gauth-primary-hover);
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+}
+
+.gestionnaire-verification__resend-button:disabled {
+  color:
+    var(--gauth-text-muted);
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ============================================================
+   51. OTP TIMER
+   ============================================================ */
+
+.gestionnaire-verification__timer {
+  color:
+    var(--gauth-text-muted);
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ============================================================
+   52. VERIFICATION BACK
+   ============================================================ */
+
+.gestionnaire-verification__back {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 17px;
+}
+
+.gestionnaire-verification__back-link {
+  color:
+    var(--gauth-text-secondary);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+
+  text-decoration: none;
+}
+
+.gestionnaire-verification__back-link:hover {
+  color:
+    var(--gauth-primary);
+}
+
+
+/* ============================================================
+   53. SCREEN READER UTILITY
+   ============================================================ */
+
+.gestionnaire-auth-sr-only {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    ) !important;
+
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+
+/* ============================================================
+   54. LAPTOP
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  .gestionnaire-auth__main {
+    padding-top: 26px;
+  }
+
+  .gestionnaire-auth-header__inner {
+    max-width: 1080px;
+  }
+}
+
+
+/* ============================================================
+   55. TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .gestionnaire-auth {
+    --gauth-card-width:
+      720px;
+
+    --gauth-header-height:
+      82px;
+  }
+
+  .gestionnaire-auth-header__inner {
+    padding-inline:
+      var(
+        --ce-page-padding-tablet,
+        22px
+      );
+  }
+
+  .gestionnaire-auth-header__logo-wrapper {
+    width: 116px;
+    height: 64px;
+  }
+
+  .gestionnaire-auth-header__logo {
+    width: 116px;
+  }
+
+  .gestionnaire-auth__main {
+    padding:
+      24px
+      var(
+        --ce-page-padding-tablet,
+        22px
+      )
+      42px;
+  }
+
+  .gestionnaire-auth-card {
+    padding:
+      25px
+      30px
+      27px;
+  }
+}
+
+
+/* ============================================================
+   56. MOBILE
+   ============================================================ */
+
+@media (max-width: 767px) {
+  .gestionnaire-auth {
+    --gauth-header-height:
+      78px;
+
+    --gauth-field-height:
+      57px;
+
+    --gauth-radius-card:
+      17px;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-header__inner {
+    gap: 12px;
+
+    padding-inline:
+      18px;
+  }
+
+  .gestionnaire-auth-header__logo-wrapper {
+    width: 105px;
+    height: 60px;
+  }
+
+  .gestionnaire-auth-header__logo {
+    width: 105px;
+  }
+
+  .gestionnaire-auth-header__login {
+    gap: 7px;
+
+    min-height: 42px;
+
+    padding-inline: 7px;
+
+    font-size: 0.86rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     MAIN
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth__main {
+    min-height:
+      calc(
+        100dvh -
+        var(--gauth-header-height)
+      );
+
+    padding:
+      16px
+      14px
+      30px;
+  }
+
+
+  /* ----------------------------------------------------------
+     CARD
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card {
+    padding:
+      23px
+      20px
+      24px;
+
+    border-radius:
+      var(--gauth-radius-card);
+
+    box-shadow:
+      0 10px 28px
+      rgb(27 35 52 / 5%);
+  }
+
+
+  /* ----------------------------------------------------------
+     BADGE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__badge {
+    min-height: 32px;
+
+    padding-inline: 17px;
+
+    font-size: 0.69rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     TITLE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__title {
+    margin-top: 14px;
+
+    font-size:
+      clamp(
+        1.8rem,
+        8vw,
+        2.2rem
+      );
+
+    line-height: 1.08;
+  }
+
+
+  /* ----------------------------------------------------------
+     SUBTITLE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__subtitle {
+    margin-top: 8px;
+
+    font-size: 0.96rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     NOTICE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-notice {
+    gap: 10px;
+
+    margin-top: 20px;
+
+    padding:
+      13px
+      14px;
+
+    font-size: 0.82rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FORM
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-form {
+    margin-top: 17px;
+  }
+
+  .gestionnaire-auth-form__fields {
+    gap: 10px;
+  }
+
+
+  /* ----------------------------------------------------------
+     INPUT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-field__input,
+  .gestionnaire-country-select__select {
+    font-size: 0.93rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     SUBMIT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-form__submit {
+    min-height: 56px;
+
+    margin-top: 17px;
+
+    font-size: 0.91rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FOOTER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__footer {
+    gap: 12px;
+
+    margin-top: 22px;
+
+    font-size: 0.8rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     OTP
+     ---------------------------------------------------------- */
+
+  .gestionnaire-verification__otp {
+    gap: 8px;
+  }
+
+  .gestionnaire-verification__otp-input {
+    width:
+      clamp(
+        42px,
+        12vw,
+        52px
+      );
+
+    height: 58px;
+
+    font-size: 1.3rem;
+  }
+}
+
+
+/* ============================================================
+   57. MOBILE STANDARD
+   ============================================================ */
+
+@media (max-width: 540px) {
+  .gestionnaire-auth__main {
+    padding-inline: 12px;
+  }
+
+  .gestionnaire-auth-card {
+    padding:
+      22px
+      17px
+      23px;
+  }
+
+  .gestionnaire-auth-field__icon {
+    left: 15px;
+  }
+
+  .gestionnaire-auth-field__input {
+    padding-left: 47px;
+  }
+
+  .gestionnaire-country-select__select {
+    padding-left: 47px;
+  }
+
+  .gestionnaire-auth-field__input--no-icon {
+    padding-left: 15px;
+  }
+
+  .gestionnaire-auth-card__footer {
+    gap: 9px;
+  }
+}
+
+
+/* ============================================================
+   58. SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .gestionnaire-auth {
+    --gauth-header-height:
+      74px;
+
+    --gauth-field-height:
+      55px;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-header__inner {
+    padding-inline: 14px;
+  }
+
+  .gestionnaire-auth-header__logo-wrapper {
+    width: 94px;
+    height: 56px;
+  }
+
+  .gestionnaire-auth-header__logo {
+    width: 94px;
+  }
+
+  .gestionnaire-auth-header__login {
+    font-size: 0.8rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     MAIN
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth__main {
+    padding:
+      12px
+      10px
+      26px;
+  }
+
+
+  /* ----------------------------------------------------------
+     CARD
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card {
+    padding:
+      20px
+      14px
+      22px;
+
+    border-radius: 15px;
+  }
+
+
+  /* ----------------------------------------------------------
+     TITLE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__title {
+    font-size:
+      clamp(
+        1.68rem,
+        8.8vw,
+        2rem
+      );
+  }
+
+
+  /* ----------------------------------------------------------
+     SUBTITLE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__subtitle {
+    font-size: 0.9rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     NOTICE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-notice {
+    padding:
+      12px
+      12px;
+
+    font-size: 0.78rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FIELDS
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-field__icon {
+    left: 13px;
+  }
+
+  .gestionnaire-auth-field__input {
+    padding:
+      0
+      13px
+      0
+      44px;
+
+    font-size: 0.88rem;
+  }
+
+  .gestionnaire-country-select__select {
+    padding:
+      0
+      42px
+      0
+      44px;
+
+    font-size: 0.88rem;
+  }
+
+  .gestionnaire-auth-field__input--no-icon {
+    padding-left: 13px;
+  }
+
+  .gestionnaire-auth-field__input--with-action {
+    padding-right: 48px;
+  }
+
+
+  /* ----------------------------------------------------------
+     PHONE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-phone-input__prefix {
+    min-width: 66px;
+
+    padding-inline: 9px;
+
+    font-size: 0.8rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     FOOTER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-auth-card__footer {
+    gap: 7px;
+
+    font-size: 0.76rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     OTP
+     ---------------------------------------------------------- */
+
+  .gestionnaire-verification__otp {
+    gap: 6px;
+  }
+
+  .gestionnaire-verification__otp-input {
+    width:
+      clamp(
+        38px,
+        12vw,
+        47px
+      );
+
+    height: 54px;
+
+    border-radius: 9px;
+
+    font-size: 1.2rem;
+  }
+}
+
+
+/* ============================================================
+   59. VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 360px) {
+  .gestionnaire-auth-header__logo-wrapper {
+    width: 86px;
+  }
+
+  .gestionnaire-auth-header__logo {
+    width: 86px;
+  }
+
+  .gestionnaire-auth-header__login {
+    gap: 5px;
+
+    padding-inline: 4px;
+
+    font-size: 0.76rem;
+  }
+
+  .gestionnaire-auth-card {
+    padding-inline: 12px;
+  }
+
+  .gestionnaire-auth-card__footer::before,
+  .gestionnaire-auth-card__footer::after {
+    display: none;
+  }
+
+  .gestionnaire-auth-card__footer {
+    justify-content: center;
+  }
+
+  .gestionnaire-verification__otp {
+    gap: 5px;
+  }
+
+  .gestionnaire-verification__otp-input {
+    width:
+      calc(
+        (
+          100vw -
+          74px
+        ) /
+        6
+      );
+
+    max-width: 44px;
+  }
+}
+
+
+/* ============================================================
+   60. LARGE DESKTOP
+   ============================================================ */
+
+@media (min-width: 1440px) {
+  .gestionnaire-auth {
+    --gauth-card-width:
+      780px;
+  }
+
+  .gestionnaire-auth__main {
+    padding-top: 30px;
+  }
+
+  .gestionnaire-auth-card {
+    padding:
+      28px
+      38px
+      30px;
+  }
+}
+
+
+/* ============================================================
+   61. VERY LARGE DESKTOP
+   ============================================================ */
+
+@media (min-width: 1800px) {
+  .gestionnaire-auth__main {
+    padding-top: 34px;
+  }
+}
+
+
+/* ============================================================
+   62. TOUCH DEVICES
+   ============================================================ */
+
+@media (pointer: coarse) {
+  .gestionnaire-auth-header__login,
+  .gestionnaire-password-field__toggle,
+  .gestionnaire-verification__resend-button {
+    min-height: 44px;
+  }
+}
+
+
+/* ============================================================
+   63. REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .gestionnaire-auth-header__login,
+  .gestionnaire-auth-field__control,
+  .gestionnaire-password-field__toggle,
+  .gestionnaire-auth-form__submit,
+  .gestionnaire-verification__otp-input {
+    transition: none;
+  }
+
+  .gestionnaire-auth-spinner {
+    animation-duration: 1.2s;
+  }
+}
+
+
+/* ============================================================
+   64. HIGH CONTRAST
+   ============================================================ */
+
+@media (forced-colors: active) {
+  .gestionnaire-auth-card,
+  .gestionnaire-auth-field__control,
+  .gestionnaire-verification__otp-input {
+    border:
+      1px solid
+      CanvasText;
+  }
+
+  .gestionnaire-auth-form__submit {
+    border:
+      1px solid
+      ButtonText;
+  }
+}
+
+
+/* ============================================================
+   65. PRINT
+   ============================================================ */
+
+@media print {
+  .gestionnaire-auth-header {
+    display: none;
+  }
+
+  .gestionnaire-auth {
+    min-height: 0;
+
+    background:
+      #ffffff;
+  }
+
+  .gestionnaire-auth__main {
+    min-height: 0;
+
+    padding: 0;
+
+    background:
+      #ffffff;
+  }
+
+  .gestionnaire-auth-card {
+    max-width: 100%;
+
+    border:
+      1px solid
+      #dddddd;
+
+    box-shadow: none;
+  }
+}

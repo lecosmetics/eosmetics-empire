@@ -1,0 +1,1501 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/**
+ * ============================================================================
+ * L&E COSMETICS â€” SCHÃ‰MA PRINCIPAL
+ * ============================================================================
+ * Architecture :
+ * - Boutiques / points de vente
+ * - Gestionnaires et authentification
+ * - Inscription sÃ©curisÃ©e avec OTP e-mail
+ * - Catalogue officiel L&E
+ * - Produits crÃ©Ã©s par les boutiques
+ * - Produits commercialisÃ©s par chaque boutique
+ * - Images produit
+ * - Prix normal et prix barrÃ© / promotionnel
+ * - Devise propre au marchÃ© / point de vente
+ * - QR Code public stable par produit/boutique
+ * - Stock courant
+ * - Historique des mouvements de stock
+ * - Clients et adresses
+ * - Commandes
+ * - Paiements
+ * - Livraisons
+ * - ReÃ§us
+ * - Notifications
+ * - Historique des e-mails
+ * - Journal d'audit
+ * - SÃ©curitÃ© / rate limiting
+ * PostgreSQL + Prisma
+ * IMPORTANT :
+ * Le schÃ©ma conserve une sÃ©paration claire entre :
+ * Product
+ * = identitÃ© et informations du produit.
+ * StoreProduct
+ * = commercialisation du produit par une boutique :
+ * prix, devise, stock, statut commercial et QR stable.
+ * ============================================================================
+ */
+
+/**
+ * ============================================================================
+ * ENUMS â€” BOUTIQUES
+ * ============================================================================
+ */
+
+enum StoreType {
+  BOUTIQUE
+  POINT_OF_SALE
+  REPRESENTATIVE
+}
+
+enum StoreStatus {
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” GESTIONNAIRES
+ * ============================================================================
+ */
+
+enum ManagerRole {
+  OWNER
+  MANAGER
+  STAFF
+}
+
+enum ManagerStatus {
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” INSCRIPTION
+ * ============================================================================
+ */
+
+enum RegistrationStatus {
+  WAITING_EMAIL_VERIFICATION
+  EMAIL_VERIFIED
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” PRODUITS
+ * ============================================================================
+ * CATALOG :
+ * Produit appartenant au catalogue officiel L&E.
+ * STORE :
+ * Produit crÃ©Ã© directement par une boutique / un gestionnaire.
+ * ============================================================================
+ */
+
+enum ProductOrigin {
+  CATALOG
+  STORE
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+/**
+ * ============================================================================
+ * STATUT COMMERCIAL D'UN PRODUIT DANS UNE BOUTIQUE
+ * ============================================================================
+ * ACTIVE :
+ * produit visible/commercialisable lorsque les autres rÃ¨gles mÃ©tier
+ * sont respectÃ©es.
+ * OUT_OF_STOCK :
+ * produit existant mais sans stock disponible.
+ * HIDDEN :
+ * produit volontairement masquÃ© de la boutique publique.
+ * ARCHIVED :
+ * produit conservÃ© historiquement mais retirÃ© du fonctionnement normal.
+ * La future interface peut reprÃ©senter :
+ * PubliÃ© :
+ * Product.status = ACTIVE
+ * StoreProduct.status = ACTIVE ou OUT_OF_STOCK
+ * Brouillon :
+ * Product.status = DRAFT
+ * StoreProduct.status = HIDDEN
+ * Inactif :
+ * Product.status = ACTIVE
+ * StoreProduct.status = HIDDEN
+ * Aucun nouvel enum n'est donc nÃ©cessaire uniquement pour l'interface.
+ * ============================================================================
+ */
+
+enum StoreProductStatus {
+  ACTIVE
+  OUT_OF_STOCK
+  HIDDEN
+  ARCHIVED
+}
+
+/**
+ * ============================================================================
+ * MOUVEMENTS DE STOCK
+ * ============================================================================
+ * INITIAL :
+ * stock renseignÃ© lors de la premiÃ¨re crÃ©ation du produit.
+ * RESTOCK :
+ * ajout ultÃ©rieur de stock.
+ * SALE :
+ * diminution liÃ©e Ã  une vente.
+ * RETURN :
+ * retour produit.
+ * ADJUSTMENT_IN / ADJUSTMENT_OUT :
+ * correction manuelle.
+ * CANCELLATION :
+ * restitution de stock aprÃ¨s annulation selon les rÃ¨gles mÃ©tier.
+ * ============================================================================
+ */
+
+enum StockMovementType {
+  INITIAL
+  RESTOCK
+  SALE
+  RETURN
+  ADJUSTMENT_IN
+  ADJUSTMENT_OUT
+  CANCELLATION
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” CLIENTS
+ * ============================================================================
+ */
+
+enum CustomerStatus {
+  ACTIVE
+  BLOCKED
+  ARCHIVED
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+  OTHER
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” COMMANDES
+ * ============================================================================
+ */
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum OrderSource {
+  WEBSITE
+  MANAGER
+  STORE
+  OTHER
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” PAIEMENTS
+ * ============================================================================
+ */
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  MOBILE_MONEY
+  CARD
+  BANK_TRANSFER
+  OTHER
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” LIVRAISONS
+ * ============================================================================
+ */
+
+enum ShipmentStatus {
+  PENDING
+  PREPARING
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+  RETURNED
+  CANCELLED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” REÃ‡US
+ * ============================================================================
+ */
+
+enum ReceiptStatus {
+  ISSUED
+  CANCELLED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” NOTIFICATIONS
+ * ============================================================================
+ */
+
+enum NotificationType {
+  ORDER
+  PAYMENT
+  STOCK
+  DELIVERY
+  SECURITY
+  SYSTEM
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  READ
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” E-MAILS
+ * ============================================================================
+ */
+
+enum EmailType {
+  REGISTRATION_OTP
+  WELCOME
+  PASSWORD_RESET
+  ORDER_CONFIRMATION
+  PAYMENT_CONFIRMATION
+  RECEIPT
+  SHIPPING_UPDATE
+  DELIVERY_CONFIRMATION
+  SECURITY
+  OTHER
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” AUDIT
+ * ============================================================================
+ */
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+  PASSWORD_CHANGE
+  STOCK_CHANGE
+  ORDER_STATUS_CHANGE
+  PAYMENT_STATUS_CHANGE
+  OTHER
+}
+
+/**
+ * ============================================================================
+ * ENUMS â€” SÃ‰CURITÃ‰ / RATE LIMITING
+ * ============================================================================
+ */
+
+enum SecurityRateLimitScope {
+  REGISTRATION_EMAIL
+  REPRESENTATIVE_CODE
+  VERIFICATION_TOKEN
+  VERIFICATION_RESEND
+  LOGIN
+  PASSWORD_RESET
+}
+
+/**
+ * ============================================================================
+ * BOUTIQUE
+ * ============================================================================
+ */
+
+model Store {
+  id String @id @default(cuid())
+
+  name String
+
+  slug String @unique
+
+  type StoreType @default(BOUTIQUE)
+
+  city String
+
+  country String
+
+  address String
+
+  phone String
+
+  email String
+
+  /**
+   * Devise principale du point de vente.
+   * Exemple :
+   * Cameroun :
+   * XAF
+   * BÃ©nin :
+   * XOF
+   * Europe :
+   * EUR
+   * Ã‰tats-Unis :
+   * USD
+   * Le formulaire Ajouter un produit NE doit donc pas forcer
+   * directement "FCFA".
+   * Lors de la crÃ©ation d'un StoreProduct, cette valeur sera copiÃ©e
+   * dans StoreProduct.currency.
+   * XAF reste la valeur par dÃ©faut uniquement pour compatibilitÃ©.
+   */
+  currency String @default("XAF")
+
+  status StoreStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  managers Manager[]
+
+  /**
+   * Produits dont cette boutique est directement la crÃ©atrice.
+   * Cette relation est diffÃ©rente de storeProducts :
+   * createdProducts
+   * = origine / propriÃ©tÃ© mÃ©tier du produit STORE.
+   * storeProducts
+   * = produits effectivement commercialisÃ©s par la boutique.
+   */
+  createdProducts Product[] @relation("StoreCreatedProducts")
+
+  storeProducts StoreProduct[]
+
+  stockMovements StockMovement[]
+
+  customers Customer[]
+
+  orders Order[]
+
+  payments Payment[]
+
+  shipments Shipment[]
+
+  receipts Receipt[]
+
+  notifications Notification[]
+
+  emails EmailLog[]
+
+  auditLogs AuditLog[]
+
+  @@index([status])
+  @@index([country])
+  @@index([city])
+  @@index([type])
+  @@map("stores")
+}
+
+/**
+ * ============================================================================
+ * GESTIONNAIRE
+ * ============================================================================
+ */
+
+model Manager {
+  id String @id @default(cuid())
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  email String @unique
+
+  passwordHash String
+
+  role ManagerRole @default(OWNER)
+
+  status ManagerStatus @default(ACTIVE)
+
+  emailVerifiedAt DateTime?
+
+  lastLoginAt DateTime?
+
+  /**
+   * UtilisÃ© notamment pour :
+   * - historique de sÃ©curitÃ© ;
+   * - invalidation des sessions anciennes ;
+   * - invalidation des liens de rÃ©initialisation dÃ©jÃ  utilisÃ©s.
+   */
+  passwordChangedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stockMovements StockMovement[]
+
+  notifications Notification[]
+
+  auditLogs AuditLog[]
+
+  @@index([storeId])
+  @@index([status])
+  @@index([role])
+  @@map("managers")
+}
+
+/**
+ * ============================================================================
+ * INSCRIPTION TEMPORAIRE GESTIONNAIRE
+ * ============================================================================
+ */
+
+model ManagerRegistration {
+  id String @id @default(cuid())
+
+  storeName String
+
+  city String
+
+  country String
+
+  address String
+
+  phone String
+
+  email String @unique
+
+  /**
+   * Le mot de passe n'est jamais enregistrÃ© en clair.
+   * Seul le hash Argon2id est conservÃ© pendant la validation
+   * de l'adresse e-mail.
+   */
+  passwordHash String
+
+  status RegistrationStatus @default(WAITING_EMAIL_VERIFICATION)
+
+  otpHash String
+
+  otpExpiresAt DateTime
+
+  otpAttemptCount Int @default(0)
+
+  otpResendCount Int @default(0)
+
+  otpLastSentAt DateTime?
+
+  emailVerifiedAt DateTime?
+
+  /**
+   * Le navigateur conserve uniquement le token brut dans un cookie
+   * HttpOnly sÃ©curisÃ©.
+   * PostgreSQL conserve uniquement son hash.
+   */
+  registrationTokenHash String @unique
+
+  registrationTokenExpiresAt DateTime
+
+  expiresAt DateTime
+
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([otpExpiresAt])
+  @@index([registrationTokenExpiresAt])
+  @@map("manager_registrations")
+}
+
+/**
+ * ============================================================================
+ * RATE LIMIT DE SÃ‰CURITÃ‰
+ * ============================================================================
+ * Les valeurs sensibles telles que :
+ * - adresse e-mail ;
+ * - adresse IP ;
+ * - token ;
+ * ne sont pas conservÃ©es directement.
+ * Les services serveur utilisent une reprÃ©sentation hashÃ©e.
+ * ============================================================================
+ */
+
+model SecurityRateLimit {
+  id String @id @default(cuid())
+
+  scope SecurityRateLimitScope
+
+  keyHash String
+
+  attemptCount Int @default(0)
+
+  windowStartedAt DateTime
+
+  expiresAt DateTime
+
+  blockedUntil DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([scope, keyHash])
+  @@index([scope])
+  @@index([expiresAt])
+  @@index([blockedUntil])
+  @@map("security_rate_limits")
+}
+
+/**
+ * ============================================================================
+ * CATÃ‰GORIE PRODUIT
+ * ============================================================================
+ */
+
+model ProductCategory {
+  id String @id @default(cuid())
+
+  name String
+
+  slug String @unique
+
+  description String?
+
+  /**
+   * URL publique de l'image officielle de la catégorie.
+   *
+   * Le fichier physique est stocké dans Supabase Storage
+   * dans le bucket :
+   *
+   * category-images
+   *
+   * PostgreSQL conserve uniquement l'URL.
+   */
+  imageUrl String?
+
+  /**
+   * Texte alternatif de l'image.
+   *
+   * Utilisé notamment pour :
+   *
+   * - accessibilité ;
+   * - affichage public ;
+   * - SEO ;
+   * - fallback lorsque nécessaire.
+   */
+  imageAlt String?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+
+  @@index([isActive])
+  @@map("product_categories")
+}
+
+/**
+ * ============================================================================
+ * PRODUIT
+ * ============================================================================
+ * Product reprÃ©sente l'identitÃ© mÃ©tier du produit.
+ * CATALOG :
+ * - produit officiel du catalogue L&E ;
+ * - createdByStoreId reste null.
+ * STORE :
+ * - produit crÃ©Ã© directement par une boutique ;
+ * - createdByStoreId contient la boutique crÃ©atrice.
+ * IMPORTANT :
+ * Product ne conserve PAS :
+ * - le prix commercial ;
+ * - la devise commerciale ;
+ * - le stock ;
+ * - le QR public.
+ * Ces donnÃ©es appartiennent Ã  StoreProduct.
+ * ============================================================================
+ */
+
+model Product {
+  id String @id @default(cuid())
+
+  /**
+   * CATALOG reste la valeur par dÃ©faut pour conserver la compatibilitÃ©
+   * avec les donnÃ©es historiques.
+   * L'action Gestionnaire /produits/ajouter dÃ©finira explicitement STORE.
+   */
+  origin ProductOrigin @default(CATALOG)
+
+  /**
+   * Boutique crÃ©atrice pour les produits STORE.
+   * Null pour un produit provenant du catalogue officiel.
+   */
+  createdByStoreId String?
+
+  createdByStore Store? @relation("StoreCreatedProducts", fields: [createdByStoreId], references: [id], onDelete: Restrict)
+
+  /**
+   * CatÃ©gorie volontairement nullable au niveau DB.
+   * Cela permet notamment :
+   * - les anciennes donnÃ©es ;
+   * - les brouillons incomplets.
+   * La publication d'un produit STORE pourra exiger une catÃ©gorie
+   * cÃ´tÃ© validation mÃ©tier.
+   */
+  categoryId String?
+
+  category ProductCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  /**
+   * Nom commercial.
+   * Les limites prÃ©cises de longueur sont appliquÃ©es dans le schÃ©ma
+   * Zod cÃ´tÃ© serveur.
+   */
+  name String
+
+  /**
+   * Slug technique unique.
+   * Il peut servir au rÃ©fÃ©rencement / URLs classiques.
+   * Le QR physique ne dÃ©pendra PAS obligatoirement de ce slug.
+   */
+  slug String @unique
+
+  /**
+   * RÃ©fÃ©rence produit interne unique.
+   */
+  sku String @unique
+
+  /**
+   * Description commerciale du produit.
+   */
+  description String?
+
+  /**
+   * Marque.
+   * L&E Cosmetics reste la valeur historique / officielle par dÃ©faut.
+   */
+  brand String @default("L&E Cosmetics")
+
+  /**
+   * --------------------------------------------------------------------------
+   * INFORMATIONS COMPLÃ‰MENTAIRES PRODUIT
+   * --------------------------------------------------------------------------
+   * Ces champs correspondent directement Ã  la nouvelle page :
+   * "DÃ©tails supplÃ©mentaires"
+   * Ils restent facultatifs dans PostgreSQL pour permettre :
+   * - les brouillons ;
+   * - les produits historiques ;
+   * - les produits pour lesquels ces informations ne s'appliquent pas.
+   * Les limites de longueur et rÃ¨gles de publication seront validÃ©es
+   * cÃ´tÃ© serveur avec Zod.
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * Exemple :
+   * Eau, glycÃ©rine, beurre de karitÃ©...
+   * Aucun ingrÃ©dient ne doit Ãªtre inventÃ© automatiquement.
+   */
+  ingredients String?
+
+  /**
+   * ReprÃ©sentation commerciale lisible.
+   * Exemples :
+   * 250 ml
+   * 50 g
+   * 1 L
+   * On ne force volontairement aucune unitÃ© dans la base.
+   */
+  weightContent String?
+
+  /**
+   * Instructions officielles d'utilisation.
+   */
+  usageInstructions String?
+
+  /**
+   * UnitÃ© de vente.
+   * Exemple conceptuel :
+   * piÃ¨ce
+   * flacon
+   * pot
+   * tube
+   * La liste rÃ©ellement autorisÃ©e sera contrÃ´lÃ©e par le serveur.
+   * On ne crÃ©e pas ici un enum arbitraire qui obligerait une migration
+   * chaque fois qu'une nouvelle unitÃ© lÃ©gitime doit Ãªtre ajoutÃ©e.
+   */
+  unit String?
+
+  /**
+   * DRAFT :
+   * produit enregistrÃ© mais pas encore publiÃ©.
+   * ACTIVE :
+   * produit prÃªt Ã  Ãªtre commercialisÃ© selon StoreProduct.
+   * ARCHIVED :
+   * produit retirÃ© de l'utilisation normale sans supprimer
+   * nÃ©cessairement l'historique.
+   */
+  status ProductStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images ProductImage[]
+
+  storeProducts StoreProduct[]
+
+  @@index([origin])
+  @@index([createdByStoreId])
+  @@index([origin, status])
+  @@index([createdByStoreId, status])
+  @@index([categoryId])
+  @@index([status])
+  @@index([name])
+  @@map("products")
+}
+
+/**
+ * ============================================================================
+ * IMAGES PRODUIT
+ * ============================================================================
+ * PostgreSQL conserve :
+ * - URL ;
+ * - texte alternatif ;
+ * - position ;
+ * - image principale.
+ * Les fichiers binaires ne sont PAS stockÃ©s dans PostgreSQL.
+ * Le stockage objet est gÃ©rÃ© sÃ©parÃ©ment par l'infrastructure d'upload
+ * dÃ©jÃ  prÃ©vue dans le projet.
+ * ============================================================================
+ */
+
+model ProductImage {
+  id String @id @default(cuid())
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  url String
+
+  altText String?
+
+  position Int @default(0)
+
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([productId, position])
+  @@index([productId, isPrimary])
+  @@map("product_images")
+}
+
+/**
+ * ============================================================================
+ * PRODUIT COMMERCIALISÃ‰ PAR UNE BOUTIQUE
+ * ============================================================================
+ * StoreProduct contient les informations spÃ©cifiques Ã  la boutique :
+ * - prix ;
+ * - Ã©ventuel prix barrÃ© / de rÃ©fÃ©rence ;
+ * - devise ;
+ * - stock ;
+ * - seuil de stock faible ;
+ * - statut commercial ;
+ * - QR stable.
+ * PRIX :
+ * Sans promotion :
+ * price = prix normal
+ * compareAtPrice = null
+ * Avec prix barrÃ© :
+ * price = prix actuellement payÃ©
+ * compareAtPrice = ancien prix / prix de rÃ©fÃ©rence
+ * et :
+ * compareAtPrice > price
+ * lorsque compareAtPrice est utilisÃ© comme prix barrÃ©.
+ * QR :
+ * qrToken reprÃ©sente l'identitÃ© publique stable de CE StoreProduct.
+ * Une modification du :
+ * - prix ;
+ * - stock ;
+ * - nom ;
+ * - description ;
+ * - image ;
+ * NE modifie jamais qrToken.
+ * ============================================================================
+ */
+
+model StoreProduct {
+  id String @id @default(cuid())
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  /**
+   * Prix actuellement appliquÃ©.
+   */
+  price Decimal @db.Decimal(12, 2)
+
+  /**
+   * Prix de rÃ©fÃ©rence / ancien prix.
+   * Null lorsqu'aucun prix barrÃ© n'est appliquÃ©.
+   */
+  compareAtPrice Decimal? @db.Decimal(12, 2)
+
+  /**
+   * Code devise.
+   * Lors de la crÃ©ation via l'espace Gestionnaire, le backend utilisera
+   * normalement Store.currency.
+   * XAF reste un fallback de compatibilitÃ© DB.
+   */
+  currency String @default("XAF")
+
+  /**
+   * Stock courant.
+   * L'historique de ses modifications est conservÃ© dans StockMovement.
+   */
+  stockQuantity Int @default(0)
+
+  lowStockThreshold Int @default(5)
+
+  status StoreProductStatus @default(ACTIVE)
+
+  /**
+   * Token public :
+   * - unique ;
+   * - stable ;
+   * - non sensible ;
+   * - gÃ©nÃ©rÃ© cÃ´tÃ© serveur ;
+   * - jamais construit Ã  partir du prix ou du stock.
+   * Exemple de destination :
+   * https://domaine.com/p/{qrToken}
+   * Le QR physique encode uniquement cette URL publique.
+   */
+  qrToken String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  stockMovements StockMovement[]
+
+  @@unique([storeId, productId])
+  @@index([storeId, status])
+  @@index([productId])
+  @@index([stockQuantity])
+  @@map("store_products")
+}
+
+/**
+ * ============================================================================
+ * MOUVEMENTS DE STOCK
+ * ============================================================================
+ * StoreProduct.stockQuantity :
+ * stock actuellement disponible.
+ * StockMovement :
+ * historique immuable des variations de stock.
+ * Lors de la crÃ©ation d'un produit avec :
+ * Stock disponible = 50
+ * le backend pourra crÃ©er :
+ * type           = INITIAL
+ * quantity       = 50
+ * quantityBefore = 0
+ * quantityAfter  = 50
+ * dans la mÃªme transaction DB que la crÃ©ation commerciale du produit.
+ * ============================================================================
+ */
+
+model StockMovement {
+  id String @id @default(cuid())
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  storeProductId String
+
+  storeProduct StoreProduct @relation(fields: [storeProductId], references: [id], onDelete: Restrict)
+
+  managerId String?
+
+  manager Manager? @relation(fields: [managerId], references: [id], onDelete: SetNull)
+
+  type StockMovementType
+
+  /**
+   * QuantitÃ© de mouvement.
+   * Le sens mÃ©tier dÃ©pend de type.
+   */
+  quantity Int
+
+  quantityBefore Int
+
+  quantityAfter Int
+
+  reason String?
+
+  reference String?
+
+  createdAt DateTime @default(now())
+
+  @@index([storeId])
+  @@index([storeProductId])
+  @@index([managerId])
+  @@index([createdAt])
+  @@map("stock_movements")
+}
+
+/**
+ * ============================================================================
+ * CLIENT
+ * ============================================================================
+ */
+
+model Customer {
+  id String @id @default(cuid())
+
+  storeId String?
+
+  store Store? @relation(fields: [storeId], references: [id], onDelete: SetNull)
+
+  firstName String
+
+  lastName String
+
+  email String?
+
+  phone String?
+
+  status CustomerStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  addresses CustomerAddress[]
+
+  orders Order[]
+
+  @@index([storeId])
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+  @@map("customers")
+}
+
+/**
+ * ============================================================================
+ * ADRESSES CLIENT
+ * ============================================================================
+ */
+
+model CustomerAddress {
+  id String @id @default(cuid())
+
+  customerId String
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  type AddressType @default(SHIPPING)
+
+  label String?
+
+  recipientName String
+
+  phone String?
+
+  country String
+
+  city String
+
+  address String
+
+  postalCode String?
+
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([customerId, isDefault])
+  @@map("customer_addresses")
+}
+
+/**
+ * ============================================================================
+ * COMMANDE
+ * ============================================================================
+ */
+
+model Order {
+  id String @id @default(cuid())
+
+  orderNumber String @unique
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  customerId String?
+
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  source OrderSource @default(WEBSITE)
+
+  status OrderStatus @default(PENDING)
+
+  customerFirstName String
+
+  customerLastName String
+
+  customerEmail String?
+
+  customerPhone String?
+
+  shippingRecipientName String?
+
+  shippingPhone String?
+
+  shippingCountry String?
+
+  shippingCity String?
+
+  shippingAddress String?
+
+  shippingPostalCode String?
+
+  currency String @default("XAF")
+
+  subtotal Decimal @db.Decimal(12, 2)
+
+  discountAmount Decimal @default(0) @db.Decimal(12, 2)
+
+  shippingAmount Decimal @default(0) @db.Decimal(12, 2)
+
+  taxAmount Decimal @default(0) @db.Decimal(12, 2)
+
+  totalAmount Decimal @db.Decimal(12, 2)
+
+  notes String?
+
+  confirmedAt DateTime?
+
+  cancelledAt DateTime?
+
+  deliveredAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  payments Payment[]
+
+  shipments Shipment[]
+
+  receipt Receipt?
+
+  @@index([storeId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([storeId, status])
+  @@map("orders")
+}
+
+/**
+ * ============================================================================
+ * LIGNE DE COMMANDE
+ * ============================================================================
+ * Les informations commerciales importantes sont copiÃ©es dans OrderItem.
+ * Ainsi une modification future du produit ne modifie jamais
+ * rÃ©troactivement une ancienne commande.
+ * ============================================================================
+ */
+
+model OrderItem {
+  id String @id @default(cuid())
+
+  orderId String
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  storeProductId String?
+
+  storeProduct StoreProduct? @relation(fields: [storeProductId], references: [id], onDelete: SetNull)
+
+  productName String
+
+  sku String?
+
+  quantity Int
+
+  unitPrice Decimal @db.Decimal(12, 2)
+
+  totalPrice Decimal @db.Decimal(12, 2)
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([storeProductId])
+  @@map("order_items")
+}
+
+/**
+ * ============================================================================
+ * PAIEMENT
+ * ============================================================================
+ */
+
+model Payment {
+  id String @id @default(cuid())
+
+  paymentReference String @unique
+
+  orderId String
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  method PaymentMethod
+
+  status PaymentStatus @default(PENDING)
+
+  provider String?
+
+  providerReference String?
+
+  currency String @default("XAF")
+
+  amount Decimal @db.Decimal(12, 2)
+
+  paidAt DateTime?
+
+  failedAt DateTime?
+
+  refundedAt DateTime?
+
+  failureReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([storeId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("payments")
+}
+
+/**
+ * ============================================================================
+ * LIVRAISON
+ * ============================================================================
+ */
+
+model Shipment {
+  id String @id @default(cuid())
+
+  shipmentNumber String @unique
+
+  orderId String
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  status ShipmentStatus @default(PENDING)
+
+  carrier String?
+
+  trackingNumber String?
+
+  trackingUrl String?
+
+  recipientName String
+
+  phone String?
+
+  country String
+
+  city String
+
+  address String
+
+  postalCode String?
+
+  shippingCost Decimal @default(0) @db.Decimal(12, 2)
+
+  currency String @default("XAF")
+
+  shippedAt DateTime?
+
+  deliveredAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([storeId])
+  @@index([status])
+  @@index([trackingNumber])
+  @@map("shipments")
+}
+
+/**
+ * ============================================================================
+ * REÃ‡U
+ * ============================================================================
+ */
+
+model Receipt {
+  id String @id @default(cuid())
+
+  receiptNumber String @unique
+
+  orderId String @unique
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  status ReceiptStatus @default(ISSUED)
+
+  currency String @default("XAF")
+
+  amount Decimal @db.Decimal(12, 2)
+
+  /**
+   * URL Ã©ventuelle du PDF gÃ©nÃ©rÃ© et stockÃ©.
+   * Le fichier PDF lui-mÃªme n'est pas enregistrÃ© dans PostgreSQL.
+   */
+  pdfUrl String?
+
+  issuedAt DateTime @default(now())
+
+  emailedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([status])
+  @@map("receipts")
+}
+
+/**
+ * ============================================================================
+ * NOTIFICATION
+ * ============================================================================
+ */
+
+model Notification {
+  id String @id @default(cuid())
+
+  storeId String
+
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  managerId String?
+
+  manager Manager? @relation(fields: [managerId], references: [id], onDelete: Cascade)
+
+  type NotificationType
+
+  channel NotificationChannel @default(IN_APP)
+
+  status NotificationStatus @default(PENDING)
+
+  title String
+
+  message String
+
+  referenceType String?
+
+  referenceId String?
+
+  readAt DateTime?
+
+  sentAt DateTime?
+
+  failedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([storeId])
+  @@index([managerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+/**
+ * ============================================================================
+ * HISTORIQUE DES E-MAILS
+ * ============================================================================
+ * Resend effectue l'envoi.
+ * EmailLog conserve uniquement la trace mÃ©tier.
+ * ============================================================================
+ */
+
+model EmailLog {
+  id String @id @default(cuid())
+
+  storeId String?
+
+  store Store? @relation(fields: [storeId], references: [id], onDelete: SetNull)
+
+  type EmailType
+
+  status EmailStatus @default(PENDING)
+
+  recipient String
+
+  subject String
+
+  provider String @default("resend")
+
+  providerMessageId String?
+
+  referenceType String?
+
+  referenceId String?
+
+  sentAt DateTime?
+
+  deliveredAt DateTime?
+
+  failedAt DateTime?
+
+  failureReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([recipient])
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+  @@map("email_logs")
+}
+
+/**
+ * ============================================================================
+ * JOURNAL D'AUDIT
+ * ============================================================================
+ */
+
+model AuditLog {
+  id String @id @default(cuid())
+
+  storeId String?
+
+  store Store? @relation(fields: [storeId], references: [id], onDelete: SetNull)
+
+  managerId String?
+
+  manager Manager? @relation(fields: [managerId], references: [id], onDelete: SetNull)
+
+  action AuditAction
+
+  entityType String?
+
+  entityId String?
+
+  /**
+   * MÃ©tadonnÃ©es mÃ©tier facultatives.
+   * NE JAMAIS enregistrer ici :
+   * - mot de passe ;
+   * - passwordHash ;
+   * - OTP ;
+   * - OTP hash ;
+   * - code secret L&E ;
+   * - SESSION_SECRET ;
+   * - token d'authentification ;
+   * - token de rÃ©initialisation ;
+   * - clÃ© API.
+   */
+  metadata Json?
+
+  ipAddress String?
+
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([storeId])
+  @@index([managerId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

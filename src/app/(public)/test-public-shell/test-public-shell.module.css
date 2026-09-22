@@ -1,0 +1,2009 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * TEST PUBLIC SHELL — STYLES
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/app/(public)/test-public-shell/test-public-shell.module.css
+ *
+ *
+ * OBJECTIFS :
+ *
+ * - page de test pleine largeur ;
+ * - aucune petite colonne globale centrée ;
+ * - responsive mobile / tablette / desktop ;
+ * - suffisamment de hauteur pour tester le sticky header ;
+ * - aucun débordement horizontal ;
+ * - aucun style qui modifie le shell public ;
+ * - aucun position: fixed concurrent ;
+ * - aucune dépendance externe ;
+ * - aucune donnée commerciale fictive.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   PAGE ROOT
+   ========================================================================== */
+
+.page {
+  --test-magenta: #e6007e;
+  --test-magenta-dark: #bd0068;
+  --test-magenta-deep: #8f004f;
+
+  --test-pink-50: #fff7fb;
+  --test-pink-100: #fff0f7;
+  --test-pink-200: #fce0ef;
+
+  --test-black: #171318;
+  --test-black-soft: #272128;
+
+  --test-text: #241e25;
+  --test-text-soft: #6f636b;
+  --test-text-muted: #948890;
+
+  --test-border: #eadfe5;
+  --test-border-soft: #f2e9ee;
+
+  --test-white: #ffffff;
+
+  --test-shadow-soft:
+    0 8px 30px rgba(36, 17, 29, 0.06);
+
+  --test-shadow-medium:
+    0 18px 48px rgba(36, 17, 29, 0.1);
+
+  width: 100%;
+  min-width: 0;
+  min-height: 100dvh;
+
+  margin: 0;
+  padding: 0;
+
+  overflow-x: clip;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--test-text);
+}
+
+
+.page,
+.page * {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
+.hero {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    clamp(
+      440px,
+      64vh,
+      690px
+    );
+
+  padding:
+    clamp(56px, 7vw, 110px)
+    clamp(20px, 6vw, 100px);
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 82% 24%,
+      rgba(230, 0, 126, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(230, 0, 126, 0.08),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #fff8fc 45%,
+      #fff0f8 100%
+    );
+
+  border-bottom:
+    1px solid
+    var(--test-border);
+}
+
+
+.hero::before {
+  content: "";
+
+  position: absolute;
+
+  top: -150px;
+  right: -120px;
+
+  width: 430px;
+  height: 430px;
+
+  border:
+    1px solid
+    rgba(230, 0, 126, 0.11);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  right: 6%;
+  bottom: -230px;
+
+  width: 540px;
+  height: 540px;
+
+  border:
+    80px solid
+    rgba(230, 0, 126, 0.035);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 31px;
+
+  padding:
+    0
+    13px;
+
+  margin-bottom: 20px;
+
+  border:
+    1px solid
+    rgba(230, 0, 126, 0.17);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.85);
+
+  color:
+    var(--test-magenta);
+
+  font-size: 0.72rem;
+  font-weight: 850;
+
+  letter-spacing: 0.09em;
+  line-height: 1;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 5px 20px
+    rgba(230, 0, 126, 0.05);
+}
+
+
+.title {
+  max-width: 1080px;
+
+  margin:
+    0;
+
+  color:
+    var(--test-black);
+
+  font-size:
+    clamp(
+      2.4rem,
+      6vw,
+      6.3rem
+    );
+
+  font-weight: 850;
+
+  letter-spacing:
+    -0.055em;
+
+  line-height:
+    0.96;
+}
+
+
+.title span {
+  color:
+    var(--test-magenta);
+}
+
+
+.description {
+  width:
+    min(
+      100%,
+      820px
+    );
+
+  margin:
+    28px
+    0
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size:
+    clamp(
+      1rem,
+      1.35vw,
+      1.22rem
+    );
+
+  font-weight: 470;
+
+  line-height:
+    1.75;
+}
+
+
+.heroStatus {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 31px;
+}
+
+
+.heroStatus span {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 37px;
+
+  padding:
+    0
+    13px;
+
+  border:
+    1px solid
+    var(--test-border);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.9);
+
+  color:
+    #4d4249;
+
+  font-size: 0.76rem;
+  font-weight: 720;
+
+  box-shadow:
+    var(--test-shadow-soft);
+}
+
+
+.heroStatus svg {
+  color:
+    var(--test-magenta);
+}
+
+
+.scrollHint {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 46px;
+
+  color:
+    var(--test-text-muted);
+
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+
+.scrollHint svg {
+  color:
+    var(--test-magenta);
+
+  animation:
+    shellTestArrow 1.8s
+    ease-in-out
+    infinite;
+}
+
+
+/* ==========================================================================
+   GENERIC SECTION
+   ========================================================================== */
+
+.section {
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    clamp(62px, 7vw, 110px)
+    clamp(20px, 5vw, 86px);
+
+  background:
+    #ffffff;
+}
+
+
+.sectionHeading {
+  width: 100%;
+  min-width: 0;
+
+  margin-bottom:
+    clamp(
+      30px,
+      4vw,
+      52px
+    );
+}
+
+
+.sectionEyebrow {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color:
+    var(--test-magenta);
+
+  font-size: 0.7rem;
+  font-weight: 850;
+
+  letter-spacing: 0.09em;
+
+  text-transform: uppercase;
+}
+
+
+.sectionTitle {
+  margin: 0;
+
+  color:
+    var(--test-black);
+
+  font-size:
+    clamp(
+      1.8rem,
+      3.5vw,
+      3.7rem
+    );
+
+  font-weight: 830;
+
+  letter-spacing:
+    -0.035em;
+
+  line-height: 1.06;
+}
+
+
+.sectionDescription {
+  width:
+    min(
+      100%,
+      760px
+    );
+
+  margin:
+    15px
+    0
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size:
+    clamp(
+      0.92rem,
+      1.15vw,
+      1.08rem
+    );
+
+  line-height:
+    1.7;
+}
+
+
+/* ==========================================================================
+   TEST CARDS
+   ========================================================================== */
+
+.testGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      14px,
+      2vw,
+      26px
+    );
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+.testCard {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 22px;
+
+  min-width: 0;
+  min-height: 245px;
+
+  padding:
+    clamp(
+      22px,
+      2.4vw,
+      34px
+    );
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--test-border);
+
+  border-radius: 22px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    var(--test-shadow-soft);
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.testCard::after {
+  content: "";
+
+  position: absolute;
+
+  right: -50px;
+  bottom: -70px;
+
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(230, 0, 126, 0.035);
+
+  pointer-events: none;
+}
+
+
+.testCard:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(230, 0, 126, 0.21);
+
+  box-shadow:
+    var(--test-shadow-medium);
+}
+
+
+.testCardIcon {
+  position: relative;
+  z-index: 1;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--test-pink-100),
+      #ffffff
+    );
+
+  color:
+    var(--test-magenta);
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(230, 0, 126, 0.09);
+}
+
+
+.testCardContent {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+}
+
+
+.testCardContent h3 {
+  margin: 0;
+
+  color:
+    var(--test-black);
+
+  font-size: 1rem;
+  font-weight: 800;
+
+  line-height: 1.25;
+}
+
+
+.testCardContent p {
+  margin:
+    10px
+    0
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size: 0.82rem;
+
+  line-height: 1.65;
+}
+
+
+/* ==========================================================================
+   FULL-WIDTH BAND
+   ========================================================================== */
+
+.fullWidthBand {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    clamp(52px, 6vw, 95px)
+    clamp(20px, 6vw, 100px);
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      115deg,
+      #171318 0%,
+      #24141e 58%,
+      #3a0b27 100%
+    );
+
+  color:
+    #ffffff;
+}
+
+
+.fullWidthBand::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 46%;
+  height: 100%;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(230, 0, 126, 0.35),
+      transparent 67%
+    );
+
+  pointer-events: none;
+}
+
+
+.fullWidthBandContent {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap:
+    clamp(
+      25px,
+      4vw,
+      72px
+    );
+
+  width: 100%;
+}
+
+
+.fullWidthBandNumber {
+  display: block;
+
+  color:
+    #ffffff;
+
+  font-size:
+    clamp(
+      4rem,
+      10vw,
+      10rem
+    );
+
+  font-weight: 900;
+
+  letter-spacing:
+    -0.075em;
+
+  line-height: 0.8;
+
+  opacity: 0.97;
+}
+
+
+.fullWidthBandContent h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      1.7rem,
+      3.6vw,
+      4rem
+    );
+
+  font-weight: 830;
+
+  letter-spacing:
+    -0.04em;
+}
+
+
+.fullWidthBandContent p {
+  width:
+    min(
+      100%,
+      700px
+    );
+
+  margin:
+    15px
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.68);
+
+  font-size:
+    clamp(
+      0.9rem,
+      1.2vw,
+      1.08rem
+    );
+
+  line-height: 1.7;
+}
+
+
+/* ==========================================================================
+   VIEWPORT GRID
+   ========================================================================== */
+
+.viewportGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+
+.viewportCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  min-width: 0;
+  min-height: 66px;
+
+  padding:
+    12px
+    14px;
+
+  border:
+    1px solid
+    var(--test-border);
+
+  border-radius: 15px;
+
+  background:
+    var(--test-pink-50);
+
+  color:
+    var(--test-text-soft);
+
+  font-size: 0.78rem;
+  font-weight: 750;
+
+  text-align: center;
+}
+
+
+.viewportCard svg {
+  flex: 0 0 auto;
+
+  color:
+    var(--test-magenta);
+}
+
+
+/* ==========================================================================
+   SCROLL TEST
+   ========================================================================== */
+
+.scrollTestSection {
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    clamp(65px, 7vw, 110px)
+    clamp(20px, 5vw, 86px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #fbf9fa 0%,
+      #ffffff 100%
+    );
+
+  border-top:
+    1px solid
+    var(--test-border-soft);
+
+  border-bottom:
+    1px solid
+    var(--test-border-soft);
+}
+
+
+.scrollTestIntro {
+  width: 100%;
+
+  margin-bottom:
+    clamp(
+      40px,
+      6vw,
+      75px
+    );
+}
+
+
+.scrollTestBlocks {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    clamp(
+      25px,
+      4vw,
+      60px
+    );
+
+  width: 100%;
+
+  padding:
+    clamp(
+      20px,
+      2vw,
+      35px
+    )
+    0;
+}
+
+
+.scrollTestBlock {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  min-width: 0;
+  min-height:
+    clamp(
+      320px,
+      36vw,
+      480px
+    );
+
+  padding:
+    clamp(
+      26px,
+      4vw,
+      56px
+    );
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--test-border);
+
+  border-radius:
+    clamp(
+      22px,
+      2.5vw,
+      34px
+    );
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    var(--test-shadow-soft);
+}
+
+
+.scrollTestBlock:nth-child(2),
+.scrollTestBlock:nth-child(3) {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      var(--test-pink-50)
+    );
+}
+
+
+.scrollTestBlock > span {
+  position: absolute;
+
+  top: 16px;
+  right: 22px;
+
+  color:
+    rgba(230, 0, 126, 0.08);
+
+  font-size:
+    clamp(
+      4.5rem,
+      8vw,
+      9rem
+    );
+
+  font-weight: 900;
+
+  letter-spacing:
+    -0.08em;
+
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+
+.scrollTestBlock strong {
+  position: relative;
+
+  color:
+    var(--test-black);
+
+  font-size:
+    clamp(
+      1.35rem,
+      2.3vw,
+      2.35rem
+    );
+
+  font-weight: 820;
+
+  letter-spacing:
+    -0.025em;
+
+  line-height: 1.15;
+}
+
+
+.scrollTestBlock strong::before {
+  content: "";
+
+  display: block;
+
+  width: 42px;
+  height: 4px;
+
+  margin-bottom: 18px;
+
+  border-radius: 999px;
+
+  background:
+    var(--test-magenta);
+}
+
+
+.scrollTestBlock p {
+  position: relative;
+
+  width:
+    min(
+      100%,
+      550px
+    );
+
+  margin:
+    17px
+    0
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size:
+    clamp(
+      0.88rem,
+      1.05vw,
+      1rem
+    );
+
+  line-height: 1.7;
+}
+
+
+/* ==========================================================================
+   MOBILE TEST SECTION
+   ========================================================================== */
+
+.mobileTestSection {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap:
+    clamp(
+      24px,
+      4vw,
+      56px
+    );
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    clamp(70px, 8vw, 125px)
+    clamp(20px, 6vw, 100px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7fb,
+      #ffffff
+    );
+}
+
+
+.mobileTestIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width:
+    clamp(
+      90px,
+      10vw,
+      150px
+    );
+
+  aspect-ratio: 1;
+
+  border:
+    1px solid
+    rgba(230, 0, 126, 0.16);
+
+  border-radius:
+    clamp(
+      24px,
+      3vw,
+      40px
+    );
+
+  background:
+    #ffffff;
+
+  color:
+    var(--test-magenta);
+
+  box-shadow:
+    var(--test-shadow-medium);
+}
+
+
+.mobileTestContent {
+  min-width: 0;
+}
+
+
+.mobileTestContent p {
+  width:
+    min(
+      100%,
+      780px
+    );
+
+  margin:
+    17px
+    0
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size:
+    clamp(
+      0.92rem,
+      1.15vw,
+      1.08rem
+    );
+
+  line-height: 1.75;
+}
+
+
+/* ==========================================================================
+   FOOTER TEST SECTION
+   ========================================================================== */
+
+.footerTestSection {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    clamp(
+      360px,
+      45vh,
+      570px
+    );
+
+  padding:
+    clamp(60px, 7vw, 110px)
+    clamp(20px, 6vw, 100px);
+
+  overflow: hidden;
+
+  background:
+    #ffffff;
+
+  text-align: center;
+}
+
+
+.footerTestSection::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -210px;
+
+  width: 540px;
+  height: 540px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(230, 0, 126, 0.09),
+      transparent 67%
+    );
+
+  transform:
+    translateX(-50%);
+
+  pointer-events: none;
+}
+
+
+.footerTestContent {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+}
+
+
+.footerTestContent .sectionEyebrow {
+  text-align: center;
+}
+
+
+.footerTestContent .sectionTitle {
+  width:
+    min(
+      100%,
+      900px
+    );
+
+  margin:
+    0
+    auto;
+}
+
+
+.footerTestContent p {
+  width:
+    min(
+      100%,
+      720px
+    );
+
+  margin:
+    18px
+    auto
+    0;
+
+  color:
+    var(--test-text-soft);
+
+  font-size:
+    clamp(
+      0.9rem,
+      1.15vw,
+      1.06rem
+    );
+
+  line-height: 1.7;
+}
+
+
+.footerTestArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  margin:
+    30px
+    auto
+    0;
+
+  border:
+    1px solid
+    rgba(230, 0, 126, 0.18);
+
+  border-radius: 50%;
+
+  background:
+    var(--test-pink-50);
+
+  color:
+    var(--test-magenta);
+
+  animation:
+    shellTestArrow 1.8s
+    ease-in-out
+    infinite;
+}
+
+
+/* ==========================================================================
+   LARGE DESKTOP
+   ========================================================================== */
+
+@media (min-width: 1600px) {
+  .hero {
+    min-height: 650px;
+
+    padding-left: 7vw;
+    padding-right: 7vw;
+  }
+
+
+  .section,
+  .scrollTestSection {
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+
+
+  .testGrid {
+    gap: 28px;
+  }
+
+
+  .testCard {
+    min-height: 265px;
+  }
+
+
+  .viewportCard {
+    min-height: 72px;
+  }
+}
+
+
+/* ==========================================================================
+   DESKTOP / SMALL LAPTOP
+   ========================================================================== */
+
+@media (
+  min-width: 1024px
+) and (
+  max-width: 1279px
+) {
+  .testGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .viewportGrid {
+    grid-template-columns:
+      repeat(
+        5,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .hero {
+    min-height: 500px;
+
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+
+  .section,
+  .scrollTestSection {
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+}
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (
+  min-width: 768px
+) and (
+  max-width: 1023px
+) {
+  .hero {
+    min-height: 500px;
+
+    padding:
+      65px
+      34px;
+  }
+
+
+  .title {
+    max-width: 800px;
+  }
+
+
+  .section,
+  .scrollTestSection {
+    padding:
+      70px
+      30px;
+  }
+
+
+  .testGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .testCard {
+    min-height: 230px;
+  }
+
+
+  .viewportGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .fullWidthBand {
+    padding:
+      70px
+      34px;
+  }
+
+
+  .scrollTestBlocks {
+    gap: 24px;
+  }
+
+
+  .scrollTestBlock {
+    min-height: 360px;
+  }
+
+
+  .mobileTestSection {
+    padding:
+      76px
+      34px;
+  }
+
+
+  .footerTestSection {
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .hero {
+    min-height:
+      auto;
+
+    padding:
+      58px
+      18px
+      68px;
+
+    background:
+      radial-gradient(
+        circle at 94% 10%,
+        rgba(230, 0, 126, 0.16),
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        #ffffff,
+        #fff6fb
+      );
+  }
+
+
+  .hero::before {
+    top: -160px;
+    right: -220px;
+  }
+
+
+  .hero::after {
+    display: none;
+  }
+
+
+  .eyebrow {
+    margin-bottom: 17px;
+
+    font-size: 0.65rem;
+  }
+
+
+  .title {
+    font-size:
+      clamp(
+        2.3rem,
+        12vw,
+        4.2rem
+      );
+
+    line-height: 0.98;
+  }
+
+
+  .description {
+    margin-top: 21px;
+
+    font-size: 0.93rem;
+
+    line-height: 1.65;
+  }
+
+
+  .heroStatus {
+    gap: 7px;
+
+    margin-top: 25px;
+  }
+
+
+  .heroStatus span {
+    min-height: 34px;
+
+    padding:
+      0
+      10px;
+
+    font-size: 0.66rem;
+  }
+
+
+  .scrollHint {
+    margin-top: 34px;
+  }
+
+
+  .section {
+    padding:
+      58px
+      16px;
+  }
+
+
+  .sectionHeading {
+    margin-bottom: 28px;
+  }
+
+
+  .sectionTitle {
+    font-size:
+      clamp(
+        1.65rem,
+        8vw,
+        2.55rem
+      );
+  }
+
+
+  .sectionDescription {
+    margin-top: 12px;
+
+    font-size: 0.88rem;
+  }
+
+
+  .testGrid {
+    grid-template-columns:
+      1fr;
+
+    gap: 12px;
+  }
+
+
+  .testCard {
+    display: grid;
+
+    grid-template-columns:
+      auto
+      minmax(0, 1fr);
+
+    align-items: start;
+
+    gap: 15px;
+
+    min-height: 0;
+
+    padding: 20px;
+
+    border-radius: 18px;
+  }
+
+
+  .testCard:hover {
+    transform: none;
+  }
+
+
+  .testCardIcon {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 12px;
+  }
+
+
+  .testCardContent h3 {
+    font-size: 0.92rem;
+  }
+
+
+  .testCardContent p {
+    margin-top: 6px;
+
+    font-size: 0.77rem;
+  }
+
+
+  .fullWidthBand {
+    padding:
+      58px
+      18px;
+  }
+
+
+  .fullWidthBandContent {
+    grid-template-columns:
+      1fr;
+
+    gap: 26px;
+  }
+
+
+  .fullWidthBandNumber {
+    font-size:
+      clamp(
+        4rem,
+        24vw,
+        7rem
+      );
+  }
+
+
+  .fullWidthBandContent h2 {
+    font-size:
+      clamp(
+        1.65rem,
+        8vw,
+        2.6rem
+      );
+  }
+
+
+  .fullWidthBandContent p {
+    font-size: 0.88rem;
+  }
+
+
+  .viewportGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap: 8px;
+  }
+
+
+  .viewportCard {
+    min-height: 56px;
+
+    padding:
+      10px;
+
+    border-radius: 12px;
+
+    font-size: 0.7rem;
+  }
+
+
+  .scrollTestSection {
+    padding:
+      58px
+      16px;
+  }
+
+
+  .scrollTestBlocks {
+    grid-template-columns:
+      1fr;
+
+    gap: 16px;
+
+    padding: 0;
+  }
+
+
+  .scrollTestBlock {
+    min-height: 330px;
+
+    padding:
+      26px
+      22px;
+
+    border-radius: 20px;
+  }
+
+
+  .scrollTestBlock > span {
+    top: 12px;
+    right: 15px;
+
+    font-size: 5rem;
+  }
+
+
+  .scrollTestBlock strong {
+    font-size: 1.35rem;
+  }
+
+
+  .scrollTestBlock p {
+    font-size: 0.84rem;
+  }
+
+
+  .mobileTestSection {
+    grid-template-columns:
+      1fr;
+
+    gap: 23px;
+
+    padding:
+      65px
+      18px;
+  }
+
+
+  .mobileTestIcon {
+    width: 76px;
+
+    border-radius: 22px;
+  }
+
+
+  .mobileTestContent p {
+    font-size: 0.88rem;
+  }
+
+
+  .footerTestSection {
+    min-height: 420px;
+
+    padding:
+      64px
+      18px;
+  }
+
+
+  .footerTestContent p {
+    font-size: 0.88rem;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 430px) {
+  .hero {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
+  .section,
+  .scrollTestSection {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+
+  .testCard {
+    padding:
+      18px
+      16px;
+  }
+
+
+  .fullWidthBand {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
+  .mobileTestSection,
+  .footerTestSection {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
+  .viewportCard {
+    justify-content: flex-start;
+
+    padding-left: 12px;
+  }
+}
+
+
+/* ==========================================================================
+   VERY SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 360px) {
+  .hero {
+    padding:
+      48px
+      12px
+      58px;
+  }
+
+
+  .title {
+    font-size:
+      clamp(
+        2rem,
+        12.5vw,
+        3rem
+      );
+  }
+
+
+  .heroStatus span {
+    font-size: 0.61rem;
+  }
+
+
+  .section,
+  .scrollTestSection {
+    padding:
+      50px
+      12px;
+  }
+
+
+  .testCard {
+    grid-template-columns:
+      40px
+      minmax(0, 1fr);
+
+    gap: 12px;
+
+    padding:
+      16px
+      13px;
+  }
+
+
+  .testCardIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .viewportGrid {
+    gap: 6px;
+  }
+
+
+  .viewportCard {
+    font-size: 0.64rem;
+  }
+
+
+  .fullWidthBand {
+    padding:
+      50px
+      12px;
+  }
+
+
+  .scrollTestBlock {
+    min-height: 305px;
+
+    padding:
+      22px
+      17px;
+  }
+
+
+  .mobileTestSection {
+    padding:
+      54px
+      12px;
+  }
+
+
+  .footerTestSection {
+    padding:
+      55px
+      12px;
+  }
+}
+
+
+/* ==========================================================================
+   HOVER DEVICES
+   ========================================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .viewportCard {
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+
+  .viewportCard:hover {
+    border-color:
+      rgba(230, 0, 126, 0.23);
+
+    background:
+      var(--test-pink-100);
+
+    transform:
+      translateY(-2px);
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .testCard,
+  .viewportCard,
+  .scrollHint svg,
+  .footerTestArrow {
+    animation: none;
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   ANIMATION
+   ========================================================================== */
+
+@keyframes shellTestArrow {
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(6px);
+  }
+}
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+  .page {
+    min-height: 0;
+
+    color: #000000;
+
+    background: #ffffff;
+  }
+
+
+  .hero,
+  .fullWidthBand,
+  .scrollTestSection,
+  .mobileTestSection,
+  .footerTestSection {
+    min-height: 0;
+
+    color: #000000;
+
+    background: #ffffff;
+  }
+
+
+  .scrollHint,
+  .footerTestArrow {
+    display: none;
+  }
+
+
+  .testCard,
+  .scrollTestBlock,
+  .viewportCard {
+    break-inside: avoid;
+
+    box-shadow: none;
+  }
+}

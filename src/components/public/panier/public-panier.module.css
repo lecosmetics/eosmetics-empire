@@ -1,0 +1,4124 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * PANIER PUBLIC — STYLES FINAUX
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/panier/public-panier.module.css
+ *
+ * Route :
+ *
+ * /panier
+ *
+ * ============================================================================
+ *
+ * OBJECTIFS :
+ *
+ * - page pleine largeur ;
+ * - design premium ;
+ * - desktop : articles + résumé sticky ;
+ * - CTA "Continuer la commande" très visible ;
+ * - tablette propre ;
+ * - mobile compact ;
+ * - CTA commande fixe sur mobile ;
+ * - CTA mobile toujours visible pendant le scroll ;
+ * - CTA mobile placé au-dessus des 5 navigations existantes ;
+ * - Footer supprimé uniquement sur /panier en mobile ;
+ * - navigation basse globale conservée ;
+ * - safe-area iOS respectée ;
+ * - états stock / erreur / rupture différenciés ;
+ * - aucun changement de donnée métier par le CSS.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. PAGE
+   ========================================================================== */
+
+.panierPage {
+  --panier-primary:
+    #e6007e;
+
+  --panier-primary-dark:
+    #bc0067;
+
+  --panier-primary-deep:
+    #960052;
+
+  --panier-primary-soft:
+    #fff1f8;
+
+  --panier-text:
+    #20181c;
+
+  --panier-text-secondary:
+    #766a70;
+
+  --panier-border:
+    #eee7ea;
+
+  --panier-mobile-bottom-nav-height:
+    66px;
+
+  --panier-mobile-order-bar-height:
+    78px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    100vh;
+
+  overflow-x:
+    clip;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--panier-text);
+}
+
+
+.panierPageInner {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  padding:
+    clamp(28px, 3.2vw, 50px)
+    clamp(20px, 3.8vw, 72px)
+    clamp(64px, 6vw, 96px);
+}
+
+
+/* ==========================================================================
+   2. HEADER
+   ========================================================================== */
+
+.panierHeader {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    28px;
+
+  width:
+    100%;
+
+  margin-bottom:
+    30px;
+
+  padding-bottom:
+    24px;
+
+  border-bottom:
+    1px solid
+    var(--panier-border);
+}
+
+
+.panierHeaderContent {
+  min-width:
+    0;
+}
+
+
+.panierHeaderEyebrow {
+  margin:
+    0 0 7px;
+
+  color:
+    #be2163;
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.3;
+
+  letter-spacing:
+    0.14em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.panierHeaderTitle {
+  margin:
+    0;
+
+  color:
+    #1f181c;
+
+  font-size:
+    clamp(32px, 3vw, 48px);
+
+  font-weight:
+    820;
+
+  line-height:
+    1.02;
+
+  letter-spacing:
+    -0.045em;
+}
+
+
+.panierHeaderDescription {
+  max-width:
+    700px;
+
+  margin:
+    10px 0 0;
+
+  color:
+    var(--panier-text-secondary);
+
+  font-size:
+    13px;
+
+  line-height:
+    1.65;
+}
+
+
+.panierHeaderActions {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    flex-end;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    10px;
+
+  flex:
+    0 0 auto;
+}
+
+
+/* ==========================================================================
+   3. ACTIONS HEADER
+   ========================================================================== */
+
+.panierContinueShopping,
+.panierClearButton {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  min-height:
+    42px;
+
+  padding:
+    0 14px;
+
+  border-radius:
+    10px;
+
+  font-family:
+    inherit;
+
+  font-size:
+    11.5px;
+
+  font-weight:
+    720;
+
+  line-height:
+    1;
+
+  text-decoration:
+    none;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.panierContinueShopping {
+  border:
+    1px solid #ded4d9;
+
+  background:
+    #ffffff;
+
+  color:
+    #4c4046;
+}
+
+
+.panierContinueShopping:hover {
+  border-color:
+    #c9bbc2;
+
+  background:
+    #fff9fb;
+
+  color:
+    #b51f5d;
+}
+
+
+.panierClearButton {
+  border:
+    1px solid #ead8dc;
+
+  background:
+    #fff8f9;
+
+  color:
+    #a94150;
+
+  cursor:
+    pointer;
+}
+
+
+.panierClearButton:hover {
+  border-color:
+    #dbaeb7;
+
+  background:
+    #fff0f2;
+
+  color:
+    #903541;
+}
+
+
+.panierContinueShopping:active,
+.panierClearButton:active {
+  transform:
+    translateY(1px);
+}
+
+
+.panierContinueShopping:focus-visible,
+.panierClearButton:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   4. WARNING GLOBAL
+   ========================================================================== */
+
+.panierGlobalWarning {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    12px;
+
+  width:
+    100%;
+
+  margin-bottom:
+    22px;
+
+  padding:
+    15px 17px;
+
+  border:
+    1px solid #ead9b6;
+
+  border-radius:
+    13px;
+
+  background:
+    #fffaf0;
+
+  color:
+    #795b1f;
+}
+
+
+.panierGlobalWarning > svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    2px;
+
+  color:
+    #9b741f;
+}
+
+
+.panierGlobalWarning strong {
+  display:
+    block;
+
+  font-size:
+    12px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.4;
+}
+
+
+.panierGlobalWarning p {
+  margin:
+    3px 0 0;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.55;
+}
+
+
+/* ==========================================================================
+   5. LAYOUT
+   ========================================================================== */
+
+.panierLayout {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(340px, 390px);
+
+  align-items:
+    start;
+
+  gap:
+    clamp(28px, 3vw, 48px);
+
+  width:
+    100%;
+}
+
+
+/* ==========================================================================
+   6. ARTICLES
+   ========================================================================== */
+
+.panierItemsSection {
+  min-width:
+    0;
+}
+
+
+.panierItemsHeader {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    20px;
+
+  margin-bottom:
+    15px;
+}
+
+
+.panierItemsTitle {
+  margin:
+    0;
+
+  color:
+    #262025;
+
+  font-size:
+    18px;
+
+  font-weight:
+    790;
+
+  line-height:
+    1.3;
+}
+
+
+.panierItemsCount {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-height:
+    28px;
+
+  padding:
+    0 10px;
+
+  border-radius:
+    999px;
+
+  background:
+    #fae7ef;
+
+  color:
+    #b61e5d;
+
+  font-size:
+    10.5px;
+
+  font-weight:
+    760;
+
+  white-space:
+    nowrap;
+}
+
+
+.panierItemsList {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    13px;
+
+  width:
+    100%;
+}
+
+
+/* ==========================================================================
+   7. CARTE ARTICLE
+   ========================================================================== */
+
+.panierItem {
+  display:
+    grid;
+
+  grid-template-columns:
+    132px minmax(0, 1fr);
+
+  gap:
+    18px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  padding:
+    16px;
+
+  border:
+    1px solid #ece4e8;
+
+  border-radius:
+    16px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 7px 26px
+    rgb(42 22 32 / 3.5%);
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+
+.panierItem:hover {
+  border-color:
+    #e2d6dc;
+
+  box-shadow:
+    0 12px 32px
+    rgb(42 22 32 / 5.5%);
+}
+
+
+.panierItem[data-panier-item-state="OUT_OF_STOCK"] {
+  border-color:
+    #ead9dd;
+
+  background:
+    #fffafa;
+}
+
+
+.panierItem[data-panier-item-state="INSUFFICIENT_STOCK"] {
+  border-color:
+    #eadfbe;
+
+  background:
+    #fffdf8;
+}
+
+
+/* ==========================================================================
+   8. IMAGE
+   ========================================================================== */
+
+.panierItemImageLink {
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  border-radius:
+    13px;
+
+  text-decoration:
+    none;
+}
+
+
+.panierItemImageLink:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+}
+
+
+.panierItemImageWrapper {
+  position:
+    relative;
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  aspect-ratio:
+    1 / 1.08;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid #f0e8eb;
+
+  border-radius:
+    13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffdfd 0%,
+      #fff7fa 100%
+    );
+}
+
+
+.panierItemImage {
+  object-fit:
+    contain;
+
+  padding:
+    11px;
+
+  transition:
+    transform 220ms ease;
+}
+
+
+.panierItemImageLink:hover
+.panierItemImage {
+  transform:
+    scale(1.025);
+}
+
+
+/* ==========================================================================
+   9. CONTENU ARTICLE
+   ========================================================================== */
+
+.panierItemContent {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  min-width:
+    0;
+}
+
+
+.panierItemTop {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    14px;
+
+  min-width:
+    0;
+}
+
+
+.panierItemIdentity {
+  min-width:
+    0;
+}
+
+
+/* ==========================================================================
+   10. NOM
+   ========================================================================== */
+
+.panierItemName {
+  display:
+    inline-block;
+
+  max-width:
+    100%;
+
+  color:
+    #251d21;
+
+  font-size:
+    15px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.35;
+
+  text-decoration:
+    none;
+
+  overflow-wrap:
+    anywhere;
+
+  transition:
+    color 150ms ease;
+}
+
+
+.panierItemName:hover {
+  color:
+    #b51e5c;
+}
+
+
+.panierItemName:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+
+  border-radius:
+    3px;
+}
+
+
+/* ==========================================================================
+   11. SKU
+   ========================================================================== */
+
+.panierItemSku {
+  margin:
+    5px 0 0;
+
+  color:
+    #8a7d84;
+
+  font-size:
+    9.5px;
+
+  line-height:
+    1.45;
+}
+
+
+.panierItemSku strong {
+  color:
+    #554a50;
+
+  font-weight:
+    700;
+}
+
+
+/* ==========================================================================
+   12. BOUTIQUE
+   ========================================================================== */
+
+.panierItemStore {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    5px;
+
+  margin-top:
+    7px;
+
+  color:
+    #776b71;
+
+  font-size:
+    9.5px;
+
+  line-height:
+    1.45;
+}
+
+
+.panierItemStore svg {
+  flex:
+    0 0 auto;
+
+  color:
+    #a42b5d;
+}
+
+
+.panierItemStoreSeparator {
+  color:
+    #b5a9af;
+}
+
+
+/* ==========================================================================
+   13. RETIRER
+   ========================================================================== */
+
+.panierItemRemove {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+  padding:
+    0;
+
+  border:
+    1px solid #eadfe2;
+
+  border-radius:
+    9px;
+
+  background:
+    #ffffff;
+
+  color:
+    #9e5963;
+
+  cursor:
+    pointer;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.panierItemRemove:hover {
+  border-color:
+    #ddb9bf;
+
+  background:
+    #fff2f4;
+
+  color:
+    #913945;
+}
+
+
+.panierItemRemove:active {
+  transform:
+    scale(0.96);
+}
+
+
+.panierItemRemove:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   14. PRIX
+   ========================================================================== */
+
+.panierItemPricing {
+  display:
+    flex;
+
+  align-items:
+    baseline;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    8px;
+
+  margin-top:
+    12px;
+}
+
+
+.panierItemUnitPrice {
+  color:
+    #bd2162;
+
+  font-size:
+    17px;
+
+  font-weight:
+    820;
+
+  line-height:
+    1.15;
+
+  letter-spacing:
+    -0.025em;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+.panierItemComparePrice {
+  color:
+    #a99da3;
+
+  font-size:
+    11px;
+
+  font-weight:
+    580;
+
+  text-decoration:
+    line-through;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   15. DISPONIBILITÉ
+   ========================================================================== */
+
+.panierItemAvailability {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    5px;
+
+  margin-top:
+    9px;
+
+  color:
+    #a34752;
+
+  font-size:
+    10px;
+
+  font-weight:
+    680;
+
+  line-height:
+    1.45;
+}
+
+
+.panierItemAvailability[data-available="true"] {
+  color:
+    #39724d;
+}
+
+
+.panierItemAvailability svg {
+  flex:
+    0 0 auto;
+}
+
+
+.panierItemStock {
+  color:
+    #7f7279;
+
+  font-weight:
+    520;
+}
+
+
+/* ==========================================================================
+   16. BAS ARTICLE
+   ========================================================================== */
+
+.panierItemBottom {
+  display:
+    flex;
+
+  align-items:
+    flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:
+    18px;
+
+  margin-top:
+    auto;
+
+  padding-top:
+    18px;
+}
+
+
+/* ==========================================================================
+   17. QUANTITÉ
+   ========================================================================== */
+
+.panierQuantity {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  min-height:
+    38px;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid #ddd3d8;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+}
+
+
+.panierQuantityButton {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    36px;
+
+  height:
+    36px;
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    #493d43;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.panierQuantityButton:hover:not(:disabled) {
+  background:
+    #fff3f8;
+
+  color:
+    #b51f5d;
+}
+
+
+.panierQuantityButton:disabled {
+  color:
+    #c7bec2;
+
+  cursor:
+    not-allowed;
+}
+
+
+.panierQuantityButton:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    -2px;
+}
+
+
+.panierQuantityValue {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-width:
+    34px;
+
+  height:
+    36px;
+
+  padding:
+    0 5px;
+
+  color:
+    #31282d;
+
+  font-size:
+    11px;
+
+  font-weight:
+    760;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   18. SOUS-TOTAL ARTICLE
+   ========================================================================== */
+
+.panierItemSubtotal {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-end;
+
+  gap:
+    3px;
+
+  text-align:
+    right;
+}
+
+
+.panierItemSubtotal span {
+  color:
+    #93868c;
+
+  font-size:
+    9px;
+
+  line-height:
+    1.3;
+}
+
+
+.panierItemSubtotal strong {
+  color:
+    #292126;
+
+  font-size:
+    14px;
+
+  font-weight:
+    790;
+
+  line-height:
+    1.3;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   19. WARNING ARTICLE
+   ========================================================================== */
+
+.panierItemWarning {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    10px;
+
+  width:
+    100%;
+
+  margin-top:
+    15px;
+
+  padding:
+    12px;
+
+  border:
+    1px solid #eadfbe;
+
+  border-radius:
+    11px;
+
+  background:
+    #fffaf1;
+
+  color:
+    #7c5e20;
+}
+
+
+.panierItemWarning > svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    1px;
+}
+
+
+.panierItemWarning > div {
+  flex:
+    1 1 auto;
+
+  min-width:
+    0;
+}
+
+
+.panierItemWarning strong {
+  display:
+    block;
+
+  font-size:
+    10.5px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.4;
+}
+
+
+.panierItemWarning p {
+  margin:
+    3px 0 0;
+
+  font-size:
+    9.5px;
+
+  line-height:
+    1.55;
+}
+
+
+.panierAdjustStockButton {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-height:
+    32px;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid #dec78d;
+
+  border-radius:
+    8px;
+
+  background:
+    #ffffff;
+
+  color:
+    #735618;
+
+  font-family:
+    inherit;
+
+  font-size:
+    9.5px;
+
+  font-weight:
+    740;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+
+.panierAdjustStockButton:hover {
+  border-color:
+    #caad64;
+
+  background:
+    #fff6df;
+}
+
+
+.panierAdjustStockButton:focus-visible {
+  outline:
+    2px solid #9e741a;
+
+  outline-offset:
+    2px;
+}
+
+
+/* ==========================================================================
+   20. ISSUE DÉTACHÉE
+   ========================================================================== */
+
+.panierDetachedIssue {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+
+  width:
+    100%;
+
+  padding:
+    15px;
+
+  border:
+    1px dashed #dcc8ce;
+
+  border-radius:
+    14px;
+
+  background:
+    #fffafb;
+}
+
+
+.panierDetachedIssueIcon {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border-radius:
+    11px;
+
+  background:
+    #f7e5e8;
+
+  color:
+    #9a4753;
+}
+
+
+.panierDetachedIssueContent {
+  flex:
+    1 1 auto;
+
+  min-width:
+    0;
+}
+
+
+.panierDetachedIssueContent strong {
+  display:
+    block;
+
+  color:
+    #4b353c;
+
+  font-size:
+    11px;
+
+  font-weight:
+    760;
+
+  line-height:
+    1.35;
+}
+
+
+.panierDetachedIssueContent p {
+  margin:
+    4px 0 0;
+
+  color:
+    #856f76;
+
+  font-size:
+    10px;
+
+  line-height:
+    1.5;
+}
+
+
+.panierDetachedIssueRemove {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+
+  min-height:
+    34px;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid #dfc6cc;
+
+  border-radius:
+    8px;
+
+  background:
+    #ffffff;
+
+  color:
+    #984550;
+
+  font-family:
+    inherit;
+
+  font-size:
+    9.5px;
+
+  font-weight:
+    720;
+
+  cursor:
+    pointer;
+}
+
+
+.panierDetachedIssueRemove:hover {
+  background:
+    #fff1f3;
+}
+
+
+.panierDetachedIssueRemove:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    2px;
+}
+
+
+/* ==========================================================================
+   21. RÉSUMÉ
+   ========================================================================== */
+
+.panierSummary {
+  position:
+    sticky;
+
+  top:
+    132px;
+
+  min-width:
+    0;
+}
+
+
+.panierSummaryCard {
+  width:
+    100%;
+
+  padding:
+    22px;
+
+  border:
+    1px solid #e9dfe4;
+
+  border-radius:
+    18px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 14px 40px
+    rgb(43 22 32 / 6.5%);
+}
+
+
+.panierSummaryTitle {
+  margin:
+    0;
+
+  color:
+    #251d21;
+
+  font-size:
+    18px;
+
+  font-weight:
+    790;
+
+  line-height:
+    1.3;
+}
+
+
+/* ==========================================================================
+   22. DÉTAILS RÉSUMÉ
+   ========================================================================== */
+
+.panierSummaryDetails {
+  margin:
+    20px 0 0;
+
+  padding:
+    0;
+
+  border-top:
+    1px solid #eee7ea;
+}
+
+
+.panierSummaryRow {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    18px;
+
+  padding:
+    13px 0;
+
+  border-bottom:
+    1px solid #f1ebee;
+}
+
+
+.panierSummaryRow dt {
+  color:
+    #786b72;
+
+  font-size:
+    10.5px;
+
+  line-height:
+    1.45;
+}
+
+
+.panierSummaryRow dd {
+  margin:
+    0;
+
+  color:
+    #342a2f;
+
+  font-size:
+    11px;
+
+  font-weight:
+    740;
+
+  line-height:
+    1.4;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   23. TOTAUX
+   ========================================================================== */
+
+.panierSummaryTotals {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    0;
+
+  margin-top:
+    14px;
+
+  padding-top:
+    8px;
+}
+
+
+.panierSummaryTotalRow {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    18px;
+
+  padding:
+    10px 0;
+}
+
+
+.panierSummaryTotalRow span {
+  color:
+    #65585f;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.4;
+}
+
+
+.panierSummaryTotalRow strong {
+  color:
+    #bd2162;
+
+  font-size:
+    16px;
+
+  font-weight:
+    820;
+
+  line-height:
+    1.25;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+.panierSummaryNoTotal {
+  margin-top:
+    15px;
+
+  padding:
+    12px;
+
+  border-radius:
+    10px;
+
+  background:
+    #f8f5f6;
+
+  color:
+    #81747b;
+
+  font-size:
+    10.5px;
+
+  line-height:
+    1.55;
+}
+
+
+/* ==========================================================================
+   24. MULTI-DEVISE
+   ========================================================================== */
+
+.panierCurrencyWarning {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    9px;
+
+  margin-top:
+    17px;
+
+  padding:
+    12px;
+
+  border:
+    1px solid #eadfbe;
+
+  border-radius:
+    10px;
+
+  background:
+    #fffaf0;
+
+  color:
+    #7c601f;
+}
+
+
+.panierCurrencyWarning svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    1px;
+}
+
+
+.panierCurrencyWarning p {
+  margin:
+    0;
+
+  font-size:
+    9.5px;
+
+  line-height:
+    1.55;
+}
+
+
+/* ==========================================================================
+   25. PANIER VÉRIFIÉ
+   ========================================================================== */
+
+.panierSummaryReady {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    10px;
+
+  margin-top:
+    17px;
+
+  padding:
+    12px;
+
+  border:
+    1px solid #d7e8dc;
+
+  border-radius:
+    10px;
+
+  background:
+    #f5fbf7;
+
+  color:
+    #3b6d4b;
+}
+
+
+.panierSummaryReady > svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    1px;
+}
+
+
+.panierSummaryReady > div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+}
+
+
+.panierSummaryReady strong {
+  font-size:
+    10.5px;
+
+  font-weight:
+    770;
+
+  line-height:
+    1.4;
+}
+
+
+.panierSummaryReady span {
+  font-size:
+    9.5px;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================================
+   26. CONTINUER LA COMMANDE — DESKTOP
+   ========================================================================== */
+
+.panierSummaryOrderAction {
+  width:
+    100%;
+
+  margin-top:
+    20px;
+}
+
+
+.panierContinueOrderButton {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    9px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    52px;
+
+  padding:
+    0 18px;
+
+  border:
+    1px solid
+    var(--panier-primary);
+
+  border-radius:
+    12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--panier-primary) 0%,
+      var(--panier-primary-dark) 100%
+    );
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 12px 26px
+    rgb(230 0 126 / 20%);
+
+  font-family:
+    inherit;
+
+  font-size:
+    12.5px;
+
+  font-weight:
+    800;
+
+  line-height:
+    1;
+
+  text-align:
+    center;
+
+  text-decoration:
+    none;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease;
+}
+
+
+.panierContinueOrderButton:hover:not(:disabled) {
+  border-color:
+    var(--panier-primary-dark);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--panier-primary-dark) 0%,
+      var(--panier-primary-deep) 100%
+    );
+
+  box-shadow:
+    0 15px 30px
+    rgb(188 0 103 / 25%);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.panierContinueOrderButton:active:not(:disabled) {
+  transform:
+    translateY(0);
+}
+
+
+.panierContinueOrderButton:focus-visible {
+  outline:
+    3px solid
+    rgb(230 0 126 / 25%);
+
+  outline-offset:
+    3px;
+}
+
+
+.panierContinueOrderButton:disabled {
+  border-color:
+    #e6dce1;
+
+  background:
+    #f3eef1;
+
+  color:
+    #aa9da4;
+
+  box-shadow:
+    none;
+
+  cursor:
+    not-allowed;
+
+  opacity:
+    1;
+}
+
+
+/* ==========================================================================
+   27. NOTICE
+   ========================================================================== */
+
+.panierSummaryNotice {
+  margin:
+    18px 0 0;
+
+  padding-top:
+    15px;
+
+  border-top:
+    1px solid #eee7ea;
+
+  color:
+    #8c8086;
+
+  font-size:
+    9.5px;
+
+  line-height:
+    1.6;
+}
+
+
+/* ==========================================================================
+   28. ACTION MOBILE FIXE — BASE
+   ========================================================================== */
+
+/**
+ * Cachée par défaut.
+ *
+ * Elle devient visible uniquement sous 768px.
+ */
+.panierMobileOrderBar {
+  display:
+    none;
+}
+
+
+.panierMobileOrderBarInner {
+  width:
+    100%;
+}
+
+
+.panierMobileOrderTotal {
+  min-width:
+    0;
+}
+
+
+.panierMobileOrderTotalLabel {
+  display:
+    block;
+}
+
+
+.panierMobileOrderTotalValue {
+  display:
+    block;
+}
+
+
+.panierMobileContinueOrderButton {
+  min-width:
+    0;
+}
+
+
+/* ==========================================================================
+   29. LOADING
+   ========================================================================== */
+
+.panierLoading {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    18px;
+
+  width:
+    100%;
+
+  min-height:
+    360px;
+
+  padding:
+    40px 24px;
+
+  text-align:
+    left;
+}
+
+
+.panierLoadingIcon {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    58px;
+
+  height:
+    58px;
+
+  border-radius:
+    50%;
+
+  background:
+    #fae5ee;
+
+  color:
+    #bd2162;
+}
+
+
+.panierLoadingIcon svg {
+  animation:
+    panierSpinner 0.9s linear infinite;
+}
+
+
+.panierLoadingContent {
+  max-width:
+    480px;
+}
+
+
+.panierLoadingContent h2 {
+  margin:
+    0;
+
+  color:
+    #2a2126;
+
+  font-size:
+    17px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.35;
+}
+
+
+.panierLoadingContent p {
+  margin:
+    6px 0 0;
+
+  color:
+    #81747b;
+
+  font-size:
+    11.5px;
+
+  line-height:
+    1.6;
+}
+
+
+@keyframes panierSpinner {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* ==========================================================================
+   30. PANIER VIDE
+   ========================================================================== */
+
+.panierEmpty {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    100%;
+
+  min-height:
+    430px;
+
+  padding:
+    54px 24px;
+
+  border:
+    1px dashed #ddcdd4;
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffefe 0%,
+      #fff8fb 100%
+    );
+
+  text-align:
+    center;
+}
+
+
+.panierEmptyIcon {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    72px;
+
+  height:
+    72px;
+
+  margin-bottom:
+    19px;
+
+  border-radius:
+    50%;
+
+  background:
+    #fae5ee;
+
+  color:
+    #bd2162;
+}
+
+
+.panierEmptyTitle {
+  margin:
+    0;
+
+  color:
+    #271f23;
+
+  font-size:
+    21px;
+
+  font-weight:
+    790;
+
+  line-height:
+    1.3;
+}
+
+
+.panierEmptyDescription {
+  max-width:
+    470px;
+
+  margin:
+    9px 0 0;
+
+  color:
+    #7f7279;
+
+  font-size:
+    11.5px;
+
+  line-height:
+    1.65;
+}
+
+
+.panierEmptyAction {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  min-height:
+    42px;
+
+  margin-top:
+    21px;
+
+  padding:
+    0 16px;
+
+  border:
+    1px solid
+    var(--panier-primary);
+
+  border-radius:
+    10px;
+
+  background:
+    var(--panier-primary);
+
+  color:
+    #ffffff;
+
+  font-size:
+    11.5px;
+
+  font-weight:
+    740;
+
+  text-decoration:
+    none;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.panierEmptyAction:hover {
+  border-color:
+    var(--panier-primary-dark);
+
+  background:
+    var(--panier-primary-dark);
+}
+
+
+.panierEmptyAction:active {
+  transform:
+    translateY(1px);
+}
+
+
+.panierEmptyAction:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   31. ERREUR GLOBALE
+   ========================================================================== */
+
+.panierError {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    17px;
+
+  width:
+    100%;
+
+  min-height:
+    230px;
+
+  padding:
+    28px;
+
+  border:
+    1px solid #ead9dd;
+
+  border-radius:
+    17px;
+
+  background:
+    #fffafa;
+}
+
+
+.panierErrorIcon {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    55px;
+
+  height:
+    55px;
+
+  border-radius:
+    14px;
+
+  background:
+    #f6e2e6;
+
+  color:
+    #a44652;
+}
+
+
+.panierErrorContent {
+  flex:
+    1 1 auto;
+
+  min-width:
+    0;
+}
+
+
+.panierErrorContent h2 {
+  margin:
+    0;
+
+  color:
+    #55343b;
+
+  font-size:
+    16px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.35;
+}
+
+
+.panierErrorContent p {
+  margin:
+    6px 0 0;
+
+  color:
+    #856d74;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.6;
+}
+
+
+.panierRetryButton {
+  flex:
+    0 0 auto;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  min-height:
+    38px;
+
+  padding:
+    0 13px;
+
+  border:
+    1px solid #d8bcc3;
+
+  border-radius:
+    9px;
+
+  background:
+    #ffffff;
+
+  color:
+    #92414d;
+
+  font-family:
+    inherit;
+
+  font-size:
+    10.5px;
+
+  font-weight:
+    730;
+
+  cursor:
+    pointer;
+}
+
+
+.panierRetryButton:hover {
+  background:
+    #fff0f2;
+}
+
+
+.panierRetryButton:focus-visible {
+  outline:
+    2px solid
+    var(--panier-primary);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   32. GRAND ÉCRAN
+   ========================================================================== */
+
+@media (min-width: 1500px) {
+  .panierPageInner {
+    padding-inline:
+      clamp(58px, 4.5vw, 88px);
+  }
+
+
+  .panierLayout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      410px;
+
+    gap:
+      clamp(42px, 3.5vw, 64px);
+  }
+
+
+  .panierItem {
+    grid-template-columns:
+      145px minmax(0, 1fr);
+
+    padding:
+      18px;
+  }
+
+
+  .panierContinueOrderButton {
+    min-height:
+      55px;
+
+    font-size:
+      13px;
+  }
+}
+
+
+/* ==========================================================================
+   33. PETIT DESKTOP
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .panierLayout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      320px;
+
+    gap:
+      24px;
+  }
+
+
+  .panierSummaryCard {
+    padding:
+      18px;
+  }
+
+
+  .panierItem {
+    grid-template-columns:
+      116px minmax(0, 1fr);
+
+    gap:
+      14px;
+  }
+}
+
+
+/* ==========================================================================
+   34. TABLETTE
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .panierHeader {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+
+  .panierHeaderActions {
+    justify-content:
+      flex-start;
+  }
+
+
+  .panierLayout {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .panierSummary {
+    position:
+      static;
+
+    top:
+      auto;
+  }
+
+
+  .panierSummaryCard {
+    width:
+      100%;
+  }
+}
+
+
+/* ==========================================================================
+   35. MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  /* ------------------------------------------------------------------------
+     PAGE
+     ------------------------------------------------------------------------ */
+
+  .panierPage {
+    /**
+     * Le shell public possède déjà sa propre compensation pour la navigation
+     * basse globale.
+     *
+     * On ajoute ici l'espace nécessaire à la barre de commande fixe.
+     */
+    padding-bottom:
+      calc(
+        var(--panier-mobile-order-bar-height) +
+        18px
+      );
+  }
+
+
+  .panierPageInner {
+    padding:
+      22px
+      11px
+      38px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FOOTER
+     ------------------------------------------------------------------------
+     
+     IMPORTANT :
+     
+     Ce sélecteur contient volontairement la classe locale .panierPage.
+     
+     Le Footer global est caché uniquement lorsque le body contient
+     effectivement cette page Panier.
+     
+     Les autres pages publiques conservent leur Footer.
+     ------------------------------------------------------------------------ */
+
+  :global(body):has(.panierPage)
+  :global([data-public-footer="true"]) {
+    display:
+      none !important;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HEADER
+     ------------------------------------------------------------------------ */
+
+  .panierHeader {
+    gap:
+      18px;
+
+    margin-bottom:
+      21px;
+
+    padding-bottom:
+      18px;
+  }
+
+
+  .panierHeaderEyebrow {
+    font-size:
+      8.5px;
+  }
+
+
+  .panierHeaderTitle {
+    font-size:
+      31px;
+  }
+
+
+  .panierHeaderDescription {
+    margin-top:
+      7px;
+
+    font-size:
+      10.5px;
+
+    line-height:
+      1.55;
+  }
+
+
+  .panierHeaderActions {
+    width:
+      100%;
+  }
+
+
+  .panierContinueShopping,
+  .panierClearButton {
+    min-height:
+      39px;
+
+    font-size:
+      10px;
+  }
+
+
+  .panierContinueShopping {
+    flex:
+      1 1 auto;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     WARNING
+     ------------------------------------------------------------------------ */
+
+  .panierGlobalWarning {
+    gap:
+      9px;
+
+    padding:
+      12px;
+
+    border-radius:
+      11px;
+  }
+
+
+  .panierGlobalWarning strong {
+    font-size:
+      10.5px;
+  }
+
+
+  .panierGlobalWarning p {
+    font-size:
+      9.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ITEMS HEADER
+     ------------------------------------------------------------------------ */
+
+  .panierItemsHeader {
+    margin-bottom:
+      11px;
+  }
+
+
+  .panierItemsTitle {
+    font-size:
+      16px;
+  }
+
+
+  .panierItemsCount {
+    min-height:
+      25px;
+
+    padding:
+      0 8px;
+
+    font-size:
+      9px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CARTE PRODUIT
+     ------------------------------------------------------------------------ */
+
+  .panierItem {
+    grid-template-columns:
+      92px minmax(0, 1fr);
+
+    gap:
+      11px;
+
+    padding:
+      11px;
+
+    border-radius:
+      13px;
+  }
+
+
+  .panierItemImageWrapper {
+    border-radius:
+      10px;
+  }
+
+
+  .panierItemImage {
+    padding:
+      7px;
+  }
+
+
+  .panierItemName {
+    font-size:
+      12px;
+  }
+
+
+  .panierItemSku {
+    margin-top:
+      3px;
+
+    font-size:
+      8px;
+  }
+
+
+  .panierItemStore {
+    gap:
+      4px;
+
+    margin-top:
+      5px;
+
+    font-size:
+      8px;
+  }
+
+
+  .panierItemStore svg {
+    width:
+      11px;
+
+    height:
+      11px;
+  }
+
+
+  .panierItemRemove {
+    width:
+      30px;
+
+    height:
+      30px;
+
+    border-radius:
+      8px;
+  }
+
+
+  .panierItemRemove svg {
+    width:
+      14px;
+
+    height:
+      14px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PRIX
+     ------------------------------------------------------------------------ */
+
+  .panierItemPricing {
+    margin-top:
+      8px;
+  }
+
+
+  .panierItemUnitPrice {
+    font-size:
+      14px;
+  }
+
+
+  .panierItemComparePrice {
+    font-size:
+      9px;
+  }
+
+
+  .panierItemAvailability {
+    margin-top:
+      7px;
+
+    font-size:
+      8.5px;
+  }
+
+
+  .panierItemAvailability svg {
+    width:
+      13px;
+
+    height:
+      13px;
+  }
+
+
+  .panierItemStock {
+    display:
+      none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     QUANTITÉ
+     ------------------------------------------------------------------------ */
+
+  .panierItemBottom {
+    gap:
+      10px;
+
+    padding-top:
+      12px;
+  }
+
+
+  .panierQuantity {
+    min-height:
+      34px;
+
+    border-radius:
+      8px;
+  }
+
+
+  .panierQuantityButton {
+    width:
+      31px;
+
+    height:
+      32px;
+  }
+
+
+  .panierQuantityButton svg {
+    width:
+      13px;
+
+    height:
+      13px;
+  }
+
+
+  .panierQuantityValue {
+    min-width:
+      29px;
+
+    height:
+      32px;
+
+    font-size:
+      9.5px;
+  }
+
+
+  .panierItemSubtotal span {
+    font-size:
+      7.5px;
+  }
+
+
+  .panierItemSubtotal strong {
+    font-size:
+      11px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     WARNING ARTICLE
+     ------------------------------------------------------------------------ */
+
+  .panierItemWarning {
+    gap:
+      8px;
+
+    margin-top:
+      11px;
+
+    padding:
+      10px;
+
+    border-radius:
+      9px;
+  }
+
+
+  .panierItemWarning strong {
+    font-size:
+      9.5px;
+  }
+
+
+  .panierItemWarning p {
+    font-size:
+      8.5px;
+  }
+
+
+  .panierAdjustStockButton {
+    min-height:
+      29px;
+
+    padding-inline:
+      8px;
+
+    font-size:
+      8.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ISSUE DÉTACHÉE
+     ------------------------------------------------------------------------ */
+
+  .panierDetachedIssue {
+    gap:
+      10px;
+
+    padding:
+      11px;
+
+    border-radius:
+      11px;
+  }
+
+
+  .panierDetachedIssueIcon {
+    width:
+      36px;
+
+    height:
+      36px;
+
+    border-radius:
+      9px;
+  }
+
+
+  .panierDetachedIssueIcon svg {
+    width:
+      18px;
+
+    height:
+      18px;
+  }
+
+
+  .panierDetachedIssueContent strong {
+    font-size:
+      9.5px;
+  }
+
+
+  .panierDetachedIssueContent p {
+    font-size:
+      8.5px;
+  }
+
+
+  .panierDetachedIssueRemove {
+    min-height:
+      31px;
+
+    padding:
+      0 8px;
+
+    font-size:
+      8.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SUMMARY
+     ------------------------------------------------------------------------ */
+
+  .panierSummaryCard {
+    padding:
+      16px;
+
+    border-radius:
+      14px;
+  }
+
+
+  .panierSummaryTitle {
+    font-size:
+      16px;
+  }
+
+
+  .panierSummaryDetails {
+    margin-top:
+      15px;
+  }
+
+
+  .panierSummaryRow {
+    padding:
+      11px 0;
+  }
+
+
+  .panierSummaryRow dt {
+    font-size:
+      9.5px;
+  }
+
+
+  .panierSummaryRow dd {
+    font-size:
+      10px;
+  }
+
+
+  .panierSummaryTotalRow {
+    padding:
+      8px 0;
+  }
+
+
+  .panierSummaryTotalRow span {
+    font-size:
+      10px;
+  }
+
+
+  .panierSummaryTotalRow strong {
+    font-size:
+      14px;
+  }
+
+
+  .panierCurrencyWarning p,
+  .panierSummaryReady span,
+  .panierSummaryNotice {
+    font-size:
+      8.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CTA DESKTOP DANS SUMMARY
+     ------------------------------------------------------------------------
+     
+     Sur mobile, on évite de montrer deux CTA identiques.
+     
+     Le CTA fixe remplace celui du résumé.
+     ------------------------------------------------------------------------ */
+
+  .panierSummaryOrderAction {
+    display:
+      none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     BARRE COMMANDE MOBILE FIXE
+     ------------------------------------------------------------------------ */
+
+  .panierMobileOrderBar {
+    position:
+      fixed;
+
+    left:
+      0;
+
+    right:
+      0;
+
+    bottom:
+      calc(
+        var(--panier-mobile-bottom-nav-height) +
+        env(safe-area-inset-bottom)
+      );
+
+    z-index:
+      1150;
+
+    display:
+      block;
+
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    min-height:
+      var(--panier-mobile-order-bar-height);
+
+    border-top:
+      1px solid
+      rgb(228 214 221 / 88%);
+
+    background:
+      rgb(255 255 255 / 97%);
+
+    box-shadow:
+      0 -12px 30px
+      rgb(35 17 29 / 10%);
+
+    backdrop-filter:
+      blur(16px);
+
+    -webkit-backdrop-filter:
+      blur(16px);
+  }
+
+
+  .panierMobileOrderBarInner {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(78px, 0.72fr)
+      minmax(0, 1.28fr);
+
+    align-items:
+      center;
+
+    gap:
+      10px;
+
+    width:
+      100%;
+
+    min-height:
+      var(--panier-mobile-order-bar-height);
+
+    padding:
+      10px 11px;
+  }
+
+
+  .panierMobileOrderTotal {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      center;
+
+    min-width:
+      0;
+  }
+
+
+  .panierMobileOrderTotalLabel {
+    color:
+      #887a81;
+
+    font-size:
+      8.5px;
+
+    font-weight:
+      650;
+
+    line-height:
+      1.2;
+
+    text-transform:
+      uppercase;
+
+    letter-spacing:
+      0.06em;
+  }
+
+
+  .panierMobileOrderTotalValue {
+    margin-top:
+      3px;
+
+    overflow:
+      hidden;
+
+    color:
+      #251d21;
+
+    font-size:
+      clamp(12px, 3.8vw, 16px);
+
+    font-weight:
+      850;
+
+    line-height:
+      1.15;
+
+    letter-spacing:
+      -0.025em;
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+
+    font-variant-numeric:
+      tabular-nums;
+  }
+
+
+  .panierMobileContinueOrderButton {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      6px;
+
+    width:
+      100%;
+
+    min-width:
+      0;
+
+    min-height:
+      50px;
+
+    padding:
+      0 11px;
+
+    border:
+      1px solid
+      var(--panier-primary);
+
+    border-radius:
+      12px;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--panier-primary) 0%,
+        var(--panier-primary-dark) 100%
+      );
+
+    color:
+      #ffffff;
+
+    box-shadow:
+      0 9px 21px
+      rgb(230 0 126 / 23%);
+
+    font-family:
+      inherit;
+
+    font-size:
+      10.5px;
+
+    font-weight:
+      800;
+
+    line-height:
+      1.15;
+
+    text-align:
+      center;
+
+    text-decoration:
+      none;
+
+    cursor:
+      pointer;
+
+    -webkit-tap-highlight-color:
+      transparent;
+
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      background 150ms ease,
+      opacity 150ms ease;
+  }
+
+
+  .panierMobileContinueOrderButton svg {
+    flex:
+      0 0 auto;
+  }
+
+
+  .panierMobileContinueOrderButton:hover:not(:disabled) {
+    background:
+      linear-gradient(
+        135deg,
+        var(--panier-primary-dark) 0%,
+        var(--panier-primary-deep) 100%
+      );
+  }
+
+
+  .panierMobileContinueOrderButton:active:not(:disabled) {
+    transform:
+      scale(0.985);
+  }
+
+
+  .panierMobileContinueOrderButton:focus-visible {
+    outline:
+      3px solid
+      rgb(230 0 126 / 27%);
+
+    outline-offset:
+      -3px;
+  }
+
+
+  .panierMobileContinueOrderButton:disabled {
+    border-color:
+      #e5dce0;
+
+    background:
+      #f3eef1;
+
+    color:
+      #a99ca3;
+
+    box-shadow:
+      none;
+
+    cursor:
+      not-allowed;
+  }
+
+
+  .panierMobileOrderBar[data-order-ready="false"] {
+    background:
+      rgb(252 249 251 / 98%);
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LOADING
+     ------------------------------------------------------------------------ */
+
+  .panierLoading {
+    flex-direction:
+      column;
+
+    min-height:
+      320px;
+
+    padding:
+      38px 18px;
+
+    text-align:
+      center;
+  }
+
+
+  .panierLoadingIcon {
+    width:
+      52px;
+
+    height:
+      52px;
+  }
+
+
+  .panierLoadingContent h2 {
+    font-size:
+      15px;
+  }
+
+
+  .panierLoadingContent p {
+    font-size:
+      10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     EMPTY
+     ------------------------------------------------------------------------ */
+
+  .panierEmpty {
+    min-height:
+      350px;
+
+    padding:
+      42px 18px;
+
+    border-radius:
+      14px;
+  }
+
+
+  .panierEmptyIcon {
+    width:
+      62px;
+
+    height:
+      62px;
+
+    margin-bottom:
+      16px;
+  }
+
+
+  .panierEmptyIcon svg {
+    width:
+      30px;
+
+    height:
+      30px;
+  }
+
+
+  .panierEmptyTitle {
+    font-size:
+      18px;
+  }
+
+
+  .panierEmptyDescription {
+    font-size:
+      10.5px;
+  }
+
+
+  .panierEmptyAction {
+    min-height:
+      40px;
+
+    margin-top:
+      18px;
+
+    font-size:
+      10.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ERROR
+     ------------------------------------------------------------------------ */
+
+  .panierError {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    min-height:
+      0;
+
+    padding:
+      20px;
+
+    border-radius:
+      13px;
+  }
+
+
+  .panierErrorIcon {
+    width:
+      48px;
+
+    height:
+      48px;
+
+    border-radius:
+      12px;
+  }
+
+
+  .panierErrorContent h2 {
+    font-size:
+      14px;
+  }
+
+
+  .panierErrorContent p {
+    font-size:
+      10px;
+  }
+}
+
+
+/* ==========================================================================
+   36. PETITS MOBILES
+   ========================================================================== */
+
+@media (max-width: 390px) {
+  .panierPage {
+    --panier-mobile-order-bar-height:
+      74px;
+  }
+
+
+  .panierPageInner {
+    padding-inline:
+      8px;
+  }
+
+
+  .panierHeaderActions {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+  }
+
+
+  .panierContinueShopping,
+  .panierClearButton {
+    width:
+      100%;
+  }
+
+
+  .panierItem {
+    grid-template-columns:
+      82px minmax(0, 1fr);
+
+    gap:
+      9px;
+
+    padding:
+      9px;
+  }
+
+
+  .panierItemTop {
+    gap:
+      7px;
+  }
+
+
+  .panierItemName {
+    font-size:
+      11px;
+  }
+
+
+  .panierItemStore {
+    display:
+      -webkit-box;
+
+    overflow:
+      hidden;
+
+    -webkit-box-orient:
+      vertical;
+
+    -webkit-line-clamp:
+      1;
+
+    line-clamp:
+      1;
+  }
+
+
+  .panierItemBottom {
+    align-items:
+      center;
+  }
+
+
+  .panierQuantityButton {
+    width:
+      29px;
+  }
+
+
+  .panierQuantityValue {
+    min-width:
+      26px;
+  }
+
+
+  .panierItemSubtotal strong {
+    font-size:
+      10px;
+  }
+
+
+  .panierDetachedIssue {
+    align-items:
+      flex-start;
+
+    flex-wrap:
+      wrap;
+  }
+
+
+  .panierDetachedIssueRemove {
+    margin-left:
+      46px;
+  }
+
+
+  .panierMobileOrderBarInner {
+    grid-template-columns:
+      minmax(72px, 0.68fr)
+      minmax(0, 1.32fr);
+
+    gap:
+      7px;
+
+    padding:
+      8px;
+  }
+
+
+  .panierMobileOrderTotalLabel {
+    font-size:
+      7.5px;
+  }
+
+
+  .panierMobileOrderTotalValue {
+    font-size:
+      12px;
+  }
+
+
+  .panierMobileContinueOrderButton {
+    min-height:
+      48px;
+
+    padding-inline:
+      8px;
+
+    border-radius:
+      10px;
+
+    font-size:
+      9.5px;
+  }
+
+
+  .panierMobileContinueOrderButton svg {
+    width:
+      16px;
+
+    height:
+      16px;
+  }
+}
+
+
+/* ==========================================================================
+   37. TRÈS PETITS MOBILES
+   ========================================================================== */
+
+@media (max-width: 340px) {
+  .panierMobileOrderBarInner {
+    grid-template-columns:
+      72px minmax(0, 1fr);
+  }
+
+
+  .panierMobileContinueOrderButton {
+    gap:
+      4px;
+
+    font-size:
+      9px;
+  }
+
+
+  .panierMobileContinueOrderButton svg {
+    width:
+      14px;
+
+    height:
+      14px;
+  }
+}
+
+
+/* ==========================================================================
+   38. ÉCRANS TACTILES
+   ========================================================================== */
+
+@media (hover: none) {
+  .panierItem:hover {
+    border-color:
+      #ece4e8;
+
+    box-shadow:
+      0 7px 26px
+      rgb(42 22 32 / 3.5%);
+  }
+
+
+  .panierItemImageLink:hover
+  .panierItemImage {
+    transform:
+      none;
+  }
+
+
+  .panierContinueOrderButton:hover:not(:disabled),
+  .panierMobileContinueOrderButton:hover:not(:disabled) {
+    background:
+      linear-gradient(
+        135deg,
+        var(--panier-primary) 0%,
+        var(--panier-primary-dark) 100%
+      );
+  }
+}
+
+
+/* ==========================================================================
+   39. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .panierItem,
+  .panierItemImage,
+  .panierItemRemove,
+  .panierQuantityButton,
+  .panierContinueShopping,
+  .panierClearButton,
+  .panierEmptyAction,
+  .panierContinueOrderButton,
+  .panierMobileContinueOrderButton,
+  .panierLoadingIcon svg {
+    animation:
+      none !important;
+
+    transition-duration:
+      0.01ms !important;
+  }
+
+
+  .panierItemImageLink:hover
+  .panierItemImage,
+  .panierContinueOrderButton:hover,
+  .panierMobileContinueOrderButton:hover {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   40. CONTRASTE FORCÉ
+   ========================================================================== */
+
+@media (forced-colors: active) {
+  .panierItem,
+  .panierSummaryCard,
+  .panierEmpty,
+  .panierError,
+  .panierDetachedIssue,
+  .panierItemWarning,
+  .panierGlobalWarning,
+  .panierCurrencyWarning,
+  .panierSummaryReady,
+  .panierContinueOrderButton,
+  .panierMobileOrderBar,
+  .panierMobileContinueOrderButton {
+    border:
+      1px solid CanvasText;
+  }
+}
+
+
+/* ==========================================================================
+   41. IMPRESSION
+   ========================================================================== */
+
+@media print {
+  .panierPage {
+    min-height:
+      auto;
+
+    padding-bottom:
+      0;
+
+    background:
+      #ffffff;
+  }
+
+
+  .panierHeaderActions,
+  .panierItemRemove,
+  .panierQuantity,
+  .panierAdjustStockButton,
+  .panierDetachedIssueRemove,
+  .panierSummaryOrderAction,
+  .panierMobileOrderBar {
+    display:
+      none !important;
+  }
+
+
+  .panierPageInner {
+    padding:
+      20px 0;
+  }
+
+
+  .panierLayout {
+    display:
+      block;
+  }
+
+
+  .panierItem {
+    break-inside:
+      avoid;
+
+    box-shadow:
+      none;
+  }
+
+
+  .panierSummary {
+    position:
+      static;
+
+    margin-top:
+      24px;
+  }
+
+
+  .panierSummaryCard {
+    box-shadow:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   FIN
+   ========================================================================== */
+
+/**
+ * ============================================================================
+ * DESKTOP
+ * ============================================================================
+ *
+ * Articles
+ *
+ * +
+ *
+ * Résumé sticky
+ *
+ * +
+ *
+ * gros bouton :
+ *
+ * CONTINUER LA COMMANDE
+ *
+ * +
+ *
+ * Footer normal.
+ *
+ * ============================================================================
+ *
+ * MOBILE
+ * ============================================================================
+ *
+ * Header mobile
+ *
+ * +
+ *
+ * contenu du Panier
+ *
+ * +
+ *
+ * PAS DE FOOTER
+ *
+ * +
+ *
+ * barre fixe :
+ *
+ * Total
+ * [ Continuer la commande ]
+ *
+ * +
+ *
+ * navigation globale fixe :
+ *
+ * Accueil
+ * Produits
+ * Panier
+ * Commandes
+ * Compte
+ *
+ * ============================================================================
+ *
+ * Le CTA mobile est positionné juste au-dessus de la navigation basse
+ * globale existante.
+ *
+ * ============================================================================
+ */

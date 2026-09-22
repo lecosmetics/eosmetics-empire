@@ -1,0 +1,2925 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * PAGE PUBLIQUE — TOUS LES PRODUITS
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/products/public-products.module.css
+ *
+ * Route :
+ *
+ * /produits
+ *
+ * ============================================================================
+ *
+ * RESPONSIVE :
+ *
+ * Desktop :
+ * - sidebar filtres ;
+ * - grille 5 colonnes ;
+ * - toolbar horizontale ;
+ * - footer global visible.
+ *
+ * Tablette :
+ * - filtres via drawer ;
+ * - grille 3 colonnes.
+ *
+ * Mobile :
+ * - filtres via drawer ;
+ * - grille 2 colonnes ;
+ * - navigation mobile globale conservée ;
+ * - footer global masqué.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. PAGE
+   ========================================================================== */
+
+.productsPage {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    #ffffff;
+  color:
+    #171217;
+}
+
+
+/* ==========================================================================
+   2. HERO
+   ========================================================================== */
+
+.productsHero {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  min-height: 300px;
+
+  overflow: hidden;
+
+  background:
+    #f8d9e7;
+}
+
+
+.productsHeroMedia {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  overflow: hidden;
+}
+
+
+.productsHeroImage {
+  object-fit: cover;
+  object-position: center;
+
+  transform:
+    scale(1.001);
+}
+
+
+.productsHeroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 248, 251, 0.97) 0%,
+      rgba(255, 244, 249, 0.92) 26%,
+      rgba(255, 238, 246, 0.7) 48%,
+      rgba(255, 238, 246, 0.18) 76%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+}
+
+
+.productsHeroInner {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-height: 300px;
+
+  padding:
+    24px
+    clamp(24px, 4vw, 72px)
+    42px;
+}
+
+
+.productsBreadcrumb {
+  width: 100%;
+  margin-bottom: auto;
+}
+
+
+.productsBreadcrumbList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+
+.productsBreadcrumbItem {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+
+.productsBreadcrumbLink {
+  color:
+    #5f555b;
+
+  text-decoration: none;
+
+  transition:
+    color 160ms ease;
+}
+
+
+.productsBreadcrumbLink:hover {
+  color:
+    #c12669;
+}
+
+
+.productsBreadcrumbLink:focus-visible {
+  outline:
+    2px solid #c12669;
+  outline-offset:
+    3px;
+  border-radius:
+    3px;
+}
+
+
+.productsBreadcrumbSeparator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color:
+    #9a8d94;
+}
+
+
+.productsBreadcrumbCurrent {
+  color:
+    #231b20;
+
+  font-weight: 650;
+}
+
+
+.productsHeroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: min(100%, 680px);
+
+  padding-top: 34px;
+}
+
+
+.productsHeroEyebrow {
+  margin:
+    0 0 10px;
+
+  color:
+    #bd1f63;
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.3;
+
+  letter-spacing:
+    0.16em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.productsHeroTitle {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0;
+
+  margin: 0;
+
+  color:
+    #21151b;
+
+  font-size:
+    clamp(34px, 4.1vw, 61px);
+
+  font-weight:
+    800;
+
+  line-height:
+    0.98;
+
+  letter-spacing:
+    -0.047em;
+}
+
+
+.productsHeroTitleLine {
+  display: block;
+}
+
+
+.productsHeroDescription {
+  max-width: 610px;
+
+  margin:
+    18px 0 0;
+
+  color:
+    #61545b;
+
+  font-size:
+    clamp(14px, 1.25vw, 17px);
+
+  line-height:
+    1.7;
+}
+
+
+/* ==========================================================================
+   3. CONTENEUR CATALOGUE
+   ========================================================================== */
+
+.productsCatalogSection {
+  width: 100%;
+
+  background:
+    #ffffff;
+}
+
+
+.productsCatalogInner {
+  width: 100%;
+
+  padding:
+    38px
+    clamp(20px, 3.4vw, 58px)
+    72px;
+}
+
+
+.productsCatalogHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 28px;
+}
+
+
+.productsCatalogHeading {
+  min-width: 0;
+}
+
+
+.productsCatalogTitle {
+  margin: 0;
+
+  color:
+    #1e171b;
+
+  font-size:
+    clamp(25px, 2.35vw, 36px);
+
+  font-weight:
+    800;
+
+  line-height:
+    1.12;
+
+  letter-spacing:
+    -0.035em;
+}
+
+
+.productsCatalogDescription {
+  max-width: 720px;
+
+  margin:
+    8px 0 0;
+
+  color:
+    #766b71;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.65;
+}
+
+
+.productsCatalogLayout {
+  display: grid;
+
+  grid-template-columns:
+    250px minmax(0, 1fr);
+
+  align-items: start;
+
+  gap:
+    clamp(24px, 2.4vw, 38px);
+
+  width: 100%;
+}
+
+
+.productsCatalogMain {
+  min-width: 0;
+}
+
+
+/* ==========================================================================
+   4. FILTRES — ROOT
+   ========================================================================== */
+
+.productsFiltersRoot {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ==========================================================================
+   5. FILTRES — DESKTOP
+   ========================================================================== */
+
+.productsFiltersDesktop {
+  position: sticky;
+  top: 138px;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border:
+    1px solid #eee6ea;
+
+  border-radius:
+    18px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 10px 35px rgba(49, 24, 36, 0.055);
+}
+
+
+.productsFiltersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding:
+    19px 18px 17px;
+
+  border-bottom:
+    1px solid #f0e9ec;
+}
+
+
+.productsFiltersHeaderTitle {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 9px;
+
+  color:
+    #251b20;
+}
+
+
+.productsFiltersTitle {
+  margin: 0;
+
+  font-size:
+    15px;
+
+  font-weight:
+    760;
+
+  line-height:
+    1.3;
+}
+
+
+.productsFiltersHeaderCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 25px;
+  height: 25px;
+
+  padding: 0 8px;
+
+  border-radius:
+    999px;
+
+  background:
+    #f8dfE9;
+
+  color:
+    #b91e60;
+
+  font-size:
+    11px;
+
+  font-weight:
+    800;
+}
+
+
+/* ==========================================================================
+   6. FORMULAIRE FILTRES
+   ========================================================================== */
+
+.productsFiltersForm {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+
+.productsFiltersFormMobile {
+  min-height: 100%;
+}
+
+
+.productsFilterSection {
+  min-width: 0;
+
+  margin: 0;
+  padding:
+    19px 18px;
+
+  border: 0;
+  border-bottom:
+    1px solid #f0eaed;
+}
+
+
+.productsFilterLegend {
+  width: 100%;
+
+  margin: 0 0 14px;
+  padding: 0;
+
+  color:
+    #261c21;
+
+  font-size:
+    13px;
+
+  font-weight:
+    760;
+
+  line-height:
+    1.4;
+}
+
+
+.productsFilterChoices {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.productsFilterChoice,
+.productsPromotionChoice {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  min-height: 37px;
+
+  padding:
+    6px 4px;
+
+  border-radius:
+    8px;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  transition:
+    background-color 150ms ease;
+}
+
+
+.productsFilterChoice:hover,
+.productsPromotionChoice:hover {
+  background:
+    #fff7fa;
+}
+
+
+.productsFilterChoiceControl {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+}
+
+
+.productsFilterRadio,
+.productsFilterCheckbox {
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  margin: 0;
+
+  opacity: 0;
+
+  cursor: pointer;
+}
+
+
+.productsFilterRadioVisual {
+  position: relative;
+
+  display: block;
+
+  width: 17px;
+  height: 17px;
+
+  border:
+    1.5px solid #c9bec4;
+
+  border-radius:
+    50%;
+
+  background:
+    #ffffff;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+
+.productsFilterRadioVisual::after {
+  content: "";
+
+  position: absolute;
+  inset: 3px;
+
+  border-radius:
+    50%;
+
+  background:
+    #c42568;
+
+  opacity: 0;
+
+  transform:
+    scale(0.4);
+
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+
+.productsFilterRadio:checked +
+.productsFilterRadioVisual {
+  border-color:
+    #c42568;
+}
+
+
+.productsFilterRadio:checked +
+.productsFilterRadioVisual::after {
+  opacity: 1;
+
+  transform:
+    scale(1);
+}
+
+
+.productsFilterRadio:focus-visible +
+.productsFilterRadioVisual {
+  box-shadow:
+    0 0 0 3px rgba(196, 37, 104, 0.17);
+}
+
+
+.productsFilterCheckboxVisual {
+  position: relative;
+
+  display: block;
+
+  width: 17px;
+  height: 17px;
+
+  border:
+    1.5px solid #c9bec4;
+
+  border-radius:
+    5px;
+
+  background:
+    #ffffff;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.productsFilterCheckboxVisual::after {
+  content: "";
+
+  position: absolute;
+
+  left: 5px;
+  top: 2px;
+
+  width: 4px;
+  height: 8px;
+
+  border-right:
+    2px solid #ffffff;
+
+  border-bottom:
+    2px solid #ffffff;
+
+  opacity: 0;
+
+  transform:
+    rotate(45deg)
+    scale(0.5);
+
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+
+.productsFilterCheckbox:checked +
+.productsFilterCheckboxVisual {
+  border-color:
+    #c42568;
+
+  background:
+    #c42568;
+}
+
+
+.productsFilterCheckbox:checked +
+.productsFilterCheckboxVisual::after {
+  opacity: 1;
+
+  transform:
+    rotate(45deg)
+    scale(1);
+}
+
+
+.productsFilterCheckbox:focus-visible +
+.productsFilterCheckboxVisual {
+  box-shadow:
+    0 0 0 3px rgba(196, 37, 104, 0.17);
+}
+
+
+.productsFilterChoiceContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  flex: 1 1 auto;
+
+  min-width: 0;
+}
+
+
+.productsFilterChoiceLabel,
+.productsPromotionLabel {
+  color:
+    #55494f;
+
+  font-size:
+    12.5px;
+
+  line-height:
+    1.42;
+}
+
+
+.productsFilterChoiceCount {
+  flex: 0 0 auto;
+
+  color:
+    #95888f;
+
+  font-size:
+    11px;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   7. FILTRE PRIX
+   ========================================================================== */
+
+.productsPriceBounds {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+  color:
+    #8b7d84;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.4;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+.productsPriceFields {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 9px;
+}
+
+
+.productsPriceField {
+  min-width: 0;
+}
+
+
+.productsPriceLabel {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color:
+    #766a70;
+
+  font-size:
+    10.5px;
+
+  font-weight:
+    650;
+
+  line-height:
+    1.3;
+}
+
+
+.productsPriceInputWrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+}
+
+
+.productsPriceInput {
+  width: 100%;
+  height: 39px;
+
+  min-width: 0;
+
+  padding:
+    0 36px 0 10px;
+
+  border:
+    1px solid #ded5d9;
+
+  border-radius:
+    9px;
+
+  outline: none;
+
+  background:
+    #ffffff;
+
+  color:
+    #282025;
+
+  font: inherit;
+
+  font-size:
+    11px;
+
+  font-variant-numeric:
+    tabular-nums;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.productsPriceInput::placeholder {
+  color:
+    #aaa0a5;
+}
+
+
+.productsPriceInput:hover {
+  border-color:
+    #c9bbc2;
+}
+
+
+.productsPriceInput:focus {
+  border-color:
+    #c42568;
+
+  box-shadow:
+    0 0 0 3px rgba(196, 37, 104, 0.1);
+}
+
+
+.productsPriceCurrency {
+  position: absolute;
+
+  right: 8px;
+
+  color:
+    #9a8e94;
+
+  font-size:
+    9px;
+
+  font-weight:
+    750;
+
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   8. ACTIONS FILTRES
+   ========================================================================== */
+
+.productsFiltersActions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  padding:
+    18px;
+}
+
+
+.productsFiltersApplyButton,
+.productsFiltersResetButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  width: 100%;
+  min-height: 42px;
+
+  padding:
+    0 14px;
+
+  border-radius:
+    10px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    750;
+
+  line-height:
+    1;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    transform 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.productsFiltersApplyButton {
+  border:
+    1px solid #be2062;
+
+  background:
+    #c42568;
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 7px 18px rgba(196, 37, 104, 0.16);
+}
+
+
+.productsFiltersApplyButton:hover {
+  background:
+    #ad1d5b;
+
+  border-color:
+    #ad1d5b;
+}
+
+
+.productsFiltersResetButton {
+  border:
+    1px solid #e2d9dd;
+
+  background:
+    #ffffff;
+
+  color:
+    #6d6067;
+}
+
+
+.productsFiltersResetButton:hover {
+  border-color:
+    #cdbfc6;
+
+  background:
+    #fcf9fa;
+
+  color:
+    #31272c;
+}
+
+
+.productsFiltersApplyButton:active,
+.productsFiltersResetButton:active {
+  transform:
+    translateY(1px);
+}
+
+
+.productsFiltersApplyButton:focus-visible,
+.productsFiltersResetButton:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   9. FILTRES — BOUTON MOBILE / TABLETTE
+   ========================================================================== */
+
+.productsFiltersMobileTriggerWrapper {
+  display: none;
+
+  width: 100%;
+}
+
+
+.productsFiltersMobileTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 42px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid #ded4d9;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+
+  color:
+    #33282e;
+
+  font: inherit;
+
+  font-size:
+    12px;
+
+  font-weight:
+    720;
+
+  cursor: pointer;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.productsFiltersMobileTrigger:hover {
+  border-color:
+    #c5b6bd;
+
+  background:
+    #fff9fb;
+}
+
+
+.productsFiltersMobileTrigger:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+.productsFiltersActiveBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 21px;
+  height: 21px;
+
+  padding:
+    0 6px;
+
+  border-radius:
+    999px;
+
+  background:
+    #c42568;
+
+  color:
+    #ffffff;
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+}
+
+
+/* ==========================================================================
+   10. FILTRES — DRAWER MOBILE
+   ========================================================================== */
+
+.productsFiltersMobileLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+
+  display: flex;
+  justify-content: flex-end;
+
+  width: 100%;
+  height: 100dvh;
+
+  outline: none;
+}
+
+
+.productsFiltersBackdrop {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background:
+    rgba(18, 12, 15, 0.48);
+
+  cursor: default;
+
+  backdrop-filter:
+    blur(2px);
+
+  -webkit-backdrop-filter:
+    blur(2px);
+
+  animation:
+    productsBackdropIn
+    180ms ease both;
+}
+
+
+.productsFiltersDrawer {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  width:
+    min(
+      430px,
+      calc(100vw - 22px)
+    );
+
+  height: 100dvh;
+
+  overflow: hidden;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    -16px 0 52px rgba(24, 12, 18, 0.2);
+
+  animation:
+    productsDrawerIn
+    220ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+
+.productsFiltersDrawerHeader {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding:
+    19px 18px;
+
+  border-bottom:
+    1px solid #eee7ea;
+
+  background:
+    #ffffff;
+}
+
+
+.productsFiltersDrawerHeading {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  min-width: 0;
+}
+
+
+.productsFiltersDrawerIcon {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius:
+    11px;
+
+  background:
+    #fae6ef;
+
+  color:
+    #bd2062;
+}
+
+
+.productsFiltersDrawerTitle {
+  margin: 0;
+
+  color:
+    #261c21;
+
+  font-size:
+    16px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.25;
+}
+
+
+.productsFiltersDrawerSubtitle {
+  margin:
+    3px 0 0;
+
+  color:
+    #8a7c83;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.35;
+}
+
+
+.productsFiltersDrawerClose {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border:
+    1px solid #e5dce0;
+
+  border-radius:
+    50%;
+
+  background:
+    #ffffff;
+
+  color:
+    #44363d;
+
+  cursor: pointer;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.productsFiltersDrawerClose:hover {
+  border-color:
+    #cfc1c7;
+
+  background:
+    #faf6f8;
+
+  transform:
+    rotate(3deg);
+}
+
+
+.productsFiltersDrawerClose:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+.productsFiltersDrawerBody {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  overscroll-behavior:
+    contain;
+
+  scrollbar-width:
+    thin;
+
+  scrollbar-color:
+    #d7c8cf transparent;
+}
+
+
+@keyframes productsDrawerIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(28px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+
+@keyframes productsBackdropIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* ==========================================================================
+   11. TOOLBAR
+   ========================================================================== */
+
+.productsToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  width: 100%;
+
+  min-height: 48px;
+
+  margin-bottom: 21px;
+
+  padding-bottom: 14px;
+
+  border-bottom:
+    1px solid #eee8eb;
+}
+
+
+.productsToolbarResults {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+}
+
+
+.productsToolbarResultsCount {
+  color:
+    #756970;
+
+  font-size:
+    12.5px;
+
+  font-weight:
+    620;
+
+  line-height:
+    1.4;
+}
+
+
+.productsToolbarSortForm {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex: 0 0 auto;
+}
+
+
+.productsToolbarSortLabel {
+  color:
+    #776b71;
+
+  font-size:
+    12px;
+
+  font-weight:
+    620;
+
+  white-space: nowrap;
+}
+
+
+.productsToolbarSortControl {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-width: 170px;
+}
+
+
+.productsToolbarSortIcon {
+  position: absolute;
+
+  left: 11px;
+
+  z-index: 1;
+
+  color:
+    #81747b;
+
+  pointer-events: none;
+}
+
+
+.productsToolbarSortSelect {
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  width: 100%;
+  height: 41px;
+
+  padding:
+    0 34px 0 35px;
+
+  border:
+    1px solid #ddd3d8;
+
+  border-radius:
+    10px;
+
+  outline: none;
+
+  background-color:
+    #ffffff;
+
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      #7a6e74 50%
+    ),
+    linear-gradient(
+      135deg,
+      #7a6e74 50%,
+      transparent 50%
+    );
+
+  background-position:
+    calc(100% - 15px) 17px,
+    calc(100% - 11px) 17px;
+
+  background-size:
+    4px 4px,
+    4px 4px;
+
+  background-repeat:
+    no-repeat;
+
+  color:
+    #33292e;
+
+  font: inherit;
+
+  font-size:
+    12px;
+
+  font-weight:
+    620;
+
+  cursor: pointer;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.productsToolbarSortSelect:hover {
+  border-color:
+    #c5b7be;
+}
+
+
+.productsToolbarSortSelect:focus {
+  border-color:
+    #c42568;
+
+  box-shadow:
+    0 0 0 3px rgba(196, 37, 104, 0.1);
+}
+
+
+.productsToolbarSortSelectMobile {
+  min-width: 0;
+}
+
+
+/* ==========================================================================
+   12. GRILLE PRODUITS
+   ========================================================================== */
+
+.productsGridSection {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.productsGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  align-items: stretch;
+
+  gap:
+    clamp(18px, 1.65vw, 28px)
+    clamp(13px, 1.35vw, 23px);
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+.productsGridItem {
+  min-width: 0;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+.productsGridCard {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ==========================================================================
+   13. ÉTAT VIDE
+   ========================================================================== */
+
+.productsEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  min-height: 370px;
+
+  padding:
+    54px 24px;
+
+  border:
+    1px dashed #dbcbd2;
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffefe 0%,
+      #fff8fb 100%
+    );
+
+  text-align: center;
+}
+
+
+.productsEmptyStateIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 68px;
+  height: 68px;
+
+  margin-bottom: 20px;
+
+  border-radius:
+    50%;
+
+  background:
+    #fae6ef;
+
+  color:
+    #be2364;
+}
+
+
+.productsEmptyStateContent {
+  width: min(100%, 500px);
+}
+
+
+.productsEmptyStateTitle {
+  margin: 0;
+
+  color:
+    #261c21;
+
+  font-size:
+    21px;
+
+  font-weight:
+    790;
+
+  line-height:
+    1.25;
+
+  letter-spacing:
+    -0.025em;
+}
+
+
+.productsEmptyStateDescription {
+  margin:
+    9px auto 0;
+
+  color:
+    #786b72;
+
+  font-size:
+    13px;
+
+  line-height:
+    1.65;
+}
+
+
+.productsEmptyStateReset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 42px;
+
+  margin-top: 22px;
+
+  padding:
+    0 17px;
+
+  border:
+    1px solid #c42568;
+
+  border-radius:
+    10px;
+
+  background:
+    #c42568;
+
+  color:
+    #ffffff;
+
+  font-size:
+    12px;
+
+  font-weight:
+    760;
+
+  text-decoration: none;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+
+.productsEmptyStateReset:hover {
+  border-color:
+    #aa1b57;
+
+  background:
+    #aa1b57;
+}
+
+
+.productsEmptyStateReset:active {
+  transform:
+    translateY(1px);
+}
+
+
+.productsEmptyStateReset:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   14. PAGINATION
+   ========================================================================== */
+
+.productsPagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin-top: 48px;
+}
+
+
+.productsPaginationInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  width: 100%;
+}
+
+
+.productsPaginationDirection,
+.productsPaginationDirectionDisabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-height: 39px;
+
+  padding:
+    0 12px;
+
+  border-radius:
+    9px;
+
+  font-size:
+    11.5px;
+
+  font-weight:
+    680;
+
+  line-height:
+    1;
+
+  white-space: nowrap;
+}
+
+
+.productsPaginationDirection {
+  border:
+    1px solid #ddd4d8;
+
+  background:
+    #ffffff;
+
+  color:
+    #4f4249;
+
+  text-decoration: none;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.productsPaginationDirection:hover {
+  border-color:
+    #c42568;
+
+  background:
+    #fff7fa;
+
+  color:
+    #b51e5d;
+}
+
+
+.productsPaginationDirection:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+.productsPaginationDirectionDisabled {
+  border:
+    1px solid #eee9eb;
+
+  background:
+    #faf9f9;
+
+  color:
+    #b1a8ad;
+
+  cursor:
+    not-allowed;
+}
+
+
+.productsPaginationDirectionLabel {
+  display: inline-block;
+}
+
+
+.productsPaginationPages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+.productsPaginationPageItem {
+  margin: 0;
+  padding: 0;
+}
+
+
+.productsPaginationPageLink,
+.productsPaginationPageCurrent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 39px;
+  height: 39px;
+
+  padding:
+    0 8px;
+
+  border-radius:
+    9px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    720;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+.productsPaginationPageLink {
+  border:
+    1px solid #ddd4d8;
+
+  background:
+    #ffffff;
+
+  color:
+    #54474e;
+
+  text-decoration: none;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.productsPaginationPageLink:hover {
+  border-color:
+    #c42568;
+
+  background:
+    #fff7fa;
+
+  color:
+    #b71f5e;
+}
+
+
+.productsPaginationPageLink:focus-visible {
+  outline:
+    2px solid #c42568;
+
+  outline-offset:
+    3px;
+}
+
+
+.productsPaginationPageCurrent {
+  border:
+    1px solid #c42568;
+
+  background:
+    #c42568;
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 5px 14px rgba(196, 37, 104, 0.17);
+}
+
+
+.productsPaginationSummary {
+  margin: 0;
+
+  color:
+    #8d8187;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.4;
+}
+
+
+/* ==========================================================================
+   15. LOADING / SKELETONS
+   ========================================================================== */
+
+.productsLoadingPage {
+  width: 100%;
+
+  background:
+    #ffffff;
+}
+
+
+.productsLoadingHero {
+  width: 100%;
+  min-height: 300px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #f5e8ee 20%,
+      #fbf4f7 38%,
+      #f5e8ee 56%
+    );
+
+  background-size:
+    220% 100%;
+
+  animation:
+    productsSkeletonShimmer
+    1.45s linear infinite;
+}
+
+
+.productsLoadingCatalog {
+  width: 100%;
+
+  padding:
+    38px
+    clamp(20px, 3.4vw, 58px)
+    72px;
+}
+
+
+.productsLoadingLayout {
+  display: grid;
+
+  grid-template-columns:
+    250px minmax(0, 1fr);
+
+  gap:
+    clamp(24px, 2.4vw, 38px);
+}
+
+
+.productsLoadingSidebar {
+  height: 500px;
+
+  border-radius:
+    18px;
+
+  background:
+    #f4eff1;
+
+  animation:
+    productsSkeletonPulse
+    1.25s ease-in-out infinite alternate;
+}
+
+
+.productsLoadingMain {
+  min-width: 0;
+}
+
+
+.productsLoadingToolbar {
+  width: 100%;
+  height: 48px;
+
+  margin-bottom: 22px;
+
+  border-radius:
+    10px;
+
+  background:
+    #f4eff1;
+
+  animation:
+    productsSkeletonPulse
+    1.25s ease-in-out infinite alternate;
+}
+
+
+.productsLoadingGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    24px 18px;
+}
+
+
+.productsLoadingCard {
+  min-height: 350px;
+
+  border-radius:
+    15px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #f5f1f3 20%,
+      #fbf8f9 38%,
+      #f5f1f3 56%
+    );
+
+  background-size:
+    220% 100%;
+
+  animation:
+    productsSkeletonShimmer
+    1.45s linear infinite;
+}
+
+
+@keyframes productsSkeletonShimmer {
+  0% {
+    background-position:
+      100% 0;
+  }
+
+  100% {
+    background-position:
+      -100% 0;
+  }
+}
+
+
+@keyframes productsSkeletonPulse {
+  from {
+    opacity: 0.64;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* ==========================================================================
+   16. LARGE DESKTOP
+   ========================================================================== */
+
+@media (min-width: 1440px) {
+  .productsHeroInner {
+    padding-inline:
+      clamp(
+        54px,
+        4.5vw,
+        82px
+      );
+  }
+
+
+  .productsCatalogInner {
+    padding-inline:
+      clamp(
+        44px,
+        4vw,
+        72px
+      );
+  }
+
+
+  .productsCatalogLayout,
+  .productsLoadingLayout {
+    grid-template-columns:
+      265px minmax(0, 1fr);
+  }
+
+
+  .productsGrid {
+    column-gap:
+      clamp(
+        18px,
+        1.45vw,
+        26px
+      );
+  }
+}
+
+
+/* ==========================================================================
+   17. TABLETTE / PETIT DESKTOP
+   ========================================================================== */
+
+@media (max-width: 1199px) {
+  .productsCatalogLayout,
+  .productsLoadingLayout {
+    display: block;
+  }
+
+
+  .productsFiltersDesktop,
+  .productsLoadingSidebar {
+    display: none;
+  }
+
+
+  .productsFiltersMobileTriggerWrapper {
+    display: block;
+  }
+
+
+  .productsFiltersMobileTrigger {
+    width: auto;
+  }
+
+
+  .productsToolbar {
+    margin-top: 14px;
+  }
+
+
+  .productsGrid,
+  .productsLoadingGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+
+/* ==========================================================================
+   18. TABLETTE
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .productsHero {
+    min-height: 270px;
+  }
+
+
+  .productsHeroInner {
+    min-height: 270px;
+
+    padding:
+      20px 26px 34px;
+  }
+
+
+  .productsHeroContent {
+    width: min(100%, 560px);
+
+    padding-top: 28px;
+  }
+
+
+  .productsHeroTitle {
+    font-size:
+      clamp(
+        34px,
+        6vw,
+        48px
+      );
+  }
+
+
+  .productsCatalogInner,
+  .productsLoadingCatalog {
+    padding-inline:
+      22px;
+  }
+}
+
+
+/* ==========================================================================
+   19. MOBILE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .productsPage {
+    padding-bottom:
+      78px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FOOTER GLOBAL
+     ------------------------------------------------------------------------
+     Le footer reste géré par le shell public.
+     On le masque uniquement lorsque la page /produits fournit le marqueur :
+     
+     data-public-products-page="true"
+     ------------------------------------------------------------------------ */
+
+  :global(
+    body:has([data-public-products-page="true"])
+    [data-public-footer="true"]
+  ) {
+    display: none !important;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------------------ */
+
+  .productsHero {
+    min-height: 205px;
+  }
+
+
+  .productsHeroOverlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 248, 251, 0.97) 0%,
+        rgba(255, 244, 249, 0.9) 43%,
+        rgba(255, 240, 247, 0.5) 73%,
+        rgba(255, 255, 255, 0.08) 100%
+      );
+  }
+
+
+  .productsHeroInner {
+    min-height: 205px;
+
+    padding:
+      14px
+      16px
+      23px;
+  }
+
+
+  .productsBreadcrumb {
+    margin-bottom: auto;
+  }
+
+
+  .productsBreadcrumbList {
+    gap: 5px;
+
+    font-size:
+      10.5px;
+  }
+
+
+  .productsBreadcrumbSeparator svg {
+    width: 12px;
+    height: 12px;
+  }
+
+
+  .productsHeroContent {
+    width: min(100%, 78%);
+
+    padding-top: 19px;
+  }
+
+
+  .productsHeroEyebrow {
+    margin-bottom: 6px;
+
+    font-size:
+      9px;
+
+    letter-spacing:
+      0.14em;
+  }
+
+
+  .productsHeroTitle {
+    font-size:
+      clamp(
+        27px,
+        8.3vw,
+        37px
+      );
+
+    line-height:
+      1.01;
+
+    letter-spacing:
+      -0.042em;
+  }
+
+
+  .productsHeroDescription {
+  display: -webkit-box;
+
+  max-width: 360px;
+
+  margin-top: 10px;
+
+  overflow: hidden;
+
+  color:
+    #65585f;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.5;
+
+  line-clamp:
+    2;
+
+  -webkit-line-clamp:
+    2;
+
+  -webkit-box-orient:
+    vertical;
+}
+
+
+  /* ------------------------------------------------------------------------
+     CATALOGUE
+     ------------------------------------------------------------------------ */
+
+  .productsCatalogInner,
+  .productsLoadingCatalog {
+    padding:
+      24px
+      12px
+      34px;
+  }
+
+
+  .productsCatalogHeader {
+    align-items: flex-start;
+
+    margin-bottom: 19px;
+  }
+
+
+  .productsCatalogTitle {
+    font-size:
+      24px;
+  }
+
+
+  .productsCatalogDescription {
+    margin-top: 6px;
+
+    font-size:
+      11px;
+
+    line-height:
+      1.55;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FILTRE + TOOLBAR
+     ------------------------------------------------------------------------ */
+
+  .productsFiltersMobileTriggerWrapper {
+    width: auto;
+  }
+
+
+  .productsFiltersMobileTrigger {
+    width: 100%;
+    min-height: 40px;
+
+    padding:
+      0 13px;
+
+    font-size:
+      11px;
+  }
+
+
+  .productsToolbar {
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: auto;
+
+    margin:
+      10px 0 16px;
+
+    padding-bottom:
+      12px;
+  }
+
+
+  .productsToolbarResultsCount {
+    font-size:
+      10.5px;
+  }
+
+
+  .productsToolbarSortForm {
+    gap: 0;
+
+    margin-left: auto;
+  }
+
+
+  .productsToolbarSortLabel {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip:
+      rect(
+        0,
+        0,
+        0,
+        0
+      );
+
+    white-space: nowrap;
+
+    clip-path:
+      inset(50%);
+  }
+
+
+  .productsToolbarSortControl {
+    min-width: 128px;
+    max-width: 148px;
+  }
+
+
+  .productsToolbarSortIcon {
+    left: 9px;
+
+    width: 14px;
+    height: 14px;
+  }
+
+
+  .productsToolbarSortSelect {
+    height: 40px;
+
+    padding:
+      0 26px 0 29px;
+
+    background-position:
+      calc(100% - 12px) 16px,
+      calc(100% - 8px) 16px;
+
+    border-radius:
+      9px;
+
+    font-size:
+      10.5px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     GRILLE
+     ------------------------------------------------------------------------ */
+
+  .productsGrid,
+  .productsLoadingGrid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      20px 9px;
+  }
+
+
+  .productsLoadingCard {
+    min-height: 280px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     ÉTAT VIDE
+     ------------------------------------------------------------------------ */
+
+  .productsEmptyState {
+    min-height: 300px;
+
+    padding:
+      38px 18px;
+
+    border-radius:
+      14px;
+  }
+
+
+  .productsEmptyStateIcon {
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 16px;
+  }
+
+
+  .productsEmptyStateIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+
+  .productsEmptyStateTitle {
+    font-size:
+      18px;
+  }
+
+
+  .productsEmptyStateDescription {
+    font-size:
+      11.5px;
+  }
+
+
+  .productsEmptyStateReset {
+    min-height: 40px;
+
+    margin-top: 18px;
+
+    font-size:
+      11px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     DRAWER
+     ------------------------------------------------------------------------ */
+
+  .productsFiltersDrawer {
+    width:
+      min(
+        390px,
+        calc(100vw - 16px)
+      );
+  }
+
+
+  .productsFiltersDrawerHeader {
+    padding:
+      15px 14px;
+  }
+
+
+  .productsFiltersDrawerIcon {
+    width: 35px;
+    height: 35px;
+  }
+
+
+  .productsFiltersDrawerTitle {
+    font-size:
+      14px;
+  }
+
+
+  .productsFiltersDrawerClose {
+    width: 35px;
+    height: 35px;
+  }
+
+
+  .productsFilterSection {
+    padding:
+      17px 15px;
+  }
+
+
+  .productsFiltersActions {
+    padding:
+      16px 15px 24px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PAGINATION
+     ------------------------------------------------------------------------ */
+
+  .productsPagination {
+    margin-top:
+      34px;
+  }
+
+
+  .productsPaginationInner {
+    gap: 4px;
+  }
+
+
+  .productsPaginationDirection,
+  .productsPaginationDirectionDisabled {
+    min-height: 36px;
+
+    padding:
+      0 9px;
+  }
+
+
+  .productsPaginationPageLink,
+  .productsPaginationPageCurrent {
+    min-width: 36px;
+    height: 36px;
+
+    font-size:
+      11px;
+  }
+
+
+  .productsPaginationDirectionLabel {
+    font-size:
+      10.5px;
+  }
+
+
+  .productsPaginationSummary {
+    font-size:
+      10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LOADING
+     ------------------------------------------------------------------------ */
+
+  .productsLoadingHero {
+    min-height: 205px;
+  }
+}
+
+
+/* ==========================================================================
+   20. TRÈS PETITS MOBILES
+   ========================================================================== */
+
+@media (max-width: 390px) {
+  .productsHeroInner {
+    padding-inline:
+      13px;
+  }
+
+
+  .productsHeroContent {
+    width:
+      min(
+        100%,
+        84%
+      );
+  }
+
+
+  .productsCatalogInner,
+  .productsLoadingCatalog {
+    padding-inline:
+      9px;
+  }
+
+
+  .productsGrid,
+  .productsLoadingGrid {
+    column-gap:
+      7px;
+  }
+
+
+  .productsToolbar {
+    gap: 7px;
+  }
+
+
+  .productsToolbarSortControl {
+    min-width: 118px;
+    max-width: 132px;
+  }
+
+
+  .productsToolbarSortSelect {
+    padding-left:
+      27px;
+
+    font-size:
+      10px;
+  }
+
+
+  .productsPaginationDirectionLabel {
+    display: none;
+  }
+
+
+  .productsPaginationDirection,
+  .productsPaginationDirectionDisabled {
+    width: 36px;
+
+    padding:
+      0;
+  }
+}
+
+
+/* ==========================================================================
+   21. ACCESSIBILITÉ — MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .productsHeroImage,
+  .productsFiltersBackdrop,
+  .productsFiltersDrawer,
+  .productsFiltersApplyButton,
+  .productsFiltersResetButton,
+  .productsFiltersMobileTrigger,
+  .productsFiltersDrawerClose,
+  .productsToolbarSortSelect,
+  .productsEmptyStateReset,
+  .productsPaginationDirection,
+  .productsPaginationPageLink,
+  .productsLoadingHero,
+  .productsLoadingSidebar,
+  .productsLoadingToolbar,
+  .productsLoadingCard {
+    animation: none !important;
+
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ==========================================================================
+   22. IMPRESSION
+   ========================================================================== */
+
+@media print {
+  .productsFiltersRoot,
+  .productsToolbarSortForm,
+  .productsPagination {
+    display: none !important;
+  }
+
+
+  .productsHero {
+    min-height: auto;
+
+    border-bottom:
+      1px solid #dddddd;
+  }
+
+
+  .productsHeroMedia,
+  .productsHeroOverlay {
+    display: none;
+  }
+
+
+  .productsHeroInner {
+    min-height: auto;
+
+    padding:
+      20px 0;
+  }
+
+
+  .productsGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    gap:
+      16px;
+  }
+}

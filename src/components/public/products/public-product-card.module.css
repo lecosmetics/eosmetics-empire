@@ -1,0 +1,1941 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * CARTE PRODUIT PUBLIQUE — STYLES OFFICIELS
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/components/public/products/public-product-card.module.css
+ *
+ * Utilisé par :
+ *
+ * src/components/public/products/PublicProductCard.tsx
+ *
+ * +
+ *
+ * src/components/public/panier/PublicAddToPanierButton.tsx
+ *
+ * ============================================================================
+ *
+ * ARCHITECTURE VISUELLE
+ *
+ * ┌───────────────────────┐
+ * │                       │
+ * │         IMAGE         │
+ * │                       │
+ * │ Nom du produit        │
+ * │ 25 000 FCFA           │
+ * │                       │
+ * │ [ Ajouter au panier ] │
+ * └───────────────────────┘
+ *
+ * ============================================================================
+ *
+ * OBJECTIFS
+ *
+ * - carte compacte ;
+ * - design premium ;
+ * - image produit dominante ;
+ * - produit entièrement visible ;
+ * - nom lisible ;
+ * - prix immédiatement visible ;
+ * - vrai bouton Panier fonctionnel ;
+ * - états chargement / ajouté / erreur ;
+ * - fond rose pleine largeur ;
+ * - aucune information parasite ;
+ * - 100% responsive ;
+ * - aucune largeur fixe bloquante ;
+ * - excellente densité desktop ;
+ * - deux cartes par ligne possibles sur mobile ;
+ * - navigation clavier propre ;
+ * - support tactile ;
+ * - prefers-reduced-motion ;
+ * - aucun JavaScript ajouté par le CSS.
+ *
+ * ============================================================================
+ *
+ * IMPORTANT
+ *
+ * Le nombre de colonnes n'est PAS défini ici.
+ *
+ * La page qui consomme PublicProductCard décide de sa grille.
+ *
+ * Cette carte occupe simplement :
+ *
+ * width: 100%;
+ *
+ * de la cellule qui lui est attribuée.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   1. CARTE
+   ========================================================================== */
+
+.productCard {
+  --product-card-primary:
+    var(--ce-primary, #ed006d);
+
+  --product-card-primary-hover:
+    var(--ce-primary-dark, #c9005d);
+
+  --product-card-primary-active:
+    #ad004f;
+
+  --product-card-primary-soft:
+    rgb(237 0 109 / 8%);
+
+  --product-card-primary-focus:
+    rgb(237 0 109 / 30%);
+
+  --product-card-success:
+    #237447;
+
+  --product-card-success-hover:
+    #1c633c;
+
+  --product-card-error:
+    #a8394c;
+
+  --product-card-error-hover:
+    #8f3041;
+
+  --product-card-text:
+    #201a20;
+
+  --product-card-text-secondary:
+    #716a71;
+
+  --product-card-text-muted:
+    #9b9399;
+
+  --product-card-white:
+    #ffffff;
+
+  --product-card-background:
+    #ffffff;
+
+  --product-card-visual-background:
+    #fbf7f9;
+
+  --product-card-border:
+    rgb(38 26 34 / 8%);
+
+  --product-card-border-hover:
+    rgb(237 0 109 / 20%);
+
+  --product-card-shadow:
+    0 5px 18px
+    rgb(43 25 36 / 5%);
+
+  --product-card-shadow-hover:
+    0 13px 30px
+    rgb(43 25 36 / 9%);
+
+  --product-card-radius:
+    15px;
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    100%;
+
+  overflow:
+    hidden;
+
+  color:
+    var(--product-card-text);
+
+  background:
+    var(--product-card-background);
+
+  border:
+    1px solid
+    var(--product-card-border);
+
+  border-radius:
+    var(--product-card-radius);
+
+  box-shadow:
+    var(--product-card-shadow);
+
+  isolation:
+    isolate;
+
+  container-type:
+    inline-size;
+
+  transition:
+    transform 200ms
+      cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+
+.productCard:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    var(--product-card-border-hover);
+
+  box-shadow:
+    var(--product-card-shadow-hover);
+}
+
+
+/* ==========================================================================
+   2. LIEN DU VISUEL
+   ========================================================================== */
+
+.productVisualLink {
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  color:
+    inherit;
+
+  text-decoration:
+    none;
+
+  outline:
+    none;
+}
+
+
+.productVisualLink:focus-visible {
+  position:
+    relative;
+
+  z-index:
+    5;
+
+  outline:
+    3px solid
+    rgb(237 0 109 / 42%);
+
+  outline-offset:
+    -3px;
+}
+
+
+/* ==========================================================================
+   3. ZONE IMAGE
+   ========================================================================== */
+
+.productVisual {
+  position:
+    relative;
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  aspect-ratio:
+    1 / 1;
+
+  overflow:
+    hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffafb 0%,
+      #fbf6f8 54%,
+      #f8f1f5 100%
+    );
+}
+
+
+/* ==========================================================================
+   4. IMAGE PRODUIT
+   ========================================================================== */
+
+/**
+ * `contain` est essentiel.
+ *
+ * Les produits cosmétiques peuvent être :
+ *
+ * - hauts ;
+ * - étroits ;
+ * - détourés ;
+ * - en pot ;
+ * - en bouteille ;
+ * - en tube ;
+ * - en coffret.
+ *
+ * Le produit ne doit donc pas être découpé comme avec object-fit: cover.
+ */
+
+.productImage {
+  object-fit:
+    contain;
+
+  object-position:
+    center;
+
+  padding:
+    clamp(
+      8px,
+      5%,
+      15px
+    );
+
+  transform:
+    scale(1);
+
+  transition:
+    transform 380ms
+      cubic-bezier(0.16, 1, 0.3, 1);
+
+  will-change:
+    transform;
+}
+
+
+.productCard:hover
+.productImage {
+  transform:
+    scale(1.025);
+}
+
+
+/* ==========================================================================
+   5. CONTENU
+   ========================================================================== */
+
+.productContent {
+  display:
+    flex;
+
+  flex:
+    1 1 auto;
+
+  flex-direction:
+    column;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  padding:
+    11px 12px 12px;
+
+  background:
+    var(--product-card-background);
+}
+
+
+/* ==========================================================================
+   6. LIEN DU NOM
+   ========================================================================== */
+
+.productNameLink {
+  display:
+    block;
+
+  min-width:
+    0;
+
+  color:
+    inherit;
+
+  text-decoration:
+    none;
+
+  outline:
+    none;
+}
+
+
+.productNameLink:hover
+.productName {
+  color:
+    var(--product-card-primary);
+}
+
+
+.productNameLink:focus-visible {
+  border-radius:
+    5px;
+
+  outline:
+    2px solid
+    rgb(237 0 109 / 45%);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   7. NOM DU PRODUIT
+   ========================================================================== */
+
+.productName {
+  display:
+    -webkit-box;
+
+  min-height:
+    2.25em;
+
+  margin:
+    0;
+
+  overflow:
+    hidden;
+
+  color:
+    var(--product-card-text);
+
+  font-size:
+    clamp(
+      0.82rem,
+      0.95vw,
+      0.96rem
+    );
+
+  font-weight:
+    680;
+
+  line-height:
+    1.14;
+
+  letter-spacing:
+    -0.012em;
+
+  transition:
+    color 170ms ease;
+
+  -webkit-box-orient:
+    vertical;
+
+  -webkit-line-clamp:
+    2;
+
+  line-clamp:
+    2;
+}
+
+
+/* ==========================================================================
+   8. PRIX
+   ========================================================================== */
+
+.productPricing {
+  display:
+    flex;
+
+  align-items:
+    baseline;
+
+  flex-wrap:
+    wrap;
+
+  min-width:
+    0;
+
+  margin-top:
+    7px;
+}
+
+
+.productPrice {
+  min-width:
+    0;
+
+  color:
+    #191419;
+
+  font-size:
+    clamp(
+      0.9rem,
+      1.05vw,
+      1.05rem
+    );
+
+  font-weight:
+    820;
+
+  line-height:
+    1.08;
+
+  letter-spacing:
+    -0.025em;
+
+  font-variant-numeric:
+    tabular-nums;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ==========================================================================
+   9. VRAI BOUTON AJOUTER AU PANIER
+   ========================================================================== */
+
+/**
+ * Cette classe est directement transmise à :
+ *
+ * PublicAddToPanierButton
+ *
+ * via :
+ *
+ * className={styles.productAddToCartButton}
+ *
+ * ============================================================================
+ *
+ * Le composant Panier lui-même génère un vrai :
+ *
+ * <button type="button">
+ *
+ * et non plus un Link vers la fiche produit.
+ *
+ * ============================================================================
+ */
+
+.productAddToCartButton {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    38px;
+
+  margin-top:
+    auto;
+
+  padding:
+    8px 10px;
+
+  overflow:
+    hidden;
+
+  color:
+    var(--product-card-white);
+
+  background:
+    var(--product-card-primary);
+
+  border:
+    1px solid
+    var(--product-card-primary);
+
+  border-radius:
+    9px;
+
+  box-shadow:
+    0 6px 15px
+    rgb(237 0 109 / 16%);
+
+  font-family:
+    inherit;
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    750;
+
+  line-height:
+    1;
+
+  text-align:
+    center;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  cursor:
+    pointer;
+
+  outline:
+    none;
+
+  appearance:
+    none;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    transform 180ms
+      cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.productAddToCartButton:hover:not(:disabled) {
+  background:
+    var(--product-card-primary-hover);
+
+  border-color:
+    var(--product-card-primary-hover);
+
+  box-shadow:
+    0 8px 19px
+    rgb(237 0 109 / 24%);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.productAddToCartButton:active:not(:disabled) {
+  background:
+    var(--product-card-primary-active);
+
+  border-color:
+    var(--product-card-primary-active);
+
+  transform:
+    translateY(0);
+
+  box-shadow:
+    0 4px 11px
+    rgb(237 0 109 / 17%);
+}
+
+
+.productAddToCartButton:focus-visible {
+  outline:
+    3px solid
+    var(--product-card-primary-focus);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================================
+   10. ÉTAT HYDRATATION / DISABLED
+   ========================================================================== */
+
+/**
+ * PublicAddToPanierButton est désactivé pendant l'hydratation du Provider.
+ *
+ * Il peut également être explicitement désactivé par son parent.
+ */
+
+.productAddToCartButton:disabled {
+  cursor:
+    not-allowed;
+
+  opacity:
+    0.62;
+
+  transform:
+    none;
+
+  box-shadow:
+    none;
+}
+
+
+.productAddToCartButton[data-hydrated="false"] {
+  background:
+    #bd8da3;
+
+  border-color:
+    #bd8da3;
+
+  color:
+    #ffffff;
+}
+
+
+/* ==========================================================================
+   11. ÉTAT AJOUTÉ AU PANIER
+   ========================================================================== */
+
+.productAddToCartButton[data-feedback="added"] {
+  background:
+    var(--product-card-success);
+
+  border-color:
+    var(--product-card-success);
+
+  box-shadow:
+    0 6px 15px
+    rgb(35 116 71 / 17%);
+}
+
+
+.productAddToCartButton[data-feedback="added"]:hover:not(:disabled) {
+  background:
+    var(--product-card-success-hover);
+
+  border-color:
+    var(--product-card-success-hover);
+
+  box-shadow:
+    0 8px 18px
+    rgb(35 116 71 / 23%);
+}
+
+
+/* ==========================================================================
+   12. ÉTAT ERREUR
+   ========================================================================== */
+
+.productAddToCartButton[data-feedback="error"] {
+  background:
+    var(--product-card-error);
+
+  border-color:
+    var(--product-card-error);
+
+  box-shadow:
+    0 6px 15px
+    rgb(168 57 76 / 17%);
+}
+
+
+.productAddToCartButton[data-feedback="error"]:hover:not(:disabled) {
+  background:
+    var(--product-card-error-hover);
+
+  border-color:
+    var(--product-card-error-hover);
+
+  box-shadow:
+    0 8px 18px
+    rgb(168 57 76 / 23%);
+}
+
+
+/* ==========================================================================
+   13. PRODUIT DÉJÀ PRÉSENT DANS LE PANIER
+   ========================================================================== */
+
+/**
+ * On conserve le bouton rose.
+ *
+ * Le petit badge de quantité indique simplement combien d'unités de cette
+ * offre sont déjà présentes dans le Panier local.
+ */
+
+.productAddToCartButton[data-in-panier="true"][data-feedback="idle"] {
+  border-color:
+    var(--product-card-primary);
+
+  background:
+    var(--product-card-primary);
+}
+
+
+/* ==========================================================================
+   14. ICÔNE DU VRAI BOUTON PANIER
+   ========================================================================== */
+
+/**
+ * PublicAddToPanierButton génère :
+ *
+ * <span data-public-add-to-panier-icon="true">
+ *
+ * Les anciennes classes sont également conservées plus bas.
+ */
+
+.productAddToCartButton
+[data-public-add-to-panier-icon="true"] {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex:
+    0 0 auto;
+
+  width:
+    17px;
+
+  height:
+    17px;
+
+  color:
+    currentColor;
+}
+
+
+.productAddToCartButton
+[data-public-add-to-panier-icon="true"]
+svg {
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+/* ==========================================================================
+   15. SPINNER HYDRATATION
+   ========================================================================== */
+
+.productAddToCartButton[data-hydrated="false"]
+[data-public-add-to-panier-icon="true"]
+svg {
+  animation:
+    productCardPanierSpin
+    850ms linear infinite;
+}
+
+
+@keyframes productCardPanierSpin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* ==========================================================================
+   16. LABEL DU VRAI BOUTON
+   ========================================================================== */
+
+.productAddToCartButton
+[data-public-add-to-panier-label="true"] {
+  display:
+    block;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ==========================================================================
+   17. BADGE QUANTITÉ PANIER
+   ========================================================================== */
+
+/**
+ * PublicAddToPanierButton peut afficher :
+ *
+ * 1
+ * 2
+ * 3
+ *
+ * etc.
+ *
+ * lorsque la même offre existe déjà dans le Panier.
+ */
+
+.productAddToCartButton
+[data-public-add-to-panier-quantity="true"] {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex:
+    0 0 auto;
+
+  min-width:
+    18px;
+
+  height:
+    18px;
+
+  padding:
+    0 5px;
+
+  margin-left:
+    1px;
+
+  color:
+    var(--product-card-primary);
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    rgb(255 255 255 / 68%);
+
+  border-radius:
+    999px;
+
+  font-size:
+    0.58rem;
+
+  font-weight:
+    820;
+
+  line-height:
+    1;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+/* ==========================================================================
+   18. GRAND DESKTOP
+   ========================================================================== */
+
+@media (
+  min-width:
+    1440px
+) {
+  .productCard {
+    --product-card-radius:
+      16px;
+  }
+
+
+  .productContent {
+    padding:
+      12px 13px 13px;
+  }
+
+
+  .productName {
+    font-size:
+      0.94rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      1.02rem;
+  }
+
+
+  .productAddToCartButton {
+    min-height:
+      39px;
+
+    margin-top:
+      11px;
+
+    font-size:
+      0.73rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      17px;
+
+    height:
+      17px;
+  }
+}
+
+
+/* ==========================================================================
+   19. DESKTOP STANDARD
+   ========================================================================== */
+
+@media (
+  min-width:
+    1024px
+)
+and (
+  max-width:
+    1439px
+) {
+  .productCard {
+    --product-card-radius:
+      14px;
+  }
+
+
+  .productContent {
+    padding:
+      10px 11px 11px;
+  }
+
+
+  .productName {
+    font-size:
+      0.84rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.93rem;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      6px;
+
+    min-height:
+      36px;
+
+    margin-top:
+      9px;
+
+    padding:
+      7px 8px;
+
+    font-size:
+      0.65rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      15px;
+
+    height:
+      15px;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    min-width:
+      17px;
+
+    height:
+      17px;
+
+    padding-inline:
+      4px;
+
+    font-size:
+      0.54rem;
+  }
+}
+
+
+/* ==========================================================================
+   20. TABLETTE
+   ========================================================================== */
+
+@media (
+  min-width:
+    768px
+)
+and (
+  max-width:
+    1023px
+) {
+  .productCard {
+    --product-card-radius:
+      15px;
+  }
+
+
+  .productContent {
+    padding:
+      11px;
+  }
+
+
+  .productName {
+    font-size:
+      0.9rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.98rem;
+  }
+
+
+  .productAddToCartButton {
+    min-height:
+      38px;
+
+    margin-top:
+      10px;
+
+    font-size:
+      0.69rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      16px;
+
+    height:
+      16px;
+  }
+}
+
+
+/* ==========================================================================
+   21. MOBILE
+   ========================================================================== */
+
+/**
+ * Les pages publiques peuvent placer deux cartes sur une ligne.
+ *
+ * La carte reste donc compacte sans sacrifier :
+ *
+ * - image ;
+ * - nom ;
+ * - prix ;
+ * - CTA.
+ */
+
+@media (
+  max-width:
+    767px
+) {
+  .productCard {
+    --product-card-radius:
+      13px;
+
+    box-shadow:
+      0 4px 14px
+      rgb(43 25 36 / 5%);
+  }
+
+
+  .productCard:hover {
+    transform:
+      none;
+  }
+
+
+  .productImage {
+    padding:
+      7px;
+  }
+
+
+  .productCard:hover
+  .productImage {
+    transform:
+      none;
+  }
+
+
+  .productContent {
+    padding:
+      8px 8px 9px;
+  }
+
+
+  .productName {
+    min-height:
+      2.2em;
+
+    font-size:
+      0.76rem;
+
+    font-weight:
+      680;
+
+    line-height:
+      1.1;
+  }
+
+
+  .productPricing {
+    margin-top:
+      6px;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.83rem;
+
+    line-height:
+      1.08;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      5px;
+
+    min-height:
+      34px;
+
+    margin-top:
+      8px;
+
+    padding:
+      6px;
+
+    border-radius:
+      8px;
+
+    box-shadow:
+      0 4px 11px
+      rgb(237 0 109 / 14%);
+
+    font-size:
+      0.61rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      14px;
+
+    height:
+      14px;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    min-width:
+      16px;
+
+    height:
+      16px;
+
+    padding-inline:
+      4px;
+
+    font-size:
+      0.5rem;
+  }
+}
+
+
+/* ==========================================================================
+   22. PETITS MOBILES
+   ========================================================================== */
+
+@media (
+  max-width:
+    420px
+) {
+  .productCard {
+    --product-card-radius:
+      12px;
+  }
+
+
+  .productContent {
+    padding:
+      7px 7px 8px;
+  }
+
+
+  .productName {
+    font-size:
+      0.72rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.79rem;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      4px;
+
+    min-height:
+      32px;
+
+    margin-top:
+      7px;
+
+    padding:
+      5px;
+
+    font-size:
+      0.57rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      13px;
+
+    height:
+      13px;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    min-width:
+      15px;
+
+    height:
+      15px;
+
+    padding-inline:
+      3px;
+
+    font-size:
+      0.48rem;
+  }
+}
+
+
+/* ==========================================================================
+   23. TRÈS PETITS MOBILES
+   ========================================================================== */
+
+@media (
+  max-width:
+    359px
+) {
+  .productContent {
+    padding:
+      6px;
+  }
+
+
+  .productName {
+    font-size:
+      0.68rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.74rem;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      3px;
+
+    min-height:
+      31px;
+
+    padding:
+      4px;
+
+    font-size:
+      0.53rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      12px;
+
+    height:
+      12px;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    min-width:
+      14px;
+
+    height:
+      14px;
+
+    padding-inline:
+      3px;
+
+    font-size:
+      0.45rem;
+  }
+}
+
+
+/* ==========================================================================
+   24. CONTAINER QUERY — CARTES ÉTROITES
+   ========================================================================== */
+
+@container (
+  max-width:
+    170px
+) {
+  .productContent {
+    padding:
+      7px;
+  }
+
+
+  .productName {
+    font-size:
+      0.7rem;
+  }
+
+
+  .productPrice {
+    font-size:
+      0.77rem;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      4px;
+
+    min-height:
+      32px;
+
+    padding-inline:
+      5px;
+
+    font-size:
+      0.55rem;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    width:
+      12px;
+
+    height:
+      12px;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    min-width:
+      14px;
+
+    height:
+      14px;
+
+    padding-inline:
+      3px;
+
+    font-size:
+      0.46rem;
+  }
+}
+
+
+/* ==========================================================================
+   25. CONTAINER QUERY — TRÈS PETITE CARTE
+   ========================================================================== */
+
+@container (
+  max-width:
+    135px
+) {
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"] {
+    display:
+      none;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    display:
+      none;
+  }
+
+
+  .productAddToCartButton {
+    gap:
+      0;
+
+    padding-inline:
+      4px;
+
+    font-size:
+      0.52rem;
+  }
+}
+
+
+/* ==========================================================================
+   26. CLAVIER / FOCUS
+   ========================================================================== */
+
+.productVisualLink:focus-visible
+.productImage {
+  transform:
+    scale(1.015);
+}
+
+
+.productNameLink:focus-visible
+.productName {
+  color:
+    var(--product-card-primary);
+}
+
+
+/* ==========================================================================
+   27. ÉCRANS TACTILES
+   ========================================================================== */
+
+@media (
+  hover:
+    none
+) {
+  .productCard:hover {
+    transform:
+      none;
+
+    border-color:
+      var(--product-card-border);
+
+    box-shadow:
+      var(--product-card-shadow);
+  }
+
+
+  .productCard:hover
+  .productImage {
+    transform:
+      none;
+  }
+
+
+  .productAddToCartButton:hover:not(:disabled) {
+    background:
+      var(--product-card-primary);
+
+    border-color:
+      var(--product-card-primary);
+
+    box-shadow:
+      0 6px 15px
+      rgb(237 0 109 / 16%);
+
+    transform:
+      none;
+  }
+
+
+  .productAddToCartButton[data-feedback="added"]:hover:not(:disabled) {
+    background:
+      var(--product-card-success);
+
+    border-color:
+      var(--product-card-success);
+
+    box-shadow:
+      0 6px 15px
+      rgb(35 116 71 / 17%);
+  }
+
+
+  .productAddToCartButton[data-feedback="error"]:hover:not(:disabled) {
+    background:
+      var(--product-card-error);
+
+    border-color:
+      var(--product-card-error);
+
+    box-shadow:
+      0 6px 15px
+      rgb(168 57 76 / 17%);
+  }
+}
+
+
+/* ==========================================================================
+   28. REDUCED MOTION
+   ========================================================================== */
+
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
+  .productCard,
+  .productImage,
+  .productName,
+  .productAddToCartButton,
+  .productAddToCartButton
+  [data-public-add-to-panier-icon="true"]
+  svg {
+    transition-duration:
+      0.01ms !important;
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+  }
+
+
+  .productCard:hover,
+  .productAddToCartButton:hover,
+  .productAddToCartButton:active {
+    transform:
+      none;
+  }
+
+
+  .productCard:hover
+  .productImage,
+  .productVisualLink:focus-visible
+  .productImage {
+    transform:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   29. CONTRASTE FORCÉ
+   ========================================================================== */
+
+@media (
+  forced-colors:
+    active
+) {
+  .productCard {
+    border:
+      1px solid CanvasText;
+
+    box-shadow:
+      none;
+  }
+
+
+  .productAddToCartButton {
+    border:
+      1px solid ButtonText;
+
+    box-shadow:
+      none;
+  }
+
+
+  .productAddToCartButton
+  [data-public-add-to-panier-quantity="true"] {
+    border:
+      1px solid ButtonText;
+  }
+}
+
+
+/* ==========================================================================
+   30. IMPRESSION
+   ========================================================================== */
+
+@media print {
+  .productCard {
+    break-inside:
+      avoid;
+
+    border:
+      1px solid #dddddd;
+
+    box-shadow:
+      none;
+
+    transform:
+      none;
+  }
+
+
+  .productImage {
+    transform:
+      none;
+  }
+
+
+  .productAddToCartButton {
+    box-shadow:
+      none;
+  }
+}
+
+
+/* ==========================================================================
+   31. COMPATIBILITÉ ANCIENNE STRUCTURE DU BOUTON
+   ========================================================================== */
+
+/**
+ * Ces deux classes appartenaient à l'ancienne implémentation locale :
+ *
+ * ProductCartIcon
+ *
+ * +
+ *
+ * span productAddToCartLabel
+ *
+ * Elles ne sont plus nécessaires au nouveau PublicProductCard,
+ * mais restent disponibles afin de ne pas casser immédiatement un ancien
+ * consommateur éventuel pendant la migration.
+ */
+
+.productAddToCartIcon {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex:
+    0 0 auto;
+
+  width:
+    17px;
+
+  height:
+    17px;
+
+  color:
+    currentColor;
+}
+
+
+.productAddToCartIcon
+svg {
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+.productAddToCartLabel {
+  display:
+    block;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ==========================================================================
+   32. COMPATIBILITÉ ANCIENNE STRUCTURE CARTE
+   ========================================================================== */
+
+/**
+ * Ces classes appartenaient à d'anciennes versions de PublicProductCard.
+ *
+ * Elles restent volontairement présentes pendant la migration.
+ *
+ * Elles n'ajoutent aucune donnée métier.
+ */
+
+.productCardLink {
+  color:
+    inherit;
+
+  text-decoration:
+    none;
+}
+
+
+.productImageOverlay {
+  display:
+    none;
+}
+
+
+.productAvailability,
+.productAvailabilityDot,
+.productAvailabilityInStock,
+.productAvailabilityLowStock,
+.productAvailabilityOutOfStock,
+.productPromotionBadge,
+.productStore,
+.productStoreLabel,
+.productStoreName,
+.productSku,
+.productCompareAtPrice,
+.productLocation,
+.productLocationIcon,
+.productLocationText,
+.productFooter,
+.productDiscoverLabel,
+.productDiscoverIcon {
+  display:
+    none;
+}
+
+
+/* ==========================================================================
+   33. SÉCURITÉ LAYOUT
+   ========================================================================== */
+
+/**
+ * Empêche les contenus de faire exploser la largeur de la grille lorsque :
+ *
+ * - le nom est très long ;
+ * - la devise est longue ;
+ * - le badge Panier contient plusieurs chiffres.
+ */
+
+.productCard,
+.productContent,
+.productPricing,
+.productNameLink,
+.productAddToCartButton {
+  max-width:
+    100%;
+}
+
+
+.productCard *,
+.productCard *::before,
+.productCard *::after {
+  box-sizing:
+    border-box;
+}
+
+
+/* ==========================================================================
+   34. FIN
+   ========================================================================== */
+
+/**
+ * STRUCTURE FINALE
+ *
+ * ============================================================================
+ *
+ * Desktop :
+ *
+ * [ Produit ][ Produit ][ Produit ][ Produit ][ Produit ]
+ *
+ * plusieurs lignes si nécessaire selon la grille du parent.
+ *
+ * ============================================================================
+ *
+ * Mobile :
+ *
+ * [ Produit ][ Produit ]
+ * [ Produit ][ Produit ]
+ * [ Produit ][ Produit ]
+ *
+ * lorsque la grille parente choisit deux colonnes.
+ *
+ * ============================================================================
+ *
+ * Chaque carte contient seulement :
+ *
+ * IMAGE
+ *
+ * NOM
+ *
+ * PRIX
+ *
+ * AJOUTER AU PANIER
+ *
+ * ============================================================================
+ *
+ * Le bouton Panier gère maintenant réellement :
+ *
+ * - chargement Provider ;
+ * - ajout ;
+ * - quantité déjà présente ;
+ * - confirmation "Ajouté au panier" ;
+ * - erreur locale ;
+ * - accessibilité.
+ *
+ * ============================================================================
+ *
+ * Aucun :
+ *
+ * - SKU visible ;
+ * - nom de boutique ;
+ * - ville ;
+ * - pays ;
+ * - badge disponibilité ;
+ * - faux badge promotion ;
+ * - notation fictive ;
+ * - avis fictif ;
+ * - bouton "Voir le produit" ;
+ * - largeur fixe ;
+ * - donnée métier inventée dans le CSS.
+ *
+ * ============================================================================
+ */

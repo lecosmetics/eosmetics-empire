@@ -1,0 +1,2847 @@
+/* ============================================================
+   COSMETICS EMPIRE
+   APPLICATION SHELL — ESPACE GESTIONNAIRE
+   ------------------------------------------------------------
+   Fichier :
+   src/app/gestionnaire/(espace-prive)/gestionnaire-app.css
+
+   ARCHITECTURE PERMANENTE :
+
+   DESKTOP
+
+   ┌──────────────┬─────────────────────────────────────────────┐
+   │              │ HEADER FIXE                                │
+   │   SIDEBAR    ├─────────────────────────────────────────────┤
+   │    FIXE      │                                             │
+   │              │ MAIN / {children}                          │
+   │              │ DÉFILEMENT                                 │
+   │              │                                             │
+   └──────────────┴─────────────────────────────────────────────┘
+
+   MOBILE
+
+   ┌────────────────────────────────────────────────────────────┐
+   │ HEADER COMPACT FIXE                                       │
+   ├────────────────────────────────────────────────────────────┤
+   │ MAIN                                                      │
+   │ DÉFILEMENT                                                │
+   │                                                           │
+   │ Drawer sombre en overlay lors de son ouverture            │
+   └────────────────────────────────────────────────────────────┘
+
+   RESPONSABILITÉS :
+
+   - sidebar desktop fixe ;
+   - identité L&E ;
+   - badge Espace sécurisé ;
+   - navigation principale ;
+   - sous-menu Produits ;
+   - états actifs ;
+   - profil Gestionnaire ;
+   - déconnexion ;
+   - header application fixe ;
+   - recherche ;
+   - localisation ;
+   - notifications ;
+   - profil compact ;
+   - drawer mobile ;
+   - overlay mobile ;
+   - responsive ;
+   - zone de contenu centrale.
+
+   IMPORTANT :
+
+   Les couleurs principales et tokens généraux de marque restent
+   centralisés dans src/app/globals.css.
+
+   Ce fichier ne contient aucune logique métier.
+   ============================================================ */
+
+
+/* ============================================================
+   1. APPLICATION SHELL — TOKENS LOCAUX
+   ============================================================ */
+
+.gestionnaire-app-shell {
+  --ga-sidebar-width: 278px;
+  --ga-header-height: 78px;
+
+  --ga-sidebar-background:
+    var(--ce-neutral-950, #0f1012);
+
+  --ga-sidebar-background-soft:
+    var(--ce-neutral-900, #17181b);
+
+  --ga-sidebar-background-hover:
+    rgb(255 255 255 / 5%);
+
+  --ga-sidebar-background-active:
+    linear-gradient(
+      90deg,
+      rgb(237 0 109 / 23%) 0%,
+      rgb(237 0 109 / 10%) 100%
+    );
+
+  --ga-sidebar-background-subactive:
+    linear-gradient(
+      90deg,
+      rgb(237 0 109 / 29%) 0%,
+      rgb(237 0 109 / 17%) 100%
+    );
+
+  --ga-sidebar-border:
+    rgb(255 255 255 / 9%);
+
+  --ga-sidebar-border-strong:
+    rgb(255 255 255 / 14%);
+
+  --ga-sidebar-text:
+    rgb(255 255 255 / 94%);
+
+  --ga-sidebar-text-secondary:
+    rgb(255 255 255 / 72%);
+
+  --ga-sidebar-text-muted:
+    rgb(255 255 255 / 57%);
+
+  --ga-primary:
+    var(--ce-primary, #ed006d);
+
+  --ga-primary-dark:
+    var(--ce-primary-dark, #a90053);
+
+  --ga-primary-soft:
+    rgb(237 0 109 / 12%);
+
+  --ga-primary-medium:
+    rgb(237 0 109 / 24%);
+
+  --ga-header-background:
+    rgb(255 255 255 / 97%);
+
+  --ga-content-background:
+    #fbfcfe;
+
+  --ga-card-background:
+    #ffffff;
+
+  --ga-border:
+    var(--ce-border-light, #e7eaf0);
+
+  --ga-border-strong:
+    var(--ce-border, #dce0e8);
+
+  --ga-text:
+    var(--ce-text, #171717);
+
+  --ga-text-secondary:
+    var(--ce-text-secondary, #454a57);
+
+  --ga-text-muted:
+    var(--ce-text-muted, #8f97a8);
+
+  --ga-shadow-header:
+    0 7px 24px rgb(17 24 39 / 4%);
+
+  --ga-shadow-sidebar:
+    12px 0 34px rgb(0 0 0 / 7%);
+
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  color:
+    var(--ga-text);
+
+  background:
+    var(--ga-content-background);
+
+  isolation: isolate;
+
+  overflow-x: hidden;
+}
+
+
+/* ============================================================
+   2. BODY — DRAWER OPEN
+   ============================================================ */
+
+body.ce-no-scroll {
+  overflow: hidden;
+
+  overscroll-behavior: none;
+}
+
+
+/* ============================================================
+   3. DESKTOP SIDEBAR
+   ============================================================ */
+
+.gestionnaire-app-sidebar {
+  position: fixed;
+
+  z-index: 70;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  display: block;
+
+  width:
+    var(--ga-sidebar-width);
+
+  height: 100vh;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  color:
+    var(--ga-sidebar-text);
+
+  background:
+    linear-gradient(
+      180deg,
+      #121315 0%,
+      #0e0f11 52%,
+      #0b0c0e 100%
+    );
+
+  border-right:
+    1px solid
+    rgb(255 255 255 / 5%);
+
+  box-shadow:
+    var(--ga-shadow-sidebar);
+}
+
+
+/* ============================================================
+   4. SIDEBAR CONTENT STRUCTURE
+   ============================================================ */
+
+.gestionnaire-sidebar-content {
+  display: grid;
+
+  grid-template-rows:
+    auto
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding:
+    16px
+    16px
+    15px;
+}
+
+
+/* ============================================================
+   5. SIDEBAR TOP
+   ============================================================ */
+
+.gestionnaire-sidebar-content__top {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 13px;
+
+  min-width: 0;
+}
+
+
+/* ============================================================
+   6. SIDEBAR SEPARATOR
+   ============================================================ */
+
+.gestionnaire-sidebar-content__divider {
+  width: 100%;
+  height: 1px;
+
+  margin:
+    14px
+    0
+    10px;
+
+  background:
+    var(--ga-sidebar-border);
+}
+
+
+/* ============================================================
+   7. SIDEBAR NAVIGATION AREA
+   ============================================================ */
+
+.gestionnaire-sidebar-content__navigation {
+  min-width: 0;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 2px;
+
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgb(255 255 255 / 14%)
+    transparent;
+}
+
+.gestionnaire-sidebar-content__navigation::-webkit-scrollbar {
+  width: 5px;
+}
+
+.gestionnaire-sidebar-content__navigation::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gestionnaire-sidebar-content__navigation::-webkit-scrollbar-thumb {
+  background:
+    rgb(255 255 255 / 13%);
+
+  border-radius: 999px;
+}
+
+.gestionnaire-sidebar-content__navigation::-webkit-scrollbar-thumb:hover {
+  background:
+    rgb(255 255 255 / 21%);
+}
+
+
+/* ============================================================
+   8. SIDEBAR FOOTER
+   ============================================================ */
+
+.gestionnaire-sidebar-content__footer {
+  min-width: 0;
+
+  padding-top: 12px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgb(14 15 17 / 0%) 0%,
+      rgb(14 15 17 / 96%) 14%
+    );
+
+  border-top:
+    1px solid
+    var(--ga-sidebar-border);
+}
+
+
+/* ============================================================
+   9. BRAND
+   ============================================================ */
+
+.gestionnaire-sidebar-brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  border-radius: 12px;
+}
+
+.gestionnaire-sidebar-brand:focus-visible {
+  outline:
+    2px solid
+    var(--ga-primary);
+
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   10. BRAND LOGO
+   ============================================================ */
+
+.gestionnaire-sidebar-brand__logo {
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  height: 56px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    rgb(255 255 255 / 12%);
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 8px 20px
+    rgb(0 0 0 / 23%);
+}
+
+.gestionnaire-sidebar-brand__logo-image {
+  display: block;
+
+  width: 50px;
+  height: 50px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+
+/* ============================================================
+   11. BRAND TEXT
+   ============================================================ */
+
+.gestionnaire-sidebar-brand__text {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+
+  line-height: 1.2;
+}
+
+.gestionnaire-sidebar-brand__text strong {
+  overflow: hidden;
+
+  color:
+    var(--ga-sidebar-text);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  letter-spacing: -0.01em;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-sidebar-brand__text span {
+  margin-top: 4px;
+
+  overflow: hidden;
+
+  color:
+    var(--ga-sidebar-text-secondary);
+
+  font-size: 0.73rem;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   12. SECURE BADGE
+   ============================================================ */
+
+.gestionnaire-sidebar-secure {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 35px;
+
+  padding:
+    0
+    13px;
+
+  color:
+    var(--ga-sidebar-text);
+
+  font-size: 0.73rem;
+  font-weight: 600;
+
+  background:
+    rgb(255 255 255 / 3%);
+
+  border:
+    1px solid
+    var(--ga-sidebar-border-strong);
+
+  border-radius: 999px;
+}
+
+.gestionnaire-sidebar-secure svg {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-primary);
+}
+
+
+/* ============================================================
+   13. NAVIGATION ROOT
+   ============================================================ */
+
+.gestionnaire-app-nav {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ============================================================
+   14. NAVIGATION LIST
+   ============================================================ */
+
+.gestionnaire-app-nav__list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.gestionnaire-app-nav__item {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* ============================================================
+   15. NAVIGATION ITEM
+   ============================================================ */
+
+.gestionnaire-app-nav__link {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  width: 100%;
+  min-height: 46px;
+
+  padding:
+    0
+    13px;
+
+  color:
+    var(--ga-sidebar-text);
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius: 10px;
+
+  font: inherit;
+
+  text-align: left;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.gestionnaire-app-nav__link:hover {
+  background:
+    var(--ga-sidebar-background-hover);
+}
+
+
+/* ============================================================
+   16. GLOBAL FOCUS
+   ============================================================ */
+
+.gestionnaire-app-nav__link:focus-visible,
+.gestionnaire-app-nav__submenu-link:focus-visible,
+.gestionnaire-profile-card__identity:focus-visible,
+.gestionnaire-profile-card__logout:focus-visible,
+.gestionnaire-app-header__menu-button:focus-visible,
+.gestionnaire-app-header__mobile-search-button:focus-visible,
+.gestionnaire-app-header__notification:focus-visible,
+.gestionnaire-app-header__profile:focus-visible,
+.gestionnaire-mobile-drawer__close:focus-visible {
+  outline:
+    2px solid
+    var(--ga-primary);
+
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   17. ACTIVE NAVIGATION
+   ============================================================ */
+
+.gestionnaire-app-nav__link--active {
+  color: #ffffff;
+
+  background:
+    var(--ga-sidebar-background-active);
+
+  border-color:
+    rgb(237 0 109 / 46%);
+}
+
+.gestionnaire-app-nav__link--active::before {
+  content: "";
+
+  position: absolute;
+
+  top: 7px;
+  bottom: 7px;
+  left: -1px;
+
+  width: 3px;
+
+  background:
+    var(--ga-primary);
+
+  border-radius:
+    0
+    999px
+    999px
+    0;
+}
+
+
+/* ============================================================
+   18. DISABLED NAVIGATION
+   ============================================================ */
+
+.gestionnaire-app-nav__link--disabled {
+  opacity: 0.42;
+
+  cursor: not-allowed;
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   19. NAV ICON
+   ============================================================ */
+
+.gestionnaire-app-nav__icon {
+  flex: 0 0 auto;
+
+  width: 21px;
+  height: 21px;
+
+  color:
+    rgb(255 255 255 / 81%);
+
+  transition:
+    color 160ms ease;
+}
+
+.gestionnaire-app-nav__link--active
+.gestionnaire-app-nav__icon {
+  color:
+    var(--ga-primary);
+}
+
+
+/* ============================================================
+   20. NAV LABEL
+   ============================================================ */
+
+.gestionnaire-app-nav__label {
+  flex: 1 1 auto;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  font-size: 0.81rem;
+  font-weight: 600;
+
+  line-height: 1.25;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   21. PRODUCTS GROUP TRIGGER
+   ============================================================ */
+
+.gestionnaire-app-nav__group-trigger {
+  appearance: none;
+
+  -webkit-appearance: none;
+}
+
+
+/* ============================================================
+   22. CHEVRON
+   ============================================================ */
+
+.gestionnaire-app-nav__chevron {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-sidebar-text-muted);
+
+  transition:
+    transform 180ms ease,
+    color 160ms ease;
+}
+
+.gestionnaire-app-nav__link--active
+.gestionnaire-app-nav__chevron {
+  color:
+    rgb(255 255 255 / 81%);
+}
+
+.gestionnaire-app-nav__chevron--open {
+  transform:
+    rotate(180deg);
+}
+
+
+/* ============================================================
+   23. SUBMENU WRAPPER
+   ============================================================ */
+
+.gestionnaire-app-nav__submenu {
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transition:
+    grid-template-rows 190ms ease,
+    opacity 160ms ease,
+    visibility 160ms ease;
+}
+
+.gestionnaire-app-nav__submenu--open {
+  grid-template-rows: 1fr;
+
+  opacity: 1;
+
+  visibility: visible;
+}
+
+
+/* ============================================================
+   24. SUBMENU LIST
+   ============================================================ */
+
+.gestionnaire-app-nav__submenu-list {
+  position: relative;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin:
+    3px
+    0
+    2px
+    23px;
+
+  padding:
+    3px
+    0
+    3px
+    15px;
+
+  overflow: hidden;
+
+  list-style: none;
+
+  border-left:
+    1px solid
+    rgb(255 255 255 / 14%);
+}
+
+.gestionnaire-app-nav__submenu-item {
+  position: relative;
+
+  min-width: 0;
+}
+
+
+/* ============================================================
+   25. SUBMENU LINK
+   ============================================================ */
+
+.gestionnaire-app-nav__submenu-link {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+
+  padding:
+    0
+    12px;
+
+  color:
+    rgb(255 255 255 / 78%);
+
+  text-decoration: none;
+
+  background:
+    transparent;
+
+  border-radius: 9px;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.gestionnaire-app-nav__submenu-link:hover {
+  color: #ffffff;
+
+  background:
+    rgb(255 255 255 / 5%);
+}
+
+.gestionnaire-app-nav__submenu-link--active {
+  color: #ffffff;
+
+  background:
+    var(--ga-sidebar-background-subactive);
+}
+
+.gestionnaire-app-nav__submenu-link--active
+.gestionnaire-app-nav__icon {
+  color:
+    var(--ga-primary);
+}
+
+
+/* ============================================================
+   26. SUBMENU ACTIVE DOT
+   ============================================================ */
+
+.gestionnaire-app-nav__submenu-dot {
+  position: absolute;
+
+  top: 50%;
+  left: -18px;
+
+  width: 6px;
+  height: 6px;
+
+  background:
+    transparent;
+
+  border-radius: 50%;
+
+  transform:
+    translateY(-50%);
+}
+
+.gestionnaire-app-nav__submenu-link--active
+.gestionnaire-app-nav__submenu-dot {
+  background:
+    var(--ga-primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(237 0 109 / 8%);
+}
+
+
+/* ============================================================
+   27. SUBMENU LABEL
+   ============================================================ */
+
+.gestionnaire-app-nav__submenu-label {
+  min-width: 0;
+
+  overflow: hidden;
+
+  font-size: 0.78rem;
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   28. SECONDARY MENU SEPARATOR
+   ============================================================ */
+
+.gestionnaire-app-nav__separator {
+  width: 100%;
+  height: 1px;
+
+  margin:
+    12px
+    0
+    10px;
+
+  background:
+    var(--ga-sidebar-border);
+}
+
+
+/* ============================================================
+   29. PROFILE CARD ROOT
+   ============================================================ */
+
+.gestionnaire-profile-card {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  min-width: 0;
+}
+
+
+/* ============================================================
+   30. PROFILE IDENTITY
+   ============================================================ */
+
+.gestionnaire-profile-card__identity {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    3px
+    1px;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  transition:
+    background-color 160ms ease;
+}
+
+.gestionnaire-profile-card__identity:hover {
+  background:
+    rgb(255 255 255 / 3%);
+}
+
+
+/* ============================================================
+   31. PROFILE AVATAR
+   ============================================================ */
+
+.gestionnaire-profile-card__avatar {
+  position: relative;
+
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--ga-primary) 0%,
+      var(--ga-primary-dark) 100%
+    );
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 6px 16px
+    rgb(237 0 109 / 16%);
+}
+
+.gestionnaire-profile-card__avatar-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+
+/* ============================================================
+   32. PROFILE STATUS
+   ============================================================ */
+
+.gestionnaire-profile-card__status {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+
+  width: 10px;
+  height: 10px;
+
+  background:
+    #34363c;
+
+  border:
+    2px solid
+    var(--ga-sidebar-background);
+
+  border-radius: 50%;
+}
+
+
+/* ============================================================
+   33. PROFILE DETAILS
+   ============================================================ */
+
+.gestionnaire-profile-card__details {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.gestionnaire-profile-card__name {
+  overflow: hidden;
+
+  color:
+    var(--ga-sidebar-text);
+
+  font-size: 0.77rem;
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-profile-card__email {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  color:
+    var(--ga-sidebar-text-muted);
+
+  font-size: 0.65rem;
+
+  line-height: 1.3;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-profile-card__location {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  min-width: 0;
+
+  margin-top: 4px;
+
+  color:
+    var(--ga-sidebar-text-muted);
+
+  font-size: 0.65rem;
+
+  line-height: 1.25;
+}
+
+.gestionnaire-profile-card__location svg {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-primary);
+}
+
+.gestionnaire-profile-card__location span {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-profile-card__chevron {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-sidebar-text-muted);
+}
+
+
+/* ============================================================
+   34. LOGOUT BUTTON
+   ============================================================ */
+
+.gestionnaire-profile-card__logout {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+  min-height: 45px;
+
+  padding:
+    0
+    14px;
+
+  color:
+    var(--ga-sidebar-text);
+
+  background:
+    rgb(255 255 255 / 4%);
+
+  border:
+    1px solid
+    rgb(255 255 255 / 12%);
+
+  border-radius: 9px;
+
+  font: inherit;
+
+  font-size: 0.74rem;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.gestionnaire-profile-card__logout svg {
+  flex: 0 0 auto;
+
+  color:
+    rgb(255 255 255 / 78%);
+}
+
+.gestionnaire-profile-card__logout:hover {
+  background:
+    rgb(255 255 255 / 7%);
+
+  border-color:
+    rgb(255 255 255 / 20%);
+}
+
+
+/* ============================================================
+   35. MAIN APPLICATION AREA
+   ------------------------------------------------------------
+   Le Header est FIXED.
+
+   On réserve donc ici exactement sa hauteur avec padding-top.
+
+   Résultat :
+   - le contenu commence sous le Header ;
+   - le Header ne bouge jamais ;
+   - aucun chevauchement.
+   ============================================================ */
+
+.gestionnaire-app-main {
+  width:
+    calc(
+      100% -
+      var(--ga-sidebar-width)
+    );
+
+  min-width: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  margin-left:
+    var(--ga-sidebar-width);
+
+  padding-top:
+    var(--ga-header-height);
+
+  box-sizing: border-box;
+
+  background:
+    var(--ga-content-background);
+}
+
+
+/* ============================================================
+   36. APPLICATION HEADER — FIXED
+   ------------------------------------------------------------
+   DESKTOP :
+
+   La Sidebar occupe :
+   left: 0 → sidebar width.
+
+   Le Header commence donc exactement après la Sidebar.
+
+   MOBILE / TABLET :
+
+   left repasse à 0 dans le breakpoint <= 1100px.
+
+   Le contenu de chaque page défile sous ce Header.
+   ============================================================ */
+
+.gestionnaire-app-header {
+  position: fixed;
+
+  z-index: 80;
+
+  top: 0;
+
+  left:
+    var(--ga-sidebar-width);
+
+  right: 0;
+
+  width: auto;
+
+  height:
+    var(--ga-header-height);
+
+  background:
+    var(--ga-header-background);
+
+  border-bottom:
+    1px solid
+    var(--ga-border);
+
+  box-shadow:
+    var(--ga-shadow-header);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  transform:
+    translateZ(0);
+
+  backface-visibility:
+    hidden;
+}
+
+
+/* ============================================================
+   37. HEADER INNER
+   ============================================================ */
+
+.gestionnaire-app-header__inner {
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+
+  padding:
+    0
+    24px;
+}
+
+
+/* ============================================================
+   38. MOBILE HEADER START
+   ============================================================ */
+
+.gestionnaire-app-header__mobile-start {
+  display: none;
+}
+
+
+/* ============================================================
+   39. MOBILE HEADER BUTTONS
+   ============================================================ */
+
+.gestionnaire-app-header__menu-button,
+.gestionnaire-app-header__mobile-search-button {
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  color:
+    var(--ga-text);
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    var(--ga-border);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.gestionnaire-app-header__menu-button:hover,
+.gestionnaire-app-header__mobile-search-button:hover {
+  color:
+    var(--ga-primary);
+
+  background:
+    rgb(237 0 109 / 3%);
+
+  border-color:
+    rgb(237 0 109 / 22%);
+}
+
+
+/* ============================================================
+   40. DESKTOP SEARCH
+   ============================================================ */
+
+.gestionnaire-app-header__search {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  width:
+    min(
+      465px,
+      42vw
+    );
+
+  min-width: 220px;
+}
+
+.gestionnaire-app-header__search-icon {
+  position: absolute;
+
+  z-index: 2;
+
+  left: 16px;
+
+  color:
+    var(--ga-text-muted);
+
+  pointer-events: none;
+}
+
+.gestionnaire-app-header__search-input {
+  width: 100%;
+  height: 48px;
+
+  padding:
+    0
+    18px
+    0
+    48px;
+
+  color:
+    var(--ga-text);
+
+  background:
+    #ffffff;
+
+  border:
+    1px solid
+    var(--ga-border);
+
+  border-radius: 11px;
+
+  outline: none;
+
+  font: inherit;
+
+  font-size: 0.81rem;
+  font-weight: 400;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.gestionnaire-app-header__search-input::placeholder {
+  color:
+    #969eaf;
+}
+
+.gestionnaire-app-header__search-input:hover {
+  border-color:
+    var(--ga-border-strong);
+}
+
+.gestionnaire-app-header__search-input:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    rgb(237 0 109 / 44%);
+
+  box-shadow:
+    0 0 0 3px
+    rgb(237 0 109 / 8%);
+}
+
+
+/* ============================================================
+   41. HEADER ACTIONS
+   ============================================================ */
+
+.gestionnaire-app-header__actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  min-width: 0;
+
+  margin-left: auto;
+}
+
+
+/* ============================================================
+   42. LOCATION
+   ============================================================ */
+
+.gestionnaire-app-header__location {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 0;
+
+  color:
+    var(--ga-text-secondary);
+
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-app-header__location > svg:first-child {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-primary);
+}
+
+.gestionnaire-app-header__location > svg:last-child {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-text-muted);
+}
+
+
+/* ============================================================
+   43. HEADER DIVIDERS
+   ============================================================ */
+
+.gestionnaire-app-header__divider {
+  flex: 0 0 auto;
+
+  width: 1px;
+  height: 30px;
+
+  background:
+    var(--ga-border);
+}
+
+
+/* ============================================================
+   44. NOTIFICATIONS
+   ============================================================ */
+
+.gestionnaire-app-header__notification {
+  position: relative;
+
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  color:
+    var(--ga-text-secondary);
+
+  background:
+    transparent;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.gestionnaire-app-header__notification:hover {
+  color:
+    var(--ga-primary);
+
+  background:
+    #f7f8fa;
+}
+
+
+/* ============================================================
+   45. NOTIFICATION DOT
+   ============================================================ */
+
+.gestionnaire-app-header__notification-dot {
+  position: absolute;
+
+  top: 7px;
+  right: 7px;
+
+  width: 8px;
+  height: 8px;
+
+  background:
+    var(--ga-primary);
+
+  border:
+    2px solid
+    #ffffff;
+
+  border-radius: 50%;
+}
+
+
+/* ============================================================
+   46. HEADER PROFILE
+   ============================================================ */
+
+.gestionnaire-app-header__profile {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 0;
+
+  padding:
+    5px
+    7px;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  transition:
+    background-color 160ms ease;
+}
+
+.gestionnaire-app-header__profile:hover {
+  background:
+    #f7f8fa;
+}
+
+
+/* ============================================================
+   47. HEADER AVATAR
+   ============================================================ */
+
+.gestionnaire-app-header__avatar {
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  overflow: hidden;
+
+  color:
+    #ffffff;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--ga-primary) 0%,
+      var(--ga-primary-dark) 100%
+    );
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 5px 14px
+    rgb(237 0 109 / 14%);
+}
+
+.gestionnaire-app-header__avatar-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+
+/* ============================================================
+   48. HEADER PROFILE COPY
+   ============================================================ */
+
+.gestionnaire-app-header__profile-copy {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+
+  line-height: 1.2;
+}
+
+.gestionnaire-app-header__profile-copy strong {
+  max-width: 150px;
+
+  overflow: hidden;
+
+  color:
+    var(--ga-text);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-app-header__profile-copy span {
+  max-width: 175px;
+
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color:
+    var(--ga-text-muted);
+
+  font-size: 0.64rem;
+  font-weight: 400;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.gestionnaire-app-header__profile-chevron {
+  flex: 0 0 auto;
+
+  color:
+    var(--ga-text-muted);
+}
+
+
+/* ============================================================
+   49. MOBILE SEARCH BUTTON
+   ============================================================ */
+
+.gestionnaire-app-header__mobile-search-button {
+  display: none;
+}
+
+
+/* ============================================================
+   50. MAIN CONTENT
+   ============================================================ */
+
+.gestionnaire-app-content {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    calc(
+      100vh -
+      var(--ga-header-height)
+    );
+
+  min-height:
+    calc(
+      100dvh -
+      var(--ga-header-height)
+    );
+
+  padding:
+    clamp(
+      22px,
+      2.4vw,
+      36px
+    );
+
+  overflow-x: clip;
+
+  background:
+    var(--ga-content-background);
+}
+
+
+/* ============================================================
+   51. STRUCTURAL PLACEHOLDER
+   ============================================================ */
+
+.gestionnaire-shell-placeholder {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  min-height:
+    calc(
+      100vh -
+      var(--ga-header-height) -
+      72px
+    );
+
+  min-height:
+    calc(
+      100dvh -
+      var(--ga-header-height) -
+      72px
+    );
+
+  color:
+    var(--ga-text-muted);
+
+  text-align: center;
+}
+
+.gestionnaire-shell-placeholder__icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 130px;
+  height: 130px;
+
+  color:
+    #a9b0c0;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f5f7fa 0%,
+      #edf0f5 100%
+    );
+
+  border:
+    1px solid
+    #eff1f5;
+
+  border-radius: 50%;
+}
+
+.gestionnaire-shell-placeholder__title {
+  margin-top: 22px;
+
+  color:
+    #989faf;
+
+  font-size:
+    clamp(
+      1.35rem,
+      2vw,
+      1.8rem
+    );
+
+  font-weight: 500;
+
+  line-height: 1.2;
+
+  letter-spacing:
+    -0.02em;
+}
+
+.gestionnaire-shell-placeholder__description {
+  max-width: 540px;
+
+  margin-top: 10px;
+
+  color:
+    #a0a8b9;
+
+  font-size: 0.94rem;
+
+  line-height: 1.55;
+}
+
+.gestionnaire-shell-placeholder__accent {
+  width: 92px;
+  height: 2px;
+
+  margin-top: 23px;
+
+  background:
+    var(--ga-primary);
+
+  border-radius:
+    999px;
+}
+
+
+/* ============================================================
+   52. MOBILE ELEMENTS — DESKTOP DEFAULT
+   ============================================================ */
+
+.gestionnaire-mobile-overlay,
+.gestionnaire-mobile-drawer {
+  display: none;
+}
+
+
+/* ============================================================
+   53. LAPTOP
+   ============================================================ */
+
+@media (max-width: 1360px) and (min-width: 1101px) {
+  .gestionnaire-app-shell {
+    --ga-sidebar-width: 258px;
+  }
+
+
+  .gestionnaire-sidebar-content {
+    padding-inline: 14px;
+  }
+
+
+  .gestionnaire-app-header__inner {
+    gap: 14px;
+
+    padding-inline: 20px;
+  }
+
+
+  .gestionnaire-app-header__search {
+    width:
+      min(
+        410px,
+        39vw
+      );
+  }
+
+
+  .gestionnaire-app-header__actions {
+    gap: 13px;
+  }
+
+
+  .gestionnaire-app-header__profile-copy span {
+    max-width: 135px;
+  }
+}
+
+
+/* ============================================================
+   54. TABLET / DRAWER MODE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .gestionnaire-app-shell {
+    --ga-header-height: 72px;
+  }
+
+
+  /* ----------------------------------------------------------
+     HIDE FIXED DESKTOP SIDEBAR
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-sidebar {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     MAIN FULL WIDTH
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-main {
+    width: 100%;
+
+    margin-left: 0;
+
+    padding-top:
+      var(--ga-header-height);
+  }
+
+
+  /* ----------------------------------------------------------
+     FIXED HEADER FULL WIDTH
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header {
+    left: 0;
+    right: 0;
+
+    width: 100%;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER INNER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__inner {
+    gap: 14px;
+
+    padding-inline:
+      var(
+        --ce-page-padding-tablet,
+        22px
+      );
+  }
+
+
+  /* ----------------------------------------------------------
+     MOBILE IDENTITY
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__mobile-start {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+  }
+
+
+  .gestionnaire-app-header__menu-button {
+    display: inline-flex;
+
+    flex: 0 0 auto;
+  }
+
+
+  .gestionnaire-app-header__mobile-brand {
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    line-height: 1.15;
+  }
+
+
+  .gestionnaire-app-header__mobile-brand strong {
+    overflow: hidden;
+
+    color:
+      var(--ga-text);
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  .gestionnaire-app-header__mobile-brand span {
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color:
+      var(--ga-text-muted);
+
+    font-size: 0.63rem;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  /* ----------------------------------------------------------
+     SEARCH
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__search {
+    width:
+      min(
+        360px,
+        36vw
+      );
+
+    min-width: 180px;
+  }
+
+
+  /* ----------------------------------------------------------
+     LOCATION
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__location {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     ACTIONS
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__actions {
+    gap: 12px;
+  }
+
+
+  .gestionnaire-app-header__divider:first-of-type {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     OVERLAY
+     ---------------------------------------------------------- */
+
+  .gestionnaire-mobile-overlay {
+    position: fixed;
+
+    z-index: 90;
+
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    background:
+      rgb(5 6 9 / 58%);
+
+    border: 0;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    backdrop-filter:
+      blur(1.5px);
+
+    -webkit-backdrop-filter:
+      blur(1.5px);
+
+    transition:
+      opacity 190ms ease,
+      visibility 190ms ease;
+  }
+
+
+  .gestionnaire-mobile-overlay--open {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+  }
+
+
+  /* ----------------------------------------------------------
+     MOBILE DRAWER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-mobile-drawer {
+    position: fixed;
+
+    z-index: 100;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    display: block;
+
+    width:
+      min(
+        86vw,
+        360px
+      );
+
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+
+    color:
+      var(--ga-sidebar-text);
+
+    background:
+      linear-gradient(
+        180deg,
+        #121315 0%,
+        #0e0f11 54%,
+        #0b0c0e 100%
+      );
+
+    box-shadow:
+      22px 0 55px
+      rgb(0 0 0 / 29%);
+
+    transform:
+      translate3d(
+        -105%,
+        0,
+        0
+      );
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+      transform 220ms ease,
+      visibility 220ms ease;
+  }
+
+
+  .gestionnaire-mobile-drawer--open {
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      );
+
+    visibility: visible;
+
+    pointer-events: auto;
+  }
+
+
+  .gestionnaire-mobile-drawer[aria-hidden="true"] {
+    pointer-events: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     DRAWER CLOSE
+     ---------------------------------------------------------- */
+
+  .gestionnaire-mobile-drawer__close {
+    position: absolute;
+
+    z-index: 5;
+
+    top:
+      max(
+        18px,
+        env(safe-area-inset-top)
+      );
+
+    right: 16px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    color:
+      rgb(255 255 255 / 78%);
+
+    background:
+      transparent;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+
+  .gestionnaire-mobile-drawer__close:hover {
+    color:
+      #ffffff;
+
+    background:
+      rgb(255 255 255 / 6%);
+  }
+
+
+  /* ----------------------------------------------------------
+     DRAWER CONTENT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-mobile-drawer
+  .gestionnaire-sidebar-content {
+    padding-top:
+      max(
+        17px,
+        env(safe-area-inset-top)
+      );
+
+    padding-bottom:
+      max(
+        15px,
+        env(safe-area-inset-bottom)
+      );
+  }
+
+
+  .gestionnaire-mobile-drawer
+  .gestionnaire-sidebar-brand {
+    padding-right: 48px;
+  }
+
+
+  /* ----------------------------------------------------------
+     CONTENT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-content {
+    padding:
+      clamp(
+        20px,
+        3vw,
+        30px
+      );
+  }
+}
+
+
+/* ============================================================
+   55. MOBILE
+   ============================================================ */
+
+@media (max-width: 767px) {
+  .gestionnaire-app-shell {
+    --ga-header-height: 68px;
+  }
+
+
+  /* ----------------------------------------------------------
+     MAIN
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-main {
+    padding-top:
+      var(--ga-header-height);
+  }
+
+
+  /* ----------------------------------------------------------
+     FIXED HEADER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header {
+    left: 0;
+    right: 0;
+
+    width: 100%;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER INNER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__inner {
+    gap: 9px;
+
+    padding-inline:
+      var(
+        --ce-page-padding-mobile,
+        14px
+      );
+  }
+
+
+  /* ----------------------------------------------------------
+     MOBILE BRAND
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__mobile-brand strong {
+    max-width: 150px;
+  }
+
+
+  .gestionnaire-app-header__mobile-brand span {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     DESKTOP SEARCH HIDDEN
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__search {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     SEARCH ICON
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__mobile-search-button {
+    display: inline-flex;
+
+    flex: 0 0 auto;
+
+    margin-left: auto;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER ACTIONS
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__actions {
+    flex: 0 0 auto;
+
+    gap: 7px;
+
+    margin-left: 0;
+  }
+
+
+  /* ----------------------------------------------------------
+     DIVIDERS
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__divider {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     PROFILE COMPACT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__profile {
+    padding: 0;
+  }
+
+
+  .gestionnaire-app-header__profile:hover {
+    background:
+      transparent;
+  }
+
+
+  .gestionnaire-app-header__profile-copy,
+  .gestionnaire-app-header__profile-chevron {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     NOTIFICATION
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__notification {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  /* ----------------------------------------------------------
+     AVATAR
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-header__avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  /* ----------------------------------------------------------
+     DRAWER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-mobile-drawer {
+    width:
+      min(
+        88vw,
+        350px
+      );
+  }
+
+
+  /* ----------------------------------------------------------
+     CONTENT
+     ---------------------------------------------------------- */
+
+  .gestionnaire-app-content {
+    padding:
+      18px
+      var(
+        --ce-page-padding-mobile,
+        14px
+      )
+      26px;
+  }
+
+
+  /* ----------------------------------------------------------
+     PLACEHOLDER
+     ---------------------------------------------------------- */
+
+  .gestionnaire-shell-placeholder {
+    min-height:
+      calc(
+        100dvh -
+        var(--ga-header-height) -
+        44px
+      );
+  }
+
+
+  .gestionnaire-shell-placeholder__icon {
+    width: 100px;
+    height: 100px;
+  }
+
+
+  .gestionnaire-shell-placeholder__title {
+    margin-top: 18px;
+
+    font-size:
+      clamp(
+        1.2rem,
+        6vw,
+        1.55rem
+      );
+  }
+
+
+  .gestionnaire-shell-placeholder__description {
+    max-width: 340px;
+
+    margin-top: 8px;
+
+    font-size: 0.85rem;
+  }
+
+
+  .gestionnaire-shell-placeholder__accent {
+    width: 74px;
+
+    margin-top: 19px;
+  }
+}
+
+
+/* ============================================================
+   56. SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .gestionnaire-app-header__inner {
+    gap: 6px;
+  }
+
+
+  .gestionnaire-app-header__mobile-brand strong {
+    max-width: 112px;
+
+    font-size: 0.73rem;
+  }
+
+
+  .gestionnaire-app-header__menu-button,
+  .gestionnaire-app-header__mobile-search-button {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .gestionnaire-app-header__actions {
+    gap: 4px;
+  }
+
+
+  .gestionnaire-app-header__notification {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  .gestionnaire-app-header__avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  .gestionnaire-mobile-drawer {
+    width: 91vw;
+  }
+
+
+  .gestionnaire-sidebar-content {
+    padding-inline: 14px;
+  }
+
+
+  .gestionnaire-sidebar-brand__logo {
+    width: 53px;
+    height: 53px;
+  }
+
+
+  .gestionnaire-sidebar-brand__logo-image {
+    width: 47px;
+    height: 47px;
+  }
+
+
+  .gestionnaire-app-nav__link {
+    min-height: 45px;
+
+    padding-inline: 12px;
+  }
+
+
+  .gestionnaire-app-nav__label {
+    font-size: 0.79rem;
+  }
+
+
+  .gestionnaire-app-nav__submenu-link {
+    min-height: 41px;
+  }
+
+
+  .gestionnaire-profile-card__avatar {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+
+/* ============================================================
+   57. VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 360px) {
+  .gestionnaire-app-header__mobile-brand {
+    display: none;
+  }
+
+
+  .gestionnaire-app-header__mobile-search-button {
+    margin-left: auto;
+  }
+
+
+  .gestionnaire-mobile-drawer {
+    width: 94vw;
+  }
+
+
+  .gestionnaire-sidebar-content {
+    padding-inline: 12px;
+  }
+
+
+  .gestionnaire-app-nav__link {
+    gap: 12px;
+  }
+}
+
+
+/* ============================================================
+   58. LARGE DESKTOP
+   ============================================================ */
+
+@media (min-width: 1600px) {
+  .gestionnaire-app-shell {
+    --ga-sidebar-width: 286px;
+    --ga-header-height: 80px;
+  }
+
+
+  .gestionnaire-app-header__inner {
+    padding-inline: 28px;
+  }
+
+
+  .gestionnaire-app-header__search {
+    width: 500px;
+  }
+}
+
+
+/* ============================================================
+   59. VERY LARGE DESKTOP
+   ============================================================ */
+
+@media (min-width: 1900px) {
+  .gestionnaire-app-shell {
+    --ga-sidebar-width: 292px;
+  }
+
+
+  .gestionnaire-app-header__inner {
+    padding-inline: 32px;
+  }
+
+
+  .gestionnaire-app-content {
+    padding:
+      38px
+      40px;
+  }
+}
+
+
+/* ============================================================
+   60. HOVER CAPABLE DEVICES
+   ============================================================ */
+
+@media (hover: hover) and (pointer: fine) {
+  .gestionnaire-app-nav__link:hover {
+    transform:
+      translateX(1px);
+  }
+
+
+  .gestionnaire-app-nav__submenu-link:hover {
+    transform:
+      translateX(1px);
+  }
+}
+
+
+/* ============================================================
+   61. REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .gestionnaire-app-nav__link,
+  .gestionnaire-app-nav__chevron,
+  .gestionnaire-app-nav__submenu,
+  .gestionnaire-app-nav__submenu-link,
+  .gestionnaire-profile-card__identity,
+  .gestionnaire-profile-card__logout,
+  .gestionnaire-app-header__menu-button,
+  .gestionnaire-app-header__mobile-search-button,
+  .gestionnaire-app-header__notification,
+  .gestionnaire-app-header__profile,
+  .gestionnaire-app-header__search-input,
+  .gestionnaire-mobile-overlay,
+  .gestionnaire-mobile-drawer,
+  .gestionnaire-mobile-drawer__close {
+    transition: none;
+  }
+
+
+  .gestionnaire-app-nav__link:hover,
+  .gestionnaire-app-nav__submenu-link:hover {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   62. HIGH CONTRAST / KEYBOARD
+   ============================================================ */
+
+@media (forced-colors: active) {
+  .gestionnaire-app-nav__link--active,
+  .gestionnaire-app-nav__submenu-link--active {
+    border:
+      1px solid
+      Highlight;
+  }
+
+
+  .gestionnaire-app-nav__link--active::before,
+  .gestionnaire-app-nav__submenu-link--active
+  .gestionnaire-app-nav__submenu-dot {
+    background:
+      Highlight;
+  }
+}
+
+
+/* ============================================================
+   63. PRINT
+   ------------------------------------------------------------
+   Le Header et la Sidebar disparaissent à l'impression.
+
+   Comme le Header fixed n'existe plus en impression,
+   le padding réservé sur main est retiré.
+   ============================================================ */
+
+@media print {
+  .gestionnaire-app-sidebar,
+  .gestionnaire-app-header,
+  .gestionnaire-mobile-drawer,
+  .gestionnaire-mobile-overlay {
+    display: none !important;
+  }
+
+
+  .gestionnaire-app-main {
+    width: 100%;
+
+    margin-left: 0;
+
+    padding-top: 0;
+  }
+
+
+  .gestionnaire-app-content {
+    min-height: 0;
+
+    padding: 0;
+
+    overflow: visible;
+
+    background:
+      #ffffff;
+  }
+}

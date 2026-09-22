@@ -1,0 +1,2796 @@
+/**
+ * ============================================================================
+ * L&E COSMETICS EMPIRE
+ * ESPACE GESTIONNAIRE — PROFIL
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/app/gestionnaire/(espace-prive)/profil/profil.module.css
+ *
+ * OBJECTIFS :
+ *
+ * - occuper toute la largeur disponible ;
+ * - ne pas ajouter de max-width artificiel ;
+ * - ne pas centrer la page dans un petit conteneur ;
+ * - conserver une interface premium et professionnelle ;
+ * - rester cohérent avec l'espace Gestionnaire ;
+ * - fonctionner sur desktop, tablette et mobile ;
+ * - couvrir ProfileClient.tsx ;
+ * - couvrir la modification des coordonnées ;
+ * - couvrir la modale mot de passe ;
+ * - couvrir les états succès / erreur / chargement.
+ *
+ * IMPORTANT :
+ *
+ * Le layout principal Gestionnaire reste responsable :
+ *
+ * - de la sidebar ;
+ * - du header ;
+ * - du <main> principal ;
+ * - des dimensions globales de l'espace privé.
+ *
+ * Cette feuille ne crée aucun second layout.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   ROOT
+   ========================================================================== */
+
+.profileClient {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  color: #15131b;
+}
+
+
+/* ==========================================================================
+   MAIN GRID
+   ========================================================================== */
+
+.profileGrid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 18px;
+}
+
+
+/* ==========================================================================
+   CARD
+   ========================================================================== */
+
+.profileCard {
+  width: 100%;
+  min-width: 0;
+
+  background: #ffffff;
+
+  border:
+    1px solid
+    #e8e8ee;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 1px 2px
+      rgba(17, 24, 39, 0.025),
+    0 8px 26px
+      rgba(17, 24, 39, 0.045);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   CARD HEADER
+   ========================================================================== */
+
+.profileCardHeader {
+  min-height: 72px;
+
+  padding:
+    18px
+    20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  border-bottom:
+    1px solid
+    #ededf2;
+}
+
+
+.profileCardHeading {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.profileCardIcon {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    #ececf1;
+
+  border-radius: 11px;
+
+  background:
+    #fafafd;
+
+  color:
+    #17151e;
+}
+
+
+.profileCardTitle {
+  margin: 0;
+
+  color:
+    #17151e;
+
+  font-size:
+    16px;
+
+  font-weight:
+    760;
+
+  line-height:
+    1.3;
+
+  letter-spacing:
+    -0.015em;
+}
+
+
+.profileCardSubtitle {
+  margin:
+    3px
+    0
+    0;
+
+  color:
+    #777488;
+
+  font-size:
+    12px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================================
+   MANAGER
+   ========================================================================== */
+
+.profileManagerIdentity {
+  min-width: 0;
+
+  padding:
+    24px
+    20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+}
+
+
+/* ==========================================================================
+   AVATAR
+   ========================================================================== */
+
+.profileAvatar {
+  width: 96px;
+  height: 96px;
+
+  flex:
+    0 0
+    96px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ff73ba 0%,
+      #f52b8c 55%,
+      #d90867 100%
+    );
+
+  box-shadow:
+    0 14px 32px
+    rgba(
+      222,
+      10,
+      103,
+      0.18
+    );
+
+  color:
+    #ffffff;
+
+  font-size:
+    29px;
+
+  font-weight:
+    760;
+
+  letter-spacing:
+    -0.04em;
+
+  user-select: none;
+}
+
+
+/* ==========================================================================
+   MANAGER MAIN
+   ========================================================================== */
+
+.profileManagerMain {
+  min-width: 0;
+  flex: 1;
+}
+
+
+.profileManagerNameRow {
+  min-width: 0;
+
+  margin-bottom: 14px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+
+.profileManagerName {
+  min-width: 0;
+
+  color:
+    #15131b;
+
+  font-size:
+    20px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.3;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ==========================================================================
+   STATUS
+   ========================================================================== */
+
+.profileStatusBadge {
+  min-height: 25px;
+
+  padding:
+    4px
+    9px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  font-size:
+    11px;
+
+  font-weight:
+    720;
+
+  line-height:
+    1;
+
+  white-space: nowrap;
+}
+
+
+.profileStatusBadgeActive {
+  color:
+    #08723c;
+
+  background:
+    #e8f9ef;
+
+  border:
+    1px solid
+    #bfeccf;
+}
+
+
+.profileStatusBadgeInactive {
+  color:
+    #9b3b1b;
+
+  background:
+    #fff2ec;
+
+  border:
+    1px solid
+    #ffd6c7;
+}
+
+
+/* ==========================================================================
+   MANAGER DETAILS
+   ========================================================================== */
+
+.profileManagerDetails {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+
+/* ==========================================================================
+   INFO ROW
+   ========================================================================== */
+
+.profileInfoRow {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.profileInfoIcon {
+  width: 30px;
+  height: 30px;
+
+  flex:
+    0 0
+    30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background:
+    #f6f7fa;
+
+  color:
+    #62677a;
+}
+
+
+.profileInfoContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+
+.profileInfoLabel {
+  color:
+    #878394;
+
+  font-size:
+    11px;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.3;
+}
+
+
+.profileInfoValue {
+  min-width: 0;
+
+  color:
+    #4d5265;
+
+  font-size:
+    13px;
+
+  font-weight:
+    570;
+
+  line-height:
+    1.45;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ==========================================================================
+   SUMMARY
+   ========================================================================== */
+
+.profileSummaryGrid {
+  width: auto;
+
+  margin:
+    0
+    20px
+    20px;
+
+  padding-top:
+    18px;
+
+  display: grid;
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+
+  border-top:
+    1px solid
+    #ededf2;
+}
+
+
+.profileSummaryItem {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+
+.profileSummaryItem > span {
+  color:
+    #7d798d;
+
+  font-size:
+    11px;
+
+  font-weight:
+    560;
+}
+
+
+.profileSummaryItem > strong {
+  color:
+    #24212d;
+
+  font-size:
+    13px;
+
+  font-weight:
+    720;
+
+  line-height:
+    1.45;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* ==========================================================================
+   OUTLINE BUTTON
+   ========================================================================== */
+
+.profileOutlineButton {
+  min-height: 38px;
+
+  padding:
+    8px
+    14px;
+
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border:
+    1px solid
+    #ee237c;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+
+  color:
+    #df0870;
+
+  font-family:
+    inherit;
+
+  font-size:
+    12px;
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+
+.profileOutlineButton:hover:not(:disabled) {
+  background:
+    #fff3f8;
+
+  border-color:
+    #d80769;
+
+  color:
+    #c90661;
+
+  box-shadow:
+    0 5px 14px
+    rgba(
+      221,
+      8,
+      106,
+      0.08
+    );
+}
+
+
+.profileOutlineButton:active:not(:disabled) {
+  transform:
+    translateY(1px);
+}
+
+
+.profileOutlineButton:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      229,
+      20,
+      117,
+      0.15
+    );
+
+  outline-offset:
+    2px;
+}
+
+
+.profileOutlineButton:disabled {
+  opacity:
+    0.55;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ==========================================================================
+   CONTACT DISPLAY
+   ========================================================================== */
+
+.profileContactDisplay {
+  padding:
+    20px;
+}
+
+
+.profileContactGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    18px
+    24px;
+}
+
+
+/* ==========================================================================
+   ADDRESS
+   ========================================================================== */
+
+.profileAddressBlock {
+  margin-top:
+    20px;
+
+  padding-top:
+    18px;
+
+  border-top:
+    1px solid
+    #ededf2;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.profileAddressValue {
+  min-width: 0;
+
+  min-height: 46px;
+
+  padding:
+    12px
+    14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    #e4e6ed;
+
+  border-radius:
+    11px;
+
+  background:
+    #f9fafc;
+
+  color:
+    #44495b;
+
+  font-size:
+    13px;
+
+  font-weight:
+    560;
+
+  line-height:
+    1.45;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.profileAddressValue svg {
+  flex:
+    0 0 auto;
+
+  color:
+    #74798a;
+}
+
+
+/* ==========================================================================
+   CONTACT FORM
+   ========================================================================== */
+
+.profileContactForm {
+  padding:
+    20px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    18px
+    16px;
+}
+
+
+/* ==========================================================================
+   ACTION MESSAGE
+   ========================================================================== */
+
+.profileActionMessage {
+  grid-column:
+    1 /
+    -1;
+
+  min-height:
+    44px;
+
+  padding:
+    11px
+    13px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  border-radius:
+    10px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.45;
+}
+
+
+.profileActionMessage svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    1px;
+}
+
+
+.profileActionMessageSuccess {
+  color:
+    #086a3d;
+
+  background:
+    #effaf4;
+
+  border:
+    1px solid
+    #c6ecd6;
+}
+
+
+.profileActionMessageError {
+  color:
+    #a12c27;
+
+  background:
+    #fff2f1;
+
+  border:
+    1px solid
+    #f2cfcc;
+}
+
+
+/* ==========================================================================
+   FIELD
+   ========================================================================== */
+
+.profileField {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.profileFieldFull {
+  grid-column:
+    1 /
+    -1;
+}
+
+
+.profileFieldLabel {
+  color:
+    #33303d;
+
+  font-size:
+    12px;
+
+  font-weight:
+    680;
+
+  line-height:
+    1.35;
+}
+
+
+/* ==========================================================================
+   INPUT CONTROL
+   ========================================================================== */
+
+.profileInputControl {
+  width: 100%;
+  min-width: 0;
+
+  min-height:
+    44px;
+
+  padding:
+    0
+    13px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    #dadde6;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+
+.profileInputControl:focus-within {
+  border-color:
+    #e01775;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      224,
+      23,
+      117,
+      0.1
+    );
+}
+
+
+.profileInputControl > svg {
+  flex:
+    0 0 auto;
+
+  color:
+    #7a7e8e;
+}
+
+
+.profileInputControlReadonly {
+  background:
+    #f6f7f9;
+
+  border-color:
+    #e5e6eb;
+}
+
+
+.profileInputControlReadonly:focus-within {
+  border-color:
+    #e5e6eb;
+
+  box-shadow:
+    none;
+}
+
+
+.profileInputControlError {
+  border-color:
+    #e25750 !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      221,
+      60,
+      53,
+      0.08
+    );
+}
+
+
+/* ==========================================================================
+   INPUT
+   ========================================================================== */
+
+.profileInput {
+  width: 100%;
+  min-width: 0;
+
+  height:
+    42px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background:
+    transparent;
+
+  color:
+    #25232d;
+
+  font-family:
+    inherit;
+
+  font-size:
+    13px;
+
+  font-weight:
+    550;
+}
+
+
+.profileInput::placeholder {
+  color:
+    #aaa7b1;
+
+  font-weight:
+    470;
+}
+
+
+.profileInput:disabled {
+  color:
+    #777a87;
+
+  cursor:
+    not-allowed;
+
+  opacity:
+    1;
+}
+
+
+/* ==========================================================================
+   FIELD HINT
+   ========================================================================== */
+
+.profileFieldHint {
+  margin: 0;
+
+  color:
+    #8b8796;
+
+  font-size:
+    11px;
+
+  font-weight:
+    480;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================================
+   FIELD ERROR
+   ========================================================================== */
+
+.profileFieldError {
+  margin: 0;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 6px;
+
+  color:
+    #c93d37;
+
+  font-size:
+    11px;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.45;
+}
+
+
+.profileFieldError svg {
+  flex:
+    0 0 auto;
+
+  margin-top:
+    1px;
+}
+
+
+/* ==========================================================================
+   COUNTRY
+   ========================================================================== */
+
+.profileCountryField {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+/* ==========================================================================
+   FORM ACTIONS
+   ========================================================================== */
+
+.profileFormActions {
+  grid-column:
+    1 /
+    -1;
+
+  padding-top:
+    2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+
+/* ==========================================================================
+   PRIMARY BUTTON
+   ========================================================================== */
+
+.profilePrimaryButton {
+  min-height:
+    40px;
+
+  padding:
+    9px
+    15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border:
+    1px solid
+    #df0870;
+
+  border-radius:
+    10px;
+
+  background:
+    #df0870;
+
+  color:
+    #ffffff;
+
+  font-family:
+    inherit;
+
+  font-size:
+    12px;
+
+  font-weight:
+    720;
+
+  line-height:
+    1;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 7px 17px
+    rgba(
+      218,
+      7,
+      104,
+      0.14
+    );
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+
+.profilePrimaryButton:hover:not(:disabled) {
+  background:
+    #c90865;
+
+  border-color:
+    #c90865;
+
+  box-shadow:
+    0 9px 21px
+    rgba(
+      218,
+      7,
+      104,
+      0.19
+    );
+}
+
+
+.profilePrimaryButton:active:not(:disabled) {
+  transform:
+    translateY(1px);
+}
+
+
+.profilePrimaryButton:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      225,
+      15,
+      113,
+      0.16
+    );
+
+  outline-offset:
+    2px;
+}
+
+
+.profilePrimaryButton:disabled {
+  opacity:
+    0.58;
+
+  cursor:
+    not-allowed;
+
+  box-shadow:
+    none;
+}
+
+
+/* ==========================================================================
+   SECONDARY BUTTON
+   ========================================================================== */
+
+.profileSecondaryButton {
+  min-height:
+    40px;
+
+  padding:
+    9px
+    15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    #dcdde3;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+
+  color:
+    #4d4b56;
+
+  font-family:
+    inherit;
+
+  font-size:
+    12px;
+
+  font-weight:
+    680;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.profileSecondaryButton:hover:not(:disabled) {
+  background:
+    #f6f7f9;
+
+  border-color:
+    #cdced6;
+
+  color:
+    #292733;
+}
+
+
+.profileSecondaryButton:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      34,
+      34,
+      45,
+      0.1
+    );
+
+  outline-offset:
+    2px;
+}
+
+
+.profileSecondaryButton:disabled {
+  opacity:
+    0.55;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ==========================================================================
+   SECURITY CARD
+   ========================================================================== */
+
+.profileSecurityCard {
+  width:
+    100%;
+}
+
+
+/* ==========================================================================
+   SECURITY LIST
+   ========================================================================== */
+
+.profileSecurityList {
+  width:
+    100%;
+
+  padding:
+    0
+    20px;
+}
+
+
+/* ==========================================================================
+   SECURITY ROW
+   ========================================================================== */
+
+.profileSecurityRow {
+  min-width: 0;
+
+  min-height:
+    76px;
+
+  padding:
+    16px
+    0;
+
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 13px;
+
+  border-bottom:
+    1px solid
+    #eeeeF2;
+}
+
+
+.profileSecurityRow:last-child {
+  border-bottom:
+    0;
+}
+
+
+/* ==========================================================================
+   SECURITY ICON
+   ========================================================================== */
+
+.profileSecurityIcon {
+  width:
+    38px;
+
+  height:
+    38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius:
+    11px;
+
+  background:
+    #f6f7fa;
+
+  color:
+    #343442;
+}
+
+
+/* ==========================================================================
+   SECURITY CONTENT
+   ========================================================================== */
+
+.profileSecurityContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.profileSecurityContent > strong {
+  color:
+    #282631;
+
+  font-size:
+    13px;
+
+  font-weight:
+    720;
+
+  line-height:
+    1.4;
+}
+
+
+.profileSecurityContent > span {
+  color:
+    #747182;
+
+  font-size:
+    11px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================================
+   SECURITY STATE
+   ========================================================================== */
+
+.profileSecurityState {
+  min-height:
+    30px;
+
+  padding:
+    6px
+    10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  border-radius:
+    9px;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  white-space:
+    nowrap;
+}
+
+
+.profileSecurityStateSuccess {
+  color:
+    #08723c;
+
+  background:
+    #e8f9ef;
+
+  border:
+    1px solid
+    #c5ecd4;
+}
+
+
+.profileSecurityStateWarning {
+  color:
+    #9d4b18;
+
+  background:
+    #fff6e8;
+
+  border:
+    1px solid
+    #f1dab8;
+}
+
+
+/* ==========================================================================
+   ACCOUNT CARD
+   ========================================================================== */
+
+.profileAccountCard {
+  padding:
+    18px
+    20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+
+/* ==========================================================================
+   ACCOUNT ICON
+   ========================================================================== */
+
+.profileAccountIcon {
+  width:
+    42px;
+
+  height:
+    42px;
+
+  flex:
+    0 0
+    42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius:
+    12px;
+
+  background:
+    #fff0f6;
+
+  color:
+    #df0870;
+}
+
+
+/* ==========================================================================
+   ACCOUNT CONTENT
+   ========================================================================== */
+
+.profileAccountContent {
+  min-width: 0;
+}
+
+
+.profileAccountContent > p {
+  margin:
+    5px
+    0
+    0;
+
+  color:
+    #6e6b79;
+
+  font-size:
+    12px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.55;
+}
+
+
+.profileAccountContent strong {
+  color:
+    #36333e;
+
+  font-weight:
+    700;
+}
+
+
+/* ==========================================================================
+   MODAL OVERLAY
+   ========================================================================== */
+
+.profileModalOverlay {
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    1000;
+
+  padding:
+    24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(
+      14,
+      13,
+      18,
+      0.6
+    );
+
+  backdrop-filter:
+    blur(4px);
+
+  -webkit-backdrop-filter:
+    blur(4px);
+
+  overflow-y:
+    auto;
+}
+
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.profileModal {
+  width:
+    min(
+      100%,
+      560px
+    );
+
+  max-height:
+    calc(
+      100vh -
+      48px
+    );
+
+  display: flex;
+  flex-direction: column;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.5
+    );
+
+  border-radius:
+    18px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 30px 90px
+    rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
+
+  overflow:
+    hidden;
+}
+
+
+/* ==========================================================================
+   MODAL HEADER
+   ========================================================================== */
+
+.profileModalHeader {
+  min-height:
+    78px;
+
+  padding:
+    17px
+    20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border-bottom:
+    1px solid
+    #ececf1;
+}
+
+
+.profileModalHeading {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.profileModalIcon {
+  width:
+    42px;
+
+  height:
+    42px;
+
+  flex:
+    0 0
+    42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    #facbde;
+
+  border-radius:
+    12px;
+
+  background:
+    #fff1f7;
+
+  color:
+    #db0b6d;
+}
+
+
+.profileModalEyebrow {
+  display:
+    block;
+
+  margin-bottom:
+    3px;
+
+  color:
+    #db0b6d;
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.2;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.profileModalTitle {
+  margin:
+    0;
+
+  color:
+    #1c1a22;
+
+  font-size:
+    18px;
+
+  font-weight:
+    780;
+
+  line-height:
+    1.3;
+
+  letter-spacing:
+    -0.02em;
+}
+
+
+/* ==========================================================================
+   MODAL CLOSE
+   ========================================================================== */
+
+.profileModalClose {
+  width:
+    38px;
+
+  height:
+    38px;
+
+  flex:
+    0 0
+    38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius:
+    10px;
+
+  background:
+    #f7f7f9;
+
+  color:
+    #66636f;
+
+  cursor:
+    pointer;
+
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+
+.profileModalClose:hover:not(:disabled) {
+  background:
+    #ededf2;
+
+  color:
+    #24222b;
+}
+
+
+.profileModalClose:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      224,
+      15,
+      112,
+      0.13
+    );
+
+  outline-offset:
+    2px;
+}
+
+
+.profileModalClose:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ==========================================================================
+   MODAL BODY
+   ========================================================================== */
+
+.profileModalBody {
+  min-height:
+    0;
+
+  padding:
+    20px;
+
+  overflow-y:
+    auto;
+}
+
+
+.profileModalDescription {
+  margin:
+    0
+    0
+    17px;
+
+  color:
+    #696674;
+
+  font-size:
+    12px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1.6;
+}
+
+
+/* ==========================================================================
+   PASSWORD FORM
+   ========================================================================== */
+
+.profilePasswordForm {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+/* ==========================================================================
+   PASSWORD CONTROL
+   ========================================================================== */
+
+.profilePasswordControl {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    44px;
+
+  padding:
+    0
+    13px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    #dadde6;
+
+  border-radius:
+    10px;
+
+  background:
+    #ffffff;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+
+.profilePasswordControl:focus-within {
+  border-color:
+    #df0870;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      223,
+      8,
+      112,
+      0.1
+    );
+}
+
+
+.profilePasswordControl > svg {
+  flex:
+    0 0 auto;
+
+  color:
+    #777b8b;
+}
+
+
+/* ==========================================================================
+   PASSWORD INPUT
+   ========================================================================== */
+
+.profilePasswordInput {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  height:
+    42px;
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  outline:
+    none;
+
+  background:
+    transparent;
+
+  color:
+    #272530;
+
+  font-family:
+    inherit;
+
+  font-size:
+    13px;
+
+  font-weight:
+    560;
+}
+
+
+.profilePasswordInput:disabled {
+  color:
+    #85828d;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ==========================================================================
+   PASSWORD VISIBILITY
+   ========================================================================== */
+
+.profilePasswordVisibility {
+  width:
+    fit-content;
+
+  padding:
+    3px
+    0;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    #676371;
+
+  font-family:
+    inherit;
+
+  font-size:
+    11px;
+
+  font-weight:
+    620;
+
+  cursor:
+    pointer;
+}
+
+
+.profilePasswordVisibility:hover:not(:disabled) {
+  color:
+    #d50b6a;
+}
+
+
+.profilePasswordVisibility:focus-visible {
+  outline:
+    2px solid
+    rgba(
+      223,
+      8,
+      112,
+      0.18
+    );
+
+  outline-offset:
+    4px;
+
+  border-radius:
+    4px;
+}
+
+
+.profilePasswordVisibility:disabled {
+  opacity:
+    0.5;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* ==========================================================================
+   MODAL ACTIONS
+   ========================================================================== */
+
+.profileModalActions {
+  margin:
+    4px
+    -20px
+    -20px;
+
+  padding:
+    15px
+    20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  border-top:
+    1px solid
+    #ededf2;
+
+  background:
+    #fafafd;
+}
+
+
+/* ==========================================================================
+   PASSWORD SUCCESS
+   ========================================================================== */
+
+.profilePasswordSuccess {
+  min-height:
+    100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color:
+    #625e6c;
+
+  font-size:
+    12px;
+
+  font-weight:
+    620;
+
+  text-align:
+    center;
+}
+
+
+/* ==========================================================================
+   SPINNER
+   ========================================================================== */
+
+.profileSpinner {
+  animation:
+    profileSpinnerRotation
+    800ms
+    linear
+    infinite;
+}
+
+
+@keyframes profileSpinnerRotation {
+  from {
+    transform:
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* ==========================================================================
+   LARGE DESKTOP
+   ========================================================================== */
+
+@media (
+  min-width: 1440px
+) {
+  .profileGrid {
+    gap:
+      20px;
+  }
+
+
+  .profileCardHeader {
+    padding:
+      19px
+      22px;
+  }
+
+
+  .profileManagerIdentity {
+    padding:
+      26px
+      22px;
+  }
+
+
+  .profileSummaryGrid {
+    margin:
+      0
+      22px
+      22px;
+  }
+
+
+  .profileContactDisplay,
+  .profileContactForm {
+    padding:
+      22px;
+  }
+
+
+  .profileSecurityList {
+    padding:
+      0
+      22px;
+  }
+
+
+  .profileAccountCard {
+    padding:
+      19px
+      22px;
+  }
+}
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (
+  max-width: 1100px
+) {
+  .profileGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .profileSummaryGrid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+
+/* ==========================================================================
+   SMALL TABLET
+   ========================================================================== */
+
+@media (
+  max-width: 760px
+) {
+  .profileClient {
+    gap:
+      14px;
+  }
+
+
+  .profileGrid {
+    gap:
+      14px;
+  }
+
+
+  .profileCard {
+    border-radius:
+      14px;
+  }
+
+
+  .profileCardHeader {
+    min-height:
+      auto;
+
+    padding:
+      15px
+      16px;
+
+    align-items:
+      flex-start;
+  }
+
+
+  .profileManagerIdentity {
+    padding:
+      19px
+      16px;
+
+    align-items:
+      flex-start;
+  }
+
+
+  .profileAvatar {
+    width:
+      76px;
+
+    height:
+      76px;
+
+    flex-basis:
+      76px;
+
+    font-size:
+      24px;
+  }
+
+
+  .profileManagerName {
+    font-size:
+      18px;
+  }
+
+
+  .profileSummaryGrid {
+    margin:
+      0
+      16px
+      16px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      12px;
+  }
+
+
+  .profileSummaryItem {
+    padding-bottom:
+      10px;
+
+    border-bottom:
+      1px solid
+      #f0f0f3;
+  }
+
+
+  .profileSummaryItem:last-child {
+    padding-bottom:
+      0;
+
+    border-bottom:
+      0;
+  }
+
+
+  .profileContactDisplay {
+    padding:
+      16px;
+  }
+
+
+  .profileContactGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      14px;
+  }
+
+
+  .profileContactForm {
+    padding:
+      16px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap:
+      15px;
+  }
+
+
+  .profileFieldFull,
+  .profileActionMessage,
+  .profileFormActions {
+    grid-column:
+      auto;
+  }
+
+
+  .profileSecurityList {
+    padding:
+      0
+      16px;
+  }
+
+
+  .profileSecurityRow {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr);
+
+    align-items:
+      flex-start;
+  }
+
+
+  .profileSecurityRow > :last-child {
+    grid-column:
+      2;
+
+    justify-self:
+      start;
+  }
+
+
+  .profileAccountCard {
+    padding:
+      16px;
+  }
+
+
+  .profileModalOverlay {
+    padding:
+      16px;
+  }
+
+
+  .profileModal {
+    max-height:
+      calc(
+        100vh -
+        32px
+      );
+
+    border-radius:
+      15px;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (
+  max-width: 520px
+) {
+  .profileClient {
+    width:
+      100%;
+
+    gap:
+      12px;
+  }
+
+
+  .profileCardHeader {
+    padding:
+      14px;
+
+    gap:
+      10px;
+
+    flex-wrap:
+      wrap;
+  }
+
+
+  .profileCardHeading {
+    width:
+      100%;
+  }
+
+
+  .profileCardHeader > .profileOutlineButton {
+    width:
+      100%;
+  }
+
+
+  .profileManagerIdentity {
+    padding:
+      17px
+      14px;
+
+    flex-direction:
+      column;
+
+    gap:
+      15px;
+  }
+
+
+  .profileAvatar {
+    width:
+      72px;
+
+    height:
+      72px;
+
+    flex:
+      0 0
+      72px;
+  }
+
+
+  .profileManagerMain {
+    width:
+      100%;
+  }
+
+
+  .profileManagerNameRow {
+    align-items:
+      flex-start;
+  }
+
+
+  .profileManagerName {
+    font-size:
+      17px;
+  }
+
+
+  .profileSummaryGrid {
+    margin:
+      0
+      14px
+      14px;
+
+    padding-top:
+      15px;
+  }
+
+
+  .profileContactDisplay,
+  .profileContactForm {
+    padding:
+      14px;
+  }
+
+
+  .profileAddressBlock {
+    margin-top:
+      16px;
+
+    padding-top:
+      15px;
+  }
+
+
+  .profileFormActions {
+    width:
+      100%;
+
+    flex-direction:
+      column-reverse;
+
+    align-items:
+      stretch;
+  }
+
+
+  .profilePrimaryButton,
+  .profileSecondaryButton {
+    width:
+      100%;
+  }
+
+
+  .profileSecurityList {
+    padding:
+      0
+      14px;
+  }
+
+
+  .profileSecurityRow {
+    min-height:
+      0;
+
+    padding:
+      15px
+      0;
+
+    grid-template-columns:
+      36px
+      minmax(0, 1fr);
+
+    gap:
+      10px;
+  }
+
+
+  .profileSecurityIcon {
+    width:
+      36px;
+
+    height:
+      36px;
+  }
+
+
+  .profileSecurityRow > .profileOutlineButton {
+    width:
+      100%;
+
+    grid-column:
+      1 /
+      -1;
+  }
+
+
+  .profileSecurityState {
+    grid-column:
+      2;
+
+    justify-self:
+      start;
+  }
+
+
+  .profileAccountCard {
+    padding:
+      14px;
+
+    align-items:
+      flex-start;
+  }
+
+
+  .profileModalOverlay {
+    padding:
+      0;
+
+    align-items:
+      flex-end;
+
+    background:
+      rgba(
+        14,
+        13,
+        18,
+        0.64
+      );
+  }
+
+
+  .profileModal {
+    width:
+      100%;
+
+    max-height:
+      92dvh;
+
+    border-radius:
+      18px
+      18px
+      0
+      0;
+
+    border-bottom:
+      0;
+  }
+
+
+  .profileModalHeader {
+    min-height:
+      72px;
+
+    padding:
+      15px;
+  }
+
+
+  .profileModalBody {
+    padding:
+      16px;
+  }
+
+
+  .profileModalActions {
+    margin:
+      4px
+      -16px
+      -16px;
+
+    padding:
+      14px
+      16px;
+
+    flex-direction:
+      column-reverse;
+  }
+
+
+  .profileModalActions .profilePrimaryButton,
+  .profileModalActions .profileSecondaryButton {
+    width:
+      100%;
+  }
+}
+
+
+/* ==========================================================================
+   VERY SMALL MOBILE
+   ========================================================================== */
+
+@media (
+  max-width: 380px
+) {
+  .profileCardTitle {
+    font-size:
+      15px;
+  }
+
+
+  .profileManagerName {
+    font-size:
+      16px;
+  }
+
+
+  .profileInfoValue {
+    font-size:
+      12px;
+  }
+
+
+  .profileModalTitle {
+    font-size:
+      16px;
+  }
+
+
+  .profileModalIcon {
+    width:
+      38px;
+
+    height:
+      38px;
+
+    flex-basis:
+      38px;
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (
+  prefers-reduced-motion:
+    reduce
+) {
+  .profileOutlineButton,
+  .profilePrimaryButton,
+  .profileSecondaryButton,
+  .profileInputControl,
+  .profilePasswordControl,
+  .profileModalClose {
+    transition:
+      none;
+  }
+
+
+  .profileSpinner {
+    animation-duration:
+      1500ms;
+  }
+}
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+  .profileOutlineButton,
+  .profilePrimaryButton,
+  .profileSecondaryButton,
+  .profilePasswordVisibility {
+    display:
+      none !important;
+  }
+
+
+  .profileCard {
+    break-inside:
+      avoid;
+
+    box-shadow:
+      none;
+
+    border-color:
+      #d9d9df;
+  }
+
+
+  .profileModalOverlay {
+    display:
+      none !important;
+  }
+}

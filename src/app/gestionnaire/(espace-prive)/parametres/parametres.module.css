@@ -1,0 +1,1581 @@
+/**
+ * ============================================================================
+ * COSMETICS EMPIRE
+ * ESPACE GESTIONNAIRE — PARAMÈTRES
+ * ============================================================================
+ *
+ * Fichier :
+ *
+ * src/app/gestionnaire/(espace-prive)/parametres/parametres.module.css
+ *
+ * OBJECTIFS :
+ *
+ * - occuper toute la largeur disponible dans l'espace Gestionnaire ;
+ * - conserver le header et la sidebar existants ;
+ * - ne pas créer de second layout ;
+ * - ne pas limiter artificiellement la largeur de la page ;
+ * - présenter proprement les informations provenant du Profil ;
+ * - proposer des accès clairs vers /gestionnaire/profil ;
+ * - rester professionnel sur PC ;
+ * - rester responsive sur tablette et mobile ;
+ * - conserver l'identité blanche / anthracite / magenta.
+ *
+ * ============================================================================
+ */
+
+
+/* ==========================================================================
+   PAGE
+   ========================================================================== */
+
+.page {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+
+  color: #18151d;
+}
+
+
+/* ==========================================================================
+   BREADCRUMB
+   ========================================================================== */
+
+.breadcrumb {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  color: #777382;
+
+  font-size: 12px;
+  font-weight: 560;
+  line-height: 1.4;
+}
+
+
+.breadcrumbLink {
+  display: inline-flex;
+  align-items: center;
+
+  min-width: 0;
+
+  color: #777382;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+
+.breadcrumbLink:hover {
+  color: #d80a68;
+}
+
+
+.breadcrumbLink:focus-visible {
+  outline: 3px solid rgba(223, 8, 112, 0.12);
+  outline-offset: 3px;
+}
+
+
+.breadcrumbSeparator {
+  flex: 0 0 auto;
+
+  color: #aaa7b2;
+}
+
+
+.breadcrumbCurrent {
+  color: #2d2934;
+
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   PAGE HEADER
+   ========================================================================== */
+
+.pageHeader {
+  width: 100%;
+  min-width: 0;
+
+  padding: 20px 22px;
+
+  display: grid;
+
+  grid-template-columns:
+    48px
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 14px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e8ee;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.025),
+    0 8px 28px rgba(17, 24, 39, 0.04);
+}
+
+
+/* ==========================================================================
+   PAGE HEADER ICON
+   ========================================================================== */
+
+.pageHeaderIcon {
+  width: 46px;
+  height: 46px;
+
+  flex: 0 0 46px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #f1cadb;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff6fa 0%,
+      #ffeaf3 100%
+    );
+
+  color: #da096a;
+}
+
+
+/* ==========================================================================
+   PAGE HEADER CONTENT
+   ========================================================================== */
+
+.pageHeaderContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+
+.pageTitle {
+  margin: 0;
+
+  color: #17141c;
+
+  font-size: 29px;
+  font-weight: 800;
+  line-height: 1.15;
+
+  letter-spacing: -0.035em;
+}
+
+
+.pageDescription {
+  max-width: 850px;
+
+  margin: 0;
+
+  color: #6c6877;
+
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+
+/* ==========================================================================
+   PROFILE LINK
+   ========================================================================== */
+
+.profileLink {
+  min-height: 39px;
+
+  padding: 9px 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  flex: 0 0 auto;
+
+  border: 1px solid #e00a70;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #d60969;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+
+.profileLink:hover {
+  color: #c40760;
+
+  background: #fff5f9;
+
+  border-color: #d40868;
+
+  box-shadow:
+    0 6px 17px rgba(218, 7, 104, 0.08);
+}
+
+
+.profileLink:active {
+  transform: translateY(1px);
+}
+
+
+.profileLink:focus-visible {
+  outline: 3px solid rgba(223, 8, 112, 0.14);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   NOTICE CARD
+   ========================================================================== */
+
+.noticeCard {
+  width: 100%;
+  min-width: 0;
+
+  padding: 17px 19px;
+
+  display: grid;
+
+  grid-template-columns:
+    42px
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 72%,
+      #fff8fb 100%
+    );
+
+  border: 1px solid #eadfe5;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.02),
+    0 7px 22px rgba(17, 24, 39, 0.035);
+}
+
+
+/* ==========================================================================
+   NOTICE ICON
+   ========================================================================== */
+
+.noticeIcon {
+  width: 42px;
+  height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #f1cbdd;
+
+  border-radius: 12px;
+
+  background: #fff2f7;
+
+  color: #da096a;
+}
+
+
+/* ==========================================================================
+   NOTICE CONTENT
+   ========================================================================== */
+
+.noticeContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.noticeTitle {
+  color: #302c37;
+
+  font-size: 12px;
+  font-weight: 740;
+  line-height: 1.45;
+}
+
+
+.noticeText {
+  max-width: 1000px;
+
+  margin: 0;
+
+  color: #716d7b;
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+
+/* ==========================================================================
+   SETTINGS GRID
+   ========================================================================== */
+
+.settingsGrid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 18px;
+}
+
+
+/* ==========================================================================
+   SETTINGS CARD
+   ========================================================================== */
+
+.settingsCard {
+  width: 100%;
+  min-width: 0;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e8ee;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.02),
+    0 8px 26px rgba(17, 24, 39, 0.04);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================================
+   CARD HEADER
+   ========================================================================== */
+
+.cardHeader {
+  min-height: 74px;
+
+  padding: 17px 19px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  border-bottom: 1px solid #ededf2;
+}
+
+
+.cardHeading {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+.cardIcon {
+  width: 39px;
+  height: 39px;
+
+  flex: 0 0 39px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #ececf1;
+
+  border-radius: 11px;
+
+  background: #f9f9fb;
+
+  color: #31303b;
+}
+
+
+.cardTitle {
+  margin: 0;
+
+  color: #1f1c25;
+
+  font-size: 15px;
+  font-weight: 770;
+  line-height: 1.35;
+
+  letter-spacing: -0.015em;
+}
+
+
+.cardSubtitle {
+  margin: 3px 0 0;
+
+  color: #7b7786;
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+
+/* ==========================================================================
+   CARD BODY
+   ========================================================================== */
+
+.cardBody {
+  padding: 19px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* ==========================================================================
+   INFORMATION ROW
+   ========================================================================== */
+
+.infoRow {
+  min-width: 0;
+
+  min-height: 47px;
+
+  display: grid;
+
+  grid-template-columns:
+    36px
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 11px;
+}
+
+
+/* ==========================================================================
+   INFORMATION ICON
+   ========================================================================== */
+
+.infoIcon {
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #f6f7f9;
+
+  color: #626675;
+}
+
+
+/* ==========================================================================
+   INFORMATION CONTENT
+   ========================================================================== */
+
+.infoContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.infoLabel {
+  color: #898593;
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+
+.infoValue {
+  min-width: 0;
+
+  color: #383540;
+
+  font-size: 12px;
+  font-weight: 680;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================================
+   ADDRESS
+   ========================================================================== */
+
+.addressBlock {
+  margin:
+    0
+    19px
+    19px;
+
+  padding-top: 17px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  border-top: 1px solid #ededf2;
+}
+
+
+.addressLabel {
+  color: #898593;
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+
+.addressValue {
+  min-width: 0;
+
+  min-height: 46px;
+
+  padding: 11px 13px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border: 1px solid #e4e5eb;
+
+  border-radius: 11px;
+
+  background: #f9fafb;
+
+  color: #44414d;
+
+  font-size: 12px;
+  font-weight: 560;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+.addressValue svg {
+  flex: 0 0 auto;
+
+  color: #737785;
+}
+
+
+/* ==========================================================================
+   SECURITY CARD
+   ========================================================================== */
+
+.securityCard {
+  grid-column:
+    1 /
+    -1;
+}
+
+
+/* ==========================================================================
+   SECURITY LIST
+   ========================================================================== */
+
+.securityList {
+  width: 100%;
+
+  padding:
+    0
+    19px;
+}
+
+
+/* ==========================================================================
+   SECURITY ROW
+   ========================================================================== */
+
+.securityRow {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 76px;
+
+  padding:
+    15px
+    0;
+
+  display: grid;
+
+  grid-template-columns:
+    38px
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border-bottom: 1px solid #ededf2;
+}
+
+
+.securityRow:last-child {
+  border-bottom: 0;
+}
+
+
+/* ==========================================================================
+   SECURITY ICON
+   ========================================================================== */
+
+.securityIcon {
+  width: 38px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: #f6f7f9;
+
+  color: #33313d;
+}
+
+
+/* ==========================================================================
+   SECURITY CONTENT
+   ========================================================================== */
+
+.securityContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.securityContent > strong {
+  color: #2e2a35;
+
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.45;
+}
+
+
+.securityContent > span {
+  color: #767281;
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================================
+   STATUS BADGE
+   ========================================================================== */
+
+.statusBadge {
+  min-height: 30px;
+
+  padding:
+    6px
+    10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+.statusBadgeSuccess {
+  color: #08723c;
+
+  background: #e9f9ef;
+
+  border: 1px solid #c3ead3;
+}
+
+
+.statusBadgeWarning {
+  color: #9c4c18;
+
+  background: #fff6e7;
+
+  border: 1px solid #f0d8b4;
+}
+
+
+/* ==========================================================================
+   SMALL PROFILE LINK
+   ========================================================================== */
+
+.smallProfileLink {
+  min-height: 34px;
+
+  padding:
+    7px
+    10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  border: 1px solid #e9c4d5;
+
+  border-radius: 9px;
+
+  background: #fff8fb;
+
+  color: #d20967;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+
+.smallProfileLink:hover {
+  color: #ba0759;
+
+  background: #fff0f6;
+
+  border-color: #e9aeca;
+}
+
+
+.smallProfileLink:focus-visible {
+  outline: 3px solid rgba(223, 8, 112, 0.12);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   PROFILE MANAGEMENT CARD
+   ========================================================================== */
+
+.profileManagementCard {
+  width: 100%;
+  min-width: 0;
+
+  padding: 19px 20px;
+
+  display: grid;
+
+  grid-template-columns:
+    46px
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 72%,
+      #fff6fa 100%
+    );
+
+  border: 1px solid #eadfe5;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.02),
+    0 8px 25px rgba(17, 24, 39, 0.04);
+}
+
+
+/* ==========================================================================
+   PROFILE MANAGEMENT ICON
+   ========================================================================== */
+
+.profileManagementIcon {
+  width: 46px;
+  height: 46px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #f1c8da;
+
+  border-radius: 13px;
+
+  background: #fff1f7;
+
+  color: #db096b;
+}
+
+
+/* ==========================================================================
+   PROFILE MANAGEMENT CONTENT
+   ========================================================================== */
+
+.profileManagementContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.profileManagementTitle {
+  margin: 0;
+
+  color: #27232e;
+
+  font-size: 14px;
+  font-weight: 760;
+  line-height: 1.4;
+}
+
+
+.profileManagementText {
+  max-width: 930px;
+
+  margin: 0;
+
+  color: #716d7b;
+
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+
+/* ==========================================================================
+   PRIMARY BUTTON
+   ========================================================================== */
+
+.primaryButton {
+  min-height: 41px;
+
+  padding:
+    9px
+    14px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid #dd0870;
+
+  border-radius: 10px;
+
+  background: #dd0870;
+
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 1;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 7px 18px rgba(218, 7, 104, 0.14);
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+
+.primaryButton:hover {
+  background: #c90865;
+
+  border-color: #c90865;
+
+  box-shadow:
+    0 9px 22px rgba(218, 7, 104, 0.19);
+}
+
+
+.primaryButton:active {
+  transform: translateY(1px);
+}
+
+
+.primaryButton:focus-visible {
+  outline: 3px solid rgba(223, 8, 112, 0.15);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   LARGE DESKTOP
+   ========================================================================== */
+
+@media (min-width: 1440px) {
+  .page {
+    gap: 20px;
+  }
+
+
+  .pageHeader {
+    padding:
+      22px
+      24px;
+
+    grid-template-columns:
+      50px
+      minmax(0, 1fr)
+      auto;
+  }
+
+
+  .pageHeaderIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+
+  .pageTitle {
+    font-size: 31px;
+  }
+
+
+  .noticeCard {
+    padding:
+      18px
+      21px;
+  }
+
+
+  .settingsGrid {
+    gap: 20px;
+  }
+
+
+  .cardHeader {
+    padding:
+      18px
+      21px;
+  }
+
+
+  .cardBody {
+    padding:
+      21px;
+  }
+
+
+  .addressBlock {
+    margin:
+      0
+      21px
+      21px;
+  }
+
+
+  .securityList {
+    padding:
+      0
+      21px;
+  }
+
+
+  .profileManagementCard {
+    padding:
+      20px
+      22px;
+  }
+}
+
+
+/* ==========================================================================
+   MEDIUM DESKTOP
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .settingsGrid {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .securityCard {
+    grid-column: auto;
+  }
+}
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .page {
+    gap: 14px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HEADER
+     ------------------------------------------------------------------------ */
+
+  .pageHeader {
+    padding: 17px;
+
+    grid-template-columns:
+      42px
+      minmax(0, 1fr);
+
+    align-items: start;
+
+    border-radius: 15px;
+  }
+
+
+  .pageHeaderIcon {
+    width: 42px;
+    height: 42px;
+
+    flex-basis: 42px;
+  }
+
+
+  .pageTitle {
+    font-size: 25px;
+  }
+
+
+  .pageDescription {
+    font-size: 12px;
+  }
+
+
+  .pageHeader > .profileLink {
+    grid-column:
+      1 /
+      -1;
+
+    width: 100%;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     NOTICE
+     ------------------------------------------------------------------------ */
+
+  .noticeCard {
+    padding: 16px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CARDS
+     ------------------------------------------------------------------------ */
+
+  .settingsCard {
+    border-radius: 15px;
+  }
+
+
+  .cardHeader {
+    min-height: auto;
+
+    padding: 16px;
+
+    align-items: flex-start;
+  }
+
+
+  .cardBody {
+    padding: 16px;
+  }
+
+
+  .addressBlock {
+    margin:
+      0
+      16px
+      16px;
+
+    padding-top: 15px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SECURITY
+     ------------------------------------------------------------------------ */
+
+  .securityList {
+    padding:
+      0
+      16px;
+  }
+
+
+  .securityRow {
+    grid-template-columns:
+      38px
+      minmax(0, 1fr);
+
+    align-items: start;
+  }
+
+
+  .securityRow > :last-child {
+    grid-column: 2;
+
+    justify-self: start;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     BOTTOM CARD
+     ------------------------------------------------------------------------ */
+
+  .profileManagementCard {
+    padding: 17px;
+
+    grid-template-columns:
+      44px
+      minmax(0, 1fr);
+
+    align-items: start;
+
+    border-radius: 15px;
+  }
+
+
+  .profileManagementIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+
+  .profileManagementCard > .primaryButton {
+    grid-column:
+      1 /
+      -1;
+
+    width: 100%;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 520px) {
+  .page {
+    width: 100%;
+
+    gap: 12px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     BREADCRUMB
+     ------------------------------------------------------------------------ */
+
+  .breadcrumb {
+    font-size: 11px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HEADER
+     ------------------------------------------------------------------------ */
+
+  .pageHeader {
+    padding: 15px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 11px;
+  }
+
+
+  .pageHeaderIcon {
+    justify-self: start;
+  }
+
+
+  .pageTitle {
+    font-size: 22px;
+  }
+
+
+  .pageHeader > .profileLink {
+    grid-column: auto;
+  }
+
+
+  .profileLink {
+    width: 100%;
+
+    min-height: 42px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     NOTICE
+     ------------------------------------------------------------------------ */
+
+  .noticeCard {
+    padding: 15px;
+
+    grid-template-columns:
+      38px
+      minmax(0, 1fr);
+
+    gap: 11px;
+  }
+
+
+  .noticeIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CARD
+     ------------------------------------------------------------------------ */
+
+  .cardHeader {
+    padding: 14px;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+
+  .cardHeading {
+    width: 100%;
+  }
+
+
+  .cardHeader > .profileLink {
+    width: 100%;
+  }
+
+
+  .cardBody {
+    padding: 14px;
+
+    gap: 13px;
+  }
+
+
+  .infoRow {
+    grid-template-columns:
+      34px
+      minmax(0, 1fr);
+
+    gap: 10px;
+  }
+
+
+  .infoIcon {
+    width: 34px;
+    height: 34px;
+  }
+
+
+  .addressBlock {
+    margin:
+      0
+      14px
+      14px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SECURITY
+     ------------------------------------------------------------------------ */
+
+  .securityList {
+    padding:
+      0
+      14px;
+  }
+
+
+  .securityRow {
+    min-height: 0;
+
+    padding:
+      14px
+      0;
+
+    grid-template-columns:
+      36px
+      minmax(0, 1fr);
+
+    gap: 10px;
+  }
+
+
+  .securityIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  .statusBadge {
+    min-height: 28px;
+  }
+
+
+  .smallProfileLink {
+    min-height: 34px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     MANAGEMENT
+     ------------------------------------------------------------------------ */
+
+  .profileManagementCard {
+    padding: 15px;
+
+    grid-template-columns:
+      minmax(0, 1fr);
+
+    gap: 11px;
+  }
+
+
+  .profileManagementIcon {
+    justify-self: start;
+  }
+
+
+  .profileManagementCard > .primaryButton {
+    grid-column: auto;
+  }
+
+
+  .primaryButton {
+    width: 100%;
+
+    min-height: 43px;
+  }
+}
+
+
+/* ==========================================================================
+   VERY SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 380px) {
+  .pageTitle {
+    font-size: 21px;
+  }
+
+
+  .noticeCard {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .noticeIcon {
+    justify-self: start;
+  }
+
+
+  .cardTitle {
+    font-size: 14px;
+  }
+
+
+  .securityRow {
+    grid-template-columns:
+      minmax(0, 1fr);
+  }
+
+
+  .securityIcon {
+    justify-self: start;
+  }
+
+
+  .securityRow > :last-child {
+    grid-column: auto;
+  }
+
+
+  .statusBadge,
+  .smallProfileLink {
+    justify-self: start;
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .breadcrumbLink,
+  .profileLink,
+  .smallProfileLink,
+  .primaryButton {
+    transition: none;
+  }
+
+
+  .profileLink:active,
+  .primaryButton:active {
+    transform: none;
+  }
+}
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+  .page {
+    gap: 12px;
+  }
+
+
+  .pageHeader,
+  .noticeCard,
+  .settingsCard,
+  .profileManagementCard {
+    box-shadow: none;
+
+    border-color: #d8d8df;
+  }
+
+
+  .profileLink,
+  .smallProfileLink,
+  .primaryButton {
+    display: none;
+  }
+
+
+  .settingsCard {
+    break-inside: avoid;
+  }
+}
