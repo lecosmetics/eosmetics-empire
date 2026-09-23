@@ -12,11 +12,19 @@ import type {
 } from "react";
 
 import {
+  useRouter,
+} from "next/navigation";
+
+import {
   Check,
   LoaderCircle,
   ShoppingBag,
   TriangleAlert,
 } from "lucide-react";
+
+import {
+  generalAppRoutes,
+} from "@/config/routes";
 
 import {
   usePublicPanier,
@@ -100,6 +108,9 @@ import type {
  * - ne contacte PAS PostgreSQL.
  *
  * Il modifie uniquement l'intention locale du Panier.
+ *
+ * Sur demande explicite du composant appelant, une redirection vers /panier
+ * peut être effectuée APRÈS un ajout réussi.
  *
  * ============================================================================
  */
@@ -287,7 +298,26 @@ function getMutationErrorMessage(
 
 
 /* ==========================================================================
-   8. COMPOSANT
+   8. PROPS ÉTENDUES — REDIRECTION OPTIONNELLE
+   ========================================================================== */
+
+/**
+ * Le contrat partagé reste intact.
+ *
+ * La redirection vers /panier est volontairement optionnelle afin de ne pas
+ * changer le comportement des autres endroits du site qui utilisent déjà
+ * PublicAddToPanierButton, notamment les cartes produit.
+ */
+type PublicAddToPanierButtonEnhancedProps =
+  PublicAddToPanierButtonProps &
+  Readonly<{
+    redirectToPanierAfterAdd?:
+      boolean;
+  }>;
+
+
+/* ==========================================================================
+   9. COMPOSANT
    ========================================================================== */
 
 export default function PublicAddToPanierButton({
@@ -296,7 +326,12 @@ export default function PublicAddToPanierButton({
   disabled = false,
   label,
   className,
-}: PublicAddToPanierButtonProps) {
+  redirectToPanierAfterAdd = false,
+}: PublicAddToPanierButtonEnhancedProps) {
+  const router =
+    useRouter();
+
+
   const {
     state,
     actions,
@@ -457,7 +492,12 @@ export default function PublicAddToPanierButton({
   const isDisabled =
     disabled ||
     isHydrating ||
-    !hasValidInput;
+    !hasValidInput ||
+    (
+      redirectToPanierAfterAdd &&
+      feedback ===
+        "added"
+    );
 
 
   /* =========================================================================
@@ -541,6 +581,24 @@ export default function PublicAddToPanierButton({
           ? `${normalizedQuantity} articles ajoutés au panier.`
           : "Produit ajouté au panier.",
       );
+
+
+      /**
+       * Sur la fiche produit, la redirection est demandée uniquement après
+       * confirmation réelle de l'ajout par le Provider local.
+       *
+       * Les autres usages du bouton restent inchangés par défaut.
+       */
+      if (
+        redirectToPanierAfterAdd
+      ) {
+        router.push(
+          generalAppRoutes.panier,
+        );
+
+
+        return;
+      }
 
 
       scheduleFeedbackReset();

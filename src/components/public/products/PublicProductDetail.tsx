@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
-  ArrowLeft,
   BadgePercent,
   Check,
   ChevronRight,
@@ -53,137 +52,30 @@ import styles from "./public-product-detail.module.css";
 /**
  * ============================================================================
  * L&E COSMETICS EMPIRE
- * FICHE PRODUIT PUBLIQUE — VERSION PREMIUM
+ * FICHE PRODUIT PUBLIQUE — VERSION PREMIUM FINALE
  * ============================================================================
  *
  * Fichier :
  *
  * src/components/public/products/PublicProductDetail.tsx
  *
- * Route :
+ * OBJECTIFS :
  *
- * /p/[qrToken]
- *
- * ============================================================================
- *
- * RÔLE :
- *
- * Afficher la fiche commerciale premium complète d'UNE offre StoreProduct.
- *
- * ============================================================================
- *
- * ARCHITECTURE MÉTIER :
- *
- * Product
- *    ↓
- * StoreProduct
- *    ↓
- * Store
- *
- * ============================================================================
- *
- * UNE FICHE =
- *
- * UNE offre StoreProduct précise.
- *
- * ============================================================================
- *
- * PRODUCT :
- *
- * - nom ;
- * - marque ;
- * - SKU ;
- * - catégorie ;
- * - description ;
- * - ingrédients ;
- * - conseils d'utilisation ;
- * - contenance ;
- * - unité ;
- * - images.
- *
- * ============================================================================
- *
- * STOREPRODUCT :
- *
- * - prix ;
- * - ancien prix ;
- * - économie ;
- * - devise ;
- * - stock ;
- * - disponibilité ;
- * - qrToken.
- *
- * ============================================================================
- *
- * STORE :
- *
- * - boutique ;
- * - ville ;
- * - pays.
- *
- * ============================================================================
- *
- * PANIER :
- *
- * La fiche utilise le vrai :
- *
- * PublicAddToPanierButton
- *
- * ============================================================================
- *
- * Le navigateur ne devient jamais source de vérité pour :
- *
- * - prix ;
- * - devise ;
- * - stock ;
- * - disponibilité ;
- * - boutique.
- *
- * ============================================================================
- *
- * LIVRAISON :
- *
- * La page informe clairement :
- *
- * - livraison en Afrique ;
- * - livraison internationale ;
- * - frais et délais selon destination.
- *
- * Aucun :
- *
- * - tarif fictif ;
- * - délai fictif ;
- * - transporteur fictif ;
- * - livraison gratuite fictive
- *
- * n'est affiché.
- *
- * ============================================================================
- *
- * DESKTOP :
- *
- * Footer public conservé.
- *
- * ============================================================================
- *
- * MOBILE :
- *
- * Footer public MASQUÉ pour cette route.
- *
- * Navigation fixe conservée :
- *
- * Accueil
- * Produits
- * Panier
- * Commandes
- * Compte
+ * - conserver toutes les données métier réelles ;
+ * - conserver le vrai ajout au Panier ;
+ * - réduire les répétitions visuelles ;
+ * - supprimer les grands espaces inutiles ;
+ * - donner la priorité au produit, au prix et à l'achat ;
+ * - afficher uniquement les informations réellement disponibles ;
+ * - conserver la boutique liée à l'offre StoreProduct ;
+ * - conserver l'assistance WhatsApp et les informations de livraison.
  *
  * ============================================================================
  */
 
 
 /* ==========================================================================
-   1. HELPERS — CLASSES
+   HELPERS
    ========================================================================== */
 
 function joinClassNames(
@@ -210,10 +102,6 @@ function joinClassNames(
     );
 }
 
-
-/* ==========================================================================
-   2. FORMATAGE MONÉTAIRE
-   ========================================================================== */
 
 function formatNumericAmount(
   amount:
@@ -248,12 +136,10 @@ function formatMoney(
   const normalizedAmount =
     amount.trim();
 
-
   const normalizedCurrency =
     currency
       .trim()
       .toUpperCase();
-
 
   const numericAmount =
     Number(
@@ -285,13 +171,6 @@ function formatMoney(
     );
 
 
-  /**
-   * XAF et XOF restent leurs vraies devises dans les données.
-   *
-   * Leur présentation commerciale commune est :
-   *
-   * FCFA
-   */
   if (
     normalizedCurrency ===
       "XAF" ||
@@ -334,10 +213,6 @@ function formatMoney(
 }
 
 
-/* ==========================================================================
-   3. DISPONIBILITÉ
-   ========================================================================== */
-
 function getAvailabilityLabel(
   availability:
     PublicProductDetailProps[
@@ -354,14 +229,11 @@ function getAvailabilityLabel(
     case "IN_STOCK":
       return "Disponible";
 
-
     case "LOW_STOCK":
       return "Stock limité";
 
-
     case "OUT_OF_STOCK":
       return "Rupture de stock";
-
 
     default:
       return "Indisponible";
@@ -370,16 +242,12 @@ function getAvailabilityLabel(
 
 
 /* ==========================================================================
-   4. COMPOSANT PRINCIPAL
+   COMPOSANT
    ========================================================================== */
 
 export default function PublicProductDetail({
   product,
 }: PublicProductDetailProps) {
-  /* =========================================================================
-     IMAGE INITIALE
-     ========================================================================= */
-
   const initialImage =
     product.primaryImage ??
     product.images[0] ??
@@ -398,10 +266,6 @@ export default function PublicProductDetail({
       null,
     );
 
-
-  /* =========================================================================
-     QUANTITÉ
-     ========================================================================= */
 
   const maximumQuantity =
     Math.max(
@@ -424,11 +288,6 @@ export default function PublicProductDetail({
     );
 
 
-  /**
-   * Protection en cas de changement des données disponible/stock.
-   *
-   * Aucun setState dans useEffect n'est nécessaire.
-   */
   const effectiveQuantity =
     maximumQuantity >
       0
@@ -441,10 +300,6 @@ export default function PublicProductDetail({
         )
       : 1;
 
-
-  /* =========================================================================
-     IMAGE SÉLECTIONNÉE
-     ========================================================================= */
 
   const selectedImage =
     useMemo<
@@ -496,10 +351,6 @@ export default function PublicProductDetail({
     );
 
 
-  /* =========================================================================
-     PRIX
-     ========================================================================= */
-
   const formattedPrice =
     formatMoney(
       product.pricing.amount,
@@ -531,10 +382,6 @@ export default function PublicProductDetail({
       : null;
 
 
-  /* =========================================================================
-     DISPONIBILITÉ
-     ========================================================================= */
-
   const availabilityLabel =
     getAvailabilityLabel(
       product.inventory
@@ -559,10 +406,6 @@ export default function PublicProductDetail({
       .isLowStock;
 
 
-  /* =========================================================================
-     INFORMATIONS OPTIONNELLES
-     ========================================================================= */
-
   const hasTechnicalInformation =
     Boolean(
       product.content
@@ -583,10 +426,6 @@ export default function PublicProductDetail({
       hasTechnicalInformation,
     );
 
-
-  /* =========================================================================
-     QUANTITÉ — ACTIONS
-     ========================================================================= */
 
   function decreaseQuantity():
     void {
@@ -626,10 +465,6 @@ export default function PublicProductDetail({
   }
 
 
-  /* =========================================================================
-     RENDER
-     ========================================================================= */
-
   return (
     <article
       className={
@@ -654,10 +489,6 @@ export default function PublicProductDetail({
           .status
       }
     >
-      {/* ==================================================================
-          BREADCRUMB
-          ================================================================== */}
-
       <nav
         className={
           styles.productDetailBreadcrumb
@@ -682,7 +513,6 @@ export default function PublicProductDetail({
             </Link>
           </li>
 
-
           <li
             className={
               styles.productDetailBreadcrumbSeparator
@@ -690,11 +520,10 @@ export default function PublicProductDetail({
             aria-hidden="true"
           >
             <ChevronRight
-              size={14}
+              size={13}
               strokeWidth={1.8}
             />
           </li>
-
 
           <li>
             <Link
@@ -709,7 +538,6 @@ export default function PublicProductDetail({
             </Link>
           </li>
 
-
           {product.category ? (
             <>
               <li
@@ -719,11 +547,10 @@ export default function PublicProductDetail({
                 aria-hidden="true"
               >
                 <ChevronRight
-                  size={14}
+                  size={13}
                   strokeWidth={1.8}
                 />
               </li>
-
 
               <li>
                 <Link
@@ -744,7 +571,6 @@ export default function PublicProductDetail({
             </>
           ) : null}
 
-
           <li
             className={
               styles.productDetailBreadcrumbSeparator
@@ -752,11 +578,10 @@ export default function PublicProductDetail({
             aria-hidden="true"
           >
             <ChevronRight
-              size={14}
+              size={13}
               strokeWidth={1.8}
             />
           </li>
-
 
           <li
             className={
@@ -773,972 +598,663 @@ export default function PublicProductDetail({
       </nav>
 
 
-      {/* ==================================================================
-          SECTION PRINCIPALE
-          ================================================================== */}
-
       <div
         className={
-          styles.productDetailMain
+          styles.productDetailShell
         }
       >
-        {/* ================================================================
-            GALERIE
-            ================================================================ */}
-
-        <section
+        <div
           className={
-            styles.productDetailGallery
+            styles.productDetailMain
           }
-          aria-label={`Galerie de ${product.product.name}`}
         >
-          <div
+          <section
             className={
-              styles.productDetailMainImageWrapper
+              styles.productDetailGallery
             }
+            aria-label={`Galerie de ${product.product.name}`}
           >
-            {selectedImage ? (
-              <Image
-                src={
-                  selectedImage.url
-                }
-                alt={
-                  selectedImage.altText
-                }
-                fill
-                priority
-                sizes="
-                  (max-width: 767px) 100vw,
-                  (max-width: 1199px) 52vw,
-                  48vw
-                "
-                className={
-                  styles.productDetailMainImage
-                }
-              />
-            ) : (
+            {product.images.length >
+            1 ? (
               <div
                 className={
-                  styles.productDetailNoImage
+                  styles.productDetailThumbnails
                 }
-                role="img"
-                aria-label={`Aucune image disponible pour ${product.product.name}`}
+                role="group"
+                aria-label="Images du produit"
               >
-                <ImageOff
-                  size={40}
-                  strokeWidth={1.4}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  Aucune image disponible
-                </span>
-              </div>
-            )}
+                {product.images.map(
+                  (
+                    image,
+                    index,
+                  ) => {
+                    const selected =
+                      selectedImage?.id ===
+                      image.id;
 
 
-            {product.pricing
-              .hasDiscount ? (
-              <span
-                className={
-                  styles.productDetailPromotionBadge
-                }
-              >
-                <BadgePercent
-                  size={16}
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
-
-                {product.pricing
-                  .discountPercentage !==
-                null ? (
-                  <>
-                    -
-                    {
-                      product.pricing
-                        .discountPercentage
-                    }
-                    %
-                  </>
-                ) : (
-                  <>Promotion</>
-                )}
-              </span>
-            ) : null}
-          </div>
-
-
-          {/* ==============================================================
-              MINIATURES
-              ============================================================== */}
-
-          {product.images.length >
-          1 ? (
-            <div
-              className={
-                styles.productDetailThumbnails
-              }
-              role="group"
-              aria-label="Galerie du produit"
-            >
-              {product.images.map(
-                (
-                  image,
-                  index,
-                ) => {
-                  const selected =
-                    selectedImage?.id ===
-                    image.id;
-
-
-                  return (
-                    <button
-                      key={
-                        image.id
-                      }
-                      type="button"
-                      className={
-                        joinClassNames(
-                          styles.productDetailThumbnailButton,
-                          selected &&
-                            styles.productDetailThumbnailButtonActive,
-                        )
-                      }
-                      onClick={
-                        () =>
-                          setSelectedImageId(
-                            image.id,
-                          )
-                      }
-                      aria-label={`Afficher l’image ${index + 1} de ${product.product.name}`}
-                      aria-pressed={
-                        selected
-                      }
-                    >
-                      <span
+                    return (
+                      <button
+                        key={
+                          image.id
+                        }
+                        type="button"
                         className={
-                          styles.productDetailThumbnailMedia
+                          joinClassNames(
+                            styles.productDetailThumbnailButton,
+                            selected &&
+                              styles.productDetailThumbnailButtonActive,
+                          )
+                        }
+                        onClick={
+                          () =>
+                            setSelectedImageId(
+                              image.id,
+                            )
+                        }
+                        aria-label={`Afficher l’image ${index + 1}`}
+                        aria-pressed={
+                          selected
                         }
                       >
-                        <Image
-                          src={
-                            image.url
-                          }
-                          alt=""
-                          fill
-                          sizes="96px"
+                        <span
                           className={
-                            styles.productDetailThumbnailImage
+                            styles.productDetailThumbnailMedia
                           }
-                        />
-                      </span>
-                    </button>
-                  );
-                },
-              )}
-            </div>
-          ) : null}
-        </section>
-
-
-        {/* ================================================================
-            PANNEAU COMMERCIAL
-            ================================================================ */}
-
-        <section
-          className={
-            styles.productDetailCommercial
-          }
-          aria-labelledby="public-product-detail-title"
-        >
-          {/* ==============================================================
-              MARQUE
-              ============================================================== */}
-
-          <p
-            className={
-              styles.productDetailBrand
-            }
-          >
-            {
-              product.product
-                .brand
-            }
-          </p>
-
-
-          {/* ==============================================================
-              TITRE
-              ============================================================== */}
-
-          <h1
-            id="public-product-detail-title"
-            className={
-              styles.productDetailTitle
-            }
-          >
-            {
-              product.product
-                .name
-            }
-          </h1>
-
-
-          {/* ==============================================================
-              MÉTADONNÉES
-              ============================================================== */}
-
-          <div
-            className={
-              styles.productDetailMeta
-            }
-          >
-            <span
-              className={
-                styles.productDetailSku
-              }
-            >
-              Réf.{" "}
-              <strong>
-                {
-                  product.product
-                    .sku
-                }
-              </strong>
-            </span>
-
-
-            {product.category ? (
-              <Link
-                href={
-                  product.category
-                    .href
-                }
-                className={
-                  styles.productDetailCategoryLink
-                }
-              >
-                <Tag
-                  size={14}
-                  strokeWidth={1.9}
-                  aria-hidden="true"
-                />
-
-                {
-                  product.category
-                    .name
-                }
-              </Link>
-            ) : null}
-          </div>
-
-
-          {/* ==============================================================
-              PRIX
-              ============================================================== */}
-
-          <div
-            className={
-              styles.productDetailPricing
-            }
-          >
-            <div
-              className={
-                styles.productDetailPriceRow
-              }
-            >
-              <strong
-                className={
-                  styles.productDetailCurrentPrice
-                }
-              >
-                {
-                  formattedPrice
-                }
-              </strong>
-
-
-              {formattedCompareAtPrice ? (
-                <span
-                  className={
-                    styles.productDetailComparePrice
-                  }
-                >
-                  {
-                    formattedCompareAtPrice
-                  }
-                </span>
-              ) : null}
-            </div>
-
-
-            {product.pricing
-              .hasDiscount &&
-            formattedSavings ? (
-              <div
-                className={
-                  styles.productDetailSavingsRow
-                }
-              >
-                <BadgePercent
-                  size={15}
-                  strokeWidth={1.9}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  Économie :{" "}
-                  <strong>
-                    {
-                      formattedSavings
-                    }
-                  </strong>
-                </span>
+                        >
+                          <Image
+                            src={
+                              image.url
+                            }
+                            alt=""
+                            fill
+                            sizes="84px"
+                            className={
+                              styles.productDetailThumbnailImage
+                            }
+                          />
+                        </span>
+                      </button>
+                    );
+                  },
+                )}
               </div>
             ) : null}
-          </div>
-
-
-          {/* ==============================================================
-              DISPONIBILITÉ
-              ============================================================== */}
-
-          <div
-            className={
-              joinClassNames(
-                styles.productDetailAvailability,
-                isAvailable &&
-                  !isLowStock &&
-                  styles.productDetailAvailabilityInStock,
-                isLowStock &&
-                  styles.productDetailAvailabilityLowStock,
-                !isAvailable &&
-                  styles.productDetailAvailabilityOutOfStock,
-              )
-            }
-          >
-            <span
-              className={
-                styles.productDetailAvailabilityIcon
-              }
-              aria-hidden="true"
-            >
-              {isAvailable &&
-              !isLowStock ? (
-                <PackageCheck
-                  size={21}
-                  strokeWidth={1.8}
-                />
-              ) : (
-                <CircleAlert
-                  size={21}
-                  strokeWidth={1.8}
-                />
-              )}
-            </span>
 
 
             <div
               className={
-                styles.productDetailAvailabilityContent
+                styles.productDetailMainImageWrapper
               }
             >
-              <strong>
-                {
-                  availabilityLabel
-                }
-              </strong>
-
-
-              {isAvailable ? (
-                <span>
-                  {
-                    product.inventory
-                      .stockQuantity
-                  }{" "}
-                  unité
-                  {
-                    product.inventory
-                      .stockQuantity >
-                    1
-                      ? "s"
-                      : ""
-                  }{" "}
-                  disponible
-                  {
-                    product.inventory
-                      .stockQuantity >
-                    1
-                      ? "s"
-                      : ""
+              {selectedImage ? (
+                <Image
+                  src={
+                    selectedImage.url
                   }
-                </span>
+                  alt={
+                    selectedImage.altText
+                  }
+                  fill
+                  priority
+                  sizes="
+                    (max-width: 767px) 100vw,
+                    (max-width: 1199px) 55vw,
+                    720px
+                  "
+                  className={
+                    styles.productDetailMainImage
+                  }
+                />
               ) : (
-                <span>
-                  Cette offre reste consultable mais ne peut pas être
-                  ajoutée au panier actuellement.
-                </span>
+                <div
+                  className={
+                    styles.productDetailNoImage
+                  }
+                  role="img"
+                  aria-label={`Aucune image disponible pour ${product.product.name}`}
+                >
+                  <ImageOff
+                    size={36}
+                    strokeWidth={1.4}
+                    aria-hidden="true"
+                  />
+
+                  <span>
+                    Aucune image
+                  </span>
+                </div>
               )}
-            </div>
-          </div>
 
 
-          {/* ==============================================================
-              BLOC ACHAT
-              ============================================================== */}
-
-          <div
-            className={
-              styles.productDetailPurchaseCard
-            }
-          >
-            <div
-              className={
-                styles.productDetailPurchaseHeader
-              }
-            >
-              <div>
-                <p
-                  className={
-                    styles.productDetailPurchaseEyebrow
-                  }
-                >
-                  Commander ce produit
-                </p>
-
-                <h2
-                  className={
-                    styles.productDetailPurchaseTitle
-                  }
-                >
-                  Ajouter au panier
-                </h2>
-              </div>
-
-
-              {isAvailable ? (
+              {product.pricing
+                .hasDiscount ? (
                 <span
                   className={
-                    styles.productDetailPurchaseStatus
+                    styles.productDetailPromotionBadge
                   }
                 >
-                  <Check
+                  <BadgePercent
                     size={15}
                     strokeWidth={2}
                     aria-hidden="true"
                   />
 
-                  Disponible
+                  {product.pricing
+                    .discountPercentage !==
+                  null ? (
+                    <>
+                      -
+                      {
+                        product.pricing
+                          .discountPercentage
+                      }
+                      %
+                    </>
+                  ) : (
+                    <>Promotion</>
+                  )}
                 </span>
               ) : null}
-            </div>
-
-
-            {/* ============================================================
-                QUANTITÉ
-                ============================================================ */}
-
-            {isAvailable ? (
-              <div
-                className={
-                  styles.productDetailQuantityArea
-                }
-              >
-                <span
-                  className={
-                    styles.productDetailQuantityLabel
-                  }
-                >
-                  Quantité
-                </span>
-
-
-                <div
-                  className={
-                    styles.productDetailQuantityControl
-                  }
-                  role="group"
-                  aria-label="Quantité à ajouter au panier"
-                >
-                  <button
-                    type="button"
-                    className={
-                      styles.productDetailQuantityButton
-                    }
-                    onClick={
-                      decreaseQuantity
-                    }
-                    disabled={
-                      effectiveQuantity <=
-                      1
-                    }
-                    aria-label="Diminuer la quantité"
-                  >
-                    <Minus
-                      size={17}
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    />
-                  </button>
-
-
-                  <output
-                    className={
-                      styles.productDetailQuantityValue
-                    }
-                    aria-live="polite"
-                  >
-                    {
-                      effectiveQuantity
-                    }
-                  </output>
-
-
-                  <button
-                    type="button"
-                    className={
-                      styles.productDetailQuantityButton
-                    }
-                    onClick={
-                      increaseQuantity
-                    }
-                    disabled={
-                      effectiveQuantity >=
-                      maximumQuantity
-                    }
-                    aria-label="Augmenter la quantité"
-                  >
-                    <Plus
-                      size={17}
-                      strokeWidth={2}
-                      aria-hidden="true"
-                    />
-                  </button>
-                </div>
-              </div>
-            ) : null}
-
-
-            {/* ============================================================
-                VRAI BOUTON PANIER
-                ============================================================ */}
-
-            <PublicAddToPanierButton
-              storeProductId={
-                product.offer
-                  .storeProductId
-              }
-              quantity={
-                effectiveQuantity
-              }
-              disabled={
-                !isAvailable
-              }
-              label={
-                isAvailable
-                  ? "Ajouter au panier"
-                  : "Produit indisponible"
-              }
-              className={
-                styles.productDetailAddToPanierButton
-              }
-            />
-
-
-            {/* ============================================================
-                REDIRECTIONS
-                ============================================================ */}
-
-            <div
-              className={
-                styles.productDetailPurchaseActions
-              }
-            >
-              <Link
-                href={
-                  PUBLIC_NAVIGATION_ROUTES.CART
-                }
-                className={
-                  styles.productDetailPanierLink
-                }
-              >
-                <ShoppingBag
-                  size={17}
-                  strokeWidth={1.9}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  Voir mon panier
-                </span>
-              </Link>
-
-
-              <Link
-                href={
-                  generalAppRoutes.checkout
-                }
-                className={
-                  styles.productDetailContinueLink
-                }
-              >
-                <ArrowLeft
-                  size={17}
-                  strokeWidth={1.9}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  Passer la commande
-                </span>
-              </Link>
-            </div>
-
-
-            {product.category ? (
-              <Link
-                href={
-                  product.category
-                    .href
-                }
-                className={
-                  styles.productDetailCategoryAction
-                }
-              >
-                Voir les autres produits de{" "}
-                {
-                  product.category
-                    .name
-                }
-
-                <ChevronRight
-                  size={16}
-                  strokeWidth={1.9}
-                  aria-hidden="true"
-                />
-              </Link>
-            ) : null}
-          </div>
-
-
-          {/* ==============================================================
-              BOUTIQUE
-              ============================================================== */}
-
-          <section
-            className={
-              styles.productDetailStoreCard
-            }
-            aria-labelledby="public-product-store-title"
-          >
-            <div
-              className={
-                styles.productDetailStoreIcon
-              }
-              aria-hidden="true"
-            >
-              <Store
-                size={23}
-                strokeWidth={1.8}
-              />
-            </div>
-
-
-            <div
-              className={
-                styles.productDetailStoreContent
-              }
-            >
-              <span
-                className={
-                  styles.productDetailStoreEyebrow
-                }
-              >
-                Point de vente de cette offre
-              </span>
-
-
-              <h2
-                id="public-product-store-title"
-                className={
-                  styles.productDetailStoreName
-                }
-              >
-                {
-                  product.store
-                    .name
-                }
-              </h2>
-
-
-              <p
-                className={
-                  styles.productDetailStoreLocation
-                }
-              >
-                <MapPin
-                  size={15}
-                  strokeWidth={1.8}
-                  aria-hidden="true"
-                />
-
-                <span>
-                  {
-                    product.store
-                      .city
-                  }
-                  ,{" "}
-                  {
-                    product.store
-                      .country
-                  }
-                </span>
-              </p>
             </div>
           </section>
 
 
-          {/* ==============================================================
-              SERVICES RAPIDES
-              ============================================================== */}
-
-          <div
+          <section
             className={
-              styles.productDetailQuickServices
+              styles.productDetailCommercial
             }
+            aria-labelledby="public-product-detail-title"
           >
-            <a
-              href="#livraison"
+            <div
               className={
-                styles.productDetailQuickService
+                styles.productDetailIdentity
               }
             >
-              <Truck
-                size={20}
-                strokeWidth={1.7}
-                aria-hidden="true"
-              />
-
-              <span>
-                <strong>
-                  Livraison
-                </strong>
-
-                <small>
-                  Afrique & international
-                </small>
-              </span>
-            </a>
-
-
-            <a
-              href={
-                PUBLIC_SITE
-                  .contact
-                  .whatsapp
-                  .href
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.productDetailQuickService
-              }
-            >
-              <MessageCircle
-                size={20}
-                strokeWidth={1.7}
-                aria-hidden="true"
-              />
-
-              <span>
-                <strong>
-                  Besoin d&apos;aide ?
-                </strong>
-
-                <small>
-                  Nous contacter sur WhatsApp
-                </small>
-              </span>
-            </a>
-          </div>
-        </section>
-      </div>
-
-
-      {/* ==================================================================
-          BARRE DE RÉASSURANCE SOBRE
-          ================================================================== */}
-
-      <section
-        className={
-          styles.productDetailServiceStrip
-        }
-        aria-label="Services disponibles"
-      >
-        <div
-          className={
-            styles.productDetailServiceItem
-          }
-        >
-          <Truck
-            size={22}
-            strokeWidth={1.7}
-            aria-hidden="true"
-          />
-
-          <div>
-            <strong>
-              Livraison en Afrique
-            </strong>
-
-            <span>
-              Expédition vers les destinations desservies sur le continent.
-            </span>
-          </div>
-        </div>
-
-
-        <div
-          className={
-            styles.productDetailServiceItem
-          }
-        >
-          <Globe2
-            size={22}
-            strokeWidth={1.7}
-            aria-hidden="true"
-          />
-
-          <div>
-            <strong>
-              Livraison internationale
-            </strong>
-
-            <span>
-              Expédition également vers les destinations desservies
-              dans le monde.
-            </span>
-          </div>
-        </div>
-
-
-        <div
-          className={
-            styles.productDetailServiceItem
-          }
-        >
-          <MessageCircle
-            size={22}
-            strokeWidth={1.7}
-            aria-hidden="true"
-          />
-
-          <div>
-            <strong>
-              Assistance WhatsApp
-            </strong>
-
-            <span>
-              Contactez directement L&amp;E pour une question sur votre
-              commande ou la livraison.
-            </span>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ==================================================================
-          INFORMATIONS PRODUIT
-          ================================================================== */}
-
-      {hasDetailedInformation ? (
-        <section
-          className={
-            styles.productDetailInformation
-          }
-          aria-labelledby="public-product-information-title"
-        >
-          <header
-            className={
-              styles.productDetailInformationHeader
-            }
-          >
-            <p
-              className={
-                styles.productDetailInformationEyebrow
-              }
-            >
-              Informations produit
-            </p>
-
-
-            <h2
-              id="public-product-information-title"
-              className={
-                styles.productDetailInformationTitle
-              }
-            >
-              Tout savoir sur{" "}
-              {
-                product.product
-                  .name
-              }
-            </h2>
-
-
-            <p
-              className={
-                styles.productDetailInformationIntro
-              }
-            >
-              Retrouvez ci-dessous les informations réellement renseignées
-              pour ce produit.
-            </p>
-          </header>
-
-
-          <div
-            className={
-              styles.productDetailInformationGrid
-            }
-          >
-            {/* ============================================================
-                DESCRIPTION
-                ============================================================ */}
-
-            {product.content
-              .description ? (
-              <section
+              <p
                 className={
-                  joinClassNames(
-                    styles.productDetailInformationBlock,
-                    styles.productDetailInformationBlockWide,
-                  )
+                  styles.productDetailBrand
                 }
               >
-                <div
+                {
+                  product.product
+                    .brand
+                }
+              </p>
+
+              <h1
+                id="public-product-detail-title"
+                className={
+                  styles.productDetailTitle
+                }
+              >
+                {
+                  product.product
+                    .name
+                }
+              </h1>
+
+              <div
+                className={
+                  styles.productDetailMeta
+                }
+              >
+                <span
                   className={
-                    styles.productDetailInformationBlockIcon
+                    styles.productDetailSku
                   }
-                  aria-hidden="true"
                 >
-                  <Info
-                    size={20}
-                    strokeWidth={1.8}
-                  />
-                </div>
+                  Réf.{" "}
+                  <strong>
+                    {
+                      product.product
+                        .sku
+                    }
+                  </strong>
+                </span>
 
-
-                <div>
-                  <h3
+                {product.category ? (
+                  <Link
+                    href={
+                      product.category
+                        .href
+                    }
                     className={
-                      styles.productDetailInformationBlockTitle
+                      styles.productDetailCategoryLink
                     }
                   >
-                    Description
-                  </h3>
+                    <Tag
+                      size={13}
+                      strokeWidth={1.9}
+                      aria-hidden="true"
+                    />
 
+                    {
+                      product.category
+                        .name
+                    }
+                  </Link>
+                ) : null}
+              </div>
+            </div>
+
+
+            <div
+              className={
+                styles.productDetailPricing
+              }
+            >
+              <div
+                className={
+                  styles.productDetailPriceRow
+                }
+              >
+                <strong
+                  className={
+                    styles.productDetailCurrentPrice
+                  }
+                >
+                  {
+                    formattedPrice
+                  }
+                </strong>
+
+                {formattedCompareAtPrice ? (
+                  <span
+                    className={
+                      styles.productDetailComparePrice
+                    }
+                  >
+                    {
+                      formattedCompareAtPrice
+                    }
+                  </span>
+                ) : null}
+              </div>
+
+              {product.pricing
+                .hasDiscount &&
+              formattedSavings ? (
+                <p
+                  className={
+                    styles.productDetailSavings
+                  }
+                >
+                  Économie{" "}
+                  <strong>
+                    {
+                      formattedSavings
+                    }
+                  </strong>
+                </p>
+              ) : null}
+            </div>
+
+
+            <div
+              className={
+                joinClassNames(
+                  styles.productDetailAvailability,
+                  isAvailable &&
+                    !isLowStock &&
+                    styles.productDetailAvailabilityInStock,
+                  isLowStock &&
+                    styles.productDetailAvailabilityLowStock,
+                  !isAvailable &&
+                    styles.productDetailAvailabilityOutOfStock,
+                )
+              }
+            >
+              <span
+                className={
+                  styles.productDetailAvailabilityIcon
+                }
+                aria-hidden="true"
+              >
+                {isAvailable &&
+                !isLowStock ? (
+                  <PackageCheck
+                    size={19}
+                    strokeWidth={1.8}
+                  />
+                ) : (
+                  <CircleAlert
+                    size={19}
+                    strokeWidth={1.8}
+                  />
+                )}
+              </span>
+
+              <div
+                className={
+                  styles.productDetailAvailabilityContent
+                }
+              >
+                <strong>
+                  {
+                    availabilityLabel
+                  }
+                </strong>
+
+                {isAvailable ? (
+                  <span>
+                    {
+                      product.inventory
+                        .stockQuantity
+                    }{" "}
+                    en stock
+                  </span>
+                ) : (
+                  <span>
+                    Achat indisponible
+                  </span>
+                )}
+              </div>
+            </div>
+
+
+            <div
+              className={
+                styles.productDetailPurchaseCard
+              }
+            >
+              {isAvailable ? (
+                <div
+                  className={
+                    styles.productDetailQuantityArea
+                  }
+                >
+                  <span
+                    className={
+                      styles.productDetailQuantityLabel
+                    }
+                  >
+                    Quantité
+                  </span>
+
+                  <div
+                    className={
+                      styles.productDetailQuantityControl
+                    }
+                    role="group"
+                    aria-label="Quantité à ajouter au panier"
+                  >
+                    <button
+                      type="button"
+                      className={
+                        styles.productDetailQuantityButton
+                      }
+                      onClick={
+                        decreaseQuantity
+                      }
+                      disabled={
+                        effectiveQuantity <=
+                        1
+                      }
+                      aria-label="Diminuer la quantité"
+                    >
+                      <Minus
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                    </button>
+
+                    <output
+                      className={
+                        styles.productDetailQuantityValue
+                      }
+                      aria-live="polite"
+                    >
+                      {
+                        effectiveQuantity
+                      }
+                    </output>
+
+                    <button
+                      type="button"
+                      className={
+                        styles.productDetailQuantityButton
+                      }
+                      onClick={
+                        increaseQuantity
+                      }
+                      disabled={
+                        effectiveQuantity >=
+                        maximumQuantity
+                      }
+                      aria-label="Augmenter la quantité"
+                    >
+                      <Plus
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
+
+              <PublicAddToPanierButton
+                storeProductId={
+                  product.offer
+                    .storeProductId
+                }
+                quantity={
+                  effectiveQuantity
+                }
+                disabled={
+                  !isAvailable
+                }
+                label={
+                  isAvailable
+                    ? "Ajouter au panier"
+                    : "Produit indisponible"
+                }
+                className={
+                  styles.productDetailAddToPanierButton
+                }
+                redirectToPanierAfterAdd
+              />
+
+
+              <div
+                className={
+                  styles.productDetailPurchaseActions
+                }
+              >
+                <Link
+                  href={
+                    PUBLIC_NAVIGATION_ROUTES.CART
+                  }
+                  className={
+                    styles.productDetailPanierLink
+                  }
+                >
+                  <ShoppingBag
+                    size={16}
+                    strokeWidth={1.9}
+                    aria-hidden="true"
+                  />
+
+                  Panier
+                </Link>
+
+                <Link
+                  href={
+                    generalAppRoutes.checkout
+                  }
+                  className={
+                    styles.productDetailCheckoutLink
+                  }
+                >
+                  Commander
+
+                  <ChevronRight
+                    size={15}
+                    strokeWidth={1.9}
+                    aria-hidden="true"
+                  />
+                </Link>
+              </div>
+            </div>
+
+
+            <section
+              className={
+                styles.productDetailStoreCard
+              }
+              aria-labelledby="public-product-store-title"
+            >
+              <span
+                className={
+                  styles.productDetailStoreIcon
+                }
+                aria-hidden="true"
+              >
+                <Store
+                  size={20}
+                  strokeWidth={1.8}
+                />
+              </span>
+
+              <div
+                className={
+                  styles.productDetailStoreContent
+                }
+              >
+                <span
+                  className={
+                    styles.productDetailStoreEyebrow
+                  }
+                >
+                  Point de vente
+                </span>
+
+                <h2
+                  id="public-product-store-title"
+                  className={
+                    styles.productDetailStoreName
+                  }
+                >
+                  {
+                    product.store
+                      .name
+                  }
+                </h2>
+
+                <p
+                  className={
+                    styles.productDetailStoreLocation
+                  }
+                >
+                  <MapPin
+                    size={14}
+                    strokeWidth={1.8}
+                    aria-hidden="true"
+                  />
+
+                  <span>
+                    {
+                      product.store
+                        .city
+                    }
+                    ,{" "}
+                    {
+                      product.store
+                        .country
+                    }
+                  </span>
+                </p>
+              </div>
+
+              <a
+                href={
+                  PUBLIC_SITE
+                    .contact
+                    .whatsapp
+                    .href
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className={
+                  styles.productDetailStoreWhatsapp
+                }
+                aria-label="Contacter L&E Cosmetics sur WhatsApp"
+              >
+                <MessageCircle
+                  size={18}
+                  strokeWidth={1.8}
+                  aria-hidden="true"
+                />
+              </a>
+            </section>
+          </section>
+        </div>
+
+
+        {hasDetailedInformation ? (
+          <section
+            className={
+              styles.productDetailInformation
+            }
+            aria-labelledby="public-product-information-title"
+          >
+            <header
+              className={
+                styles.productDetailSectionHeader
+              }
+            >
+              <p
+                className={
+                  styles.productDetailSectionEyebrow
+                }
+              >
+                Détails
+              </p>
+
+              <h2
+                id="public-product-information-title"
+                className={
+                  styles.productDetailSectionTitle
+                }
+              >
+                Informations produit
+              </h2>
+            </header>
+
+
+            <div
+              className={
+                styles.productDetailInformationGrid
+              }
+            >
+              {product.content
+                .description ? (
+                <section
+                  className={
+                    joinClassNames(
+                      styles.productDetailInformationBlock,
+                      styles.productDetailInformationBlockWide,
+                    )
+                  }
+                >
+                  <div
+                    className={
+                      styles.productDetailInformationHeading
+                    }
+                  >
+                    <Info
+                      size={18}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <h3>
+                      Description
+                    </h3>
+                  </div>
 
                   <p
                     className={
@@ -1750,337 +1266,262 @@ export default function PublicProductDetail({
                         .description
                     }
                   </p>
-                </div>
-              </section>
-            ) : null}
+                </section>
+              ) : null}
 
 
-            {/* ============================================================
-                CONTENANCE / UNITÉ
-                ============================================================ */}
-
-            {hasTechnicalInformation ? (
-              <section
-                className={
-                  styles.productDetailInformationBlock
-                }
-              >
-                <h3
+              {hasTechnicalInformation ? (
+                <section
                   className={
-                    styles.productDetailInformationBlockTitle
+                    styles.productDetailInformationBlock
                   }
                 >
-                  Informations pratiques
-                </h3>
-
-
-                <dl
-                  className={
-                    styles.productDetailSpecifications
-                  }
-                >
-                  {product.content
-                    .weightContent ? (
-                    <div
-                      className={
-                        styles.productDetailSpecification
-                      }
-                    >
-                      <dt>
-                        Contenance / poids
-                      </dt>
-
-                      <dd>
-                        {
-                          product.content
-                            .weightContent
-                        }
-                      </dd>
-                    </div>
-                  ) : null}
-
-
-                  {product.content
-                    .unit ? (
-                    <div
-                      className={
-                        styles.productDetailSpecification
-                      }
-                    >
-                      <dt>
-                        Unité
-                      </dt>
-
-                      <dd>
-                        {
-                          product.content
-                            .unit
-                        }
-                      </dd>
-                    </div>
-                  ) : null}
-
-
                   <div
                     className={
-                      styles.productDetailSpecification
+                      styles.productDetailInformationHeading
                     }
                   >
-                    <dt>
-                      Référence
-                    </dt>
+                    <Tag
+                      size={18}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
 
-                    <dd>
-                      {
-                        product.product
-                          .sku
-                      }
-                    </dd>
+                    <h3>
+                      Caractéristiques
+                    </h3>
                   </div>
 
+                  <dl
+                    className={
+                      styles.productDetailSpecifications
+                    }
+                  >
+                    {product.content
+                      .weightContent ? (
+                      <div
+                        className={
+                          styles.productDetailSpecification
+                        }
+                      >
+                        <dt>
+                          Contenance
+                        </dt>
 
-                  {product.category ? (
+                        <dd>
+                          {
+                            product.content
+                              .weightContent
+                          }
+                        </dd>
+                      </div>
+                    ) : null}
+
+                    {product.content
+                      .unit ? (
+                      <div
+                        className={
+                          styles.productDetailSpecification
+                        }
+                      >
+                        <dt>
+                          Unité
+                        </dt>
+
+                        <dd>
+                          {
+                            product.content
+                              .unit
+                          }
+                        </dd>
+                      </div>
+                    ) : null}
+
                     <div
                       className={
                         styles.productDetailSpecification
                       }
                     >
                       <dt>
-                        Catégorie
+                        Référence
                       </dt>
 
                       <dd>
-                        <Link
-                          href={
-                            product.category
-                              .href
-                          }
-                        >
-                          {
-                            product.category
-                              .name
-                          }
-                        </Link>
+                        {
+                          product.product
+                            .sku
+                        }
                       </dd>
                     </div>
-                  ) : null}
-                </dl>
-              </section>
-            ) : null}
+                  </dl>
+                </section>
+              ) : null}
 
 
-            {/* ============================================================
-                CONSEILS D'UTILISATION
-                ============================================================ */}
-
-            {product.content
-              .usageInstructions ? (
-              <section
-                className={
-                  styles.productDetailInformationBlock
-                }
-              >
-                <h3
+              {product.content
+                .usageInstructions ? (
+                <section
                   className={
-                    styles.productDetailInformationBlockTitle
+                    styles.productDetailInformationBlock
                   }
                 >
-                  Conseils d&apos;utilisation
-                </h3>
+                  <div
+                    className={
+                      styles.productDetailInformationHeading
+                    }
+                  >
+                    <Check
+                      size={18}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <h3>
+                      Utilisation
+                    </h3>
+                  </div>
+
+                  <p
+                    className={
+                      styles.productDetailInformationText
+                    }
+                  >
+                    {
+                      product.content
+                        .usageInstructions
+                    }
+                  </p>
+                </section>
+              ) : null}
 
 
-                <p
+              {product.content
+                .ingredients ? (
+                <section
                   className={
-                    styles.productDetailInformationText
+                    styles.productDetailInformationBlock
                   }
                 >
-                  {
-                    product.content
-                      .usageInstructions
-                  }
-                </p>
-              </section>
-            ) : null}
+                  <div
+                    className={
+                      styles.productDetailInformationHeading
+                    }
+                  >
+                    <Info
+                      size={18}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <h3>
+                      Ingrédients
+                    </h3>
+                  </div>
+
+                  <p
+                    className={
+                      styles.productDetailInformationText
+                    }
+                  >
+                    {
+                      product.content
+                        .ingredients
+                    }
+                  </p>
+                </section>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
 
 
-            {/* ============================================================
-                INGRÉDIENTS
-                ============================================================ */}
-
-            {product.content
-              .ingredients ? (
-              <section
-                className={
-                  styles.productDetailInformationBlock
-                }
-              >
-                <h3
-                  className={
-                    styles.productDetailInformationBlockTitle
-                  }
-                >
-                  Ingrédients
-                </h3>
-
-
-                <p
-                  className={
-                    styles.productDetailInformationText
-                  }
-                >
-                  {
-                    product.content
-                      .ingredients
-                  }
-                </p>
-              </section>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
-
-
-      {/* ==================================================================
-          LIVRAISON
-          ================================================================== */}
-
-      <section
-        id="livraison"
-        className={
-          styles.productDetailDelivery
-        }
-        aria-labelledby="public-product-delivery-title"
-      >
-        <div
+        <section
+          id="livraison"
           className={
-            styles.productDetailDeliveryIntro
+            styles.productDetailDelivery
           }
+          aria-labelledby="public-product-delivery-title"
         >
-          <p
+          <div
             className={
-              styles.productDetailDeliveryEyebrow
+              styles.productDetailDeliveryIntro
             }
           >
-            Expédition L&amp;E Cosmetics Empire
-          </p>
-
-
-          <h2
-            id="public-product-delivery-title"
-            className={
-              styles.productDetailDeliveryTitle
-            }
-          >
-            Livraison en Afrique et dans le monde
-          </h2>
-
-
-          <p
-            className={
-              styles.productDetailDeliveryDescription
-            }
-          >
-            L&amp;E Cosmetics Empire propose l&apos;expédition de ses
-            produits en Afrique ainsi qu&apos;à l&apos;international.
-            Les modalités, frais et délais applicables dépendent de la
-            destination de livraison.
-          </p>
-        </div>
-
-
-        <div
-          className={
-            styles.productDetailDeliveryGrid
-          }
-        >
-          <article
-            className={
-              styles.productDetailDeliveryCard
-            }
-          >
-            <span
+            <p
               className={
-                styles.productDetailDeliveryCardIcon
+                styles.productDetailDeliveryEyebrow
               }
-              aria-hidden="true"
+            >
+              Livraison
+            </p>
+
+            <h2
+              id="public-product-delivery-title"
+              className={
+                styles.productDetailDeliveryTitle
+              }
+            >
+              Afrique & international
+            </h2>
+
+            <p
+              className={
+                styles.productDetailDeliveryDescription
+              }
+            >
+              Frais et délais selon la destination.
+            </p>
+          </div>
+
+
+          <div
+            className={
+              styles.productDetailDeliveryGrid
+            }
+          >
+            <article
+              className={
+                styles.productDetailDeliveryCard
+              }
             >
               <Truck
-                size={27}
+                size={21}
                 strokeWidth={1.7}
+                aria-hidden="true"
               />
-            </span>
 
+              <div>
+                <h3>
+                  Afrique
+                </h3>
 
-            <h3>
-              Livraison partout en Afrique
-            </h3>
+                <p>
+                  Destinations desservies.
+                </p>
+              </div>
+            </article>
 
-
-            <p>
-              Faites livrer votre commande dans les destinations africaines
-              prises en charge par le service de livraison.
-            </p>
-          </article>
-
-
-          <article
-            className={
-              styles.productDetailDeliveryCard
-            }
-          >
-            <span
+            <article
               className={
-                styles.productDetailDeliveryCardIcon
+                styles.productDetailDeliveryCard
               }
-              aria-hidden="true"
             >
               <Globe2
-                size={27}
+                size={21}
                 strokeWidth={1.7}
+                aria-hidden="true"
               />
-            </span>
 
+              <div>
+                <h3>
+                  International
+                </h3>
 
-            <h3>
-              Livraison internationale
-            </h3>
-
-
-            <p>
-              Les commandes peuvent également être expédiées vers les
-              destinations internationales prises en charge.
-            </p>
-          </article>
-
-
-          <article
-            className={
-              styles.productDetailDeliveryCard
-            }
-          >
-            <span
-              className={
-                styles.productDetailDeliveryCardIcon
-              }
-              aria-hidden="true"
-            >
-              <MessageCircle
-                size={27}
-                strokeWidth={1.7}
-              />
-            </span>
-
-
-            <h3>
-              Vérifier votre destination
-            </h3>
-
-
-            <p>
-              Contactez L&amp;E sur WhatsApp pour obtenir les informations
-              applicables à votre destination avant ou après votre commande.
-            </p>
-
+                <p>
+                  Selon destination.
+                </p>
+              </div>
+            </article>
 
             <a
               href={
@@ -2096,68 +1537,55 @@ export default function PublicProductDetail({
               }
             >
               <MessageCircle
-                size={17}
-                strokeWidth={1.9}
+                size={21}
+                strokeWidth={1.7}
                 aria-hidden="true"
               />
 
-              WhatsApp
+              <div>
+                <strong>
+                  WhatsApp
+                </strong>
+
+                <span>
+                  Vérifier la livraison
+                </span>
+              </div>
+
+              <ChevronRight
+                size={17}
+                strokeWidth={1.8}
+                aria-hidden="true"
+              />
             </a>
-          </article>
-        </div>
-      </section>
+          </div>
+        </section>
 
 
-      {/* ==================================================================
-          CTA FINAL
-          ================================================================== */}
-
-      <section
-        className={
-          styles.productDetailFinalCta
-        }
-        aria-labelledby="public-product-final-cta-title"
-      >
-        <div
+        <section
           className={
-            styles.productDetailFinalCtaContent
+            styles.productDetailFinalCta
           }
+          aria-label="Continuer vos achats"
         >
-          <p
-            className={
-              styles.productDetailFinalCtaEyebrow
-            }
-          >
-            L&amp;E Cosmetics Empire
-          </p>
+          <div>
+            <p
+              className={
+                styles.productDetailFinalCtaEyebrow
+              }
+            >
+              L&amp;E Cosmetics Empire
+            </p>
 
+            <h2
+              className={
+                styles.productDetailFinalCtaTitle
+              }
+            >
+              Découvrir d&apos;autres produits
+            </h2>
+          </div>
 
-          <h2
-            id="public-product-final-cta-title"
-            className={
-              styles.productDetailFinalCtaTitle
-            }
-          >
-            Vous souhaitez découvrir d&apos;autres produits ?
-          </h2>
-
-
-          <p
-            className={
-              styles.productDetailFinalCtaText
-            }
-          >
-            Parcourez le catalogue ou contactez notre équipe pour une
-            question concernant ce produit ou sa livraison.
-          </p>
-        </div>
-
-
-        <div
-          className={
-            styles.productDetailFinalCtaActions
-          }
-        >
           <Link
             href={
               PUBLIC_NAVIGATION_ROUTES.PRODUCTS
@@ -2166,7 +1594,7 @@ export default function PublicProductDetail({
               styles.productDetailFinalPrimaryAction
             }
           >
-            Voir tous les produits
+            Voir les produits
 
             <ChevronRight
               size={17}
@@ -2174,116 +1602,8 @@ export default function PublicProductDetail({
               aria-hidden="true"
             />
           </Link>
-
-
-          <a
-            href={
-              PUBLIC_SITE
-                .contact
-                .whatsapp
-                .href
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className={
-              styles.productDetailFinalSecondaryAction
-            }
-          >
-            <MessageCircle
-              size={17}
-              strokeWidth={1.9}
-              aria-hidden="true"
-            />
-
-            WhatsApp
-          </a>
-        </div>
-      </section>
+        </section>
+      </div>
     </article>
   );
 }
-
-
-/**
- * ============================================================================
- * FIN
- * ============================================================================
- *
- * FICHE PRODUIT PREMIUM :
- *
- * GALERIE
- *
- *        ↓
- *
- * MARQUE
- * NOM
- * CATÉGORIE
- * RÉFÉRENCE
- *
- *        ↓
- *
- * PRIX
- * ANCIEN PRIX RÉEL
- * ÉCONOMIE RÉELLE
- *
- *        ↓
- *
- * STOCK
- * DISPONIBILITÉ
- *
- *        ↓
- *
- * QUANTITÉ
- *
- *        ↓
- *
- * AJOUTER AU PANIER
- *
- *        ↓
- *
- * VOIR MON PANIER
- * Passer la commande
- *
- *        ↓
- *
- * POINT DE VENTE
- *
- *        ↓
- *
- * LIVRAISON AFRIQUE
- * LIVRAISON INTERNATIONALE
- * WHATSAPP
- *
- *        ↓
- *
- * DESCRIPTION
- * INFORMATIONS
- * CONSEILS
- * INGRÉDIENTS
- *
- *        ↓
- *
- * CTA FINAL
- *
- * ============================================================================
- *
- * DESKTOP :
- *
- * Footer conservé.
- *
- * ============================================================================
- *
- * MOBILE :
- *
- * Footer MASQUÉ.
- *
- * La barre basse reste :
- *
- * Accueil
- * Produits
- * Panier
- * Commandes
- * Compte
- *
- * ============================================================================
- */

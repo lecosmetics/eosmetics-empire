@@ -21,6 +21,8 @@
  * - conserver les routes publiques existantes ;
  * - conserver les routes Gestionnaire existantes ;
  * - officialiser le parcours Panier → Commande → Paiement → Succès ;
+ * - distinguer la route publique lisible d'une fiche produit de la route QR ;
+ * - préserver les QR existants et leur qrToken stable ;
  * - éviter les URLs écrites manuellement dans les composants ;
  * - encoder systématiquement les paramètres dynamiques ;
  * - ne jamais utiliser une route comme mécanisme d'autorisation.
@@ -80,6 +82,17 @@ const generalRoutes = {
    * Catalogue public principal.
    *
    * /produits
+   *
+   * Les fiches produit publiques lisibles utilisent désormais :
+   *
+   * /produits/[productSlug]/[storeSlug]
+   *
+   * via :
+   *
+   * publicRouteBuilders.productBySlugAndStore(
+   *   productSlug,
+   *   storeSlug,
+   * )
    */
   products:
     "/produits",
@@ -147,19 +160,29 @@ const generalRoutes = {
 
 
   /* ------------------------------------------------------------------------
-     PUBLIC PRODUCT DETAIL ROOT
+     PUBLIC PRODUCT QR ROOT
      ------------------------------------------------------------------------ */
 
   /**
-   * Racine statique des fiches publiques StoreProduct.
+   * Racine technique et stable des QR StoreProduct.
    *
    * /p
    *
-   * La route complète :
+   * La route :
    *
    * /p/[qrToken]
    *
-   * doit être construite avec :
+   * est conservée pour :
+   *
+   * - les QR déjà générés ;
+   * - les QR déjà imprimés ;
+   * - l'identité publique stable de StoreProduct ;
+   * - les liens techniques basés sur qrToken.
+   *
+   * Cette route n'est plus destinée à être l'URL canonique lisible
+   * affichée lors d'une navigation normale dans le catalogue.
+   *
+   * Elle doit être construite avec :
    *
    * publicRouteBuilders.productByQr(qrToken)
    */
@@ -586,15 +609,72 @@ export const publicRouteBuilders = {
 
 
   /* ------------------------------------------------------------------------
-     PRODUCT BY QR
+     PRODUCT DETAIL — URL PUBLIQUE LISIBLE
+     ------------------------------------------------------------------------ */
+
+  /**
+   * /produits/[productSlug]/[storeSlug]
+   *
+   * URL publique lisible et canonique d'une offre StoreProduct.
+   *
+   * productSlug doit provenir de :
+   *
+   * Product.slug
+   *
+   * storeSlug doit provenir de :
+   *
+   * Store.slug
+   *
+   * IMPORTANT :
+   *
+   * Le couple Product + Store identifie l'offre commerciale StoreProduct.
+   *
+   * Le serveur doit toujours retrouver la vraie offre et vérifier :
+   *
+   * - Product.status ;
+   * - Store.status ;
+   * - StoreProduct.status ;
+   * - prix ;
+   * - devise ;
+   * - stock ;
+   * - relation Product / StoreProduct / Store.
+   *
+   * Les slugs servent uniquement à la résolution de l'URL.
+   * Ils ne remplacent jamais les contrôles métier serveur.
+   */
+  productBySlugAndStore(
+    productSlug:
+      string,
+
+    storeSlug:
+      string,
+  ): string {
+    return `${generalRoutes.products}/${encodeURIComponent(
+      productSlug,
+    )}/${encodeURIComponent(
+      storeSlug,
+    )}`;
+  },
+
+
+  /* ------------------------------------------------------------------------
+     PRODUCT BY QR — ROUTE TECHNIQUE STABLE
      ------------------------------------------------------------------------ */
 
   /**
    * /p/[qrToken]
    *
-   * Une fiche publique représente une offre StoreProduct précise.
+   * Route technique stable d'une offre StoreProduct précise.
    *
    * Le qrToken doit provenir de StoreProduct.qrToken.
+   *
+   * Cette route est conservée pour les QR existants.
+   *
+   * Elle pourra résoudre l'offre puis rediriger vers :
+   *
+   * /produits/[productSlug]/[storeSlug]
+   *
+   * sans modifier le qrToken stocké ni invalider les QR imprimés.
    */
   productByQr(
     qrToken:
@@ -804,11 +884,28 @@ export type AppRoute =
  *
  * ============================================================================
  *
- * PRODUIT / OFFRE STOREPRODUCT
+ * PRODUIT / OFFRE STOREPRODUCT — URL PUBLIQUE LISIBLE
+ *
+ * /produits/[productSlug]/[storeSlug]
+ *
+ * publicRouteBuilders.productBySlugAndStore(
+ *   productSlug,
+ *   storeSlug,
+ * )
+ *
+ * ============================================================================
+ *
+ * PRODUIT / OFFRE STOREPRODUCT — QR TECHNIQUE STABLE
  *
  * /p/[qrToken]
  *
  * publicRouteBuilders.productByQr(qrToken)
+ *
+ * Cette route est conservée pour les QR existants.
+ *
+ * Elle pourra rediriger vers l'URL publique lisible :
+ *
+ * /produits/[productSlug]/[storeSlug]
  *
  * ============================================================================
  *
@@ -878,13 +975,13 @@ export type AppRoute =
  *
  * ============================================================================
  *
- * FLUX COMMERCIAL :
+ * FLUX COMMERCIAL NORMAL :
  *
  * /produits
  *
  *      ↓
  *
- * /p/[qrToken]
+ * /produits/[productSlug]/[storeSlug]
  *
  *      ↓
  *
@@ -912,6 +1009,24 @@ export type AppRoute =
  *      ↓
  *
  * /commande/succes
+ *
+ * ============================================================================
+ *
+ * FLUX QR :
+ *
+ * QR imprimé
+ *
+ *      ↓
+ *
+ * /p/[qrToken]
+ *
+ *      ↓
+ *
+ * résolution serveur du StoreProduct
+ *
+ *      ↓
+ *
+ * /produits/[productSlug]/[storeSlug]
  *
  * ============================================================================
  *
